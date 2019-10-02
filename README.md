@@ -1,6 +1,7 @@
 # pentominoes-startingpoint
 
-something about pentominoes
+This repository provides you with the starting code for the pentominoes project 1-1. 
+Be aware that the code contains some gaps that you will need to fill. 
 
 ## How to Submit Your Code
 
@@ -22,6 +23,6 @@ We have already prepared a folder structure for you in this repository:
 
 You may use your own structure if you have good reasons for it.
 
-## Deadline to upload presentation and code of first phase
+## Deadline to Upload the Presentation and Code of First Phase
 
 **October 10th, 2019 at 23:59 (CET)**
