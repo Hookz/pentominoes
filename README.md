@@ -1,8 +1,6 @@
 # pentominoes-startingpoint
 
-## Project Goal
-
-Compute the chromatic number of an undirected graph.
+something about pentominoes
 
 ## How to Submit Your Code
 
