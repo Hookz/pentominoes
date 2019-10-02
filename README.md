@@ -2,6 +2,7 @@
 
 This repository provides you with the starting code for the pentominoes project 1-1. 
 Be aware that the code contains some gaps that you will need to fill. 
+The description of the project can be found in the project manual. 
 
 ## How to Submit Your Code
 
