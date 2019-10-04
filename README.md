@@ -10,8 +10,9 @@
 * Drago Stoyanov
 
 ## Useful links
-* [OneDrive UM](https://maastrichtuniversity-my.sharepoint.com/:f:/g/personal/m_jarski_student_maastrichtuniversity_nl/EsMryB_BQa9OuZycCF2qHu0B-ekHyNhjPifWziumKyCHuQ?e=iog3Qs)
-* [Project description](#no-url) (*Will be available next week*)
+* [Our group's OneDrive](https://maastrichtuniversity-my.sharepoint.com/:f:/g/personal/m_jarski_student_maastrichtuniversity_nl/EsMryB_BQa9OuZycCF2qHu0B-ekHyNhjPifWziumKyCHuQ?e=iog3Qs)
+* [Project description](https://maastrichtuniversity-my.sharepoint.com/:b:/g/personal/m_jarski_student_maastrichtuniversity_nl/EZblUl6sQcVJmy8ynVOtHwsB1bhxOozv1CetQrCJpYaCSw?e=qbNJbD)
+* [Java SE Development Kit (SDK) 12](https://www.oracle.com/technetwork/java/javase/downloads/jdk12-downloads-5295953.html)
 * [JetBrains for Students](https://www.jetbrains.com/student/) - free IntelliJ IDEA Ultimate
 * [Github Student Developer Pack](https://education.github.com/pack) - free GitHub Premium
 
@@ -20,12 +21,18 @@ Project is divided into three phases mostly for grading purposes. There is no ne
 
 ### Project opening
 * 4\. October 2019 (Friday)
-* Theme of the project is unveiled
+* Theme of the project: **PENTOMINOES**
 
 ### Phase 1
 * 7-11\. October 2019 (Monday-Friday)
 * One week of intense research and coding
-* [Presentation](https://maastrichtuniversity-my.sharepoint.com/:p:/g/personal/m_jarski_student_maastrichtuniversity_nl/ERRieGPd155Lv6NO142-3roBFrunsT8fx-fTwOs-5qtXBw?e=IVcVqU) on 11\.10 with findings and planning
+* [Presentation](https://maastrichtuniversity-my.sharepoint.com/:p:/g/personal/m_jarski_student_maastrichtuniversity_nl/ERRieGPd155Lv6NO142-3roBFrunsT8fx-fTwOs-5qtXBw?e=IVcVqU) on 11\.10 at 10.00-10.15 with findings and planning: ROOM 2.002, Bouillonstraat 8-10
+
+* Project meetings:
+  * October 8, 2019
+  * October 10, 2019
+  * Time: 15.40 - 16.00
+  * Location: Room 0.009/2.009 (Bouillonstraat 8-10)
 
 ### Phase 2
 * 28\. October - 13\. December 2019
@@ -44,9 +51,9 @@ Project is divided into three phases mostly for grading purposes. There is no ne
 
 ## Progress monitor (stub)
 - [x] Got to know each other
-- [ ] Project problem is known
+- [x] Project problem is known
 * Phase 1:
-- [ ] Started working on P1
+- [ ] Implement algorithms that find solutions whether and how a given set of pentominoes fits into a rectangle
 - [ ] Algorithm x
 - [ ] Algorithm y
 - [ ] Algorithm z
@@ -54,21 +61,26 @@ Project is divided into three phases mostly for grading purposes. There is no ne
 - [ ] Presented
 
 * Phase 2:
-- [ ] Started working on P2
-- [ ] Added graphics
-- [ ] Fixed algorithm z
-- [ ] Added x
-- [ ] Added y
+- [ ] Start working on P2
+- [ ] Implement Tetris game with pentominoes
+- [ ] Implement a bot playing Tetris
+- [ ] Add graphics
+- [ ] Fix algorithm z
+- [ ] Add a
+- [ ] Add b
 - [ ] Presentation is ready
 - [ ] Presented
 
+* Phase 3:
+- [ ] Implement a computer application that can be used to solve three-
+dimensional knapsack problems
+- [ ] Presentation is ready
+-
+- Hint: Imagine you want to pack a truck with parcels. How do they fit best?
 
 ## Latex Report
 [Link to project report on Overleaf](https://www.overleaf.com/3193293667jjrxxwjkfdmw) (*Required in Period 3*)
 
+## Presentation and Code PFP
 
-
-
-## Deadline to Upload the Presentation and Code of First Phase
-
-**October 10th, 2019 at 23:59 (CET)**
+**Deadline: October 10th, 2019 at 23:59 (CET)**
