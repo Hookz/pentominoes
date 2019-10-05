@@ -1,20 +1,28 @@
 # Project-1-1
+This project is about building a computer program that is able to manipulate a set of pentominoes to achieve objectives planned for each of the project's phases.
+
+The project is divided into three phases: Phase 1, in which the program is to be implemented in a way that enables it to fill up a given rectangle with given objects - *pentominoes*, Phase 2, in which a Tetris game that uses the pentominoes as game pieces is to be developed, and Phase 3 - the last phase - in which an algorithm has to be designed to solve three dimensional *knapsack* problems using pentominoes.
+
 
 ## Group Members
-* René Steeman
+* René Steeman ([@renesteeman](https://github.com/renesteeman)): **Editor** (*joint*)
 * Samuele Torregrossa
-* Ali Alsaeedi
-* Lindalee Conradie
-* Max Persoon
-* Michal Jarski
-* Drago Stoyanov
+* Ali Alsaeedi: **Presentation coordinator**
+* Lindalee Conradie: **Editor** (*joint*)
+* Max Persoon ([@MaxPersoon](https://github.com/MaxPersoon))
+* Michal Jarski ([@Hookz](https://github.com/Hookz)): **Product coordinator**
+* Drago Stoyanov: **Project leader**
+
+Last updated: *2019-10-05*
 
 ## Useful links
-* [Our group's OneDrive](https://maastrichtuniversity-my.sharepoint.com/:f:/g/personal/m_jarski_student_maastrichtuniversity_nl/EsMryB_BQa9OuZycCF2qHu0B-ekHyNhjPifWziumKyCHuQ?e=iog3Qs)
-* [Project description](https://maastrichtuniversity-my.sharepoint.com/:b:/g/personal/m_jarski_student_maastrichtuniversity_nl/EZblUl6sQcVJmy8ynVOtHwsB1bhxOozv1CetQrCJpYaCSw?e=qbNJbD)
+* [Our group's OneDrive](https://maastrichtuniversity-my.sharepoint.com/%3Af%3A/g/personal/m_jarski_student_maastrichtuniversity_nl/EsMryB_BQa9OuZycCF2qHu0B-ekHyNhjPifWziumKyCHuQ?e=iog3Qs)
+* [Project handbook](https://maastrichtuniversity-my.sharepoint.com/%3Ab%3A/g/personal/m_jarski_student_maastrichtuniversity_nl/EZblUl6sQcVJmy8ynVOtHwsB1bhxOozv1CetQrCJpYaCSw?e=qbNJbD)
 * [Java SE Development Kit (SDK) 12](https://www.oracle.com/technetwork/java/javase/downloads/jdk12-downloads-5295953.html)
 * [JetBrains for Students](https://www.jetbrains.com/student/) - free IntelliJ IDEA Ultimate
 * [Github Student Developer Pack](https://education.github.com/pack) - free GitHub Premium
+
+Last updated: *2019-10-05*
 
 ## Project phases
 Project is divided into three phases mostly for grading purposes. There is no need to create separate folders for each of them, since every next phase is highly reliant on the previous one (unless it is done for archiving purposes).
@@ -49,34 +57,39 @@ Project is divided into three phases mostly for grading purposes. There is no ne
 * [Final presentation](https://maastrichtuniversity-my.sharepoint.com/:p:/g/personal/m_jarski_student_maastrichtuniversity_nl/EbFAPeFjRwRPlsS0IK9ZADsBvchGPx0XzO87dGbnpKK1GA?e=HGJv3S) on 23\. January 2020
 * Product & Report examination on 24\. January 2020
 
-## Progress monitor (stub)
+Last updated: *2019-10-05*
+
+## Progress monitor (*stub*)
 - [x] Got to know each other
 - [x] Project problem is known
 * Phase 1:
-- [ ] Implement algorithms that find solutions whether and how a given set of pentominoes fits into a rectangle
-- [ ] Algorithm x
-- [ ] Algorithm y
-- [ ] Algorithm z
-- [ ] Presentation is ready
-- [ ] Presented
+ - [ ] Implement algorithms that find solutions whether and how a given set of pentominoes fits into a rectangle
+ - [ ] Algorithm x
+ - [ ] Algorithm y
+ - [ ] Algorithm z
+ - [ ] Presentation is ready
+ - [ ] Presented
 
 * Phase 2:
-- [ ] Start working on P2
-- [ ] Implement Tetris game with pentominoes
-- [ ] Implement a bot playing Tetris
-- [ ] Add graphics
-- [ ] Fix algorithm z
-- [ ] Add a
-- [ ] Add b
-- [ ] Presentation is ready
-- [ ] Presented
+  - [ ] Start working on P2
+  - [ ] Implement Tetris game with pentominoes
+  - [ ] Implement a bot playing Tetris
+  - [ ] Add graphics
+  - [ ] Fix algorithm z
+  - [ ] Add a
+  - [ ] Add b
+  - [ ] Presentation is ready
+  - [ ] Presented
 
 * Phase 3:
-- [ ] Implement a computer application that can be used to solve three-
-dimensional knapsack problems
-- [ ] Presentation is ready
--
-- Hint: Imagine you want to pack a truck with parcels. How do they fit best?
+  - [ ] Implement a computer application that can be used to solve three-
+  dimensional knapsack problems
+    - Hint: Imagine you want to pack a truck with parcels. How do they fit best?
+  - [ ] Presentation is ready
+  - [ ] Report is ready
+  - [ ] Presented
+
+Last updated: *2019-10-05*
 
 ## Latex Report
 [Link to project report on Overleaf](https://www.overleaf.com/3193293667jjrxxwjkfdmw) (*Required in Period 3*)
