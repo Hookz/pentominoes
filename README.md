@@ -11,7 +11,7 @@ The project is divided into three phases: Phase 1, in which the program is to be
 * Lindalee Conradie: **Editor** (*joint*)
 * Max Persoon ([@MaxPersoon](https://github.com/MaxPersoon))
 * Michal Jarski ([@Hookz](https://github.com/Hookz)): **Product coordinator**
-* Drago Stoyanov: **Project leader**
+* Drago Stoyanov ([@DragoStoyanovDKE](https://github.com/DragoStoyanovDKE)): **Project leader**
 
 Last updated: *2019-10-05*
 
