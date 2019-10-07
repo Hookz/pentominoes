@@ -111,16 +111,21 @@ public class Search
 	    			addPiece(field, pieceToPlace, pentID, x, y);
 	    		} 
     		}
-    		//Check whether complete field is filled
-    		//
-    		//
-    		// TODO: To be implemented
-    		//
-    		//
+
+    		for (int i = 0; i < field.length; i++) {
+				for (int j = 0; j < field[i].length; j++) {
+					if(field[i][j] == -1) solutionFound = false;
+				}
+			}
     		
 
     		
-    		if (solutionFound) {
+    		//if (solutionFound) {
+			try{
+				Thread.sleep(100);
+				ui.setState(field);
+				System.out.println("Solution found");
+			} catch (InterruptedException ie){
     			//display the field
     			ui.setState(field); 
     			System.out.println("Solution found");

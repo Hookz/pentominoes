@@ -67,25 +67,18 @@ public class PentominoBuilder {
                     {1,1}
             },
             {
-            	//
-        		//
-        		// TODO: Implement pentomino representation P
-        		//
-        		//
+                    {1,1},
+                    {1,1},
+                    {1,0}
             },
             {
-            	//
-        		//
-        		// TODO: Implement pentomino representation N
-        		//
-        		//
+            	{1,1,0,0},
+                {0,1,1,1}
             },
             {
-            	//
-        		//
-        		// TODO: Implement pentomino representation F
-        		//
-        		//
+                    {0,1,1},
+                    {1,1,0},
+                    {0,1,0}
             }
     };
 

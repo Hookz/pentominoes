@@ -6,14 +6,14 @@ The project is divided into three phases: Phase 1, in which the program is to be
 
 ## Group Members
 * René Steeman ([@renesteeman](https://github.com/renesteeman)): **Editor** (*joint*)
-* Samuele Torregrossa
-* Ali Alsaeedi: **Presentation coordinator**
-* Lindalee Conradie: **Editor** (*joint*)
+* Samuele Torregrossa ([@fire95](https://github.com/fire95))
+* Ali Alsaeedi ([@Alialsaeedi1](https://github.com/Alialsaeedi1)): **Presentation coordinator**
+* Lindalee Conradie ([@Lindalee-Conradie](https://github.com/Lindalee-Conradie)): **Editor** (*joint*)
 * Max Persoon ([@MaxPersoon](https://github.com/MaxPersoon))
 * Michal Jarski ([@Hookz](https://github.com/Hookz)): **Product coordinator**
 * Drago Stoyanov ([@DragoStoyanovDKE](https://github.com/DragoStoyanovDKE)): **Project leader**
 
-Last updated: *2019-10-05*
+Last updated: *2019-10-07*
 
 ## Useful links
 * [Our group's OneDrive](https://maastrichtuniversity-my.sharepoint.com/%3Af%3A/g/personal/m_jarski_student_maastrichtuniversity_nl/EsMryB_BQa9OuZycCF2qHu0B-ekHyNhjPifWziumKyCHuQ?e=iog3Qs)
