@@ -1,0 +1,86 @@
+\documentclass{report}
+
+% ----------
+% USEFULL PACKAGES
+% ----------
+%images
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+%wrap images
+\usepackage{wrapfig}
+%compact lists
+\usepackage{enumitem}
+% Used to customize the page layout of your LaTeX documents
+\usepackage{fancyhdr}
+% Improve output of math formulas 
+\usepackage{amsmath}
+% Used to create an index
+\usepackage{index}
+\makeindex
+%get rid of Chapter x before every chapter
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+{\normalfont\bfseries}{}{0pt}{\Huge}
+
+% ----------
+% OPTIONAL	
+% ----------
+% Used to create filler text
+\usepackage{blindtext}
+
+
+%fancy header and footer
+\fancyhf{}
+\fancyhead[RE]{\leftmark}
+\fancyhead[LO]{\rightmark}
+\fancyhead[LE,RO]{\thepage}
+\renewcommand\headrulewidth{.2pt}
+\renewcommand\chaptermark[1]{\markboth{#1}{}} 
+\renewcommand\sectionmark[1]{\markright{\thesection.\ #1}}
+
+\title{\Large{\textbf{TITLE}}}
+\author{AUTHOR}
+\date{DATE}
+\begin{document}
+	
+	\pagenumbering{roman}
+	\maketitle
+	\thispagestyle{empty}
+	\let\cleardoublepage\clearpage
+	\tableofcontents
+	\thispagestyle{empty}
+	\pagestyle{fancy}
+	
+	
+	
+	% Define the page style for all pages going forward
+	\pagenumbering{arabic}
+	\chapter{CHAPTER 1}
+	
+	\section{A Section}
+	\blindtext[2]
+	
+	\section{B Section}
+	\blindtext[2]
+	
+	\section{C Section}
+	\blindtext[2]
+	
+	\section{D Section}
+	\blindtext[2]
+	
+	\chapter{CHAPTER 2}
+	
+	\section{A Section}
+	\blindtext[2]
+	
+	\section{B Section}
+	\blindtext[2]
+	
+	\section{C Section}
+	\blindtext[2]
+	
+	\section{D Section}
+	\blindtext[2]
+   
+\end{document} 
