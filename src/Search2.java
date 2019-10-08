@@ -194,12 +194,12 @@ public class Search2{
       }
 
       //check if it overlaps
-      //pieceToPlace.length+placeX-1 = the width of the piece + the starting point - 1 since you count the starting tile twice
+      //pieceToPlace.length+placeX-1 = the width of the piece + the starting point
       int tmpX = 0;
       int tmpY = 0;
 
-      for(int i = placeY; i < pieceToPlace.length+placeY-1; i++){ // loop over Y position of pentomino
-        for (int j = placeX; j < pieceToPlace[0].length+placeX-1; j++){ // loop over X position of pentomino
+      for(int i = placeY; i < pieceToPlace.length+placeY; i++){ // loop over Y position of pentomino
+        for (int j = placeX; j < pieceToPlace[0].length+placeX; j++){ // loop over X position of pentomino
           if (field[tmpY][tmpX] != -1){
             //there's overlap
             System.out.println("OVERLAP");
@@ -219,8 +219,8 @@ public class Search2{
       tmpX = 0;
       tmpY = 0;
 
-      for(int i = placeY; i < pieceToPlace.length+placeY-1; i++){ // loop over Y position of pentomino
-        for (int j = placeX; j < pieceToPlace[0].length+placeX-1; j++){ // loop over X position of pentomino
+      for(int i = placeY; i < pieceToPlace.length+placeY; i++){ // loop over Y position of pentomino
+        for (int j = placeX; j < pieceToPlace[0].length+placeX; j++){ // loop over X position of pentomino
           //if pieceToPlace actually has a block in that spot, place it on the field
           System.out.println("tmpX= "+tmpX+" tmpY= "+tmpY);
           System.out.println();
