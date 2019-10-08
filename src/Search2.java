@@ -2,10 +2,10 @@ import java.util.Random;
 import java.util.Arrays;
 
 public class Search2{
-  public static final int horizontalGridSize = 10;
+  public static final int horizontalGridSize = 5;
   public static final int verticalGridSize = 6;
 
-  public static final char[] input = { 'W', 'Y', 'I', 'T', 'Z', 'L'};
+  public static final char[] input = {'W', 'Y', 'I', 'T', 'Z', 'L'};
 
   // Static UI class to display the board
   //TODO check what 50 (size) does and if this really is a static value
@@ -36,9 +36,10 @@ public class Search2{
       }
     }
 
-    //TODO test recursion
+    //TODO improve brute force
     //Start brute force
     //bruteForce(field);
+    //TODO test recursion
     //recursive(field, pentID, mutation)
     recursive(field, inputIDs[0], 0);
   }
@@ -102,6 +103,7 @@ public class Search2{
       //if not all mutations have been tried, try the next one
       //TODO only use the given pentominoes
       //TODO Note that it can never start with: X, Y, L or F since these all create an infillable cell
+      //TODO something's going wrong which causes it to try the same pentomino with the same mutation indefinitely
       if(mutation < PentominoDatabase.data[pentID].length-1){
         recursive(addPentomino(field, pentID, mutation), pentID, mutation++);
       } else if(pentID < 11){
@@ -110,6 +112,7 @@ public class Search2{
       }
     }
 
+    System.out.println("There's no solution");
     return false;
   }
 
@@ -127,7 +130,10 @@ public class Search2{
     return !isNotFull;
   }
 
+  //return the board with the Pentomino added
   private static int[][] addPentomino(int[][] field, int pentID, int mutation){
+    System.out.println("PentominoID = " + pentID);
+    System.out.println("Mutation = " + mutation);
     int placeX = 0;
     int placeY = 0;
 
@@ -148,7 +154,7 @@ public class Search2{
     int[][] pieceToPlace = PentominoDatabase.data[pentID][mutation];
 
     //first check if this pentomino can even be added
-    //it can be added if it doesn't: overlap with other pentominoes, goes over the borders and creates an unfillable hole
+    //it can be added if it doesn't: overlap with other pentominoes, goes over the borders or creates an unfillable hole
     boolean possibleToPlace = true;
 
     //if at any point it becomes clear that the block can't be placed, move on
@@ -160,6 +166,7 @@ public class Search2{
       if (widthLeft >= pieceToPlace.length) {
         //it could fit
         possibleToPlace = true;
+        System.out.println("Fits width");
       } else {
         possibleToPlace = false;
       }
@@ -167,6 +174,7 @@ public class Search2{
       if (heightLeft >= pieceToPlace[0].length){
         //it could fit
         possibleToPlace = true;
+        System.out.println("Fits height");
       } else {
         possibleToPlace = false;
       }
@@ -177,7 +185,6 @@ public class Search2{
       int tmpY = 0;
 
       for(int i = placeY; i < pieceToPlace.length+placeY-1; i++){ // loop over Y position of pentomino
-
         for (int j = placeX; j < pieceToPlace[0].length+placeX-1; j++){ // loop over X position of pentomino
           if (field[tmpY][tmpX] != -1){
             //there's overlap
