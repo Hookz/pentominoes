@@ -12,14 +12,13 @@ public class Search
     public static void createWindow(){
         ui = new UI(horizontalGridSize, verticalGridSize, 50);
         LandingPage.startWindow.dispose();
-        search(input);
+        search();
     }
     // Helper function which starts the brute force algorithm
-    public static void search(char[] input2) {
-        if (input2.length != horizontalGridSize*verticalGridSize / 5) {
+    public static void search() {
+        if (input.length != horizontalGridSize*verticalGridSize / 5) {
             System.out.println("Not possible to find a solution");
         } else {
-            input = input2;
             // Initialize an empty board
             int[][] field = new int[horizontalGridSize][verticalGridSize];
 
