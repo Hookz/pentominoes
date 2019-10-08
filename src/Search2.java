@@ -116,11 +116,16 @@ public class Search2{
       //TODO only use the given pentominoes
       //TODO Note that it can never start with: X, Y, L or F since these all create an infillable cell
       //TODO something's going wrong which causes it to try the same pentomino with the same mutation indefinitely
+      System.out.println(PentominoDatabase.data[pentID].length);
       if(mutation < PentominoDatabase.data[pentID].length-1){
-        recursive(addPentomino(field, pentID, mutation), pentID, mutation++);
+        System.out.println("Update pentomino mutation");
+        System.out.println(Arrays.deepToString(PentominoDatabase.data[pentID]));
+        recursive(addPentomino(field, pentID, mutation), pentID, ++mutation);
       } else if(pentID < 11){
+        System.out.println("Update pentomino ID");
+        System.out.println(pentID);
         //if all mutations have been tried, try the next pentomino
-        recursive(addPentomino(field, pentID, mutation), pentID++, mutation);
+        recursive(addPentomino(field, pentID, mutation), ++pentID, mutation);
       }
     }
 
@@ -212,8 +217,8 @@ public class Search2{
         tmpY++;
       }
 
-      //check if it creates an unfillable hole
-      //With the current algorithm, unfillable holes are automatically seen as invalid.
+      //TODO check if it creates an unfillable hole
+      //an unfillable hole would be a hole that is smaller than 5 blocks or that can't be filled with the blocks that are left
 
       //If there is a possibility to place the piece on the field, do it
       tmpX = 0;
@@ -222,8 +227,6 @@ public class Search2{
       for(int i = placeY; i < pieceToPlace.length+placeY; i++){ // loop over Y position of pentomino
         for (int j = placeX; j < pieceToPlace[0].length+placeX; j++){ // loop over X position of pentomino
           //if pieceToPlace actually has a block in that spot, place it on the field
-          System.out.println("tmpX= "+tmpX+" tmpY= "+tmpY);
-          System.out.println();
           if(pieceToPlace[tmpY][tmpX] != 0){
             field[tmpY][tmpX] = pentID;
           }
