@@ -4,6 +4,7 @@ public class Search
 {
     public static int horizontalGridSize = 5;
     public static int verticalGridSize = 6;
+    public static int area = horizontalGridSize*verticalGridSize;
     public static UI ui;
     public static char[] input = {'W','I','Y','T','V','L'};
     public static boolean lpdone = false;
@@ -18,7 +19,6 @@ public class Search
         if (input2.length != horizontalGridSize*verticalGridSize / 5) {
             System.out.println("Not possible to find a solution");
         } else {
-            System.out.println(input2);
             input = input2;
             // Initialize an empty board
             int[][] field = new int[horizontalGridSize][verticalGridSize];
@@ -174,7 +174,7 @@ public class Search
         //createWindow(5,6);
 		LandingPage.createWindow();
         while(!lpdone){
-        	System.out.println("Still not done");
+        	System.out.println("Work in progress");
 		}
         System.out.println("Done!");
         createWindow();

@@ -14,7 +14,7 @@ public class ChoosePieces {
         choosePieces.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JLabel title = new JLabel();
-        title.setText("Choose game pieces");
+        title.setText("Choose exactly " + Search.area/5 +" piece(s)");
         title.setFont(new Font("Impact", Font.BOLD, 60));
         title.setForeground(new Color(255,206,40));
         title.setBounds(225,-10,960,200);
@@ -189,10 +189,46 @@ public class ChoosePieces {
         pieceZ.setIcon(imageIcon);
         pieceZ.setVisible(true);
 
+        JButton goWithChosen = new JButton("Go with chosen!");
+        goWithChosen.setBounds(300,500,375,75);
+        goWithChosen.setOpaque(true);
+        goWithChosen.setBackground(new Color(255,206,40));
+        goWithChosen.setBorderPainted(false);
+        goWithChosen.setFont(goWithChosen.getFont().deriveFont(36.0f));
+        goWithChosen.setVisible(true);
+
         JLabel background = new JLabel();
         background.setVisible(true);
         background.setBounds(240,60,960,720);
         background.setLayout(new FlowLayout());
+
+        goWithChosen.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Search.lpdone = true;
+                choosePieces.dispose();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
 
         choosePieces.setLayout(new BorderLayout());
         choosePieces.setSize(960,720);
@@ -210,6 +246,7 @@ public class ChoosePieces {
         choosePieces.add(pieceX);
         choosePieces.add(pieceY);
         choosePieces.add(pieceZ);
+        choosePieces.add(goWithChosen);
         choosePieces.add(background);
         choosePieces.setVisible(true);
     }

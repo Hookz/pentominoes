@@ -233,10 +233,10 @@ public class LandingPage extends MouseAdapter{
                 new MouseListener() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
+                        Search.area = rectHeight*rectWidth;
                         Search.verticalGridSize=rectWidth;
                         Search.horizontalGridSize=rectHeight;
-                        Search.lpdone = true;
-                        //ChoosePieces.createWindow();
+                        ChoosePieces.createWindow();
                         startWindow.dispose();
                     }
 
