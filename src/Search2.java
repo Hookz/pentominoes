@@ -1,4 +1,5 @@
 import java.util.Random;
+import java.util.Arrays;
 
 public class Search2{
   public static final int horizontalGridSize = 5;
@@ -121,16 +122,14 @@ public class Search2{
   private static int[][] addPentomino(int[][] field, int pentID, int mutation){
     int placeX = 0;
     int placeY = 0;
-    boolean found = false;
 
     //check where the pentomino has to be added
     for(int i=0; i<field.length; i++){
       //go trough every row
       for(int j=0; j<field[i].length; j++){
         //go trough every item in the row
-        if(field[i][j] == 0){
+        if(field[i][j] == -1){
           //the next block has to fill this tile
-          found = true;
           placeX = i;
           placeY = j;
         }
@@ -166,33 +165,38 @@ public class Search2{
 
       //check if it overlaps
       //pieceToPlace.length+placeX-1 = the width of the piece + the starting point - 1 since you count the starting tile twice
+      int tmpX = 0;
+      int tmpY = 0;
+
       for(int i = placeY; i < pieceToPlace.length+placeY-1; i++){ // loop over Y position of pentomino
 
-        for (int j = placeX; j < pieceToPlace[i].length+placeX-1; j++){ // loop over X position of pentomino
-          System.out.println("i = " + i);
-          System.out.println("j = " + j);
-          System.out.println("placeX = " + placeX);
-          System.out.println("placeY = " + placeY);
-          System.out.println("pentID = " + pentID);
-          System.out.println("pieceToPlace.length = " + pieceToPlace.length);
-          System.out.println("pieceToPlace[i].length = " + pieceToPlace[i].length);
-
-          if (pieceToPlace[i-placeX][j-placeY] != -1){
+        for (int j = placeX; j < pieceToPlace[0].length+placeX-1; j++){ // loop over X position of pentomino
+          if (field[tmpY][tmpX] != -1){
             //there's overlap
+            System.out.println("OVERLAP");
             possibleToPlace = false;
           }
+
+          tmpX++;
         }
+        tmpY++;
       }
 
       //check if it creates an unfillable hole
       //With the current algorithm, unfillable holes are automatically seen as invalid.
 
       //If there is a possibility to place the piece on the field, do it
-      //place the piece
-      for(int i = placeX; i < pieceToPlace.length+placeX; i++){ // loop over x position of pentomino{
-        for (int j = placeY; j < pieceToPlace[i].length+placeY; j++){ // loop over y position of pentomino{
-          field[placeX + i][placeY + j] = pentID;
+      tmpX = 0;
+      tmpY = 0;
+
+      for(int i = placeY; i < pieceToPlace.length+placeY-1; i++){ // loop over Y position of pentomino
+
+        for (int j = placeX; j < pieceToPlace[0].length+placeX-1; j++){ // loop over X position of pentomino
+          field[tmpY][tmpX] = pentID;
+
+          tmpX++;
         }
+        tmpY++;
       }
     }
 
