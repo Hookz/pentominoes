@@ -6,7 +6,7 @@ public class Search2{
   public static final int horizontalGridSize = 5;
   public static final int verticalGridSize = 6;
 
-  public static final char[] input = {'W', 'Y', 'I', 'T', 'Z', 'L'};
+  public static final char[] input = {'W', 'I', 'Z', 'T', 'U', 'V', 'W', 'Y', 'L', 'P', 'N', 'F'};
 
   // Static UI class to display the board
   //TODO check what 50 (size) does and if this really is a static value
@@ -27,7 +27,7 @@ public class Search2{
       int tmpID = characterToID(input[i]);
       inputIDs[i] = tmpID;
     }
-    
+
     // Initialize an empty board
     int[][] field = new int[horizontalGridSize][verticalGridSize];
 
@@ -82,6 +82,7 @@ public class Search2{
   }
 
   private static boolean recursive(int[][] field, int pentID, int mutation){
+    //TODO fix that the starting pentomino isn't varied (it always is the first given value, which doesn't always produce the right result)
     System.out.println("\n\nField:");
     System.out.println(Arrays.deepToString(field));
     System.out.println("PentID = " + pentID);
@@ -116,7 +117,7 @@ public class Search2{
       //if not all mutations have been tried, try the next one
       //TODO only use the given pentominoes
       //TODO Note that it can never start with: X(0), Y(7), L(8) or F(11) since these all create an infillable cell
-      System.out.println(PentominoDatabase.data[pentID].length);
+      System.out.println("Mutations available for this piece = " + PentominoDatabase.data[pentID].length);
       if(mutation < PentominoDatabase.data[pentID].length-1){
         System.out.println("Update pentomino mutation");
         System.out.println(Arrays.deepToString(PentominoDatabase.data[pentID]));
@@ -218,6 +219,8 @@ public class Search2{
               //there's overlap
               System.out.println("OVERLAP");
               possibleToPlace = false;
+              i = pieceToPlace.length+placeY;
+              j = pieceToPlace[0].length+placeX;
             }
           }
 
@@ -241,6 +244,7 @@ public class Search2{
             //if pieceToPlace actually has a block in that spot, place it on the field
             if(pieceToPlace[tmpY][tmpX] != 0){
               field[tmpY][tmpX] = pentID;
+              System.out.println("If it fits, it sits");
             }
             tmpX++;
           }
