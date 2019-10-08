@@ -80,6 +80,7 @@ public class Search
 
       //if not all mutations have been tried, try the next one
       //TODO write addPentomino
+      //TODO only use the given pentominoes
       if(lastMutation < PentominoDatabase.data[pentID].length-1){
         recursive(addPentomino(field, pentId, mutation), pentId, mutation++);
       } else if(pentID < 11){
@@ -116,36 +117,49 @@ public class Search
 
     //first check if this pentomino can even be added
     //it can be added if it doesn't: overlap with other pentominoes, goes over the borders and creates an unfillable hole
-    boolean possibleToPlace = false;
+    boolean possibleToPlace = true;
 
-    //check if it doesn't go over the 'edge'
-    int widthLeft = horizontalGridSize-x;
-    int heightLeft = verticalGridSize-y;
+    //if at any point it becomes clear that the block can't be placed, move on
+    while(possibleToPlace){
+      //check if it doesn't go over the 'edge'
+      int widthLeft = horizontalGridSize-x;
+      int heightLeft = verticalGridSize-y;
 
-    if (widthLeft >= pieceToPlace.length) {
-      //it could fit
-      possibleToPlace = true;
-    } else {
-      possibleToPlace = false;
+      if (widthLeft >= pieceToPlace.length) {
+        //it could fit
+        possibleToPlace = true;
+      } else {
+        possibleToPlace = false;
+      }
+
+      if (heightLeft >= pieceToPlace[0].length){
+        //it could fit
+        possibleToPlace = true;
+      } else {
+        possibleToPlace = false;
+      }
+
+      //check if it overlaps
+      for(int i = placeX; i < piece.length+placeX; i++){ // loop over x position of pentomino{
+        for (int j = placeY; j < piece[i].length+placeY; j++){ // loop over y position of pentomino{
+          if (piece[i][j] != -1){
+            //there's overlap
+            possibleToPlace = false;
+          }
+        }
+      }
+
+      //check if it creates an unfillable hole
+      //With the current algorithm, unfillable holes are automatically seen as invalid.
+
+      //If there is a possibility to place the piece on the field, do it
+      //place the piece
+      for(int i = placeX; i < piece.length+placeX; i++){ // loop over x position of pentomino{
+        for (int j = placeY; j < piece[i].length+placeY; j++){ // loop over y position of pentomino{
+          field[placeX + i][placeY + j] = pieceID;
+        }
+      }
     }
-
-    if (heightLeft >= pieceToPlace[0].length)
-      //it could fit
-      possibleToPlace = true;
-    } else {
-      possibleToPlace = false;
-    }
-
-    //check if it overlaps
-
-
-    //check if it creates an unfillalbe hole
-
-    /*
-    //If there is a possibility to place the piece on the field, do it
-    if (possibleToPlace) {
-      addPiece(field, pieceToPlace, pentID, x, y);
-    }*/
 
     return field;
   }
@@ -226,12 +240,9 @@ public class Search
 
   // Adds a pentomino to the position on the field (overriding current board at that position)
   public static void addPiece(int[][] field, int[][] piece, int pieceID, int x, int y){
-    for(int i = 0; i < piece.length; i++) // loop over x position of pentomino
-    {
-      for (int j = 0; j < piece[i].length; j++) // loop over y position of pentomino
-      {
-        if (piece[i][j] == 1)
-        {
+    for(int i = 0; i < piece.length; i++) // loop over x position of pentomino{
+      for (int j = 0; j < piece[i].length; j++) // loop over y position of pentomino{
+        if (piece[i][j] == 1){
           // Add the ID of the pentomino to the board if the pentomino occupies this square
           field[x + i][y + j] = pieceID;
         }
@@ -240,8 +251,9 @@ public class Search
   }
 
   // Main function. Needs to be executed to start the brute force algorithm
-  public static void main(String[] args)
-  {
-      search();
+  public static void main(String[] args){
+    //TODO ask for the desired size of the board
+
+    search();
   }
 }
