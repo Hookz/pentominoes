@@ -1,18 +1,27 @@
 import java.util.Random;
 
-public class Search
-{
+public class Search2{
   public static final int horizontalGridSize = 5;
   public static final int verticalGridSize = 6;
 
   public static final char[] input = { 'W', 'Y', 'I', 'T', 'Z', 'L'};
 
   // Static UI class to display the board
+  //TODO check what 50 (size) does and if this really is a static value
   public static UI ui = new UI(horizontalGridSize, verticalGridSize, 50);
 
+  //get available pentominoes and store them in a static final
+  public static int[] inputIDs = new int[input.length];
+
+  Search2(){
+    for(int i=0; i<input.length; i++){
+      int tmpID = characterToID(input[i]);
+      inputIDs[i] = tmpID;
+    }
+  }
+
   // Helper function which starts the brute force algorithm
-  public static void search()
-  {
+  public static void search(){
     // Initialize an empty board
     int[][] field = new int[horizontalGridSize][verticalGridSize];
 
@@ -26,20 +35,10 @@ public class Search
       }
     }
 
-    //get available pentominoes and store them in a static final
-    int[] tmpInputIDs = new int[input.length];
-
-    for(int i=0; i<input.length; i++){
-      int tmpID = characterToID(input[i]);
-      tmpInputIDs[i] = tmpID;
-    }
-
-    public static final int[] inputIDs = tmpInputIDs.arrayOf(tmpInputIDs);
-
     //TODO test recursion
     //Start brute force
     //bruteForce(field);
-    //recursive(field, pentId, mutation)
+    //recursive(field, pentID, mutation)
     recursive(field, inputIDs[0], 0);
   }
 
@@ -73,9 +72,10 @@ public class Search
   	return pentID;
   }
 
-  private static boolean recursive(int[][] field, int pentId, int mutation){
+  private static boolean recursive(int[][] field, int pentID, int mutation){
     if(fieldIsFull(field)){
       //you found the solution, show it
+      //TODO why is there a try catch?
       try{
         Thread.sleep(100);
         ui.setState(field);
@@ -84,7 +84,6 @@ public class Search
         //display the field
         ui.setState(field);
         System.out.println("Solution found");
-        break;
       }
 
       return true;
@@ -93,19 +92,18 @@ public class Search
 
       //if not all mutations have been tried, try the next one
       //TODO only use the given pentominoes
-      if(lastMutation < PentominoDatabase.data[pentID].length-1){
-        recursive(addPentomino(field, pentId, mutation), pentId, mutation++);
+      if(mutation < PentominoDatabase.data[pentID].length-1){
+        recursive(addPentomino(field, pentID, mutation), pentID, mutation++);
       } else if(pentID < 11){
-          //if all mutations have been tried, try the next pentomino
-          recursive(addPentomino(field, pentId, mutation), pentId++, mutation);
-        }
+        //if all mutations have been tried, try the next pentomino
+        recursive(addPentomino(field, pentID, mutation), pentID++, mutation);
       }
-
-      return false;
     }
+
+    return false;
   }
 
-  private static boolean fieldIsFull(field){
+  public static boolean fieldIsFull(int[][] field){
     boolean isNotFull = false;
 
     for(int i=0; i<field.length; i++){
@@ -119,7 +117,7 @@ public class Search
     return !isNotFull;
   }
 
-  private static void addPentomino(field, pentId, mutation){
+  private static void addPentomino(int[][] field, int pentID, int mutation){
     int placeX = 0;
     int placeY = 0;
     boolean found = false;
@@ -139,7 +137,7 @@ public class Search
     }
 
     //get the pentomino shape
-    int[][] pieceToPlace = PentominoDatabase.data[pentId][mutation];
+    int[][] pieceToPlace = PentominoDatabase.data[pentID][mutation];
 
     //first check if this pentomino can even be added
     //it can be added if it doesn't: overlap with other pentominoes, goes over the borders and creates an unfillable hole
@@ -265,8 +263,8 @@ public class Search
 
   // Adds a pentomino to the position on the field (overriding current board at that position)
   public static void addPiece(int[][] field, int[][] piece, int pieceID, int x, int y){
-    for(int i = 0; i < piece.length; i++) // loop over x position of pentomino{
-      for (int j = 0; j < piece[i].length; j++) // loop over y position of pentomino{
+    for(int i = 0; i < piece.length; i++){ // loop over x position of pentomino{
+      for (int j = 0; j < piece[i].length; j++){ // loop over y position of pentomino{
         if (piece[i][j] == 1){
           // Add the ID of the pentomino to the board if the pentomino occupies this square
           field[x + i][y + j] = pieceID;
@@ -279,6 +277,6 @@ public class Search
   public static void main(String[] args){
     //TODO ask for the desired size of the board and for available pentominoes
 
-    search();
+    Search2();
   }
 }
