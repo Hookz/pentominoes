@@ -6,7 +6,6 @@ import java.io.*;
 
 import java.awt.event.*;
 public class ChoosePieces {
-    public static char[] pcsUsed;
     public static boolean[] piecesUsed = new boolean[12];
     public static JFrame choosePieces = new JFrame("Pentominoes: Settings");
     public static void createWindow(){
@@ -208,17 +207,7 @@ public class ChoosePieces {
         goWithChosen.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int noUsed=0, j=0;
-                for(int i=0;i<piecesUsed.length;i++)
-                    if(piecesUsed[i]) noUsed++;
-                pcsUsed = new char[noUsed];
-                for(int i=0;i<piecesUsed.length;i++){
-                    if(piecesUsed[i]){
-                        pcsUsed[j]=intToCharacter(i);
-                        j++;
-                    }
-                }
-                Search.input = pcsUsed;
+                Search.input = returnPiecesUsed(piecesUsed);
                 Search.lpdone = true;
                 choosePieces.dispose();
             }
@@ -324,5 +313,19 @@ public class ChoosePieces {
             character = 'F';
         }
         return character;
+    }
+    private static char[] returnPiecesUsed(boolean[] piecesUsed){
+        char[] pcsUsed;
+        int noUsed=0, j=0;
+        for(int i=0;i<piecesUsed.length;i++)
+            if(piecesUsed[i]) noUsed++;
+        pcsUsed = new char[noUsed];
+        for(int i=0;i<piecesUsed.length;i++){
+            if(piecesUsed[i]){
+                pcsUsed[j]=intToCharacter(i);
+                j++;
+            }
+        }
+        return pcsUsed;
     }
 }
