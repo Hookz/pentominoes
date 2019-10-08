@@ -81,7 +81,7 @@ public class Search2{
   }
 
   private static boolean recursive(int[][] field, int pentID, int mutation){
-    System.out.println("Field  =\n");
+    System.out.println("\n\nField:");
     System.out.println(Arrays.deepToString(field));
     System.out.println("PentID = " + pentID);
     System.out.println("Mutation = " + mutation);
@@ -105,7 +105,7 @@ public class Search2{
       //if there isn't a solution
       //TODO remove after debugging
       try{
-        Thread.sleep(100);
+        Thread.sleep(1000);
         ui.setState(field);
       } catch (InterruptedException ie){
         //display the field
@@ -164,6 +164,8 @@ public class Search2{
 
     //get the pentomino shape
     int[][] pieceToPlace = PentominoDatabase.data[pentID][mutation];
+    System.out.println("PieceToPlace:");
+    System.out.println(Arrays.deepToString(pieceToPlace));
 
     //first check if this pentomino can even be added
     //it can be added if it doesn't: overlap with other pentominoes, goes over the borders or creates an unfillable hole
@@ -206,6 +208,7 @@ public class Search2{
 
           tmpX++;
         }
+        tmpX=0;
         tmpY++;
       }
 
@@ -217,12 +220,16 @@ public class Search2{
       tmpY = 0;
 
       for(int i = placeY; i < pieceToPlace.length+placeY-1; i++){ // loop over Y position of pentomino
-
         for (int j = placeX; j < pieceToPlace[0].length+placeX-1; j++){ // loop over X position of pentomino
-          field[tmpY][tmpX] = pentID;
-
+          //if pieceToPlace actually has a block in that spot, place it on the field
+          System.out.println("tmpX= "+tmpX+" tmpY= "+tmpY);
+          System.out.println();
+          if(pieceToPlace[tmpY][tmpX] != 0){
+            field[tmpY][tmpX] = pentID;
+          }
           tmpX++;
         }
+        tmpX=0;
         tmpY++;
       }
     }
