@@ -177,6 +177,7 @@ public class Search
         	System.out.println("Work in progress");
 		}
         System.out.println("Done!");
+        System.out.println(input);
         createWindow();
     }
 }
