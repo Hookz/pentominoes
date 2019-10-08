@@ -2,31 +2,37 @@ import java.util.Random;
 
 public class Search
 {
-    public static final int horizontalGridSize = 5;
-    public static final int verticalGridSize = 6;
+    public static int horizontalGridSize = 5;
+    public static int verticalGridSize = 6;
+    public static UI ui;
+    public static char[] input = {'W','I','Y','T','V','L'};
+    public static boolean lpdone = false;
 
-    public static final char[] input = { 'W', 'Y', 'I', 'T', 'Z', 'L'};
-
-    // Static UI class to display the board
-    public static UI ui = new UI(horizontalGridSize, verticalGridSize, 50);
-
+    public static void createWindow(){
+        ui = new UI(horizontalGridSize, verticalGridSize, 50);
+        LandingPage.startWindow.dispose();
+        search(input);
+    }
     // Helper function which starts the brute force algorithm
-    public static void search()
-    {
-        // Initialize an empty board
-        int[][] field = new int[horizontalGridSize][verticalGridSize];
+    public static void search(char[] input2) {
+        if (input2.length != horizontalGridSize*verticalGridSize / 5) {
+            System.out.println("Not possible to find a solution");
+        } else {
+            System.out.println(input2);
+            input = input2;
+            // Initialize an empty board
+            int[][] field = new int[horizontalGridSize][verticalGridSize];
 
-        for(int i = 0; i < field.length; i++)
-        {
-            for(int j = 0; j < field[i].length; j++)
-            {
-                // -1 in the state matrix corresponds to empty square
-                // Any positive number identifies the ID of the pentomino
-            	field[i][j] = -1;
+            for (int i = 0; i < field.length; i++) {
+                for (int j = 0; j < field[i].length; j++) {
+                    // -1 in the state matrix corresponds to empty square
+                    // Any positive number identifies the ID of the pentomino
+                    field[i][j] = -1;
+                }
             }
+            //Start brute force
+            bruteForce(field);
         }
-        //Start brute force
-        bruteForce(field);
     }
 
     private static int characterToID(char character) {
@@ -74,6 +80,7 @@ public class Search
   				}
   			}
 
+
     		//Put all pentominoes with random rotation/inversion on a random position on the board
     		for (int i = 0; i < input.length; i++) {
 
@@ -113,30 +120,34 @@ public class Search
 	    		}
     		}
 
+
     		for (int i = 0; i < field.length; i++) {
 				for (int j = 0; j < field[i].length; j++) {
 					if(field[i][j] == -1) solutionFound = false;
 				}
 			}
 
-     		//if (solutionFound) {
   			try{
-  				Thread.sleep(100);
+  				Thread.sleep(1);
   				ui.setState(field);
-  				System.out.println("Solution found");
+  			//	System.out.println("Solution found");
   			} catch (InterruptedException ie){
     			//display the field
-    			ui.setState(field);
-    			System.out.println("Solution found");
+    			System.out.println("Solution not found");
     			break;
     		}
+            if (solutionFound) {
+                ui.setState(field);
+                System.out.println("Solution found");
+                break;
+            }
     	}
     }
 
 
 
     // Adds a pentomino to the position on the field (overriding current board at that position)
-    public static void addPiece(int[][] field, int[][] piece, int pieceID, int x, int y)
+    private static void addPiece(int[][] field, int[][] piece, int pieceID, int x, int y)
     {
         for(int i = 0; i < piece.length; i++) // loop over x position of pentomino
         {
@@ -155,6 +166,17 @@ public class Search
     // Main function. Needs to be executed to start the brute force algorithm
     public static void main(String[] args)
     {
-        search();
+        char[] args2 = new char[args.length];
+        for(int i=0;i<args2.length;i++)
+        {
+            args2[i]=args[i].charAt(0);
+        }
+        //createWindow(5,6);
+		LandingPage.createWindow();
+        while(!lpdone){
+        	System.out.println("Still not done");
+		}
+        System.out.println("Done!");
+        createWindow();
     }
 }
