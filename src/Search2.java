@@ -41,14 +41,12 @@ public class Search2{
       }
     }
 
-    //TODO improve brute force
     //Start brute force
     //bruteForce(field);
     //TODO test recursion
-    //TODO pass in the actual first values
     //recursive(field, pentID, mutation)
     System.out.println(Arrays.toString(inputIDs));
-    recursive(field, inputIDs[1], 0);
+    recursive(field, inputIDs[0], 0);
   }
 
   private static int characterToID(char character) {
@@ -116,7 +114,7 @@ public class Search2{
 
       //if not all mutations have been tried, try the next one
       //TODO only use the given pentominoes
-      //TODO Note that it can never start with: X(0), Y(7), L(8) or F(11) since these all create an infillable cell
+      //TODO Note that it can never start with: X, Y, L or F since these all create an infillable cell. Some rotations of others won't work either (like with W)
       System.out.println("Mutations available for this piece = " + PentominoDatabase.data[pentID].length);
       if(mutation < PentominoDatabase.data[pentID].length-1){
         System.out.println("Update pentomino mutation");
