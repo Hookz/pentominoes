@@ -64,9 +64,8 @@ Last updated: *2019-10-05*
 - [x] Project problem is known
 * Phase 1:
  - [ ] Implement algorithms that find solutions whether and how a given set of pentominoes fits into a rectangle
- - [ ] Algorithm x
- - [ ] Algorithm y
- - [ ] Algorithm z
+  - [x] Brute force
+  - [ ] Branching algorithm
  - [ ] Presentation is ready
  - [ ] Presented
 
@@ -89,7 +88,7 @@ Last updated: *2019-10-05*
   - [ ] Report is ready
   - [ ] Presented
 
-Last updated: *2019-10-05*
+Last updated: *2019-10-08*
 
 ## Latex Report
 [Link to project report on Overleaf](https://www.overleaf.com/3193293667jjrxxwjkfdmw) (*Required in Period 3*)
