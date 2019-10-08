@@ -1,11 +1,12 @@
 import java.util.Random;
 import java.util.Arrays;
+import java.util.Date;
 
 public class Search2{
-  public static final int horizontalGridSize = 10;
+  public static final int horizontalGridSize = 5;
   public static final int verticalGridSize = 6;
 
-  public static final char[] input = { 'W', 'Y', 'I', 'T', 'Z', 'L'};
+  public static final char[] input = {'W', 'Y', 'I', 'T', 'Z', 'L'};
 
   // Static UI class to display the board
   //TODO check what 50 (size) does and if this really is a static value
@@ -19,6 +20,11 @@ public class Search2{
       int tmpID = characterToID(input[i]);
       inputIDs[i] = tmpID;
     }
+  }
+
+  public static void printTime(){
+    Date date = new Date();
+    System.out.println(date.toString());
   }
 
   // Helper function which starts the brute force algorithm
@@ -36,9 +42,10 @@ public class Search2{
       }
     }
 
-    //TODO test recursion
+    //TODO improve brute force
     //Start brute force
     //bruteForce(field);
+    //TODO test recursion
     //recursive(field, pentID, mutation)
     recursive(field, inputIDs[0], 0);
   }
@@ -74,6 +81,12 @@ public class Search2{
   }
 
   private static boolean recursive(int[][] field, int pentID, int mutation){
+    System.out.println("\n\nField:");
+    System.out.println(Arrays.deepToString(field));
+    System.out.println("PentID = " + pentID);
+    System.out.println("Mutation = " + mutation);
+    printTime();
+
     if(fieldIsFull(field)){
       //you found the solution, show it
       //TODO why is there a try catch?
@@ -92,7 +105,7 @@ public class Search2{
       //if there isn't a solution
       //TODO remove after debugging
       try{
-        Thread.sleep(100);
+        Thread.sleep(1000);
         ui.setState(field);
       } catch (InterruptedException ie){
         //display the field
@@ -102,6 +115,7 @@ public class Search2{
       //if not all mutations have been tried, try the next one
       //TODO only use the given pentominoes
       //TODO Note that it can never start with: X, Y, L or F since these all create an infillable cell
+      //TODO something's going wrong which causes it to try the same pentomino with the same mutation indefinitely
       if(mutation < PentominoDatabase.data[pentID].length-1){
         recursive(addPentomino(field, pentID, mutation), pentID, mutation++);
       } else if(pentID < 11){
@@ -110,6 +124,7 @@ public class Search2{
       }
     }
 
+    System.out.println("There's no solution");
     return false;
   }
 
@@ -127,7 +142,10 @@ public class Search2{
     return !isNotFull;
   }
 
+  //return the board with the Pentomino added
   private static int[][] addPentomino(int[][] field, int pentID, int mutation){
+    System.out.println("PentominoID = " + pentID);
+    System.out.println("Mutation = " + mutation);
     int placeX = 0;
     int placeY = 0;
 
@@ -146,9 +164,11 @@ public class Search2{
 
     //get the pentomino shape
     int[][] pieceToPlace = PentominoDatabase.data[pentID][mutation];
+    System.out.println("PieceToPlace:");
+    System.out.println(Arrays.deepToString(pieceToPlace));
 
     //first check if this pentomino can even be added
-    //it can be added if it doesn't: overlap with other pentominoes, goes over the borders and creates an unfillable hole
+    //it can be added if it doesn't: overlap with other pentominoes, goes over the borders or creates an unfillable hole
     boolean possibleToPlace = true;
 
     //if at any point it becomes clear that the block can't be placed, move on
@@ -160,6 +180,7 @@ public class Search2{
       if (widthLeft >= pieceToPlace.length) {
         //it could fit
         possibleToPlace = true;
+        System.out.println("Fits width");
       } else {
         possibleToPlace = false;
       }
@@ -167,18 +188,18 @@ public class Search2{
       if (heightLeft >= pieceToPlace[0].length){
         //it could fit
         possibleToPlace = true;
+        System.out.println("Fits height");
       } else {
         possibleToPlace = false;
       }
 
       //check if it overlaps
-      //pieceToPlace.length+placeX-1 = the width of the piece + the starting point - 1 since you count the starting tile twice
+      //pieceToPlace.length+placeX-1 = the width of the piece + the starting point
       int tmpX = 0;
       int tmpY = 0;
 
-      for(int i = placeY; i < pieceToPlace.length+placeY-1; i++){ // loop over Y position of pentomino
-
-        for (int j = placeX; j < pieceToPlace[0].length+placeX-1; j++){ // loop over X position of pentomino
+      for(int i = placeY; i < pieceToPlace.length+placeY; i++){ // loop over Y position of pentomino
+        for (int j = placeX; j < pieceToPlace[0].length+placeX; j++){ // loop over X position of pentomino
           if (field[tmpY][tmpX] != -1){
             //there's overlap
             System.out.println("OVERLAP");
@@ -187,6 +208,7 @@ public class Search2{
 
           tmpX++;
         }
+        tmpX=0;
         tmpY++;
       }
 
@@ -197,13 +219,17 @@ public class Search2{
       tmpX = 0;
       tmpY = 0;
 
-      for(int i = placeY; i < pieceToPlace.length+placeY-1; i++){ // loop over Y position of pentomino
-
-        for (int j = placeX; j < pieceToPlace[0].length+placeX-1; j++){ // loop over X position of pentomino
-          field[tmpY][tmpX] = pentID;
-
+      for(int i = placeY; i < pieceToPlace.length+placeY; i++){ // loop over Y position of pentomino
+        for (int j = placeX; j < pieceToPlace[0].length+placeX; j++){ // loop over X position of pentomino
+          //if pieceToPlace actually has a block in that spot, place it on the field
+          System.out.println("tmpX= "+tmpX+" tmpY= "+tmpY);
+          System.out.println();
+          if(pieceToPlace[tmpY][tmpX] != 0){
+            field[tmpY][tmpX] = pentID;
+          }
           tmpX++;
         }
+        tmpX=0;
         tmpY++;
       }
     }
