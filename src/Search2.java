@@ -115,7 +115,6 @@ public class Search2{
       //if not all mutations have been tried, try the next one
       //TODO only use the given pentominoes
       //TODO Note that it can never start with: X, Y, L or F since these all create an infillable cell
-      //TODO something's going wrong which causes it to try the same pentomino with the same mutation indefinitely
       System.out.println(PentominoDatabase.data[pentID].length);
       if(mutation < PentominoDatabase.data[pentID].length-1){
         System.out.println("Update pentomino mutation");
@@ -159,10 +158,17 @@ public class Search2{
       //go trough every row
       for(int j=0; j<field[i].length; j++){
         //go trough every item in the row
+        System.out.println("Field " + field[i][j]);
         if(field[i][j] == -1){
           //the next block has to fill this tile
           placeX = i;
           placeY = j;
+
+          //make the loop stop
+          i=field.length-1;
+          j=field[i].length-1;
+
+          System.out.println("PlaceX = " + placeX + " PlaceY=" + placeY);
         }
       }
     }
@@ -203,12 +209,15 @@ public class Search2{
       int tmpX = 0;
       int tmpY = 0;
 
+      //TODO rewrite/check
       for(int i = placeY; i < pieceToPlace.length+placeY; i++){ // loop over Y position of pentomino
         for (int j = placeX; j < pieceToPlace[0].length+placeX; j++){ // loop over X position of pentomino
-          if (field[tmpY][tmpX] != -1){
-            //there's overlap
-            System.out.println("OVERLAP");
-            possibleToPlace = false;
+          if(pieceToPlace[tmpY][tmpX] != 0){
+            if (field[i][j] != -1){
+              //there's overlap
+              System.out.println("OVERLAP");
+              possibleToPlace = false;
+            }
           }
 
           tmpX++;
@@ -224,17 +233,21 @@ public class Search2{
       tmpX = 0;
       tmpY = 0;
 
-      for(int i = placeY; i < pieceToPlace.length+placeY; i++){ // loop over Y position of pentomino
-        for (int j = placeX; j < pieceToPlace[0].length+placeX; j++){ // loop over X position of pentomino
-          //if pieceToPlace actually has a block in that spot, place it on the field
-          if(pieceToPlace[tmpY][tmpX] != 0){
-            field[tmpY][tmpX] = pentID;
+      //TODO check why this if effects the code while it already being checked by the while
+      if(possibleToPlace){
+        for(int i = placeY; i < pieceToPlace.length+placeY; i++){ // loop over Y position of pentomino
+          for (int j = placeX; j < pieceToPlace[0].length+placeX; j++){ // loop over X position of pentomino
+            //if pieceToPlace actually has a block in that spot, place it on the field
+            if(pieceToPlace[tmpY][tmpX] != 0){
+              field[tmpY][tmpX] = pentID;
+            }
+            tmpX++;
           }
-          tmpX++;
+          tmpX=0;
+          tmpY++;
         }
-        tmpX=0;
-        tmpY++;
       }
+
     }
 
     return field;
