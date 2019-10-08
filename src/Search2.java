@@ -41,12 +41,14 @@ public class Search2{
       }
     }
 
+    Random random = new Random();
+    int randomIndex = random.nextInt(12);
     //Start brute force
     //bruteForce(field);
     //TODO test recursion
     //recursive(field, pentID, mutation)
     System.out.println(Arrays.toString(inputIDs));
-    recursive(field, inputIDs[0], 0);
+    recursive(field, inputIDs[randomIndex], 0);
   }
 
   private static int characterToID(char character) {
@@ -185,8 +187,8 @@ public class Search2{
     //if at any point it becomes clear that the block can't be placed, move on
     while(possibleToPlace){
       //check if it doesn't go over the 'edge'
-      int widthLeft = horizontalGridSize-placeX;
-      int heightLeft = verticalGridSize-placeY;
+      int widthLeft = horizontalGridSize-placeX-1;
+      int heightLeft = verticalGridSize-placeY-1;
 
       if (widthLeft >= pieceToPlace.length) {
         //it could fit
@@ -196,7 +198,7 @@ public class Search2{
         possibleToPlace = false;
       }
 
-      if (heightLeft >= pieceToPlace[0].length){
+      if (heightLeft >= pieceToPlace[0].length & possibleToPlace){
         //it could fit
         possibleToPlace = true;
         System.out.println("Fits height");
