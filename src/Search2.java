@@ -2,7 +2,7 @@ import java.util.Random;
 import java.util.Arrays;
 
 public class Search2{
-  public static final int horizontalGridSize = 5;
+  public static final int horizontalGridSize = 10;
   public static final int verticalGridSize = 6;
 
   public static final char[] input = { 'W', 'Y', 'I', 'T', 'Z', 'L'};
@@ -90,6 +90,14 @@ public class Search2{
       return true;
     } else {
       //if there isn't a solution
+      //TODO remove after debugging
+      try{
+        Thread.sleep(100);
+        ui.setState(field);
+      } catch (InterruptedException ie){
+        //display the field
+        ui.setState(field);
+      }
 
       //if not all mutations have been tried, try the next one
       //TODO only use the given pentominoes
