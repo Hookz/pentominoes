@@ -92,6 +92,7 @@ public class Search2{
 
       //if not all mutations have been tried, try the next one
       //TODO only use the given pentominoes
+      //TODO Note that it can never start with: X, Y, L or F since these all create an infillable cell
       if(mutation < PentominoDatabase.data[pentID].length-1){
         recursive(addPentomino(field, pentID, mutation), pentID, mutation++);
       } else if(pentID < 11){
@@ -164,9 +165,19 @@ public class Search2{
       }
 
       //check if it overlaps
-      for(int i = placeX; i < pieceToPlace.length+placeX; i++){ // loop over x position of pentomino{
-        for (int j = placeY; j < pieceToPlace[i].length+placeY; j++){ // loop over y position of pentomino{
-          if (pieceToPlace[i][j] != -1){
+      //pieceToPlace.length+placeX-1 = the width of the piece + the starting point - 1 since you count the starting tile twice
+      for(int i = placeY; i < pieceToPlace.length+placeY-1; i++){ // loop over Y position of pentomino
+
+        for (int j = placeX; j < pieceToPlace[i].length+placeX-1; j++){ // loop over X position of pentomino
+          System.out.println("i = " + i);
+          System.out.println("j = " + j);
+          System.out.println("placeX = " + placeX);
+          System.out.println("placeY = " + placeY);
+          System.out.println("pentID = " + pentID);
+          System.out.println("pieceToPlace.length = " + pieceToPlace.length);
+          System.out.println("pieceToPlace[i].length = " + pieceToPlace[i].length);
+
+          if (pieceToPlace[i-placeX][j-placeY] != -1){
             //there's overlap
             possibleToPlace = false;
           }
