@@ -79,7 +79,7 @@ public class Search2{
   	return pentID;
   }
 
-  private static boolean recursive(int[][] field, int pentID, int mutation){
+  private static void recursive(int[][] field, int pentID, int mutation){
     //TODO fix that the starting pentomino isn't varied (it always is the first given value, which doesn't always produce the right result)
     System.out.println("\n\nField:");
     System.out.println(Arrays.deepToString(field));
@@ -100,7 +100,6 @@ public class Search2{
         System.out.println("Solution found");
       }
 
-      return true;
     } else {
       //if there isn't a solution
       //TODO remove after debugging
@@ -115,7 +114,6 @@ public class Search2{
       //if not all mutations have been tried, try the next one
       //TODO only use the given pentominoes
       //TODO Note that it can never start with: X, Y, L or F since these all create an infillable cell. Some rotations of others won't work either (like with W)
-      System.out.println("Mutations available for this piece = " + PentominoDatabase.data[pentID].length);
       if(mutation < PentominoDatabase.data[pentID].length-1){
         System.out.println("Update pentomino mutation");
         System.out.println(Arrays.deepToString(PentominoDatabase.data[pentID]));
@@ -126,10 +124,10 @@ public class Search2{
         //if all mutations have been tried, try the next pentomino
         recursive(addPentomino(field, pentID, mutation), ++pentID, mutation);
       }
+
     }
 
     System.out.println("There's no solution");
-    return false;
   }
 
   public static boolean fieldIsFull(int[][] field){
@@ -183,12 +181,13 @@ public class Search2{
     boolean possibleToPlace = true;
 
     //if at any point it becomes clear that the block can't be placed, move on
+    //TODO check if the while really has added value
     while(possibleToPlace){
       //check if it doesn't go over the 'edge'
       int widthLeft = horizontalGridSize-placeX;
       int heightLeft = verticalGridSize-placeY;
 
-      if (widthLeft >= pieceToPlace.length) {
+      if (widthLeft >= pieceToPlace[0].length) {
         //it could fit
         possibleToPlace = true;
         System.out.println("Fits width");
@@ -196,7 +195,7 @@ public class Search2{
         possibleToPlace = false;
       }
 
-      if (heightLeft >= pieceToPlace[0].length){
+      if (heightLeft >= pieceToPlace.length){
         //it could fit
         possibleToPlace = true;
         System.out.println("Fits height");
@@ -209,7 +208,7 @@ public class Search2{
       int tmpX = 0;
       int tmpY = 0;
 
-      //TODO rewrite/check
+      //TODO check
       if(possibleToPlace){
         for(int i = placeY; i < pieceToPlace.length+placeY; i++){ // loop over Y position of pentomino
           for (int j = placeX; j < pieceToPlace[0].length+placeX; j++){ // loop over X position of pentomino
@@ -230,8 +229,9 @@ public class Search2{
         }
       }
 
-      //TODO check if it creates an unfillable hole
+      //TODO check if it creates an unfillable hole (unfillableHolePresent())
       //an unfillable hole would be a hole that is smaller than 5 blocks or that can't be filled with the blocks that are left
+      //if you find a hole, check if it's fillable
 
       //If there is a possibility to place the piece on the field, do it
       tmpX = 0;
@@ -256,6 +256,13 @@ public class Search2{
     }
 
     return field;
+  }
+
+  public static boolean unfillableHolePresent(int[][] field, int tmpEmptySpots){
+    boolean unfillable = false;
+    //TODO Find some efficient way to find groups of -1 that are smaller than 5 blocks (Hint: check horizontal and 1 up/down from each inserted block)
+
+    return unfillable;
   }
 
   private static void bruteForce( int[][] field){
