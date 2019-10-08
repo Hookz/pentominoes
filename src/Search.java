@@ -128,7 +128,7 @@ public class Search
 			}
 
   			try{
-  				Thread.sleep(1);
+  				Thread.sleep(200);
   				ui.setState(field);
   			//	System.out.println("Solution found");
   			} catch (InterruptedException ie){
