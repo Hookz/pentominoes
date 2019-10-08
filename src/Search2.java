@@ -15,20 +15,19 @@ public class Search2{
   //get available pentominoes and store them in a static final
   public static int[] inputIDs = new int[input.length];
 
-  Search2(){
-    for(int i=0; i<input.length; i++){
-      int tmpID = characterToID(input[i]);
-      inputIDs[i] = tmpID;
-    }
-  }
-
   public static void printTime(){
     Date date = new Date();
     System.out.println(date.toString());
   }
 
-  // Helper function which starts the brute force algorithm
+  // Helper function which starts the search for answers
   public static void search(){
+    //'translate' given input
+    for(int i=0; i<input.length; i++){
+      int tmpID = characterToID(input[i]);
+      inputIDs[i] = tmpID;
+    }
+    
     // Initialize an empty board
     int[][] field = new int[horizontalGridSize][verticalGridSize];
 
@@ -46,8 +45,10 @@ public class Search2{
     //Start brute force
     //bruteForce(field);
     //TODO test recursion
+    //TODO pass in the actual first values
     //recursive(field, pentID, mutation)
-    recursive(field, inputIDs[0], 0);
+    System.out.println(Arrays.toString(inputIDs));
+    recursive(field, inputIDs[1], 0);
   }
 
   private static int characterToID(char character) {
@@ -105,7 +106,7 @@ public class Search2{
       //if there isn't a solution
       //TODO remove after debugging
       try{
-        Thread.sleep(1000);
+        Thread.sleep(100);
         ui.setState(field);
       } catch (InterruptedException ie){
         //display the field
@@ -114,7 +115,7 @@ public class Search2{
 
       //if not all mutations have been tried, try the next one
       //TODO only use the given pentominoes
-      //TODO Note that it can never start with: X, Y, L or F since these all create an infillable cell
+      //TODO Note that it can never start with: X(0), Y(7), L(8) or F(11) since these all create an infillable cell
       System.out.println(PentominoDatabase.data[pentID].length);
       if(mutation < PentominoDatabase.data[pentID].length-1){
         System.out.println("Update pentomino mutation");
