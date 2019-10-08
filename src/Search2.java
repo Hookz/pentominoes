@@ -25,8 +25,22 @@ public class Search
       	field[i][j] = -1;
       }
     }
+
+    //get available pentominoes and store them in a static final
+    int[] tmpInputIDs = new int[input.length];
+
+    for(int i=0; i<input.length; i++){
+      int tmpID = characterToID(input[i]);
+      tmpInputIDs[i] = tmpID;
+    }
+
+    public static final int[] inputIDs = tmpInputIDs.arrayOf(tmpInputIDs);
+
+    //TODO test recursion
     //Start brute force
-    bruteForce(field);
+    //bruteForce(field);
+    //recursive(field, pentId, mutation)
+    recursive(field, inputIDs[0], 0);
   }
 
   private static int characterToID(char character) {
@@ -60,8 +74,7 @@ public class Search
   }
 
   private static boolean recursive(int[][] field, int pentId, int mutation){
-    //TODO write fieldIsFull
-    if(fieldIsFull()){
+    if(fieldIsFull(field)){
       //you found the solution, show it
       try{
         Thread.sleep(100);
@@ -79,7 +92,6 @@ public class Search
       //if there isn't a solution
 
       //if not all mutations have been tried, try the next one
-      //TODO write addPentomino
       //TODO only use the given pentominoes
       if(lastMutation < PentominoDatabase.data[pentID].length-1){
         recursive(addPentomino(field, pentId, mutation), pentId, mutation++);
@@ -91,6 +103,20 @@ public class Search
 
       return false;
     }
+  }
+
+  private static boolean fieldIsFull(field){
+    boolean isNotFull = false;
+
+    for(int i=0; i<field.length; i++){
+      for(int j=0; j<field[i].length; j++){
+        if(field[i][j] == -1){
+          isNotFull = true;
+        }
+      }
+    }
+
+    return !isNotFull;
   }
 
   private static void addPentomino(field, pentId, mutation){
@@ -180,7 +206,6 @@ public class Search
 
   		//Put all pentominoes with random rotation/inversion on a random position on the board
   		for (int i = 0; i < input.length; i++) {
-
   			//Choose a pentomino and randomly rotate/inverse it
   			int pentID = characterToID(input[i]);
   			int mutation = random.nextInt(PentominoDatabase.data[pentID].length);
@@ -252,7 +277,7 @@ public class Search
 
   // Main function. Needs to be executed to start the brute force algorithm
   public static void main(String[] args){
-    //TODO ask for the desired size of the board
+    //TODO ask for the desired size of the board and for available pentominoes
 
     search();
   }
