@@ -117,7 +117,7 @@ public class Search2{
     return !isNotFull;
   }
 
-  private static void addPentomino(int[][] field, int pentID, int mutation){
+  private static int[][] addPentomino(int[][] field, int pentID, int mutation){
     int placeX = 0;
     int placeY = 0;
     boolean found = false;
@@ -146,8 +146,8 @@ public class Search2{
     //if at any point it becomes clear that the block can't be placed, move on
     while(possibleToPlace){
       //check if it doesn't go over the 'edge'
-      int widthLeft = horizontalGridSize-x;
-      int heightLeft = verticalGridSize-y;
+      int widthLeft = horizontalGridSize-placeX;
+      int heightLeft = verticalGridSize-placeY;
 
       if (widthLeft >= pieceToPlace.length) {
         //it could fit
@@ -164,9 +164,9 @@ public class Search2{
       }
 
       //check if it overlaps
-      for(int i = placeX; i < piece.length+placeX; i++){ // loop over x position of pentomino{
-        for (int j = placeY; j < piece[i].length+placeY; j++){ // loop over y position of pentomino{
-          if (piece[i][j] != -1){
+      for(int i = placeX; i < pieceToPlace.length+placeX; i++){ // loop over x position of pentomino{
+        for (int j = placeY; j < pieceToPlace[i].length+placeY; j++){ // loop over y position of pentomino{
+          if (pieceToPlace[i][j] != -1){
             //there's overlap
             possibleToPlace = false;
           }
@@ -178,9 +178,9 @@ public class Search2{
 
       //If there is a possibility to place the piece on the field, do it
       //place the piece
-      for(int i = placeX; i < piece.length+placeX; i++){ // loop over x position of pentomino{
-        for (int j = placeY; j < piece[i].length+placeY; j++){ // loop over y position of pentomino{
-          field[placeX + i][placeY + j] = pieceID;
+      for(int i = placeX; i < pieceToPlace.length+placeX; i++){ // loop over x position of pentomino{
+        for (int j = placeY; j < pieceToPlace[i].length+placeY; j++){ // loop over y position of pentomino{
+          field[placeX + i][placeY + j] = pentID;
         }
       }
     }
@@ -277,6 +277,6 @@ public class Search2{
   public static void main(String[] args){
     //TODO ask for the desired size of the board and for available pentominoes
 
-    Search2();
+    search();
   }
 }
