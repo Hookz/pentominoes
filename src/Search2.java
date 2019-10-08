@@ -210,22 +210,24 @@ public class Search2{
       int tmpY = 0;
 
       //TODO rewrite/check
-      for(int i = placeY; i < pieceToPlace.length+placeY; i++){ // loop over Y position of pentomino
-        for (int j = placeX; j < pieceToPlace[0].length+placeX; j++){ // loop over X position of pentomino
-          if(pieceToPlace[tmpY][tmpX] != 0){
-            if (field[i][j] != -1){
-              //there's overlap
-              System.out.println("OVERLAP");
-              possibleToPlace = false;
-              i = pieceToPlace.length+placeY;
-              j = pieceToPlace[0].length+placeX;
+      if(possibleToPlace){
+        for(int i = placeY; i < pieceToPlace.length+placeY; i++){ // loop over Y position of pentomino
+          for (int j = placeX; j < pieceToPlace[0].length+placeX; j++){ // loop over X position of pentomino
+            if(pieceToPlace[tmpY][tmpX] != 0){
+              if (field[i][j] != -1){
+                //there's overlap
+                System.out.println("OVERLAP");
+                possibleToPlace = false;
+                i = pieceToPlace.length+placeY;
+                j = pieceToPlace[0].length+placeX;
+              }
             }
-          }
 
-          tmpX++;
+            tmpX++;
+          }
+          tmpX=0;
+          tmpY++;
         }
-        tmpX=0;
-        tmpY++;
       }
 
       //TODO check if it creates an unfillable hole
