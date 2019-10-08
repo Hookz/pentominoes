@@ -1,5 +1,6 @@
 import java.util.Random;
 import java.util.Arrays;
+import java.util.Date;
 
 public class Search2{
   public static final int horizontalGridSize = 5;
@@ -19,6 +20,11 @@ public class Search2{
       int tmpID = characterToID(input[i]);
       inputIDs[i] = tmpID;
     }
+  }
+
+  public static void printTime(){
+    Date date = new Date();
+    System.out.println(date.toString());
   }
 
   // Helper function which starts the brute force algorithm
@@ -75,6 +81,12 @@ public class Search2{
   }
 
   private static boolean recursive(int[][] field, int pentID, int mutation){
+    System.out.println("Field  =\n");
+    System.out.println(Arrays.deepToString(field));
+    System.out.println("PentID = " + pentID);
+    System.out.println("Mutation = " + mutation);
+    printTime();
+
     if(fieldIsFull(field)){
       //you found the solution, show it
       //TODO why is there a try catch?
