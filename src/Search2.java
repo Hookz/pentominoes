@@ -271,7 +271,8 @@ public class Search2{
           //if pieceToPlace actually has a block in that spot, place it on the field
           if(pieceToPlace[tmpY][tmpX] != 0){
             //check if the first piece that you try to fill in is actually being filled
-            if(tmpY == placeY && tmpX == placeX){
+            //TODO somehow doesn't check if the first empty cell is filled when at the second pentomino
+            if(i == placeY && j == placeX){
               firstCellCovered = true;
             }
 
@@ -281,7 +282,7 @@ public class Search2{
 
               //TODO remove when it works
               try{
-                Thread.sleep(100);
+                Thread.sleep(0);
               } catch (InterruptedException ie){
                 //display the field
               }
@@ -297,6 +298,7 @@ public class Search2{
         tmpY++;
       }
     }
+
     return field;
   }
 
