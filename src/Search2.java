@@ -249,91 +249,90 @@ public class Search2{
     boolean possibleToPlace = true;
 
     //if at any point it becomes clear that the block can't be placed, move on
-    while(possibleToPlace){
-      //check if it doesn't go over the 'edge'
-      int widthLeft = horizontalGridSize-placeX-1;
-      int heightLeft = verticalGridSize-placeY-1;
 
-      if (widthLeft >= pieceToPlace[0].length) {
-        //it could fit
-        possibleToPlace = true;
-        System.out.println("Fits width");
-      } else {
-        possibleToPlace = false;
-      }
+    //check if it doesn't go over the 'edge'
+    int widthLeft = horizontalGridSize-placeX-1;
+    int heightLeft = verticalGridSize-placeY-1;
 
-      if (heightLeft >= pieceToPlace.length & possibleToPlace){
-        //it could fit
-        possibleToPlace = true;
-        System.out.println("Fits height");
-      } else {
-        possibleToPlace = false;
-      }
+    if (widthLeft >= pieceToPlace[0].length) {
+      //it could fit
+      possibleToPlace = true;
+      System.out.println("Fits width");
+    } else {
+      possibleToPlace = false;
+    }
 
-      //check if it overlaps
-      //pieceToPlace.length+placeX-1 = the width of the piece + the starting point
-      int tmpX = 0;
-      int tmpY = 0;
+    if (heightLeft >= pieceToPlace.length & possibleToPlace){
+      //it could fit
+      possibleToPlace = true;
+      System.out.println("Fits height");
+    } else {
+      possibleToPlace = false;
+    }
 
-      //TODO rewrite/check
-      if(possibleToPlace){
-        for(int i = placeY; i < pieceToPlace.length+placeY-1; i++){ // loop over Y position of pentomino
-          for (int j = placeX; j < pieceToPlace[0].length+placeX-1; j++){ // loop over X position of pentomino
-            if(pieceToPlace[tmpY][tmpX] != 0){
-              if (field[i][j] != -1){
-                //there's overlap
-                System.out.println("OVERLAP");
-                possibleToPlace = false;
-                i = pieceToPlace.length+placeY-1;
-                j = pieceToPlace[0].length+placeX-1;
-              }
+    //check if it overlaps
+    //pieceToPlace.length+placeX-1 = the width of the piece + the starting point
+    int tmpX = 0;
+    int tmpY = 0;
+
+    //TODO rewrite/check
+    if(possibleToPlace){
+      for(int i = placeY; i < pieceToPlace.length+placeY-1; i++){ // loop over Y position of pentomino
+        for (int j = placeX; j < pieceToPlace[0].length+placeX-1; j++){ // loop over X position of pentomino
+          if(pieceToPlace[tmpY][tmpX] != 0){
+            if (field[i][j] != -1){
+              //there's overlap
+              System.out.println("OVERLAP");
+              possibleToPlace = false;
+              i = pieceToPlace.length+placeY-1;
+              j = pieceToPlace[0].length+placeX-1;
             }
-            tmpX++;
           }
-          tmpX=0;
-          tmpY++;
+          tmpX++;
         }
+        tmpX=0;
+        tmpY++;
       }
+    }
 
-      //TODO check if it creates an unfillable hole
-      //an unfillable hole would be a hole that is smaller than 5 blocks or that can't be filled with the blocks that are left
+    //TODO check if it creates an unfillable hole
+    //an unfillable hole would be a hole that is smaller than 5 blocks or that can't be filled with the blocks that are left
 
-      //If there is a possibility to place the piece on the field, do it
-      tmpX = 0;
-      tmpY = 0;
-      boolean firstCellCovered = false;
+    //If there is a possibility to place the piece on the field, do it
+    tmpX = 0;
+    tmpY = 0;
+    boolean firstCellCovered = false;
 
-      //TODO check why this if effects the code while it already being checked by the while
-      if(possibleToPlace){
-        for(int i = placeY; i < pieceToPlace.length+placeY; i++){ // loop over Y position of pentomino
-          for (int j = placeX; j < pieceToPlace[0].length+placeX; j++){ // loop over X position of pentomino
-            //if pieceToPlace actually has a block in that spot, place it on the field
-            if(pieceToPlace[tmpY][tmpX] != 0){
-              //check if the first piece that you try to fill in is actually being filled
-              if(tmpY == placeY && tmpX == placeX){
-                firstCellCovered = true;
-              }
-
-              if(firstCellCovered){
-                field[tmpY][tmpX] = pentID;
-                System.out.println("If it fits, it sits");
-                //TODO remove when it works
-                try{
-                  Thread.sleep(100);
-                } catch (InterruptedException ie){
-                  //display the field
-                }
-              } else {
-                possibleToPlace = false;
-                i=pieceToPlace.length+placeY-1;
-                j=pieceToPlace[0].length+placeX-1;
-              }
+    //TODO check why this if effects the code while it already being checked by the while
+    if(possibleToPlace){
+      for(int i = placeY; i < pieceToPlace.length+placeY; i++){ // loop over Y position of pentomino
+        for (int j = placeX; j < pieceToPlace[0].length+placeX; j++){ // loop over X position of pentomino
+          //if pieceToPlace actually has a block in that spot, place it on the field
+          if(pieceToPlace[tmpY][tmpX] != 0){
+            //check if the first piece that you try to fill in is actually being filled
+            if(tmpY == placeY && tmpX == placeX){
+              firstCellCovered = true;
             }
-            tmpX++;
+
+            if(firstCellCovered){
+              field[tmpY][tmpX] = pentID;
+              System.out.println("If it fits, it sits " + tmpY + " " + pieceToPlace.length + " " + tmpX + " " + pieceToPlace[0].length);
+              //TODO remove when it works
+              try{
+                Thread.sleep(100);
+              } catch (InterruptedException ie){
+                //display the field
+              }
+            } else {
+              possibleToPlace = false;
+              i=pieceToPlace.length+placeY-1;
+              j=pieceToPlace[0].length+placeX-1;
+            }
           }
-          tmpX=0;
-          tmpY++;
+          tmpX++;
         }
+        tmpX=0;
+        tmpY++;
       }
     }
     return field;
