@@ -186,6 +186,8 @@ public class Search2{
           //the next block has to fill this tile
           placeX = j;
           placeY = i;
+          System.out.println("PlaceX = " + placeX);
+          System.out.println("PlaceY = " + placeY);
 
           //make the loop stop
           i=field.length-1;
@@ -232,14 +234,15 @@ public class Search2{
     int tmpX = 0;
     int tmpY = 0;
 
-    //TODO fix
     if(possibleToPlace){
       for(int i = placeY; i < pieceToPlace.length+placeY; i++){ // loop over Y position of pentomino
         for (int j = placeX; j < pieceToPlace[0].length+placeX; j++){ // loop over X position of pentomino
           System.out.println("To place: " + pieceToPlace[tmpY][tmpX]);
-          System.out.println("Field: " + field[tmpY][tmpX]);
-          if(pieceToPlace[tmpY][tmpX] != 0){
-            if(field[tmpY][tmpX] != -1){
+          System.out.println("tmpY: " + tmpY + " tmpX: " + tmpX);
+          System.out.println("Field: " + field[i][j]);
+          System.out.println("i: " + i + " j: " + j);
+          if(field[i][j] != -1){
+            if(pieceToPlace[tmpY][tmpX] != 0){
               //there's overlap
               System.out.println("OVERLAP");
               possibleToPlace = false;
@@ -273,9 +276,8 @@ public class Search2{
             }
 
             if(firstCellCovered){
-              System.out.println("If it fits, it sits " + field[tmpY][tmpX] + " " + pieceToPlace[tmpY][tmpX]);
-              field[tmpY][tmpX] = pentID;
-              //TODO If this piece fits, don't use it again
+              System.out.println("If it fits, it sits " + field[i][j] + " " + pieceToPlace[tmpY][tmpX]);
+              field[i][j] = pentID;
 
               //TODO remove when it works
               try{
