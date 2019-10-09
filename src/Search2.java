@@ -10,7 +10,6 @@ public class Search2{
   public static final char[] input = {'I', 'Z', 'T', 'U', 'V', 'W', 'Y', 'L', 'P', 'N', 'F'};
 
   // Static UI class to display the board
-  //TODO check what 50 (size) does and if this really is a static value
   public static UI ui = new UI(horizontalGridSize, verticalGridSize, 50);
 
   //get available pentominoes and store them in a static final
@@ -44,11 +43,6 @@ public class Search2{
       	field[i][j] = -1;
       }
     }
-
-    //TODO why use random?
-    //Random random = new Random();
-    //int randomIndex = random.nextInt(12);
-    //recursive(field, inputIDs[randomIndex], 0);
 
     //Start brute force
     //bruteForce(field);
@@ -150,6 +144,7 @@ public class Search2{
 
   private static boolean recursive(int[][] field, int pentID, int mutation){
     //TODO fix that the starting pentomino isn't varied (it always is the first given value, which doesn't always produce the right result)
+    //TODO if an option failed, remove the piece that caused the issue.
     System.out.println("\n\nField:");
     System.out.println(Arrays.deepToString(field));
     System.out.println("PentID = " + pentID);
@@ -181,7 +176,6 @@ public class Search2{
       }
 
       //if not all mutations have been tried, try the next one
-      //TODO only use the given pentominoes
       //TODO Note that it can never start with: X, Y, L or F since these all create an infillable cell. Some rotations won't work either (like with W and F)
       if(mutation < PentominoDatabase.data[pentID].length-1){
         System.out.println("Update pentomino mutation");
@@ -262,7 +256,7 @@ public class Search2{
       possibleToPlace = false;
     }
 
-    if (heightLeft >= pieceToPlace.length & possibleToPlace){
+    if (heightLeft >= pieceToPlace.length && possibleToPlace){
       //it could fit
       possibleToPlace = true;
       System.out.println("Fits height");
@@ -276,11 +270,12 @@ public class Search2{
     int tmpY = 0;
 
     //TODO rewrite/check
+    //TODO fix
     if(possibleToPlace){
-      for(int i = placeY; i < pieceToPlace.length+placeY-1; i++){ // loop over Y position of pentomino
-        for (int j = placeX; j < pieceToPlace[0].length+placeX-1; j++){ // loop over X position of pentomino
+      for(int i = placeY; i < pieceToPlace.length+placeY; i++){ // loop over Y position of pentomino
+        for (int j = placeX; j < pieceToPlace[0].length+placeX; j++){ // loop over X position of pentomino
           if(pieceToPlace[tmpY][tmpX] != 0){
-            if (field[i][j] != -1){
+            if(field[i][j] != -1){
               //there's overlap
               System.out.println("OVERLAP");
               possibleToPlace = false;
@@ -303,7 +298,6 @@ public class Search2{
     tmpY = 0;
     boolean firstCellCovered = false;
 
-    //TODO check why this if effects the code while it already being checked by the while
     if(possibleToPlace){
       for(int i = placeY; i < pieceToPlace.length+placeY; i++){ // loop over Y position of pentomino
         for (int j = placeX; j < pieceToPlace[0].length+placeX; j++){ // loop over X position of pentomino
@@ -315,8 +309,10 @@ public class Search2{
             }
 
             if(firstCellCovered){
+              System.out.println("If it fits, it sits " + field[tmpY][tmpX] + " " + pieceToPlace[tmpY][tmpX]);
               field[tmpY][tmpX] = pentID;
-              System.out.println("If it fits, it sits " + tmpY + " " + pieceToPlace.length + " " + tmpX + " " + pieceToPlace[0].length);
+              //TODO If this piece fits, don't use it again
+
               //TODO remove when it works
               try{
                 Thread.sleep(100);
