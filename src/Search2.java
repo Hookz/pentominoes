@@ -272,8 +272,12 @@ public class Search2{
 
       //TODO rewrite/check
       if(possibleToPlace){
-        for(int i = placeY; i < pieceToPlace.length+placeY; i++){ // loop over Y position of pentomino
-          for (int j = placeX; j < pieceToPlace[0].length+placeX; j++){ // loop over X position of pentomino
+        for(int i = placeY; i < pieceToPlace.length+placeY-1; i++){ // loop over Y position of pentomino
+          System.out.println("pieceToPlace.length+placeY");
+          System.out.println(pieceToPlace.length+placeY);
+          System.out.println("placeY");
+          System.out.println(placeY);
+          for (int j = placeX; j < pieceToPlace[0].length+placeX-1; j++){ // loop over X position of pentomino
             if(pieceToPlace[tmpY][tmpX] != 0){
               if (field[i][j] != -1){
                 //there's overlap
