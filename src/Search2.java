@@ -185,7 +185,7 @@ public class Search2{
         System.out.println("Update pentomino ID");
         System.out.println(pentID);
         //if all mutations have been tried, try the next pentomino
-        recursive(addPentomino(field, pentID, mutation), ++pentID, mutation);
+        recursive(addPentomino(field, pentID, mutation), ++pentID, 0);
       }
     }
 
