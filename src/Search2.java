@@ -85,7 +85,6 @@ public class Search2{
 
   //TODO finish recursion 2
   private static void recursive(int[][] field, int[] givenPentominoes, ArrayList<Integer> usedPentominoes, int currentID, int currentRotation){
-    //TODO fix that the starting pentomino isn't varied (it always is the first given value, which doesn't always produce the right result)
     System.out.println("givenPentominoes: " + Arrays.toString(givenPentominoes));
     System.out.println("usedPentominoes: " + Arrays.toString(usedPentominoes.toArray()));
     System.out.println("\n\nField:");
@@ -93,6 +92,9 @@ public class Search2{
     System.out.println("PentID = " + currentID);
     System.out.println("Mutation = " + currentRotation);
     printTime();
+
+    System.out.println(usedPentominoes.size() + " " + givenPentominoes.length);
+    System.out.println(currentID);
 
     if(fieldIsFull(field)){
       //you found the solution, show it
@@ -106,13 +108,13 @@ public class Search2{
         System.out.println("Solution found");
       }
 
-    } else if (usedPentominoes.size()==givenPentominoes.length){
+    } else if (usedPentominoes.size()==givenPentominoes.length && currentRotation == PentominoDatabase.data[currentID].length){
       //check if there are still pentominoes left
       System.out.println("There's no solution");
-
     } else {
+      System.out.println("YEE");
       //if there isn't a solution
-      try{
+      try {
         Thread.sleep(100);
         ui.setState(field);
       } catch (InterruptedException ie){
@@ -120,37 +122,40 @@ public class Search2{
         ui.setState(field);
       }
 
-      //if not all mutations have been tried, try the next one
-      if(usedPentominoes.contains(currentID)){
+      //TODO check why this if is needed in the first place
+      if(currentID < givenPentominoes[givenPentominoes.length-1]){
+        //if this pentomino has already been used, skip it now (but also check if there's a next one)
+        if(usedPentominoes.contains(currentID)){
+          recursive(field, givenPentominoes, usedPentominoes, ++currentID, 0);
+        }
+
+        //if the block is 'chosen' with this rotation
+        //cannot be done in the recursive call itself, since add returns a boolean
+        usedPentominoes.add(currentID);
+        recursive(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes, ++currentID, 0);
+
+
+        //if this rotation doesn't work
+        //go back one step by removing the last used pentomino from the field
+        int lastUsedPentomino = usedPentominoes.get(usedPentominoes.size()-1);
+        for(int i=0; i<field.length; i++){
+          for(int j=0; j<field[0].length; j++){
+            if(field[i][j] == lastUsedPentomino){
+              field[i][j] = -1;
+            }
+          }
+        }
+
+        if(currentRotation < PentominoDatabase.data[currentID].length-1){
+          //remove last Pentomino from the usedPentominoes list
+          usedPentominoes.remove(usedPentominoes.size()-1);
+
+          recursive(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes, currentID, ++currentRotation);
+        }
+
         //if the block isn't chosen at all
         recursive(field, givenPentominoes, usedPentominoes, ++currentID, 0);
       }
-
-      //if the block is 'chosen' with this rotation
-      //cannot be done in the recursive call itself, since add returns a boolean
-      usedPentominoes.add(currentID);
-      recursive(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes, ++currentID, 0);
-
-      //if this rotation doesn't work
-      //go back one step by removing the last used pentomino from the field
-      int lastUsedPentomino = usedPentominoes.get(usedPentominoes.size()-1);
-      for(int i=0; i<field.length; i++){
-        for(int j=0; j<field[0].length; j++){
-          if(field[i][j] == lastUsedPentomino){
-            field[i][j] = -1;
-          }
-        }
-      }
-
-      //remove last Pentomino from the usedPentominoes list
-      usedPentominoes.remove(usedPentominoes.size()-1);
-
-      if(currentRotation < PentominoDatabase.data[currentID].length-1){
-        recursive(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes, currentID, ++currentRotation);
-      }
-
-      //if the block isn't chosen at all
-      recursive(field, givenPentominoes, usedPentominoes, ++currentID, 0);
     }
   }
 
