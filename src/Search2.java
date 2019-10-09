@@ -34,10 +34,8 @@ public class Search2{
     // Initialize an empty board
     int[][] field = new int[horizontalGridSize][verticalGridSize];
 
-    for(int i = 0; i < field.length; i++)
-    {
-      for(int j = 0; j < field[i].length; j++)
-      {
+    for(int i = 0; i < field.length; i++){
+      for(int j = 0; j < field[i].length; j++){
         // -1 in the state matrix corresponds to empty square
         // Any positive number identifies the ID of the pentomino
       	field[i][j] = -1;
@@ -46,8 +44,8 @@ public class Search2{
 
     //Start brute force
     //bruteForce(field);
-    //TODO test recursion
-    //recursive(field, pentID, mutation)
+
+    //recursion
     ArrayList<Integer> emptyArrayList = new ArrayList<>();
     System.out.println(Arrays.toString(inputIDs));
     recursive(field, inputIDs, emptyArrayList, inputIDs[0], 0);
@@ -112,7 +110,6 @@ public class Search2{
       //check if there are still pentominoes left
       System.out.println("There's no solution");
     } else {
-      System.out.println("YEE");
       //if there isn't a solution
       try {
         Thread.sleep(100);
@@ -235,13 +232,14 @@ public class Search2{
     int tmpX = 0;
     int tmpY = 0;
 
-    //TODO rewrite/check
     //TODO fix
     if(possibleToPlace){
       for(int i = placeY; i < pieceToPlace.length+placeY; i++){ // loop over Y position of pentomino
         for (int j = placeX; j < pieceToPlace[0].length+placeX; j++){ // loop over X position of pentomino
+          System.out.println("To place: " + pieceToPlace[tmpY][tmpX]);
+          System.out.println("Field: " + field[tmpY][tmpX]);
           if(pieceToPlace[tmpY][tmpX] != 0){
-            if(field[i][j] != -1){
+            if(field[tmpY][tmpX] != -1){
               //there's overlap
               System.out.println("OVERLAP");
               possibleToPlace = false;
