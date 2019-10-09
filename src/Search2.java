@@ -219,7 +219,6 @@ public class Search2{
       //go trough every row
       for(int j=0; j<field[i].length; j++){
         //go trough every item in the row
-        System.out.println("Field " + field[i][j]);
         if(field[i][j] == -1){
           //the next block has to fill this tile
           placeX = j;
@@ -249,7 +248,7 @@ public class Search2{
       int widthLeft = horizontalGridSize-placeX-1;
       int heightLeft = verticalGridSize-placeY-1;
 
-      if (widthLeft >= pieceToPlace.length) {
+      if (widthLeft >= pieceToPlace[0].length) {
         //it could fit
         possibleToPlace = true;
         System.out.println("Fits width");
@@ -257,7 +256,7 @@ public class Search2{
         possibleToPlace = false;
       }
 
-      if (heightLeft >= pieceToPlace[0].length & possibleToPlace){
+      if (heightLeft >= pieceToPlace.length & possibleToPlace){
         //it could fit
         possibleToPlace = true;
         System.out.println("Fits height");
@@ -273,10 +272,6 @@ public class Search2{
       //TODO rewrite/check
       if(possibleToPlace){
         for(int i = placeY; i < pieceToPlace.length+placeY-1; i++){ // loop over Y position of pentomino
-          System.out.println("pieceToPlace.length+placeY");
-          System.out.println(pieceToPlace.length+placeY);
-          System.out.println("placeY");
-          System.out.println(placeY);
           for (int j = placeX; j < pieceToPlace[0].length+placeX-1; j++){ // loop over X position of pentomino
             if(pieceToPlace[tmpY][tmpX] != 0){
               if (field[i][j] != -1){
@@ -316,6 +311,12 @@ public class Search2{
               if(firstCellCovered){
                 field[tmpY][tmpX] = pentID;
                 System.out.println("If it fits, it sits");
+                //TODO remove
+                try{
+                  Thread.sleep(100);
+                } catch (InterruptedException ie){
+                  //display the field
+                }
               } else {
                 possibleToPlace = false;
                 i=pieceToPlace.length+placeY-1;
