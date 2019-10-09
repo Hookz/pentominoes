@@ -131,7 +131,7 @@ public class Search2{
         System.out.println("Update pentomino ID");
         System.out.println(pentID);
         //if all mutations have been tried, try the next pentomino
-        recursive(addPentomino(field, pentID, mutation), ++pentID, mutation);
+        recursive(addPentomino(field, pentID, mutation), ++pentID, 0);
       }
     }
 
@@ -222,8 +222,8 @@ public class Search2{
         System.out.println("Field " + field[i][j]);
         if(field[i][j] == -1){
           //the next block has to fill this tile
-          placeX = i;
-          placeY = j;
+          placeX = j;
+          placeY = i;
 
           //make the loop stop
           i=field.length-1;
