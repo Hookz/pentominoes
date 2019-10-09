@@ -1,12 +1,13 @@
 import java.util.Random;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.ArrayList;
 
 public class Search2{
   public static final int horizontalGridSize = 5;
   public static final int verticalGridSize = 6;
 
-  public static final char[] input = {'W', 'I', 'Z', 'T', 'U', 'V', 'W', 'Y', 'L', 'P', 'N', 'F'};
+  public static final char[] input = {'I', 'Z', 'T', 'U', 'V', 'W', 'Y', 'L', 'P', 'N', 'F'};
 
   // Static UI class to display the board
   //TODO check what 50 (size) does and if this really is a static value
@@ -27,6 +28,9 @@ public class Search2{
       int tmpID = characterToID(input[i]);
       inputIDs[i] = tmpID;
     }
+
+    //sort the array
+    Arrays.sort(inputIDs);
 
     // Initialize an empty board
     int[][] field = new int[horizontalGridSize][verticalGridSize];
@@ -84,19 +88,18 @@ public class Search2{
   	return pentID;
   }
 
+  //TODO finish this function and check if there is no better way to save remaining pentominoes
   //TODO rewrite to use int[][] PentominoesLeft with [pentID[mutation]]
-  /*
-  private static boolean recursive2(int[][] field, int[][] pentominoesLeft){
+  private static void recursive2(int[][] field, int[][] pentominoes, int currentID, int currentRotation, ArrayList<Integer> usedPentominoes){
     //TODO fix that the starting pentomino isn't varied (it always is the first given value, which doesn't always produce the right result)
     System.out.println("\n\nField:");
     System.out.println(Arrays.deepToString(field));
-    System.out.println("PentID = " + pentID);
-    System.out.println("Mutation = " + mutation);
+    System.out.println("PentID = " + currentID);
+    System.out.println("Mutation = " + currentRotation);
     printTime();
 
     if(fieldIsFull(field)){
       //you found the solution, show it
-      //TODO why is there a try catch?
       try{
         Thread.sleep(100);
         ui.setState(field);
@@ -107,7 +110,10 @@ public class Search2{
         System.out.println("Solution found");
       }
 
-      return true;
+    } else if (usedPentominoes.size()==pentominoes.length){
+      //check if there are still pentominoes left
+      System.out.println("There's no solution");
+
     } else {
       //if there isn't a solution
       try{
@@ -115,29 +121,30 @@ public class Search2{
         ui.setState(field);
       } catch (InterruptedException ie){
         //display the field
-        Thread.sleep(100);
         ui.setState(field);
       }
 
       //if not all mutations have been tried, try the next one
-      //TODO [on it] only use the given pentominoes
       //TODO Note that it can never start with: X, Y, L or F since these all create an infillable cell. Some rotations won't work either (like with W and F)
-      System.out.println("Mutations available for this piece = " + PentominoDatabase.data[pentID].length);
-      if(mutation < PentominoDatabase.data[pentID].length-1){
-        System.out.println("Update pentomino mutation");
-        System.out.println(Arrays.deepToString(PentominoDatabase.data[pentID]));
-        recursive(addPentomino(field, pentID, mutation), pentID, ++mutation);
-      } else if(pentID < 11){
-        System.out.println("Update pentomino ID");
-        System.out.println(pentID);
-        //if all mutations have been tried, try the next pentomino
-        recursive(addPentomino(field, pentID, mutation), ++pentID, 0);
-      }
-    }
 
-    System.out.println("There's no solution");
-    return false;
-  } */
+      if(usedPentominoes.contains(currentID)){
+        //if the block isn't chosen at all
+        //recursive2(field, pentominoes, ++currentID, 0, usedPentominoes);
+      }
+
+      //if the block is 'chosen' with this rotation
+      //recursive2(addPentomino(field, currentID, currentRotation), pentominoes, currentID+1, 0, usedPentominoes.add(currentID));
+
+      //if this rotation doesn't work
+      //recursive2(addPentomino(field, currentID, currentRotation), pentominoes, currentID, ++currentRotation, usedPentominoes.add(currentID));
+
+      //if the block isn't chosen at all
+      //recursive2(field, pentominoes, ++currentID, 0, usedPentominoes);
+
+
+
+    }
+  }
 
 
 
@@ -176,7 +183,6 @@ public class Search2{
       //if not all mutations have been tried, try the next one
       //TODO only use the given pentominoes
       //TODO Note that it can never start with: X, Y, L or F since these all create an infillable cell. Some rotations won't work either (like with W and F)
-      System.out.println("Mutations available for this piece = " + PentominoDatabase.data[pentID].length);
       if(mutation < PentominoDatabase.data[pentID].length-1){
         System.out.println("Update pentomino mutation");
         System.out.println(Arrays.deepToString(PentominoDatabase.data[pentID]));
@@ -282,7 +288,6 @@ public class Search2{
                 j = pieceToPlace[0].length+placeX-1;
               }
             }
-
             tmpX++;
           }
           tmpX=0;
@@ -308,10 +313,11 @@ public class Search2{
               if(tmpY == placeY && tmpX == placeX){
                 firstCellCovered = true;
               }
+
               if(firstCellCovered){
                 field[tmpY][tmpX] = pentID;
                 System.out.println("If it fits, it sits");
-                //TODO remove
+                //TODO remove when it works
                 try{
                   Thread.sleep(100);
                 } catch (InterruptedException ie){
@@ -322,7 +328,6 @@ public class Search2{
                 i=pieceToPlace.length+placeY-1;
                 j=pieceToPlace[0].length+placeX-1;
               }
-
             }
             tmpX++;
           }
@@ -330,9 +335,7 @@ public class Search2{
           tmpY++;
         }
       }
-
     }
-
     return field;
   }
 
@@ -369,7 +372,7 @@ public class Search2{
   			} else {
   				//there are multiple possibilities where to place the piece without leaving the field
   				x = random.nextInt(horizontalGridSize-pieceToPlace.length+1);
-  			}
+        }
 
   			if (verticalGridSize < pieceToPlace[0].length) {
   				//this particular rotation of the piece is too high for the field
