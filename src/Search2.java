@@ -48,8 +48,9 @@ public class Search2{
     //bruteForce(field);
     //TODO test recursion
     //recursive(field, pentID, mutation)
+    ArrayList<Integer> emptyArrayList = new ArrayList<>();
     System.out.println(Arrays.toString(inputIDs));
-    recursive(field, inputIDs[0], 0);
+    recursive(field, inputIDs, emptyArrayList, inputIDs[0], 0);
   }
 
   private static int characterToID(char character) {
@@ -83,10 +84,10 @@ public class Search2{
   }
 
   //TODO finish recursion 2
-  private static void recursive2(int[][] field, int[] givenPentominoes, ArrayList<Integer> usedPentominoes, int currentID, int currentRotation){
+  private static void recursive(int[][] field, int[] givenPentominoes, ArrayList<Integer> usedPentominoes, int currentID, int currentRotation){
     //TODO fix that the starting pentomino isn't varied (it always is the first given value, which doesn't always produce the right result)
     System.out.println("givenPentominoes: " + Arrays.toString(givenPentominoes));
-    System.out.println("usedPentominoes: " + Arrays.toString(givenPentominoes.toArray()));
+    System.out.println("usedPentominoes: " + Arrays.toString(usedPentominoes.toArray()));
     System.out.println("\n\nField:");
     System.out.println(Arrays.deepToString(field));
     System.out.println("PentID = " + currentID);
@@ -105,7 +106,7 @@ public class Search2{
         System.out.println("Solution found");
       }
 
-    } else if (usedPentominoes.size()==pentominoes.length){
+    } else if (usedPentominoes.size()==givenPentominoes.length){
       //check if there are still pentominoes left
       System.out.println("There's no solution");
 
@@ -122,11 +123,13 @@ public class Search2{
       //if not all mutations have been tried, try the next one
       if(usedPentominoes.contains(currentID)){
         //if the block isn't chosen at all
-        recursive2(field, givenPentominoes, usedPentominoes, ++currentID, 0);
+        recursive(field, givenPentominoes, usedPentominoes, ++currentID, 0);
       }
 
       //if the block is 'chosen' with this rotation
-      recursive2(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes.add(currentID), ++currentID, 0);
+      //cannot be done in the recursive call itself, since add returns a boolean
+      usedPentominoes.add(currentID);
+      recursive(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes, ++currentID, 0);
 
       //if this rotation doesn't work
       //go back one step by removing the last used pentomino from the field
@@ -139,70 +142,16 @@ public class Search2{
         }
       }
 
-      //TODO remove last Pentomino from the usedPentominoes list
+      //remove last Pentomino from the usedPentominoes list
       usedPentominoes.remove(usedPentominoes.size()-1);
 
-      recursive2(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes, currentID, ++currentRotation);
+      if(currentRotation < PentominoDatabase.data[currentID].length-1){
+        recursive(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes, currentID, ++currentRotation);
+      }
 
       //if the block isn't chosen at all
-      recursive2(field, givenPentominoes, usedPentominoes, ++currentID, 0);
-
-
-
+      recursive(field, givenPentominoes, usedPentominoes, ++currentID, 0);
     }
-  }
-
-
-
-  private static boolean recursive(int[][] field, int pentID, int mutation){
-    //TODO fix that the starting pentomino isn't varied (it always is the first given value, which doesn't always produce the right result)
-    //TODO if an option failed, remove the piece that caused the issue.
-    System.out.println("\n\nField:");
-    System.out.println(Arrays.deepToString(field));
-    System.out.println("PentID = " + pentID);
-    System.out.println("Mutation = " + mutation);
-    printTime();
-
-    if(fieldIsFull(field)){
-      //you found the solution, show it
-      //TODO why is there a try catch?
-      try{
-        Thread.sleep(100);
-        ui.setState(field);
-        System.out.println("Solution found");
-      } catch (InterruptedException ie){
-        //display the field
-        ui.setState(field);
-        System.out.println("Solution found");
-      }
-
-      return true;
-    } else {
-      //if there isn't a solution
-      try{
-        Thread.sleep(100);
-        ui.setState(field);
-      } catch (InterruptedException ie){
-        //display the field
-        ui.setState(field);
-      }
-
-      //if not all mutations have been tried, try the next one
-      //TODO Note that it can never start with: X, Y, L or F since these all create an infillable cell. Some rotations won't work either (like with W and F)
-      if(mutation < PentominoDatabase.data[pentID].length-1){
-        System.out.println("Update pentomino mutation");
-        System.out.println(Arrays.deepToString(PentominoDatabase.data[pentID]));
-        recursive(addPentomino(field, pentID, mutation), pentID, ++mutation);
-      } else if(pentID < 11){
-        System.out.println("Update pentomino ID");
-        System.out.println(pentID);
-        //if all mutations have been tried, try the next pentomino
-        recursive(addPentomino(field, pentID, mutation), ++pentID, 0);
-      }
-    }
-
-    System.out.println("There's no solution");
-    return false;
   }
 
   public static boolean fieldIsFull(int[][] field){
