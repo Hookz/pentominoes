@@ -210,15 +210,18 @@ public class Search2{
     //if at any point it becomes clear that the block can't be placed, move on
 
     //check if it doesn't go over the 'edge'
-    int widthLeft = horizontalGridSize-placeX-1;
-    int heightLeft = verticalGridSize-placeY-1;
+    int widthLeft = horizontalGridSize-placeX+1;
+    int heightLeft = verticalGridSize-placeY+1;
 
+    System.out.println("WidthLeft = " + widthLeft);
+    System.out.println("pieceToPlace[0].length = " + pieceToPlace[0].length);
     if (widthLeft >= pieceToPlace[0].length) {
       //it could fit
       possibleToPlace = true;
       System.out.println("Fits width");
     } else {
       possibleToPlace = false;
+      System.out.println("Does NOT fit width");
     }
 
     if (heightLeft >= pieceToPlace.length && possibleToPlace){
@@ -227,6 +230,7 @@ public class Search2{
       System.out.println("Fits height");
     } else {
       possibleToPlace = false;
+      System.out.println("Does NOT fit height");
     }
 
     //check if it overlaps
