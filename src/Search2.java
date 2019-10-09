@@ -41,14 +41,17 @@ public class Search2{
       }
     }
 
-    Random random = new Random();
-    int randomIndex = random.nextInt(12);
+    //TODO why use random?
+    //Random random = new Random();
+    //int randomIndex = random.nextInt(12);
+    //recursive(field, inputIDs[randomIndex], 0);
+
     //Start brute force
     //bruteForce(field);
     //TODO test recursion
     //recursive(field, pentID, mutation)
     System.out.println(Arrays.toString(inputIDs));
-    recursive(field, inputIDs[randomIndex], 0);
+    recursive(field, inputIDs[0], 0);
   }
 
   private static int characterToID(char character) {
@@ -82,6 +85,62 @@ public class Search2{
   }
 
   //TODO rewrite to use int[][] PentominoesLeft with [pentID[mutation]]
+  /*
+  private static boolean recursive2(int[][] field, int[][] pentominoesLeft){
+    //TODO fix that the starting pentomino isn't varied (it always is the first given value, which doesn't always produce the right result)
+    System.out.println("\n\nField:");
+    System.out.println(Arrays.deepToString(field));
+    System.out.println("PentID = " + pentID);
+    System.out.println("Mutation = " + mutation);
+    printTime();
+
+    if(fieldIsFull(field)){
+      //you found the solution, show it
+      //TODO why is there a try catch?
+      try{
+        Thread.sleep(100);
+        ui.setState(field);
+        System.out.println("Solution found");
+      } catch (InterruptedException ie){
+        //display the field
+        ui.setState(field);
+        System.out.println("Solution found");
+      }
+
+      return true;
+    } else {
+      //if there isn't a solution
+      try{
+        Thread.sleep(100);
+        ui.setState(field);
+      } catch (InterruptedException ie){
+        //display the field
+        Thread.sleep(100);
+        ui.setState(field);
+      }
+
+      //if not all mutations have been tried, try the next one
+      //TODO [on it] only use the given pentominoes
+      //TODO Note that it can never start with: X, Y, L or F since these all create an infillable cell. Some rotations won't work either (like with W and F)
+      System.out.println("Mutations available for this piece = " + PentominoDatabase.data[pentID].length);
+      if(mutation < PentominoDatabase.data[pentID].length-1){
+        System.out.println("Update pentomino mutation");
+        System.out.println(Arrays.deepToString(PentominoDatabase.data[pentID]));
+        recursive(addPentomino(field, pentID, mutation), pentID, ++mutation);
+      } else if(pentID < 11){
+        System.out.println("Update pentomino ID");
+        System.out.println(pentID);
+        //if all mutations have been tried, try the next pentomino
+        recursive(addPentomino(field, pentID, mutation), ++pentID, mutation);
+      }
+    }
+
+    System.out.println("There's no solution");
+    return false;
+  } */
+
+
+
   private static boolean recursive(int[][] field, int pentID, int mutation){
     //TODO fix that the starting pentomino isn't varied (it always is the first given value, which doesn't always produce the right result)
     System.out.println("\n\nField:");
@@ -106,7 +165,6 @@ public class Search2{
       return true;
     } else {
       //if there isn't a solution
-      //TODO remove after debugging
       try{
         Thread.sleep(100);
         ui.setState(field);
@@ -239,6 +297,7 @@ public class Search2{
       //If there is a possibility to place the piece on the field, do it
       tmpX = 0;
       tmpY = 0;
+      boolean firstCellCovered = false;
 
       //TODO check why this if effects the code while it already being checked by the while
       if(possibleToPlace){
@@ -246,8 +305,19 @@ public class Search2{
           for (int j = placeX; j < pieceToPlace[0].length+placeX; j++){ // loop over X position of pentomino
             //if pieceToPlace actually has a block in that spot, place it on the field
             if(pieceToPlace[tmpY][tmpX] != 0){
-              field[tmpY][tmpX] = pentID;
-              System.out.println("If it fits, it sits");
+              //check if the first piece that you try to fill in is actually being filled
+              if(tmpY == placeY && tmpX == placeX){
+                firstCellCovered = true;
+              }
+              if(firstCellCovered){
+                field[tmpY][tmpX] = pentID;
+                System.out.println("If it fits, it sits");
+              } else {
+                possibleToPlace = false;
+                i=pieceToPlace.length+placeY-1;
+                j=pieceToPlace[0].length+placeX-1;
+              }
+
             }
             tmpX++;
           }
