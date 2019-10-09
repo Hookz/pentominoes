@@ -82,10 +82,11 @@ public class Search2{
   	return pentID;
   }
 
-  //TODO finish this function and check if there is no better way to save remaining pentominoes
-  //TODO rewrite to use int[][] PentominoesLeft with [pentID[mutation]]
-  private static void recursive2(int[][] field, int[][] pentominoes, int currentID, int currentRotation, ArrayList<Integer> usedPentominoes){
+  //TODO finish recursion 2
+  private static void recursive2(int[][] field, int[] givenPentominoes, ArrayList<Integer> usedPentominoes, int currentID, int currentRotation){
     //TODO fix that the starting pentomino isn't varied (it always is the first given value, which doesn't always produce the right result)
+    System.out.println("givenPentominoes: " + Arrays.toString(givenPentominoes));
+    System.out.println("usedPentominoes: " + Arrays.toString(givenPentominoes.toArray()));
     System.out.println("\n\nField:");
     System.out.println(Arrays.deepToString(field));
     System.out.println("PentID = " + currentID);
@@ -119,21 +120,32 @@ public class Search2{
       }
 
       //if not all mutations have been tried, try the next one
-      //TODO Note that it can never start with: X, Y, L or F since these all create an infillable cell. Some rotations won't work either (like with W and F)
-
       if(usedPentominoes.contains(currentID)){
         //if the block isn't chosen at all
-        //recursive2(field, pentominoes, ++currentID, 0, usedPentominoes);
+        recursive2(field, givenPentominoes, usedPentominoes, ++currentID, 0);
       }
 
       //if the block is 'chosen' with this rotation
-      //recursive2(addPentomino(field, currentID, currentRotation), pentominoes, currentID+1, 0, usedPentominoes.add(currentID));
+      recursive2(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes.add(currentID), ++currentID, 0);
 
       //if this rotation doesn't work
-      //recursive2(addPentomino(field, currentID, currentRotation), pentominoes, currentID, ++currentRotation, usedPentominoes.add(currentID));
+      //go back one step by removing the last used pentomino from the field
+      int lastUsedPentomino = usedPentominoes.get(usedPentominoes.size()-1);
+      for(int i=0; i<field.length; i++){
+        for(int j=0; j<field[0].length; j++){
+          if(field[i][j] == lastUsedPentomino){
+            field[i][j] = -1;
+          }
+        }
+      }
+
+      //TODO remove last Pentomino from the usedPentominoes list
+      usedPentominoes.remove(usedPentominoes.size()-1);
+
+      recursive2(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes, currentID, ++currentRotation);
 
       //if the block isn't chosen at all
-      //recursive2(field, pentominoes, ++currentID, 0, usedPentominoes);
+      recursive2(field, givenPentominoes, usedPentominoes, ++currentID, 0);
 
 
 
