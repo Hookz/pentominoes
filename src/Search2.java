@@ -81,6 +81,7 @@ public class Search2{
   	return pentID;
   }
 
+  //TODO rewrite to use int[][] PentominoesLeft with [pentID[mutation]]
   private static boolean recursive(int[][] field, int pentID, int mutation){
     //TODO fix that the starting pentomino isn't varied (it always is the first given value, which doesn't always produce the right result)
     System.out.println("\n\nField:");
@@ -116,7 +117,7 @@ public class Search2{
 
       //if not all mutations have been tried, try the next one
       //TODO only use the given pentominoes
-      //TODO Note that it can never start with: X, Y, L or F since these all create an infillable cell. Some rotations of others won't work either (like with W)
+      //TODO Note that it can never start with: X, Y, L or F since these all create an infillable cell. Some rotations won't work either (like with W and F)
       System.out.println("Mutations available for this piece = " + PentominoDatabase.data[pentID].length);
       if(mutation < PentominoDatabase.data[pentID].length-1){
         System.out.println("Update pentomino mutation");
@@ -220,8 +221,8 @@ public class Search2{
                 //there's overlap
                 System.out.println("OVERLAP");
                 possibleToPlace = false;
-                i = pieceToPlace.length+placeY;
-                j = pieceToPlace[0].length+placeX;
+                i = pieceToPlace.length+placeY-1;
+                j = pieceToPlace[0].length+placeX-1;
               }
             }
 
