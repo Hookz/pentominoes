@@ -87,8 +87,8 @@ public class Search2{
     System.out.println("usedPentominoes: " + Arrays.toString(usedPentominoes.toArray()));
     System.out.println("\n\nField:");
     System.out.println(Arrays.deepToString(field));
-    System.out.println("PentID = " + currentID);
-    System.out.println("Mutation = " + currentRotation);
+    System.out.println("currentID = " + currentID);
+    System.out.println("currentRotation = " + currentRotation);
     printTime();
 
     System.out.println("givenPentominoes[givenPentominoes.length-1] = " + givenPentominoes[givenPentominoes.length-1]);
@@ -111,6 +111,7 @@ public class Search2{
       }
 
       //prevents it from crashing by trying a pentomino that doesn't exist
+      //TODO if this isn't the case, than the last element has been reached, but it has not yet run out of elements to try nor has it completed the field
       if(currentID < givenPentominoes[givenPentominoes.length-1]){
         //if this pentomino has already been used, skip it now (but also check if there's a next one)
         if(usedPentominoes.contains(currentID)){
@@ -143,8 +144,6 @@ public class Search2{
 
         //if not all rotations have been tried, try them
         //TODO fix this part (index of currentID somehow goes up to 12 even tough the max should be 11)
-        System.out.println("givenPentominoes[givenPentominoes.length-1] = " + givenPentominoes[givenPentominoes.length-1]);
-        
         if(currentRotation < PentominoDatabase.data[currentID].length-1){
           currentRotation++;
           recursive(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes, currentID, currentRotation);
