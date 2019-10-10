@@ -91,14 +91,14 @@ public class Search2{
     System.out.println("Mutation = " + currentRotation);
     printTime();
 
+    System.out.println("givenPentominoes[givenPentominoes.length-1] = " + givenPentominoes[givenPentominoes.length-1]);
+
     if(fieldIsFull(field)){
       //you found the solution, show it
-        ui.setState(field);
-        System.out.println("Solution found");
-        return;
-      }
-
-    else if (usedPentominoes.size()==givenPentominoes.length){
+      ui.setState(field);
+      System.out.println("Solution found");
+      return;
+    } else if (usedPentominoes.size()==givenPentominoes.length){
       //check if there are still pentominoes or rotations left
       System.out.println("There's no solution");
     } else {
@@ -142,7 +142,9 @@ public class Search2{
         }
 
         //if not all rotations have been tried, try them
-        //TODO check this part
+        //TODO fix this part (index of currentID somehow goes up to 12 even tough the max should be 11)
+        System.out.println("givenPentominoes[givenPentominoes.length-1] = " + givenPentominoes[givenPentominoes.length-1]);
+        
         if(currentRotation < PentominoDatabase.data[currentID].length-1){
           currentRotation++;
           recursive(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes, currentID, currentRotation);
