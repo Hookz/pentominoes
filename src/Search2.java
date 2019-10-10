@@ -81,7 +81,7 @@ public class Search2{
   	return pentID;
   }
 
-  //TODO possible problems: It runs trough a brench mutliple times, it won't try 'earlier' blocks once it has used one with a higher ID.
+  //TODO possible problems: It runs trough a brench multiple times, it won't try 'earlier' blocks once it has used one with a higher ID.
   private static void recursive(int[][] field, int[] givenPentominoes, ArrayList<Integer> usedPentominoes, int currentID, int currentRotation){
     System.out.println("givenPentominoes: " + Arrays.toString(givenPentominoes));
     System.out.println("usedPentominoes: " + Arrays.toString(usedPentominoes.toArray()));
