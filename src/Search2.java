@@ -93,50 +93,36 @@ public class Search2{
 
     if(fieldIsFull(field)){
       //you found the solution, show it
-      try{
-        Thread.sleep(100);
         ui.setState(field);
         System.out.println("Solution found");
-      } catch (InterruptedException ie){
-        //display the field
-        ui.setState(field);
-        System.out.println("Solution found");
+        return;
       }
 
-    } else if (usedPentominoes.size()==givenPentominoes.length){
+    else if (usedPentominoes.size()==givenPentominoes.length && currentRotation == PentominoDatabase.data[currentID].length){
       //check if there are still pentominoes or rotations left
       System.out.println("There's no solution");
     } else {
       //if there isn't a solution
       try {
-        Thread.sleep(0);
+        Thread.sleep(10);
         ui.setState(field);
       } catch (InterruptedException ie){
-        //display the field
-        ui.setState(field);
+          System.out.println("Error while trying to display steps for finding solution");
       }
 
       //TODO check why this if is needed in the first place
       //prevents it from crashing by trying a pentomino that doesn't exist
-      System.out.println("CurrentID " + currentID + " givenPentominoes[givenPentominoes.length-1]" + givenPentominoes[givenPentominoes.length-1]);
       if(currentID < givenPentominoes[givenPentominoes.length-1]){
         //if this pentomino has already been used, skip it now (but also check if there's a next one)
         if(usedPentominoes.contains(currentID)){
-
-          //TODO if the next pentomino is still within range, chose it, else go back to the first pentomino
-          if(currentID+1 < givenPentominoes[givenPentominoes.length-1]){
-            recursive(field, givenPentominoes, usedPentominoes, ++currentID, 0);
-          } else {
-            recursive(field, givenPentominoes, usedPentominoes, 0, 0);
-          }
-
+          recursive(field, givenPentominoes, usedPentominoes, ++currentID, 0);
         }
 
         //if the block is 'chosen' with this rotation
         //cannot be done in the recursive call itself, since add returns a boolean
         //TODO check wheter this may cause problems
         usedPentominoes.add(currentID);
-        recursive(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes, 0, 0);
+        recursive(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes, ++currentID, 0);
 
         //if this rotation doesn't work
         //go back one step by removing the last used pentomino from the field
@@ -295,7 +281,7 @@ public class Search2{
 
               //TODO remove when it works
               try{
-                Thread.sleep(200);
+                Thread.sleep(0);
               } catch (InterruptedException ie){
                 //display the field
               }
