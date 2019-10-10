@@ -110,7 +110,6 @@ public class Search2{
           System.out.println("Error while trying to display steps for finding solution");
       }
 
-      //TODO check why this if is needed in the first place
       //prevents it from crashing by trying a pentomino that doesn't exist
       if(currentID < givenPentominoes[givenPentominoes.length-1]){
         //if this pentomino has already been used, skip it now (but also check if there's a next one)
@@ -120,23 +119,27 @@ public class Search2{
 
         //if the block is 'chosen' with this rotation
         //cannot be done in the recursive call itself, since add returns a boolean
-        //TODO check wheter this may cause problems
         usedPentominoes.add(currentID);
         recursive(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes, ++currentID, 0);
 
         //if this rotation doesn't work
-        //go back one step by removing the last used pentomino from the field
-        int lastUsedPentomino = usedPentominoes.get(usedPentominoes.size()-1);
-        for(int i=0; i<field.length; i++){
-          for(int j=0; j<field[0].length; j++){
-            if(field[i][j] == lastUsedPentomino){
-              field[i][j] = -1;
+        //go back one step by removing the last used pentomino from the field and remove it from used items
+        //remove the last item, that you just added but isn't needed anymore //TODO make this more efficient
+        System.out.println(usedPentominoes);
+        System.out.println(usedPentominoes.size());
+        usedPentominoes.remove(Integer.valueOf(usedPentominoes.size()-1));
+
+        //if there was a previous element, remove it
+        if(usedPentominoes.size()>0){
+          int lastUsedPentomino = usedPentominoes.get(usedPentominoes.size()-1);
+          for(int i=0; i<field.length; i++){
+            for(int j=0; j<field[0].length; j++){
+              if(field[i][j] == lastUsedPentomino){
+                field[i][j] = -1;
+              }
             }
           }
         }
-
-        //remove last Pentomino from the usedPentominoes list
-        usedPentominoes.remove(usedPentominoes.size()-1);
 
         //if not all rotations have been tried, try them
         //TODO check this part
