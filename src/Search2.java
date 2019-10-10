@@ -81,7 +81,6 @@ public class Search2{
   	return pentID;
   }
 
-  //TODO finish recursion 2
   private static void recursive(int[][] field, int[] givenPentominoes, ArrayList<Integer> usedPentominoes, int currentID, int currentRotation){
     System.out.println("givenPentominoes: " + Arrays.toString(givenPentominoes));
     System.out.println("usedPentominoes: " + Arrays.toString(usedPentominoes.toArray()));
@@ -90,9 +89,6 @@ public class Search2{
     System.out.println("PentID = " + currentID);
     System.out.println("Mutation = " + currentRotation);
     printTime();
-
-    System.out.println(usedPentominoes.size() + " " + givenPentominoes.length);
-    System.out.println(currentID);
 
     if(fieldIsFull(field)){
       //you found the solution, show it
@@ -131,7 +127,6 @@ public class Search2{
         usedPentominoes.add(currentID);
         recursive(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes, ++currentID, 0);
 
-
         //if this rotation doesn't work
         //go back one step by removing the last used pentomino from the field
         int lastUsedPentomino = usedPentominoes.get(usedPentominoes.size()-1);
@@ -143,10 +138,10 @@ public class Search2{
           }
         }
 
-        if(currentRotation < PentominoDatabase.data[currentID].length-1){
-          //remove last Pentomino from the usedPentominoes list
-          usedPentominoes.remove(usedPentominoes.size()-1);
+        //remove last Pentomino from the usedPentominoes list
+        usedPentominoes.remove(usedPentominoes.size()-1);
 
+        if(currentRotation < PentominoDatabase.data[currentID].length-1){
           recursive(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes, currentID, ++currentRotation);
         }
 
