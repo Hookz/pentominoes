@@ -141,8 +141,10 @@ public class Search2{
         //remove last Pentomino from the usedPentominoes list
         usedPentominoes.remove(usedPentominoes.size()-1);
 
+
+        //if not all rotations have been tried, try them
         if(currentRotation < PentominoDatabase.data[currentID].length-1){
-          recursive(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes, currentID, ++currentRotation);
+          recursive(addPentomino(field, currentID, ++currentRotation), givenPentominoes, usedPentominoes, currentID, ++currentRotation);
         }
 
         //if the block isn't chosen at all
