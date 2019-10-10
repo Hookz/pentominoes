@@ -81,7 +81,6 @@ public class Search2{
   	return pentID;
   }
 
-  //TODO possible problems: It runs trough a brench multiple times, it won't try 'earlier' blocks once it has used one with a higher ID.
   private static void recursive(int[][] field, int[] givenPentominoes, ArrayList<Integer> usedPentominoes, int currentID, int currentRotation){
     System.out.println("givenPentominoes: " + Arrays.toString(givenPentominoes));
     System.out.println("usedPentominoes: " + Arrays.toString(usedPentominoes.toArray()));
@@ -102,6 +101,7 @@ public class Search2{
       //check if there are still pentominoes or rotations left
       System.out.println("There's no solution");
     } else {
+      System.out.println("Inside part 3");
       //if there isn't a solution
       try {
         Thread.sleep(10);
@@ -113,9 +113,16 @@ public class Search2{
       //prevents it from crashing by trying a pentomino that doesn't exist
       //TODO if this isn't the case, than the last element has been reached, but it has not yet run out of elements to try nor has it completed the field
       if(currentID < givenPentominoes[givenPentominoes.length-1]){
+        System.out.println("Inside part 4");
+        System.out.println("currentID" + currentID);
         //if this pentomino has already been used, skip it now (but also check if there's a next one)
         if(usedPentominoes.contains(currentID)){
-          recursive(field, givenPentominoes, usedPentominoes, ++currentID, 0);
+          if(currentID == givenPentominoes.length-1){
+            recursive(field, givenPentominoes, usedPentominoes, 0, 0);
+          } else {
+            recursive(field, givenPentominoes, usedPentominoes, ++currentID, 0);
+          }
+
         }
 
         //if the block is 'chosen' with this rotation
@@ -150,7 +157,11 @@ public class Search2{
         }
 
         //if the block isn't chosen at all
-        recursive(field, givenPentominoes, usedPentominoes, ++currentID, 0);
+        if(currentID == givenPentominoes.length-1){
+          recursive(field, givenPentominoes, usedPentominoes, 0, 0);
+        } else {
+          recursive(field, givenPentominoes, usedPentominoes, ++currentID, 0);
+        }  
       }
     }
   }
