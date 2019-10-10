@@ -92,12 +92,11 @@ public class Search2{
 
     System.out.println("givenPentominoes[givenPentominoes.length-1] = " + givenPentominoes[givenPentominoes.length-1]);
 
+    //TODO check when all options have been exhausted
     if(fieldIsFull(field)){
       //you found the solution, show it
       ui.setState(field);
       System.out.println("Solution found");
-      return;
-      //TODO check when all options have been exhausted
     } else if (usedPentominoes.size()==givenPentominoes.length){
       //check if there are still pentominoes or rotations left
       System.out.println("There's no solution");
@@ -269,7 +268,7 @@ public class Search2{
       }
     }
 
-    //TODO check if it creates an unfillable hole
+    //TODO [optimization] check if it creates an unfillable hole
     //an unfillable hole would be a hole that is smaller than 5 blocks or that can't be filled with the blocks that are left
 
     //If there is a possibility to place the piece on the field, do it
@@ -283,7 +282,6 @@ public class Search2{
           //if pieceToPlace actually has a block in that spot, place it on the field
           if(pieceToPlace[tmpY][tmpX] != 0){
             //check if the first piece that you try to fill in is actually being filled
-            //TODO somehow doesn't check if the first empty cell is filled when at the second pentomino
             if(i == placeY && j == placeX){
               firstCellCovered = true;
             }
@@ -292,7 +290,7 @@ public class Search2{
               System.out.println("If it fits, it sits " + field[i][j] + " " + pieceToPlace[tmpY][tmpX]);
               field[i][j] = pentID;
 
-              //TODO remove when it works
+              //DEBUG
               try{
                 Thread.sleep(0);
               } catch (InterruptedException ie){
@@ -401,8 +399,6 @@ public class Search2{
 
   // Main function. Needs to be executed to start the brute force algorithm
   public static void main(String[] args){
-    //TODO ask for the desired size of the board and for available pentominoes
-
     search();
   }
 }
