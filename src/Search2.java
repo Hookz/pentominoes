@@ -115,14 +115,13 @@ public class Search2{
       if(currentID < givenPentominoes[givenPentominoes.length-1]){
         System.out.println("Inside part 4");
         System.out.println("currentID" + currentID);
-        //if this pentomino has already been used, skip it now (but also check if there's a next one)
+        //if this pentomino has already been used, skip it now (but also check if there's a next one and if not start at 0)
         if(usedPentominoes.contains(currentID)){
           if(currentID == givenPentominoes.length-1){
             recursive(field, givenPentominoes, usedPentominoes, 0, 0);
           } else {
             recursive(field, givenPentominoes, usedPentominoes, ++currentID, 0);
           }
-
         }
 
         //if the block is 'chosen' with this rotation
@@ -132,14 +131,11 @@ public class Search2{
 
         //if this rotation doesn't work
         //go back one step by removing the last used pentomino from the field and remove it from used items
-        //remove the last item, that you just added but isn't needed anymore 
-        System.out.println(usedPentominoes);
-        System.out.println(usedPentominoes.size());
-        usedPentominoes.remove(Integer.valueOf(usedPentominoes.size()-1));
 
+        //-2 since you just added the current one already
         //if there was a previous element, remove it
         if(usedPentominoes.size()>0){
-          int lastUsedPentomino = usedPentominoes.get(usedPentominoes.size()-1);
+          int lastUsedPentomino = usedPentominoes.get(usedPentominoes.size()-2);
           for(int i=0; i<field.length; i++){
             for(int j=0; j<field[0].length; j++){
               if(field[i][j] == lastUsedPentomino){
@@ -147,6 +143,9 @@ public class Search2{
               }
             }
           }
+
+          //remove the last item, that you just added but isn't needed anymore
+          usedPentominoes.remove(Integer.valueOf(usedPentominoes.size()-2));
         }
 
         //if not all rotations have been tried, try them
