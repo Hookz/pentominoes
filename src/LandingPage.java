@@ -57,13 +57,13 @@ public class LandingPage extends MouseAdapter{
         bhLabel.setText("Board height:");
         bhLabel.setFont(bhLabel.getFont().deriveFont(36.0f));
         bhLabel.setForeground(Color.black);
-        bhLabel.setBounds(150,500,400,75);
+        bhLabel.setBounds(150,450,400,75);
         bhLabel.setVisible(true);
 
         // Board height text field
         JTextField boardHeight = new JTextField(1);
         boardHeight.setText("1");
-        boardHeight.setBounds(500,500,75,75);
+        boardHeight.setBounds(500,450,75,75);
         boardHeight.setBackground(Color.white);
         boardHeight.setEditable(false);
         boardHeight.setFont(boardHeight.getFont().deriveFont(36.0f));
@@ -71,7 +71,7 @@ public class LandingPage extends MouseAdapter{
 
         // Board height minus button
         JButton bhMinus = new JButton();
-        bhMinus.setBounds(425,500,75,75);
+        bhMinus.setBounds(425,450,75,75);
         bhMinus.setBackground(Color.white);
         bhMinus.setFont(bhMinus.getFont().deriveFont(36.0f));
         bhMinus.setVisible(true);
@@ -79,11 +79,30 @@ public class LandingPage extends MouseAdapter{
 
         // Board height plus button
         JButton bhPlus = new JButton();
-        bhPlus.setBounds(575,500,75,75);
+        bhPlus.setBounds(575,450,75,75);
         bhPlus.setBackground(Color.white);
         bhPlus.setFont(bhPlus.getFont().deriveFont(36.0f));
         bhPlus.setVisible(true);
         bhPlus.setText("+");
+
+        JLabel chooseAlgorithm = new JLabel("Choose algorithm:");
+        chooseAlgorithm.setFont(chooseAlgorithm.getFont().deriveFont(32.0f));
+        chooseAlgorithm.setForeground(Color.BLACK);
+        chooseAlgorithm.setBounds(350,550,400,75);
+        chooseAlgorithm.setVisible(true);
+
+        JPanel aAPanel = new JPanel(new FlowLayout());
+        aAPanel.setBounds(0,630,1024,768);
+        String[] availableAlgorithms = new String[]{"Brute force","Algorithm X (array)"};
+        JComboBox<String> algorithmsToChoose = new JComboBox<>(availableAlgorithms);
+        algorithmsToChoose.setOpaque(true);
+        algorithmsToChoose.setSelectedIndex(1);
+        algorithmsToChoose.addActionListener(e -> Search.chosenAlgorithm = algorithmsToChoose.getSelectedIndex());
+        algorithmsToChoose.setPreferredSize(new Dimension(200,50));
+        algorithmsToChoose.setBounds(0,650,200,75);
+        aAPanel.add(algorithmsToChoose);
+
+
 
         // Confirm button
         JButton go = new JButton();
@@ -233,9 +252,10 @@ public class LandingPage extends MouseAdapter{
                 new MouseListener() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
+                        System.out.println("CLICKED");
                         Search.area = rectHeight*rectWidth;
-                        Search.verticalGridSize=rectWidth;
-                        Search.horizontalGridSize=rectHeight;
+                        Search.verticalGridSize=rectHeight;
+                        Search.horizontalGridSize=rectWidth;
                         ChoosePieces.createWindow();
                         startWindow.dispose();
                     }
@@ -263,9 +283,9 @@ public class LandingPage extends MouseAdapter{
         );
 
         // Starting the window
-        startWindow.setLayout(new BorderLayout());
+        startWindow.setLayout(null);
         startWindow.setSize(960,720);
-        startWindow.setBounds(240,60,960,720);
+        startWindow.setBounds(240,60,1024,768);
         startWindow.add(title);
         startWindow.add(bwLabel);
         startWindow.add(boardWidth);
@@ -277,6 +297,8 @@ public class LandingPage extends MouseAdapter{
         startWindow.add(bhPlus);
         startWindow.add(go);
         startWindow.add(background);
+        startWindow.add(chooseAlgorithm);
+        startWindow.add(aAPanel);
         startWindow.setVisible(true);
     }
     public static String number(int x){
