@@ -97,6 +97,7 @@ public class Search2{
       ui.setState(field);
       System.out.println("Solution found");
       return;
+      //TODO check when all options have been exhausted
     } else if (usedPentominoes.size()==givenPentominoes.length){
       //check if there are still pentominoes or rotations left
       System.out.println("There's no solution");
@@ -111,7 +112,6 @@ public class Search2{
       }
 
       //prevents it from crashing by trying a pentomino that doesn't exist
-      //TODO if this isn't the case, than the last element has been reached, but it has not yet run out of elements to try nor has it completed the field
       if(currentID < givenPentominoes[givenPentominoes.length-1]){
         System.out.println("Inside part 4");
         System.out.println("currentID" + currentID);
@@ -132,7 +132,7 @@ public class Search2{
 
         //if this rotation doesn't work
         //go back one step by removing the last used pentomino from the field and remove it from used items
-        //remove the last item, that you just added but isn't needed anymore //TODO make this more efficient
+        //remove the last item, that you just added but isn't needed anymore 
         System.out.println(usedPentominoes);
         System.out.println(usedPentominoes.size());
         usedPentominoes.remove(Integer.valueOf(usedPentominoes.size()-1));
@@ -150,7 +150,6 @@ public class Search2{
         }
 
         //if not all rotations have been tried, try them
-        //TODO fix this part (index of currentID somehow goes up to 12 even tough the max should be 11)
         if(currentRotation < PentominoDatabase.data[currentID].length-1){
           currentRotation++;
           recursive(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes, currentID, currentRotation);
@@ -161,7 +160,7 @@ public class Search2{
           recursive(field, givenPentominoes, usedPentominoes, 0, 0);
         } else {
           recursive(field, givenPentominoes, usedPentominoes, ++currentID, 0);
-        }  
+        }
       }
     }
   }
