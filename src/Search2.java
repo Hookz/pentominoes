@@ -116,6 +116,7 @@ public class Search2{
       }
 
       //TODO check why this if is needed in the first place
+      //prevents it from crashing by trying a pentomino that doesn't exist
       if(currentID < givenPentominoes[givenPentominoes.length-1]){
         //if this pentomino has already been used, skip it now (but also check if there's a next one)
         if(usedPentominoes.contains(currentID)){
@@ -142,9 +143,14 @@ public class Search2{
         usedPentominoes.remove(usedPentominoes.size()-1);
 
 
+        System.out.println("YEE1");
         //if not all rotations have been tried, try them
         if(currentRotation < PentominoDatabase.data[currentID].length-1){
-          recursive(addPentomino(field, currentID, ++currentRotation), givenPentominoes, usedPentominoes, currentID, ++currentRotation);
+          System.out.println("YEE2");
+          System.out.println("currentRotation = " + currentRotation + " PentominoDatabase.data[currentID].length-1 = " + (PentominoDatabase.data[currentID].length-1));
+          currentRotation++;
+          System.out.println("currentRotation = " + currentRotation + " PentominoDatabase.data[currentID].length-1 = " + (PentominoDatabase.data[currentID].length-1));
+          recursive(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes, currentID, currentRotation);
         }
 
         //if the block isn't chosen at all
@@ -169,8 +175,8 @@ public class Search2{
 
   //return the board with the Pentomino added
   private static int[][] addPentomino(int[][] field, int pentID, int mutation){
-    System.out.println("PentominoID = " + pentID);
-    System.out.println("Mutation = " + mutation);
+    System.out.println("Mutation " + mutation + " out of " + PentominoDatabase.data[pentID].length);
+    System.out.println(Arrays.deepToString(PentominoDatabase.data[pentID]));
     int placeX = 0;
     int placeY = 0;
 
