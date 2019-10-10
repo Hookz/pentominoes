@@ -23,11 +23,12 @@ public class ChoosePieces {
 
 
         JLabel[] pieces = new JLabel[12];
+
         pieces[0] = new JLabel();
-        pieces[0].setBounds(150,150,75,75);
+        pieces[0].setBounds(450,275,75,75);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/F.png"));
+            img = ImageIO.read(new File("img/pieces/X.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -52,10 +53,10 @@ public class ChoosePieces {
         pieces[1].setVisible(true);
 
         pieces[2] = new JLabel();
-        pieces[2].setBounds(300,150,50,75);
+        pieces[2].setBounds(550,375,75,75);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/L.png"));
+            img = ImageIO.read(new File("img/pieces/Z.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,10 +67,10 @@ public class ChoosePieces {
         pieces[2].setVisible(true);
 
         pieces[3] = new JLabel();
-        pieces[3].setBounds(375,150,50,75);
+        pieces[3].setBounds(525,150,75,75);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/N.png"));
+            img = ImageIO.read(new File("img/pieces/T.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,10 +81,10 @@ public class ChoosePieces {
         pieces[3].setVisible(true);
 
         pieces[4] = new JLabel();
-        pieces[4].setBounds(450,150,50,75);
+        pieces[4].setBounds(150,300,75,50);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/P.png"));
+            img = ImageIO.read(new File("img/pieces/U.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -94,10 +95,10 @@ public class ChoosePieces {
         pieces[4].setVisible(true);
 
         pieces[5] = new JLabel();
-        pieces[5].setBounds(525,150,75,75);
+        pieces[5].setBounds(250,275,75,75);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/T.png"));
+            img = ImageIO.read(new File("img/pieces/V.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -108,10 +109,10 @@ public class ChoosePieces {
         pieces[5].setVisible(true);
 
         pieces[6] = new JLabel();
-        pieces[6].setBounds(150,300,75,50);
+        pieces[6].setBounds(350,275,75,75);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/U.png"));
+            img = ImageIO.read(new File("img/pieces/W.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -122,10 +123,10 @@ public class ChoosePieces {
         pieces[6].setVisible(true);
 
         pieces[7] = new JLabel();
-        pieces[7].setBounds(250,275,75,75);
+        pieces[7].setBounds(550,275,50,75);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/V.png"));
+            img = ImageIO.read(new File("img/pieces/Y.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -136,10 +137,10 @@ public class ChoosePieces {
         pieces[7].setVisible(true);
 
         pieces[8] = new JLabel();
-        pieces[8].setBounds(350,275,75,75);
+        pieces[8].setBounds(300,150,50,75);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/W.png"));
+            img = ImageIO.read(new File("img/pieces/L.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -150,10 +151,10 @@ public class ChoosePieces {
         pieces[8].setVisible(true);
 
         pieces[9] = new JLabel();
-        pieces[9].setBounds(450,275,75,75);
+        pieces[9].setBounds(450,150,50,75);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/X.png"));
+            img = ImageIO.read(new File("img/pieces/P.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -164,10 +165,10 @@ public class ChoosePieces {
         pieces[9].setVisible(true);
 
         pieces[10] = new JLabel();
-        pieces[10].setBounds(550,275,50,75);
+        pieces[10].setBounds(375,150,50,75);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/Y.png"));
+            img = ImageIO.read(new File("img/pieces/N.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -178,10 +179,10 @@ public class ChoosePieces {
         pieces[10].setVisible(true);
 
         pieces[11] = new JLabel();
-        pieces[11].setBounds(550,375,75,75);
+        pieces[11].setBounds(150,150,75,75);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/Z.png"));
+            img = ImageIO.read(new File("img/pieces/F.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -190,6 +191,7 @@ public class ChoosePieces {
         imageIcon = new ImageIcon(dimg);
         pieces[11].setIcon(imageIcon);
         pieces[11].setVisible(true);
+
 
         JButton goWithChosen = new JButton("Go with chosen!");
         goWithChosen.setBounds(300,500,375,75);
@@ -207,7 +209,7 @@ public class ChoosePieces {
         goWithChosen.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Search.input = returnPiecesUsed(piecesUsed);
+                Search.input = returnPiecesUsed();
                 Search.lpdone = true;
                 choosePieces.dispose();
             }
@@ -314,7 +316,7 @@ public class ChoosePieces {
         }
         return character;
     }
-    private static char[] returnPiecesUsed(boolean[] piecesUsed){
+    private static char[] returnPiecesUsed(){
         char[] pcsUsed;
         int noUsed=0, j=0;
         for(int i=0;i<piecesUsed.length;i++)
