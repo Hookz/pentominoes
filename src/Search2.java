@@ -93,17 +93,12 @@ public class Search2{
 
     if(fieldIsFull(field)){
       //you found the solution, show it
-      try{
-        Thread.sleep(100);
         ui.setState(field);
         System.out.println("Solution found");
-      } catch (InterruptedException ie){
-        //display the field
-        ui.setState(field);
-        System.out.println("Solution found");
+        return;
       }
 
-    } else if (usedPentominoes.size()==givenPentominoes.length && currentRotation == PentominoDatabase.data[currentID].length){
+    else if (usedPentominoes.size()==givenPentominoes.length && currentRotation == PentominoDatabase.data[currentID].length){
       //check if there are still pentominoes or rotations left
       System.out.println("There's no solution");
     } else {
@@ -112,8 +107,7 @@ public class Search2{
         Thread.sleep(10);
         ui.setState(field);
       } catch (InterruptedException ie){
-        //display the field
-        ui.setState(field);
+          System.out.println("Error while trying to display steps for finding solution");
       }
 
       //TODO check why this if is needed in the first place
