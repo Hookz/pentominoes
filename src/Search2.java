@@ -98,7 +98,7 @@ public class Search2{
         return;
       }
 
-    else if (usedPentominoes.size()==givenPentominoes.length && currentRotation == PentominoDatabase.data[currentID].length){
+    else if (usedPentominoes.size()==givenPentominoes.length){
       //check if there are still pentominoes or rotations left
       System.out.println("There's no solution");
     } else {
