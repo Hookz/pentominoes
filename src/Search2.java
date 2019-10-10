@@ -81,6 +81,7 @@ public class Search2{
   	return pentID;
   }
 
+  //TODO possible problems: It runs trough a brench mutliple times, it won't try 'earlier' blocks once it has used one with a higher ID.
   private static void recursive(int[][] field, int[] givenPentominoes, ArrayList<Integer> usedPentominoes, int currentID, int currentRotation){
     System.out.println("givenPentominoes: " + Arrays.toString(givenPentominoes));
     System.out.println("usedPentominoes: " + Arrays.toString(usedPentominoes.toArray()));
@@ -103,12 +104,12 @@ public class Search2{
       }
 
     } else if (usedPentominoes.size()==givenPentominoes.length && currentRotation == PentominoDatabase.data[currentID].length){
-      //check if there are still pentominoes left
+      //check if there are still pentominoes or rotations left
       System.out.println("There's no solution");
     } else {
       //if there isn't a solution
       try {
-        Thread.sleep(100);
+        Thread.sleep(10);
         ui.setState(field);
       } catch (InterruptedException ie){
         //display the field
@@ -125,6 +126,7 @@ public class Search2{
 
         //if the block is 'chosen' with this rotation
         //cannot be done in the recursive call itself, since add returns a boolean
+        //TODO check wheter this may cause problems
         usedPentominoes.add(currentID);
         recursive(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes, ++currentID, 0);
 
@@ -142,14 +144,10 @@ public class Search2{
         //remove last Pentomino from the usedPentominoes list
         usedPentominoes.remove(usedPentominoes.size()-1);
 
-
-        System.out.println("YEE1");
         //if not all rotations have been tried, try them
+        //TODO check this part
         if(currentRotation < PentominoDatabase.data[currentID].length-1){
-          System.out.println("YEE2");
-          System.out.println("currentRotation = " + currentRotation + " PentominoDatabase.data[currentID].length-1 = " + (PentominoDatabase.data[currentID].length-1));
           currentRotation++;
-          System.out.println("currentRotation = " + currentRotation + " PentominoDatabase.data[currentID].length-1 = " + (PentominoDatabase.data[currentID].length-1));
           recursive(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes, currentID, currentRotation);
         }
 
