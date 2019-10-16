@@ -256,7 +256,7 @@ public class LandingPage extends MouseAdapter{
                         Search.area = rectHeight*rectWidth;
                         Search.verticalGridSize=rectHeight;
                         Search.horizontalGridSize=rectWidth;
-                        ChoosePieces.createWindow();
+                        new ChoosePieces().createWindow();
                         startWindow.dispose();
                     }
 

@@ -5,10 +5,11 @@ import javax.imageio.ImageIO;
 import java.io.*;
 
 import java.awt.event.*;
+
 public class ChoosePieces {
-    public static boolean[] piecesUsed = new boolean[12];
-    public static JFrame choosePieces = new JFrame("Pentominoes: Settings");
-    public static void createWindow(){
+    public boolean[] piecesUsed = new boolean[12];
+    public JFrame choosePieces = new JFrame("Pentominoes: Settings");
+    public void createWindow(){
         BufferedImage img;
         Image dimg;
         ImageIcon imageIcon;
@@ -28,9 +29,10 @@ public class ChoosePieces {
         pieces[0].setBounds(450,275,75,75);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/X.png"));
+            img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/X.png"));
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("Error with X");
         }
         dimg = img.getScaledInstance(pieces[0].getWidth(), pieces[0].getHeight(),
                 Image.SCALE_SMOOTH);
@@ -42,7 +44,7 @@ public class ChoosePieces {
         pieces[1].setBounds(250,150,25,75);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/I.png"));
+            img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/I.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -56,7 +58,7 @@ public class ChoosePieces {
         pieces[2].setBounds(550,375,75,75);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/Z.png"));
+            img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/Z.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -70,7 +72,7 @@ public class ChoosePieces {
         pieces[3].setBounds(525,150,75,75);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/T.png"));
+            img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/T.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -84,7 +86,7 @@ public class ChoosePieces {
         pieces[4].setBounds(150,300,75,50);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/U.png"));
+            img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/U.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -98,7 +100,7 @@ public class ChoosePieces {
         pieces[5].setBounds(250,275,75,75);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/V.png"));
+            img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/V.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -112,7 +114,7 @@ public class ChoosePieces {
         pieces[6].setBounds(350,275,75,75);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/W.png"));
+            img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/W.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -126,7 +128,7 @@ public class ChoosePieces {
         pieces[7].setBounds(550,275,50,75);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/Y.png"));
+            img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/Y.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -140,7 +142,7 @@ public class ChoosePieces {
         pieces[8].setBounds(300,150,50,75);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/L.png"));
+            img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/L.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -154,7 +156,7 @@ public class ChoosePieces {
         pieces[9].setBounds(450,150,50,75);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/P.png"));
+            img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/P.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -168,7 +170,7 @@ public class ChoosePieces {
         pieces[10].setBounds(375,150,50,75);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/N.png"));
+            img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/N.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -182,7 +184,7 @@ public class ChoosePieces {
         pieces[11].setBounds(150,150,75,75);
         img = null;
         try {
-            img = ImageIO.read(new File("img/pieces/F.png"));
+            img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/F.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -286,7 +288,7 @@ public class ChoosePieces {
         choosePieces.setVisible(true);
     }
 
-    private static char intToCharacter(int pentID){
+    private char intToCharacter(int pentID){
         char character=' ';
         if (pentID==0) {
             character = 'X';
@@ -316,7 +318,7 @@ public class ChoosePieces {
         }
         return character;
     }
-    private static char[] returnPiecesUsed(){
+    private char[] returnPiecesUsed(){
         char[] pcsUsed;
         int noUsed=0, j=0;
         for(int i=0;i<piecesUsed.length;i++)
