@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="Project1-1:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6a1ab3a0-07cf-4ea9-80b4-ed0fc6806414" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExportToHTMLSettings">
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/exportToHTML" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/algorithmX" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Michal Jarski &lt;michal@jarski.eu&gt;" />
+      </list>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="SIGN_OFF_COMMIT" value="true" />
+  </component>
+  <component name="ProjectId" id="1RjqIi0gbLBDHcwXkBTuf4v5g1P" />
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/java" />
+      <recent name="$PROJECT_DIR$/src/resources" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.Search">
+    <configuration name="PentominoBuilder" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="PentominoBuilder" />
+      <module name="Project1-1" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PentominoDatabase" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="PentominoDatabase" />
+      <module name="Project1-1" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Search" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="12" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="Search" />
+      <module name="Project1-1" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Search2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="12" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="Search2" />
+      <module name="Project1-1" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.PentominoBuilder" />
+      <item itemvalue="Application.PentominoDatabase" />
+      <item itemvalue="Application.Search" />
+      <item itemvalue="Application.Search2" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Search" />
+        <item itemvalue="Application.PentominoBuilder" />
+        <item itemvalue="Application.PentominoDatabase" />
+        <item itemvalue="Application.Search2" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6a1ab3a0-07cf-4ea9-80b4-ed0fc6806414" name="Default Changelist" comment="" />
+      <created>1570190774838</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1570190774838</updated>
+      <workItem from="1570190776093" duration="13000" />
+      <workItem from="1570191111241" duration="621000" />
+      <workItem from="1570194539438" duration="757000" />
+      <workItem from="1570196846425" duration="36000" />
+      <workItem from="1570196942279" duration="448000" />
+      <workItem from="1570448495413" duration="25627000" />
+      <workItem from="1570527054416" duration="12903000" />
+      <workItem from="1570549151407" duration="7587000" />
+      <workItem from="1570560683957" duration="42000" />
+      <workItem from="1570605534589" duration="3356000" />
+      <workItem from="1570616362315" duration="1193000" />
+      <workItem from="1570703188009" duration="5557000" />
+      <workItem from="1570723756882" duration="7046000" />
+      <workItem from="1571053776463" duration="465000" />
+      <workItem from="1571222497062" duration="1792000" />
+      <workItem from="1571224513397" duration="248000" />
+      <workItem from="1571224775558" duration="9234000" />
+    </task>
+    <task id="LOCAL-00001" summary="Unpackin'">
+      <created>1570191251846</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1570191251846</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Unpackin' 2.0">
+      <created>1570192238825</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1570192238825</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Unpackin' 2.0 - final fix">
+      <created>1570192296032</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1570192296032</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Unpackin' 2.0 - cd">
+      <created>1570197291520</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1570197291520</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Unpackin' 2.0 - final fix">
+      <created>1570197327427</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1570197327427</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Moving documents to OneDrive">
+      <created>1570452646725</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1570452646726</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Fixed CSV">
+      <created>1570454000568</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1570454000568</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Semi-Working brute-force, small update to README">
+      <created>1570456150716</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1570456150716</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Fixed the TODO part">
+      <created>1570459073661</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1570459073661</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Added the letter comments">
+      <created>1570459745279</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1570459745280</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Updated CSV">
+      <created>1570459762954</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1570459762954</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Added screen in the middle to choose game board size &amp; working on a screen to choose pieces (broken).">
+      <created>1570530332826</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1570530332826</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Fixed some graphics, ChoosePieces class still not functional">
+      <created>1570535231340</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1570535231340</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Added the ChoosePieces screen (still not functional)">
+      <created>1570537067213</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1570537067213</updated>
+    </task>
+    <task id="LOCAL-00015" summary="ChoosePieces screen a bit better.">
+      <created>1570538789439</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1570538789439</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Further improvements on ChoosePieces">
+      <created>1570540322178</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1570540322178</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Removed the input from Search.search()">
+      <created>1570545063992</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1570545063992</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Added randomization for starting piece &amp; missing condition">
+      <created>1570553919745</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1570553919745</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Removed unneeded try-catches">
+      <created>1570708544600</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1570708544600</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Manually merging AlgorithmXarr with master &lt;fingers crossed&gt;">
+      <created>1570736450885</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1570736450885</updated>
+    </task>
+    <task id="LOCAL-00021" summary="FINAL FIX">
+      <created>1570741650384</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1570741650384</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Reorganized files, slightly changed some other stuff">
+      <created>1571233889056</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1571233889057</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Moved presentation back online, updated README.md">
+      <created>1571234144261</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1571234144261</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Unpackin'" />
+    <MESSAGE value="Unpackin' 2.0" />
+    <MESSAGE value="Unpackin' 2.0 - cd" />
+    <MESSAGE value="Unpackin' 2.0 - final fix" />
+    <MESSAGE value="Moving documents to OneDrive" />
+    <MESSAGE value="Fixed CSV" />
+    <MESSAGE value="Semi-Working brute-force, small update to README" />
+    <MESSAGE value="Fixed the TODO part" />
+    <MESSAGE value="Added the letter comments" />
+    <MESSAGE value="Updated CSV" />
+    <MESSAGE value="Added screen in the middle to choose game board size &amp; working on a screen to choose pieces (broken)." />
+    <MESSAGE value="Fixed some graphics, ChoosePieces class still not functional" />
+    <MESSAGE value="Added the ChoosePieces screen (still not functional)" />
+    <MESSAGE value="ChoosePieces screen a bit better." />
+    <MESSAGE value="Further improvements on ChoosePieces" />
+    <MESSAGE value="Removed the input from Search.search()" />
+    <MESSAGE value="Added randomization for starting piece &amp; missing condition" />
+    <MESSAGE value="Removed wrong try-catches" />
+    <MESSAGE value="Removed unneeded try-catches" />
+    <MESSAGE value="Manually merging AlgorithmXarr with master &lt;fingers crossed&gt;" />
+    <MESSAGE value="FINAL FIX" />
+    <MESSAGE value="Reorganized files, slightly changed some other stuff" />
+    <MESSAGE value="Moved presentation back online, updated README.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="Moved presentation back online, updated README.md" />
+  </component>
+</project>
