@@ -34,7 +34,7 @@ Project is divided into three phases mostly for grading purposes. There is no ne
 ### Phase 1
 * 7-11\. October 2019 (Monday-Friday)
 * One week of intense research and coding
-* [Presentation](https://maastrichtuniversity-my.sharepoint.com/:p:/g/personal/m_jarski_student_maastrichtuniversity_nl/ERRieGPd155Lv6NO142-3roBFrunsT8fx-fTwOs-5qtXBw?e=IVcVqU) on 11\.10 at 10.00-10.15 with findings and planning: ROOM 2.002, Bouillonstraat 8-10
+* [Presentation](https://maastrichtuniversity-my.sharepoint.com/:p:/g/personal/m_jarski_student_maastrichtuniversity_nl/EVsQWlGsAhFJmLi-op0iyPABj17oEpZu9kyD_ERsJfGmeA?e=GxumXJ) on 11\.10 at 10.00-10.15 with findings and planning: ROOM 2.002, Bouillonstraat 8-10
 
 * Project meetings:
   * October 8, 2019
@@ -57,7 +57,7 @@ Project is divided into three phases mostly for grading purposes. There is no ne
 * [Final presentation](https://maastrichtuniversity-my.sharepoint.com/:p:/g/personal/m_jarski_student_maastrichtuniversity_nl/EbFAPeFjRwRPlsS0IK9ZADsBvchGPx0XzO87dGbnpKK1GA?e=HGJv3S) on 23\. January 2020
 * Product & Report examination on 24\. January 2020
 
-Last updated: *2019-10-05*
+Last updated: *2019-10-16*
 
 ## Progress monitor (*stub*)
 - [x] Got to know each other
