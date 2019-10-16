@@ -63,11 +63,12 @@ Last updated: *2019-10-16*
 - [x] Got to know each other
 - [x] Project problem is known
 * Phase 1:
- - [ ] Implement algorithms that find solutions whether and how a given set of pentominoes fits into a rectangle
+ - [x] Implement algorithms that find solutions whether and how a given set of pentominoes fits into a rectangle
   - [x] Brute force
   - [ ] Branching algorithm
- - [ ] Presentation is ready
- - [ ] Presented
+  - [x] Algorithm X
+ - [x] Presentation is ready
+ - [x] Presented
 
 * Phase 2:
   - [ ] Start working on P2
