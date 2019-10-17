@@ -3,6 +3,8 @@ This project is about building a computer program that is able to manipulate a s
 
 The project is divided into three phases: Phase 1, in which the program is to be implemented in a way that enables it to fill up a given rectangle with given objects - *pentominoes*, Phase 2, in which a Tetris game that uses the pentominoes as game pieces is to be developed, and Phase 3 - the last phase - in which an algorithm has to be designed to solve three dimensional *knapsack* problems using pentominoes.
 
+The associated JAVADOC can be found [on this GitHub Page](https://hookz.github.io/pentominoes-frontend/v1.2/).
+
 
 ## Group Members
 * René Steeman ([@renesteeman](https://github.com/renesteeman)): **Editor** (*joint*)

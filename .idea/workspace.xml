@@ -10,17 +10,8 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6a1ab3a0-07cf-4ea9-80b4-ed0fc6806414" name="Default Changelist" comment="Rewrit">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="6a1ab3a0-07cf-4ea9-80b4-ed0fc6806414" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/ChoosePieces.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/ChoosePieces.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/LandingPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/LandingPage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/PentominoBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/PentominoBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/PentominoDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/PentominoDatabase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/Search.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/Search.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/Search2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/Search2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/UI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/UI.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -166,7 +157,7 @@
       <workItem from="1571222497062" duration="1792000" />
       <workItem from="1571224513397" duration="248000" />
       <workItem from="1571224775558" duration="9653000" />
-      <workItem from="1571325020432" duration="5632000" />
+      <workItem from="1571325020432" duration="7847000" />
     </task>
     <task id="LOCAL-00001" summary="Unpackin'">
       <created>1570191251846</created>
@@ -343,7 +334,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571234893761</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Rewriting the classes to be JAVADOC compatible">
+      <created>1571331365392</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1571331365392</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -373,7 +371,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Unpackin'" />
     <MESSAGE value="Unpackin' 2.0" />
     <MESSAGE value="Unpackin' 2.0 - cd" />
     <MESSAGE value="Unpackin' 2.0 - final fix" />
@@ -398,6 +395,7 @@
     <MESSAGE value="Moved presentation back online, updated README.md" />
     <MESSAGE value="Temporarily changing gitignore to fix IntelliJ files" />
     <MESSAGE value="Adding .gitignore back" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding .gitignore back" />
+    <MESSAGE value="Rewriting the classes to be JAVADOC compatible" />
+    <option name="LAST_COMMIT_MESSAGE" value="Rewriting the classes to be JAVADOC compatible" />
   </component>
 </project>
