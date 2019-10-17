@@ -6,9 +6,33 @@ import java.io.*;
 
 import java.awt.event.*;
 
+/**
+ * Class with the part of the GUI responsible for allowing the user to choose desired pentomino pieces
+ */
 public class ChoosePieces {
-    public boolean[] piecesUsed = new boolean[12];
-    public JFrame choosePieces = new JFrame("Pentominoes: Settings");
+    /**
+     * The array to keep track of used pieces
+     */
+    private boolean[] piecesUsed;
+    /**
+     * The frame that fires to enable the user to choose settings before running the main program from Search class
+     */
+    private JFrame choosePieces;
+
+    /**
+     * Default class constructor
+     * <br>
+     * Whenever used, it makes sure that a new class instance is fired and that all settings are reset to default values
+     */
+    public ChoosePieces(){
+        piecesUsed = new boolean[12];
+        choosePieces = new JFrame("Pentominoes: Settings");
+    }
+    /**
+     * Creates a window of the class to make it possible for user to input desired values
+     * <br>
+     * It adds the interactive layer with all clickable and adjustable elements to the GUI.
+     */
     public void createWindow(){
         BufferedImage img;
         Image dimg;
@@ -288,6 +312,11 @@ public class ChoosePieces {
         choosePieces.setVisible(true);
     }
 
+    /**
+     *
+     * @param pentID: numeric representation of the pentomino to be converted to character
+     * @return: character representation of the pentomino to be used in the char array Search.input
+     */
     private char intToCharacter(int pentID){
         char character=' ';
         if (pentID==0) {
@@ -318,6 +347,11 @@ public class ChoosePieces {
         }
         return character;
     }
+
+    /**
+     * A function mapping the boolean array piecesUsed to a char array with letters corresponding to the used pieces.
+     * @return: returns the char array to be assigned to Search.input
+     */
     private char[] returnPiecesUsed(){
         char[] pcsUsed;
         int noUsed=0, j=0;

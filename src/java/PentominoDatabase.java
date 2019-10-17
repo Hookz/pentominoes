@@ -6,12 +6,22 @@ import java.util.Scanner;
 
 // This class takes care of reading all pentominoes and their permutations from a CSV
 // See attached documentation for structure of CSV (pentomino.csv.README)
+
+/**
+ * Class that is able to map values from a CSV file to a four-dimensional array, further used in the Search class
+ */
 public class PentominoDatabase
 {
-  // Stores and loads the data on program initialization
+  /**
+   * Stores and loads the data on program initialization
+   */
   public static int[][][][] data = loadData(PentominoDatabase.class.getResourceAsStream("/csv/pentominos.csv"));
 
-  // Loads and decodes the CSV file
+  /**
+   * Loads and decodes the CSV file
+   * @param fileName the name of the file to read from
+   * @return the four-dimensional array that can be used for computations by all other classes
+   */
   private static int[][][][] loadData(InputStream fileName)
   {
     // Create a temporary dynamic object to store the data, later to be converted to a static 4D array

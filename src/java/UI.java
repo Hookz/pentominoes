@@ -2,14 +2,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-// This class takes care of all the graphics to display a certain state
+/**
+ * This class takes care of all the graphics to display a certain state of the game field
+ */
 public class UI extends JPanel
 {
   private JFrame window;
   private int[][] state;
   private int size;
 
-  // Constructor: sets everything up
+  /**
+   *
+   * @param x: number of cells in a row (width)
+   * @param y: number of cells in a column (height)
+   * @param _size: the size of the side of each cell
+   */
   public UI(int x, int y, int _size)
   {
     size = _size;

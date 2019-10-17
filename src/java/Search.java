@@ -4,29 +4,62 @@ import java.util.Iterator;
 import java.util.Random;
 
 
-
+/**
+ * Class starting the execution of the main program
+ */
 public class Search
 {
+	/**
+	 * It holds the value of the horizontal size of the grid
+	 */
 	public static int horizontalGridSize = 6;
+	/**
+	 * It holds the value of the vertical size of the grid
+	 */
 	public static int verticalGridSize = 5;
+	/**
+	 * It holds the value of the area of the grid (horizontal size * vertical size)
+	 */
 	public static int area=horizontalGridSize*verticalGridSize;
+	/**
+	 * Input values for the search() method
+	 */
 	public static char[] input = {'P','X','F','V','W','Y','T','Z','U','N','L','I'};
 	public static ArrayList<ArrayList<Integer>> supMat=new ArrayList<ArrayList<Integer>>();
 	public static ArrayList<ArrayList<Boolean>> solRows = new ArrayList<ArrayList<Boolean>>();
 	public static ArrayList<String> tempArr= new ArrayList<>();
 	public static ArrayList<String> solArr= new ArrayList<>();
-	// Static UI class to display the board
+	/**
+	 * Static UI class to display the board
+ 	 */
 	public static UI ui;
+	/**
+	 * Flag checking if a solution has already been found
+	 */
 	public static boolean flag=false;
+	/**
+	 * A flag that holds the value that corresponds to the algorithm used to solve the puzzle
+	 */
 	public static int chosenAlgorithm = 1;
+	/**
+	 * Flag checking if the LandingPage and ChoosePieces classes have already been terminated.
+	 * <br>
+	 * Until it is the case, the Search class waits for their termination.
+	 */
 	public static boolean lpdone = false;
 
+	/**
+	 * A method responsible for creating the window with the game solver, that is being displayed after all settings are inputted by the user
+	 */
 	public static void createWindow(){
 		ui = new UI(horizontalGridSize, verticalGridSize, 50);
 		LandingPage.startWindow.dispose();
 		search();
 	}
-	// Helper function which starts the brute force algorithm
+
+	/**
+	 * Helper function that starts the solving process with the user-chosen algorithm
+	 */
 	public static void search() {
 		System.out.println(horizontalGridSize);
 		System.out.println(verticalGridSize);
@@ -97,6 +130,10 @@ public class Search
 		return field;
 	}
 
+	/**
+	 * Attempts to solve the puzzle by randomly placing game pieces on board
+	 * @param field: the game field
+	 */
 	private static void bruteForce( int[][] field){
 		Random random = new Random();
 		boolean solutionFound = false;
@@ -176,8 +213,14 @@ public class Search
 	}
 
 
-
-	// Adds a pentomino to the position on the field (overriding current board at that position)
+	/**
+	 * Adds a pentomino to the position on the field (overriding current board at that position)
+	 * @param field the field to put the game piece on
+	 * @param piece array holding the currently considered piece's state
+	 * @param pieceID the ID of piece currently looked at
+	 * @param x helper variable keeping track of the position in the field array
+	 * @param y helper variable keeping track of the position in the field array
+ 	 */
 	private static void bruteForceAddPiece(int[][] field, int[][] piece, int pieceID, int x, int y)
 	{
 		for(int i = 0; i < piece.length; i++) // loop over x position of pentomino
@@ -193,7 +236,11 @@ public class Search
 		}
 	}
 
-	//takes the pentomino character and outputs the unique integer ID for it
+	/**
+	 *
+	 * @param character: the character to be converted
+	 * @return the numeric representation of pentomino
+	 */
 	private static int characterToID(char character) {
 		int pentID = -1;
 		if (character == 'X') {
@@ -224,7 +271,14 @@ public class Search
 		return pentID;
 	}
 
-	// Adds a pentomino to the position on the field (overriding current board at that position)
+	/**
+	 * Adds a pentomino to the position on the field (overriding current board at that position) - non-burte-force method
+	 * @param field the field to put the game piece on
+	 * @param piece array holding the currently considered piece's state
+	 * @param pieceID the ID of piece currently looked at
+	 * @param x helper variable keeping track of the position in the field array
+	 * @param y helper variable keeping track of the position in the field array
+	 */
 	public static int[][] addPiece(int[][] field, int[][] piece, int pieceID, int x, int y) {
 		int[][] matrix = new int[5][2];
 		int n=0;
@@ -246,7 +300,9 @@ public class Search
 		return matrix;
 	}
 
-	//turns the pentomino problem into an exact cover problem and solves it by iterating over the matrix of possible position of any pentomino
+	/**
+	 * Turns the pentomino problem into an exact cover problem and solves it by iterating over the matrix of possible position of any pentomino
+	 */
 	public static int algorithmX(ArrayList<ArrayList<Boolean>> matrix, ArrayList<ArrayList<Integer>> suppMat){
 		int minC=12*30*8;
 		int sumC=0;
@@ -294,8 +350,14 @@ public class Search
 	}
 
 
-
-	//takes the possibilities matrix and outputs a solution for that matrix
+	/**
+	 * Takes the possibilities matrix and outputs a solution for that matrix
+	 * @param matrix the possibilities matrix
+	 * @param row currently considered row
+	 * @param col currently considered column
+	 * @param suppMat support matrix
+	 * @return integer
+	 */
 	public static int algorithmX(ArrayList<ArrayList<Boolean>> matrix,int row,int col, ArrayList<ArrayList<Integer>> suppMat) {
 
 		ArrayList<Integer> rowDel = new ArrayList<>();
@@ -359,12 +421,21 @@ public class Search
 		suppMat1.add(sm);
 		return algorithmX(matrix1,suppMat1);
 	}
-	//self explanatory
+
+	/**
+	 *
+	 * @param index: index of the row to be deleted
+	 * @param m: the array to delete the row from
+	 */
 	public static void deleteRow(int index, ArrayList<ArrayList<Boolean>> m){
 		m.remove(index);
 	}
 
-	//self explanatory
+	/**
+	 *
+	 * @param index: index of the column to be deleted
+	 * @param m: the array to delete the column from
+	 */
 	public static void deleteColumn(int index, ArrayList<ArrayList<Boolean>> m){
 		for (int i = 0; i < m.size(); i++) {
 			m.get(i).remove(index);
@@ -380,7 +451,11 @@ public class Search
 		}
 	}
 
-	//returns a matrix with all possible positions for all pentominoes in the grid
+	/**
+	 * Builds the matrix
+	 * @param field: the field to build the base matrix for
+	 * @return matrix with all possible placements of all chosen pentominoes
+	 */
 	public static ArrayList<ArrayList<Boolean>> buildMatrix(int[][] field) {
 		int pentN=input.length;
 		boolean[][] matrix = new boolean[10000][(horizontalGridSize*verticalGridSize)+pentN];
@@ -462,7 +537,10 @@ public class Search
 		return list;
 	}
 
-	// Main function. Needs to be executed to start the brute force algorithm
+	/**
+	 * Main function. Needs to be executed to start any algorithm
+	 * @param args default parameter, not used by the program
+	 */
 	public static void main(String[] args)
 	{
 		LandingPage.createWindow();

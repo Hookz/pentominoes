@@ -4,9 +4,14 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
+/**
+ * Class responsible for building the pentomino pieces and exporting them to a CSV file
+ */
 public class PentominoBuilder {
 
-    //All basic pentominoes that will be rotated and inverted
+    /**
+     * All basic pentominoes that will be rotated and inverted
+     */
     private static int[][][] basicDatabase = {
             {
             	// pentomino representation X

@@ -3,6 +3,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.ArrayList;
 
+/**
+ * Class containing the recursive search method (unfinished)
+ */
 public class Search2{
   public static final int horizontalGridSize = 5;
   public static final int verticalGridSize = 6;
@@ -51,6 +54,11 @@ public class Search2{
     recursive(field, inputIDs, emptyArrayList, inputIDs[0], 0);
   }
 
+    /**
+     *
+     * @param character: the character to be converted
+     * @return the numeric representation of pentomino
+     */
   private static int characterToID(char character) {
   	int pentID = -1;
   	if (character == 'X') {
@@ -81,6 +89,14 @@ public class Search2{
   	return pentID;
   }
 
+    /**
+     *
+     * @param field: the gamefield
+     * @param givenPentominoes: the pentominoes to be used in finding solution
+     * @param usedPentominoes: list of pentominoes already used
+     * @param currentID: id of current pentomino
+     * @param currentRotation: the current rotation of pentomino with currentID
+     */
   private static void recursive(int[][] field, int[] givenPentominoes, ArrayList<Integer> usedPentominoes, int currentID, int currentRotation){
     System.out.println("givenPentominoes: " + Arrays.toString(givenPentominoes));
     System.out.println("usedPentominoes: " + Arrays.toString(usedPentominoes.toArray()));
@@ -163,6 +179,11 @@ public class Search2{
     }
   }
 
+    /**
+     *
+     * @param field: the gamefield
+     * @return true if field is full and false otherwise
+     */
   public static boolean fieldIsFull(int[][] field){
     boolean isNotFull = false;
 

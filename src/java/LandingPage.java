@@ -1,10 +1,27 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+
+/**
+ * Class that starts up the GUI and enables selection of grid width/height and the solving algorithm
+ */
 public class LandingPage extends MouseAdapter{
-    public static int rectWidth = 1;
-    public static int rectHeight = 1;
+    /**
+     * Saves the value corresponding to the rectangle width (horizontal grid size)
+     */
+    private static int rectWidth = 1;
+    /**
+     * Saves the value corresponding to the rectangle height (vertical grid size)
+     */
+    private static int rectHeight = 1;
+    /**
+     * Frame corresponding to the game window that starts up to enable the user to choose the desired game setting
+     */
     public static JFrame startWindow = new JFrame("Pentominoes: Settings");
+
+    /**
+     * Method creating a window of the class. It loads all the GUI components needed to enable the choice of the first game settings.
+     */
     public static void createWindow(){
         // Window title
         startWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -301,7 +318,13 @@ public class LandingPage extends MouseAdapter{
         startWindow.add(aAPanel);
         startWindow.setVisible(true);
     }
-    public static String number(int x){
+
+    /**
+     *
+     * @param x: number to be converted to text
+     * @return String representation of a number
+     */
+    private static String number(int x){
         String sequence = Integer.toString(x);
         return sequence;
     }
