@@ -88,7 +88,6 @@ public class Search
 			//process the support matrix to get the solution out
 			if(supMat.size()>0){
 				solutionField=processSolution(matrix,field);
-				UI ui = new UI(horizontalGridSize, verticalGridSize, 50);
 				ui.setState(solutionField);
 			} else {
 				System.out.println("no solution for this matrix");
