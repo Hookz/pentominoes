@@ -52,12 +52,13 @@ Project is divided into three phases mostly for grading purposes. There is no ne
 * Phase ends a *weekend* before exams
 
 * Project meetings:
-  * October 29, 2019
+  * October 29, 2019 (+)
   * November 5, 2019
   * November 19, 2019
   * December 3, 2019 (^)
   * December 10, 2019
   * Location & Time: Room 0.009 (Bouillonstraat 8-10), 15:00 - 15:15
+  * (+) Location: 0.009 (Tapijn B)
   * (^) Location & Time: Room 2.002 (Bouillonstraat 8-10), 17:15 - 17:30
 
 ### Phase 3
