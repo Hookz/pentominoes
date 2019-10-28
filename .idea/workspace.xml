@@ -12,7 +12,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6a1ab3a0-07cf-4ea9-80b4-ed0fc6806414" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/java/Search.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/java/Search.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -159,7 +159,8 @@
       <workItem from="1571224513397" duration="248000" />
       <workItem from="1571224775558" duration="9653000" />
       <workItem from="1571325020432" duration="7988000" />
-      <workItem from="1571504346948" duration="31000" />
+      <workItem from="1571504346948" duration="488000" />
+      <workItem from="1572265463693" duration="497000" />
     </task>
     <task id="LOCAL-00001" summary="Unpackin'">
       <created>1570191251846</created>
@@ -343,7 +344,14 @@
       <option name="project" value="LOCAL" />
       <updated>1571331365392</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Fixed an issue that made the UI class be created twice">
+      <created>1571504492709</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1571504492709</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -373,7 +381,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Unpackin' 2.0" />
     <MESSAGE value="Unpackin' 2.0 - cd" />
     <MESSAGE value="Unpackin' 2.0 - final fix" />
     <MESSAGE value="Moving documents to OneDrive" />
@@ -398,6 +405,7 @@
     <MESSAGE value="Temporarily changing gitignore to fix IntelliJ files" />
     <MESSAGE value="Adding .gitignore back" />
     <MESSAGE value="Rewriting the classes to be JAVADOC compatible" />
-    <option name="LAST_COMMIT_MESSAGE" value="Rewriting the classes to be JAVADOC compatible" />
+    <MESSAGE value="Fixed an issue that made the UI class be created twice" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed an issue that made the UI class be created twice" />
   </component>
 </project>

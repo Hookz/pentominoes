@@ -36,7 +36,7 @@ Project is divided into three phases mostly for grading purposes. There is no ne
 ### Phase 1
 * 7-11\. October 2019 (Monday-Friday)
 * One week of intense research and coding
-* [Presentation](https://maastrichtuniversity-my.sharepoint.com/:p:/g/personal/m_jarski_student_maastrichtuniversity_nl/EVsQWlGsAhFJmLi-op0iyPABj17oEpZu9kyD_ERsJfGmeA?e=GxumXJ) on 11\.10 at 10.00-10.15 with findings and planning: ROOM 2.002, Bouillonstraat 8-10
+* [Presentation](https://maastrichtuniversity-my.sharepoint.com/:p:/g/personal/m_jarski_student_maastrichtuniversity_nl/EVsQWlGsAhFJmLi-op0iyPABj17oEpZu9kyD_ERsJfGmeA?e=GxumXJ) on 11\.10 at 10.00-10.15: ROOM 2.002, Bouillonstraat 8-10
 
 * Project meetings:
   * October 8, 2019
@@ -48,8 +48,17 @@ Project is divided into three phases mostly for grading purposes. There is no ne
 * 28\. October - 13\. December 2019
 * Whole period for both courses and project
 * Adding things missing from Phase 1 + working on Phase 2
-* [Presentation](https://maastrichtuniversity-my.sharepoint.com/:p:/g/personal/m_jarski_student_maastrichtuniversity_nl/ERRieGPd155Lv6NO142-3roBFrunsT8fx-fTwOs-5qtXBw?e=nInFBO) on 13\. December
+* [Presentation](https://maastrichtuniversity-my.sharepoint.com/:p:/g/personal/m_jarski_student_maastrichtuniversity_nl/ERRieGPd155Lv6NO142-3roBFrunsT8fx-fTwOs-5qtXBw?e=nInFBO) on 13\.12 at 9:20-9:40: ROOM 0.004, Tapijn B
 * Phase ends a *weekend* before exams
+
+* Project meetings:
+  * October 29, 2019
+  * November 5, 2019
+  * November 19, 2019
+  * December 3, 2019 (^)
+  * December 10, 2019
+  * Location & Time: Room 0.009 (Bouillonstraat 8-10), 15:00 - 15:15
+  * (^) Location & Time: Room 2.002 (Bouillonstraat 8-10), 17:15 - 17:30
 
 ### Phase 3
 * 6-24\. January 2020
@@ -59,7 +68,7 @@ Project is divided into three phases mostly for grading purposes. There is no ne
 * [Final presentation](https://maastrichtuniversity-my.sharepoint.com/:p:/g/personal/m_jarski_student_maastrichtuniversity_nl/EbFAPeFjRwRPlsS0IK9ZADsBvchGPx0XzO87dGbnpKK1GA?e=HGJv3S) on 23\. January 2020
 * Product & Report examination on 24\. January 2020
 
-Last updated: *2019-10-16*
+Last updated: *2019-10-28*
 
 ## Progress monitor (*stub*)
 - [x] Got to know each other
