@@ -8,7 +8,7 @@ The associated JAVADOC can be found [on this GitHub Page](https://hookz.github.i
 
 ## Group Members
 * René Steeman ([@renesteeman](https://github.com/renesteeman)): **Editor** (*joint*)
-* Samuele Torregrossa ([@fire95](https://github.com/fire95))
+* Samuele Torregrossa ([@fire95](https://github.com/SamueleTorregrossa))
 * Ali Alsaeedi ([@Alialsaeedi1](https://github.com/Alialsaeedi1)): **Presentation coordinator**
 * Lindalee Conradie ([@Lindalee-Conradie](https://github.com/Lindalee-Conradie)): **Editor** (*joint*)
 * Max Persoon ([@MaxPersoon](https://github.com/MaxPersoon))
