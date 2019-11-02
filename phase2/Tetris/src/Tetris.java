@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class Tetris{
     public static void main(String[] args){
         int fieldWidth = 5;
-        int fieldHeight = 5;
+        int fieldHeight = 15;
         int blocks = 5;
         int[][] field = new int[fieldWidth][fieldHeight];
 

@@ -2,6 +2,16 @@ public class Board {
     //Create board class, with addPiece, moveNewPiece, rotateNewPiece, checkRows and removeRow methods
     private int[][] board;
 
+    public Board(){
+        int fieldWidth = 5;
+        int fieldHeight = 15;
+        this.board = new int[fieldWidth][fieldHeight];
+    }
+
+    public Board(int fieldWidth, int fieldHeight){
+        this.board = new int[fieldWidth][fieldHeight];
+    }
+
     private void addPiece(int x, int y, int[][] piece){
         //edit field when a piece is actually placed
     }
