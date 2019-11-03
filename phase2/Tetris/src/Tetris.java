@@ -102,11 +102,16 @@ public class Tetris{
         curPieceRotation=pieceRotation;
     }
 
+
+    public static void checkCollision(){//TODO Sam
+
+    }
+
     public static void dropPiece(){//TODO Drago Drop piece to the bottom
 
     }
 
-    public static void movePieceDown(){//TODO Lindalee move the piece down
+    public static void movePieceDown(){
         curPos[1]+=1;
         tempField=copyField(field);
         addPiece();
