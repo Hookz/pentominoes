@@ -61,6 +61,7 @@ public class Tetris{
             curPos[0]=0;
             curPos[1]=4-pieceToPlace[0].length;
             addPiece();
+            printMatrix(pieceToPlace);
             newPiece=false;
         }
     }
@@ -89,8 +90,9 @@ public class Tetris{
         }
     }
 
-    public static void getNewPiece(){ //TODO Max randomize curPiece between 0 and 11
-        curPiece = 0;
+    public static void getNewPiece(){ //TODO Max randomize the return between 0 and 11
+        Random ran = new Random();
+        curPiece = ran.nextInt(11);
         curPieceRotation=0; // don't touch!
     }
 
@@ -111,7 +113,7 @@ public class Tetris{
         int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
         for(int i = 0; i < pieceToPlace.length; i++){ // loop over x position of pentomino
             for (int j = 0; j < pieceToPlace[i].length; j++){ // loop over y position of pentomino
-                if (field[curPos[0] + i][curPos[1] + j] != -1){
+                if (field[curPos[0] + j][curPos[1] + i] != -1){
                     return true;
                 }
             }
