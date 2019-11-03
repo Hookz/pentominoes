@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.awt.event.KeyEvent;
@@ -23,7 +24,7 @@ public class Tetris{
     public static int[][] tempField;
     private static boolean keys[]=new boolean[65536];
     public static int curPiece;
-    public static int curPieceRotation;
+    public static int curPieceRotation=0;
     public static int curPos[]=new int[2];
     public static UI ui;
     public static boolean upPressed=false;
@@ -55,7 +56,7 @@ public class Tetris{
 
     public static void checkForNewPiece(){
         if(newPiece){
-            curPiece=getNewPiece();
+            getNewPiece();
             int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
             curPos[0]=0;
             curPos[1]=4-pieceToPlace[0].length;
@@ -73,7 +74,7 @@ public class Tetris{
                 if (pieceToPlace[i][j] == 1)
                 {
                     // Add the ID of the pentomino to the board if the pentomino occupies this square
-                    tempField[curPos[0] + i][curPos[1] + j] = curPiece;
+                    tempField[curPos[0] + j][curPos[1] + i] = curPiece;
                 }
             }
         }
@@ -82,16 +83,16 @@ public class Tetris{
     public static void printMatrix(int[][] m) {
         for (int i = 0; i < m.length; i++) {
             for (int j = 0; j < m[i].length; j++) {
-                System.out.print(j+" ");
+                System.out.print(m[i][j]+" ");
             }
             System.out.println();
         }
     }
 
-    public static int getNewPiece(){ //TODO Max randomize the return between 0 and 11
-        int pieceIndex=0;
-        int pieceRotation=0; // don't touch!
-        return 0;
+    public static void getNewPiece(){ //TODO Max randomize the return between 0 and 11
+        Random ran = new Random();
+        curPiece = ran.nextInt(11);
+        curPieceRotation=0; // don't touch!
     }
 
     public static void rotatePiece(boolean cw){//TODO Lindalee change the pieceRotation variable to the right transformation (check the PentominoDatabase class)
@@ -103,6 +104,8 @@ public class Tetris{
         int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
         if(right&&curPos[0]+pieceToPlace[0].length<fieldWidth) curPos[0]+=1;
         if(!right&&curPos[0]>0) curPos[0]-=1;
+        tempField=copyField(field);
+        addPiece();
     }
 
     public static boolean checkCollision(){
@@ -173,9 +176,6 @@ public class Tetris{
                         break;
                     case KeyEvent.VK_SPACE:
                         spacePressed=true;
-                        break;
-                    case KeyEvent.VK_CONTROL:
-                        System.out.println("hello");
                         break;
                 }
                 step();
