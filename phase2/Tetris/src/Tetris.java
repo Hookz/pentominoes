@@ -35,13 +35,18 @@ public class Tetris{
 
     public static void step(){
         checkForNewPiece();
-        if(leftPressed) movePiece(false);
-        if(rightPressed) movePiece(true);
-        if(upPressed) rotatePiece(false);
-        if(downPressed) rotatePiece(true);
-        if(spacePressed) dropPiece();
-        movePieceDown();
-        ui.setState(tempField);
+        boolean collided=checkCollision();
+        if(!collided){
+            if(leftPressed) movePiece(false);
+            if(rightPressed) movePiece(true);
+            if(upPressed) rotatePiece(false);
+            if(downPressed) rotatePiece(true);
+            if(spacePressed) dropPiece();
+            movePieceDown();
+            ui.setState(tempField);
+        } else {
+            System.out.println("collided");
+        }
     }
 
     public static void wipeField(int[][] field){
@@ -53,7 +58,6 @@ public class Tetris{
     public static void checkForNewPiece(){
         if(newPiece){
             curPiece=getNewPiece();
-
             int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
             curPos[0]=0;
             curPos[1]=4-pieceToPlace[0].length;
@@ -103,8 +107,16 @@ public class Tetris{
     }
 
 
-    public static void checkCollision(){//TODO Sam
-
+    public static boolean checkCollision(){//TODO Sam
+        int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
+        for(int i = 0; i < pieceToPlace.length; i++){ // loop over x position of pentomino
+            for (int j = 0; j < pieceToPlace[i].length; j++){ // loop over y position of pentomino
+                if (field[curPos[0] + i][curPos[1] + j] != -1){
+                    return true;
+                }
+            }
+        }
+        return pieceToPlace[0].length+curPos[1]+1>fieldHeight;
     }
 
     public static void dropPiece(){//TODO Drago Drop piece to the bottom
