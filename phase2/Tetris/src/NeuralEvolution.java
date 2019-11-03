@@ -1,5 +1,7 @@
 public class NeuralEvolution {
     public static int neuronsN=10;
+
+
 }
 
 class Neuron{

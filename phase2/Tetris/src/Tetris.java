@@ -32,20 +32,15 @@ public class Tetris{
     public static boolean rightPressed=false;
     public static boolean leftPressed=false;
     public static boolean spacePressed=false;
-    static boolean newPiece=true;
+    public static boolean gameOver=false;
 
     public static void step(){
-        boolean collided=checkCollision();
-        if(!collided){
-            if(leftPressed) movePiece(false);
-            if(rightPressed) movePiece(true);
-            if(upPressed) rotatePiece(false);
-            if(downPressed) rotatePiece(true);
-            if(spacePressed) dropPiece();
-            ui.setState(tempField);
-        } else {
-            System.out.println("collided");
-        }
+        if(leftPressed) movePiece(false);
+        if(rightPressed) movePiece(true);
+        if(upPressed) rotatePiece(false);
+        if(downPressed) rotatePiece(true);
+        if(spacePressed) dropPiece();
+        ui.setState(tempField);
     }
 
     public static void wipeField(int[][] field){
@@ -54,16 +49,13 @@ public class Tetris{
         }
     }
 
-    public static void checkForNewPiece(){
-        if(newPiece){
-            getNewPiece();
-            int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
-            curPos[0]=0;
-            curPos[1]=4-pieceToPlace[0].length;
-            addPiece();
-            printMatrix(pieceToPlace);
-            newPiece=false;
-        }
+    public static void instantiateNewPiece(){
+        getNewPiece();
+        int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
+        curPos[0]=0;
+        curPos[1]=4-pieceToPlace[0].length;
+        addPiece();
+        //printMatrix(pieceToPlace);
     }
 
     public static void addPiece(){
@@ -72,19 +64,20 @@ public class Tetris{
         {
             for (int j = 0; j < pieceToPlace[i].length; j++) // loop over y position of pentomino
             {
-                if (pieceToPlace[i][j] == 1)
-                {
+                if (pieceToPlace[i][j] == 1){
                     // Add the ID of the pentomino to the board if the pentomino occupies this square
                     tempField[curPos[0] + j][curPos[1] + i] = curPiece;
                 }
             }
         }
+        printMatrix(tempField);
+        //System.out.println();
     }
 
     public static void printMatrix(int[][] m) {
         for (int i = 0; i < m.length; i++) {
             for (int j = 0; j < m[i].length; j++) {
-                System.out.print(m[i][j]+" ");
+                System.out.print(1+m[i][j]+" ");
             }
             System.out.println();
         }
@@ -101,23 +94,43 @@ public class Tetris{
     }
 
     public static void movePiece(boolean right){
-        int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
-        if(right&&curPos[0]+pieceToPlace[0].length<fieldWidth) curPos[0]+=1;
-        if(!right&&curPos[0]>0) curPos[0]-=1;
-        tempField=copyField(field);
-        addPiece();
+        int dir=0;
+        if (!right) dir=1;
+        if(!checkCollision(dir)){
+            int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
+            if(right&&curPos[0]+pieceToPlace[0].length<fieldWidth) curPos[0]+=1;
+            if(!right&&curPos[0]>0) curPos[0]-=1;
+            tempField=copyField(field);
+            addPiece();
+        }
     }
 
-    public static boolean checkCollision(){
+    public static boolean checkCollision(int move){ //0:right 1:left 2:down
+        int[] temPos=new int[2];
+        System.arraycopy(curPos, 0, temPos, 0, 2);
+        if (move==0) temPos[0]=curPos[0]+1;
+        if (move==1) temPos[0]=curPos[0]-1;
+        if (move==2) temPos[1]=curPos[1]+1;
         int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
-        for(int i = 0; i < pieceToPlace.length; i++){ // loop over x position of pentomino
-            for (int j = 0; j < pieceToPlace[i].length; j++){ // loop over y position of pentomino
-                if (field[curPos[0] + j][curPos[1] + i] != -1){
-                    return true;
+        if(pieceToPlace.length+temPos[1]>fieldHeight||temPos[0]<0||temPos[0]>fieldWidth-pieceToPlace[0].length) {
+            return true;
+        }else{
+            for (int i = 0; i < pieceToPlace.length; i++) { // loop over x position of pentomino
+                for (int j = 0; j < pieceToPlace[i].length; j++) { // loop over y position of pentomino
+                    /*System.out.println(tempField[temPos[0] +j][temPos[1] + i-1]);
+                    System.out.print(temPos[0] +j);
+                    System.out.print(" ");
+                    System.out.println(temPos[1] + i);*/
+                    if (pieceToPlace[i][j] == 1){
+                        //System.out.print(tempField[temPos[0] +j][temPos[1] + i-1]);
+                        if(field[temPos[0]+j][temPos[1] + i]!=-1){
+                            return true;
+                        }
+                    }
                 }
             }
         }
-        return pieceToPlace[0].length+curPos[1]+1>fieldHeight;
+        return false;
     }
 
     public static void dropPiece(){//TODO Drago Drop piece to the bottom
@@ -125,11 +138,21 @@ public class Tetris{
     }
 
     public static void movePieceDown(){
-        checkForNewPiece();
-        curPos[1]+=1;
-        tempField=copyField(field);
-        addPiece();
-        ui.setState(tempField);
+        if(!checkCollision(2)) {
+            curPos[1] += 1;
+            tempField = copyField(field);
+            addPiece();
+            ui.setState(tempField);
+        } else {
+            int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
+            if(curPos[1]+pieceToPlace.length<5){
+                gameOver=true;
+                wipeField(field);
+                wipeField(tempField);
+            }
+            field=copyField(tempField);
+            instantiateNewPiece();
+        }
     }
 
     private void checkRows(){
@@ -202,7 +225,8 @@ public class Tetris{
             public void keyTyped(KeyEvent e) {
             }
         });
+        instantiateNewPiece();
         Timer timer = new Timer();
-        timer.schedule(new GameTimer(), 0, 500);
+        timer.schedule(new GameTimer(), 0, 100);
     }
 }
