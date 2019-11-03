@@ -91,8 +91,7 @@ public class Tetris{
     }
 
     public static void getNewPiece(){ //TODO Max randomize the return between 0 and 11
-        Random ran = new Random();
-        curPiece = ran.nextInt(11);
+        curPiece = 0;
         curPieceRotation=0; // don't touch!
     }
 
