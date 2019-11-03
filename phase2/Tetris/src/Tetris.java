@@ -101,9 +101,9 @@ public class Tetris{
         curPieceRotation=pieceRotation;
     }
 
-    public static void movePiece(boolean right){//TODO Lindalee change the pieceRotation variable to the right transformation (check the PentominoDatabase class)
-        int pieceRotation=0;
-        curPieceRotation=pieceRotation;
+    public static void movePiece(boolean right){//TODO Lindalee change the piecePosition variable
+        int[]piecePosition=new int[];
+        curPos=piecePosition;
     }
 
 
