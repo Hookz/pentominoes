@@ -154,8 +154,8 @@ public class Search
 
 				//Choose a pentomino and randomly rotate/inverse it
 				int pentID = characterToID(input[i]);
-				int mutation = random.nextInt(PentominoDatabase.data[pentID].length);
-				int[][] pieceToPlace = PentominoDatabase.data[pentID][mutation];
+				int mutation = random.nextInt(General.PentominoDatabase.data[pentID].length);
+				int[][] pieceToPlace = General.PentominoDatabase.data[pentID][mutation];
 
 				//Randomly generate a position to put the pentomino on the board
 				int x;
@@ -462,7 +462,7 @@ public class Search
 		int[][] onePos;
 		int pentID = 0;
 		int mutation = 0;
-		int[][] pieceToPlace = PentominoDatabase.data[pentID][mutation];
+		int[][] pieceToPlace = General.PentominoDatabase.data[pentID][mutation];
 		int x, y = 0;
 		int row = 0;
 		int n=0;
@@ -476,9 +476,9 @@ public class Search
 		for (int i = 0; i < input.length; i++) {
 			pentID = characterToID(input[i]);
 			//for every mutation
-			for (int j = 0; j < PentominoDatabase.data[pentID].length; j++) {
+			for (int j = 0; j < General.PentominoDatabase.data[pentID].length; j++) {
 				mutation = j;
-				pieceToPlace = PentominoDatabase.data[pentID][mutation];
+				pieceToPlace = General.PentominoDatabase.data[pentID][mutation];
 				wipeField(field);
 				for (int k = 0; k < field.length; k++) {
 					for (int l = 0; l < field[k].length; l++) {

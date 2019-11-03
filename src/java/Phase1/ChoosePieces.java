@@ -11,6 +11,7 @@ import java.awt.event.*;
  * Class with the part of the GUI responsible for allowing the user to choose desired pentomino pieces
  */
 public class ChoosePieces {
+    public static JLabel[] pieces;
     /**
      * The array to keep track of used pieces
      */
@@ -28,27 +29,20 @@ public class ChoosePieces {
     public ChoosePieces(){
         piecesUsed = new boolean[12];
         choosePieces = new JFrame("Pentominoes: Settings");
+        createPieces();
     }
     /**
      * Creates a window of the class to make it possible for user to input desired values
      * <br>
      * It adds the interactive layer with all clickable and adjustable elements to the GUI.
      */
-    public void createWindow(){
+
+
+    public void createPieces(){
         BufferedImage img;
         Image dimg;
         ImageIcon imageIcon;
-        choosePieces.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        JLabel title = new JLabel();
-        title.setText("Choose exactly " + Search.area/5 +" piece(s)");
-        title.setFont(new Font("Impact", Font.BOLD, 60));
-        title.setForeground(new Color(255,206,40));
-        title.setBounds(225,-10,960,200);
-        title.setVisible(true);
-
-
-        JLabel[] pieces = new JLabel[12];
+        pieces = new JLabel[12];
 
         pieces[0] = new JLabel();
         pieces[0].setBounds(450,275,75,75);
@@ -77,7 +71,6 @@ public class ChoosePieces {
                 Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(dimg);
         pieces[1].setIcon(imageIcon);
-        pieces[1].setVisible(true);
 
         pieces[2] = new JLabel();
         pieces[2].setBounds(550,375,75,75);
@@ -91,7 +84,6 @@ public class ChoosePieces {
                 Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(dimg);
         pieces[2].setIcon(imageIcon);
-        pieces[2].setVisible(true);
 
         pieces[3] = new JLabel();
         pieces[3].setBounds(525,150,75,75);
@@ -105,7 +97,6 @@ public class ChoosePieces {
                 Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(dimg);
         pieces[3].setIcon(imageIcon);
-        pieces[3].setVisible(true);
 
         pieces[4] = new JLabel();
         pieces[4].setBounds(150,300,75,50);
@@ -119,7 +110,6 @@ public class ChoosePieces {
                 Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(dimg);
         pieces[4].setIcon(imageIcon);
-        pieces[4].setVisible(true);
 
         pieces[5] = new JLabel();
         pieces[5].setBounds(250,275,75,75);
@@ -133,7 +123,6 @@ public class ChoosePieces {
                 Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(dimg);
         pieces[5].setIcon(imageIcon);
-        pieces[5].setVisible(true);
 
         pieces[6] = new JLabel();
         pieces[6].setBounds(350,275,75,75);
@@ -147,7 +136,6 @@ public class ChoosePieces {
                 Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(dimg);
         pieces[6].setIcon(imageIcon);
-        pieces[6].setVisible(true);
 
         pieces[7] = new JLabel();
         pieces[7].setBounds(550,275,50,75);
@@ -161,7 +149,6 @@ public class ChoosePieces {
                 Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(dimg);
         pieces[7].setIcon(imageIcon);
-        pieces[7].setVisible(true);
 
         pieces[8] = new JLabel();
         pieces[8].setBounds(300,150,50,75);
@@ -175,7 +162,6 @@ public class ChoosePieces {
                 Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(dimg);
         pieces[8].setIcon(imageIcon);
-        pieces[8].setVisible(true);
 
         pieces[9] = new JLabel();
         pieces[9].setBounds(450,150,50,75);
@@ -189,7 +175,6 @@ public class ChoosePieces {
                 Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(dimg);
         pieces[9].setIcon(imageIcon);
-        pieces[9].setVisible(true);
 
         pieces[10] = new JLabel();
         pieces[10].setBounds(375,150,50,75);
@@ -203,7 +188,6 @@ public class ChoosePieces {
                 Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(dimg);
         pieces[10].setIcon(imageIcon);
-        pieces[10].setVisible(true);
 
         pieces[11] = new JLabel();
         pieces[11].setBounds(150,150,75,75);
@@ -217,9 +201,21 @@ public class ChoosePieces {
                 Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(dimg);
         pieces[11].setIcon(imageIcon);
-        pieces[11].setVisible(true);
+    }
 
 
+    public void createWindow(){
+        choosePieces.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JLabel title = new JLabel();
+        title.setText("Choose exactly " + Search.area/5 +" piece(s)");
+        title.setFont(new Font("Impact", Font.BOLD, 60));
+        title.setForeground(new Color(255,206,40));
+        title.setBounds(225,-10,960,200);
+        title.setVisible(true);
+
+        for(int i=0;i<12;i++)
+            pieces[i].setVisible(true);
         JButton goWithChosen = new JButton("Go with chosen!");
         goWithChosen.setBounds(300,500,375,75);
         goWithChosen.setOpaque(true);

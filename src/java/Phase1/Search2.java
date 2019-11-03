@@ -165,7 +165,7 @@ public class Search2{
         }
 
         //if not all rotations have been tried, try them
-        if(currentRotation < PentominoDatabase.data[currentID].length-1){
+        if(currentRotation < General.PentominoDatabase.data[currentID].length-1){
           currentRotation++;
           recursive(addPentomino(field, currentID, currentRotation), givenPentominoes, usedPentominoes, currentID, currentRotation);
         }
@@ -201,8 +201,8 @@ public class Search2{
 
   //return the board with the Pentomino added
   private static int[][] addPentomino(int[][] field, int pentID, int mutation){
-    System.out.println("Mutation " + mutation + " out of " + PentominoDatabase.data[pentID].length);
-    System.out.println(Arrays.deepToString(PentominoDatabase.data[pentID]));
+    System.out.println("Mutation " + mutation + " out of " + General.PentominoDatabase.data[pentID].length);
+    System.out.println(Arrays.deepToString(General.PentominoDatabase.data[pentID]));
     int placeX = 0;
     int placeY = 0;
 
@@ -228,7 +228,7 @@ public class Search2{
     }
 
     //get the pentomino shape
-    int[][] pieceToPlace = PentominoDatabase.data[pentID][mutation];
+    int[][] pieceToPlace = General.PentominoDatabase.data[pentID][mutation];
     System.out.println("PieceToPlace:");
     System.out.println(Arrays.deepToString(pieceToPlace));
 
@@ -352,8 +352,8 @@ public class Search2{
   		for (int i = 0; i < input.length; i++) {
   			//Choose a pentomino and randomly rotate/inverse it
   			int pentID = characterToID(input[i]);
-  			int mutation = random.nextInt(PentominoDatabase.data[pentID].length);
-  			int[][] pieceToPlace = PentominoDatabase.data[pentID][mutation];
+  			int mutation = random.nextInt(General.PentominoDatabase.data[pentID].length);
+  			int[][] pieceToPlace = General.PentominoDatabase.data[pentID][mutation];
 
   			//Randomly generate a position to put the pentomino on the board
   			int x;

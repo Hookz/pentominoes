@@ -1,4 +1,4 @@
-package Phase1;
+package General;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.PrintWriter;

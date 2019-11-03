@@ -1,31 +1,26 @@
 package Phase2.Tetris;
 public class Board {
     //Create board class, with addPiece, moveNewPiece, rotateNewPiece, checkRows and removeRow methods
-    private int[][] board;
 
-    public Board(){
-        int fieldWidth = 5;
-        int fieldHeight = 15;
-        this.board = new int[fieldWidth][fieldHeight];
-    }
-
-    public Board(int fieldWidth, int fieldHeight){
-        this.board = new int[fieldWidth][fieldHeight];
-    }
+    //you can reference curPiece with Tetris.curPiece
+    //you can reference curPiece with Tetris.curPos
 
     private void addPiece(int x, int y, int[][] piece){
         //edit field when a piece is actually placed
     }
 
-    public void moveNewPiece(int x, int y, int[][] piece){
-        //give the x and y coordinates along with the piece itself
-        //show the new state, but keep it as a temporal state
-        //if the piece hits an other piece, save the state
-    }
-
-    public void rotatePiece(int[][] piece, boolean right){
+    public static void rotatePiece(boolean cw){
         //give the piece itself and whether you want to turn it to the right (or left)
         //call moveNewPiece when it has been rotated
+    }
+
+    public static void movePiece(boolean right){
+        //give the piece itself and whether you want to move it to the right (or left)
+        //call moveNewPiece when it has been rotated
+    }
+
+    public static void dropPiece(){
+        //drop the piece to the lowest possible position
     }
 
     private void checkRows(){
