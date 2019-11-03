@@ -34,7 +34,6 @@ public class Tetris{
     static boolean newPiece=true;
 
     public static void step(){
-        checkForNewPiece();
         boolean collided=checkCollision();
         if(!collided){
             if(leftPressed) movePiece(false);
@@ -42,7 +41,6 @@ public class Tetris{
             if(upPressed) rotatePiece(false);
             if(downPressed) rotatePiece(true);
             if(spacePressed) dropPiece();
-            movePieceDown();
             ui.setState(tempField);
         } else {
             System.out.println("collided");
@@ -101,13 +99,13 @@ public class Tetris{
         curPieceRotation=pieceRotation;
     }
 
-    public static void movePiece(boolean right){//TODO Lindalee change the piecePosition variable
-        int[]piecePosition=new int[];
-        curPos=piecePosition;
+    public static void movePiece(boolean right){
+        int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
+        if(right&&curPos[0]+pieceToPlace[0].length<fieldWidth) curPos[0]+=1;
+        if(!right&&curPos[0]>0) curPos[0]-=1;
     }
 
-
-    public static boolean checkCollision(){//TODO Sam
+    public static boolean checkCollision(){
         int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
         for(int i = 0; i < pieceToPlace.length; i++){ // loop over x position of pentomino
             for (int j = 0; j < pieceToPlace[i].length; j++){ // loop over y position of pentomino
@@ -124,9 +122,11 @@ public class Tetris{
     }
 
     public static void movePieceDown(){
+        checkForNewPiece();
         curPos[1]+=1;
         tempField=copyField(field);
         addPiece();
+        ui.setState(tempField);
     }
 
     private void checkRows(){
@@ -178,6 +178,7 @@ public class Tetris{
                         System.out.println("hello");
                         break;
                 }
+                step();
             }
             public void keyReleased(KeyEvent e) {
                 switch (e.getKeyCode()) {
