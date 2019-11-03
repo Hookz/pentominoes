@@ -6,6 +6,8 @@ public class Game {
 
     private int[][] generatePiece(){
         //get a random value and chose the corresponding piece
+        int [][] a=new int[1][1];
+        return a;
     }
 
     public void increaseScore(int increaseBy){
