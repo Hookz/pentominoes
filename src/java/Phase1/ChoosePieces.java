@@ -60,7 +60,7 @@ public class ChoosePieces {
         pieces[0].setVisible(true);
 
         pieces[1] = new JLabel();
-        pieces[1].setBounds(250,150,25,75);
+        pieces[1].setBounds(250,150,25,100);
         img = null;
         try {
             img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/I.png"));
@@ -73,7 +73,7 @@ public class ChoosePieces {
         pieces[1].setIcon(imageIcon);
 
         pieces[2] = new JLabel();
-        pieces[2].setBounds(550,375,75,75);
+        pieces[2].setBounds(550,400,75,75);
         img = null;
         try {
             img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/Z.png"));
@@ -138,7 +138,7 @@ public class ChoosePieces {
         pieces[6].setIcon(imageIcon);
 
         pieces[7] = new JLabel();
-        pieces[7].setBounds(550,275,50,75);
+        pieces[7].setBounds(550,275,50,100);
         img = null;
         try {
             img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/Y.png"));
@@ -151,7 +151,7 @@ public class ChoosePieces {
         pieces[7].setIcon(imageIcon);
 
         pieces[8] = new JLabel();
-        pieces[8].setBounds(300,150,50,75);
+        pieces[8].setBounds(300,150,50,100);
         img = null;
         try {
             img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/L.png"));
@@ -177,7 +177,7 @@ public class ChoosePieces {
         pieces[9].setIcon(imageIcon);
 
         pieces[10] = new JLabel();
-        pieces[10].setBounds(375,150,50,75);
+        pieces[10].setBounds(375,150,50,100);
         img = null;
         try {
             img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/N.png"));

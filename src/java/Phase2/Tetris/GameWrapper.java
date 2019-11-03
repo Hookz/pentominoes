@@ -4,10 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GameWrapper extends JPanel{
-    public JLabel score = new JLabel("0", JLabel.CENTER);
+    public JLabel score = new JLabel(number(Tetris.score), JLabel.CENTER);
     public JLabel[] gamePieces = new Phase1.ChoosePieces().pieces;
     public JFrame window;
     public static UI ui;
+    public JLabel nextPiece;
 
     public GameWrapper(int x, int y, int _size){
         score.setFont(new Font("Comic Sans MS", Font.BOLD, 22));
@@ -35,7 +36,7 @@ public class GameWrapper extends JPanel{
             gamePieces[i].setBackground(Color.white);
         }
         // TODO: To be set to randomly generated ID number used for randomizing game pieces
-        JLabel nextPiece = gamePieces[1];
+        nextPiece = gamePieces[2];
 
         nextPiecePanel.add(nextPieceLabel);
         nextPiecePanel.add(nextPiece);
@@ -47,6 +48,16 @@ public class GameWrapper extends JPanel{
         window.pack();
         window.setResizable(false);
         window.setVisible(true);
-    }
 
+        /*Example update method for nextPiece.
+        It can be accessed by other classes through the Tetris class as Tetris.gameWrapper.nextPiece.
+        Useful for changing the piece dynamically after the previous one has already been placed.
+        Cannot be achieved by nextPiece = gamePieces[i] since it would break the reference.
+        */
+        nextPiece.setIcon(gamePieces[7].getIcon());
+    }
+    private static String number(int x){
+        String sequence = Integer.toString(x);
+        return sequence;
+    }
 }
