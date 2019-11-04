@@ -213,6 +213,6 @@ public class Tetris{
         });
         instantiateNewPiece();
         Timer timer = new Timer();
-        timer.schedule(new GameTimer(), 0, 500);
+        timer.schedule(new GameTimer(), 0, 100);
     }
 }
