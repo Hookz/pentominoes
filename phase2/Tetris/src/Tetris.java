@@ -70,7 +70,7 @@ public class Tetris{
                 }
             }
         }
-        printMatrix(tempField);
+        //printMatrix(tempField);
         //System.out.println();
     }
 
@@ -96,7 +96,7 @@ public class Tetris{
     public static void movePiece(boolean right){
         int dir=0;
         if (!right) dir=1;
-        if(!checkCollision(dir)){
+        if(!checkCollision(dir,curPieceRotation)){
             int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
             if(right&&curPos[0]+pieceToPlace[0].length<fieldWidth) curPos[0]+=1;
             if(!right&&curPos[0]>0) curPos[0]-=1;
@@ -105,12 +105,18 @@ public class Tetris{
         }
     }
 
-    public static boolean checkCollision(int move){ //0:right 1:left 2:down
+    public static boolean checkCollision(int move,int rotation){ //0:right 1:left 2:down
         int[] temPos=new int[2];
+        int temRot=curPieceRotation;
         System.arraycopy(curPos, 0, temPos, 0, 2);
         if (move==0) temPos[0]=curPos[0]+1;
-        if (move==1) temPos[0]=curPos[0]-1;
-        if (move==2) temPos[1]=curPos[1]+1;
+        else if (move==1) temPos[0]=curPos[0]-1;
+        else if (move==2) temPos[1]=curPos[1]+1;
+        if(rotation!=curPieceRotation){
+            temPos[0]=curPos[0];
+            temRot=rotation;
+        }
+
         int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
         if(pieceToPlace.length+temPos[1]>fieldHeight||temPos[0]<0||temPos[0]>fieldWidth-pieceToPlace[0].length) {
             return true;
@@ -138,7 +144,7 @@ public class Tetris{
     }
 
     public static void movePieceDown(){
-        if(!checkCollision(2)) {
+        if(!checkCollision(2,curPieceRotation)) {
             curPos[1] += 1;
             tempField = copyField(field);
             addPiece();
@@ -227,6 +233,6 @@ public class Tetris{
         });
         instantiateNewPiece();
         Timer timer = new Timer();
-        timer.schedule(new GameTimer(), 0, 100);
+        timer.schedule(new GameTimer(), 0, 500);
     }
 }

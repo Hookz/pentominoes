@@ -4,6 +4,12 @@ public class NeuralEvolution {
 
 }
 
+/*public static void getNewPiece(){ //TODO Max randomize the return between 0 and 11
+    Random r = new Random();
+    curPiece = r.nextInt(12);
+    curPieceRotation=0; // don't touch!
+}*/
+
 class Neuron{
     private double[]weights;
     private double bias;
