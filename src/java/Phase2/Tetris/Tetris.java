@@ -3,6 +3,7 @@ import General.PentominoDatabase;
 import Phase1.UI;
 
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Timer;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -53,7 +54,7 @@ public class Tetris{
         getNewPiece();
         int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
         curPos[0]=0;
-        curPos[1]=4-pieceToPlace[0].length;
+        curPos[1]=5-(pieceToPlace.length);
         addPiece();
         //printMatrix(pieceToPlace);
     }
@@ -84,7 +85,8 @@ public class Tetris{
     }
 
     public static void getNewPiece(){ //TODO Max randomize the return between 0 and 11
-        curPiece = 0;
+        Random r = new Random();
+        curPiece = r.nextInt(12);
         curPieceRotation=0; // don't touch!
     }
 
@@ -143,13 +145,14 @@ public class Tetris{
             gameWrapper.ui.setState(tempField);
         } else {
             int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
-            if(curPos[1]+pieceToPlace.length<5){
+            if(curPos[1]<5){
                 gameOver=true;
                 wipeField(field);
                 wipeField(tempField);
             }
             field=copyField(tempField);
             instantiateNewPiece();
+            gameWrapper.ui.setState(tempField);
         }
     }
 
@@ -225,6 +228,6 @@ public class Tetris{
         });
         instantiateNewPiece();
         Timer timer = new Timer();
-        timer.schedule(new GameTimer(), 0, 500);
+        timer.schedule(new GameTimer(), 0, 200);
     }
 }

@@ -5,7 +5,7 @@ public class NeuralEvolution {
 
 }
 
-/*public static void getNewPiece(){ //TODO Max randomize the return between 0 and 11
+/*public static void getNewPiece(){
     Random r = new Random();
     curPiece = r.nextInt(12);
     curPieceRotation=0; // don't touch!

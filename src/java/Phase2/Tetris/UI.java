@@ -66,7 +66,7 @@ public class UI extends JPanel
         {
             for (int j = 0; j < state[0].length; j++)
             {
-                int n=150;
+                int n=200;
                 if(Tetris.tempField[i][j+5]!=Tetris.field[i][j+5]) n=255;
                 localGraphics2D.setColor(GetColorOfID(state[i][j],n));
                 localGraphics2D.fill(new Rectangle2D.Double(i * size + 1, j * size + 1, size - 1, size - 1));
