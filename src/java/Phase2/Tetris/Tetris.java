@@ -182,13 +182,13 @@ public class Tetris{
     public static void main(String[] args){
         fieldWidth = 5;
         fieldHeight = 20;
+        gameWrapper = new GameWrapper(fieldWidth, fieldHeight-5, 50);
         blocks = 5;
         field = new int[fieldWidth][fieldHeight];
         tempField = new int[fieldWidth][fieldHeight];
         wipeField(field);
         tempField = copyField(field);
-        gameWrapper = new GameWrapper(fieldWidth, fieldHeight-5, 50);
-        gameWrapper.ui.window.addKeyListener(new KeyListener() {
+        gameWrapper.window.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_LEFT:
