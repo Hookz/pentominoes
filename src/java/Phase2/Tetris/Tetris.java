@@ -9,10 +9,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /*TODO
-    Implement game class
-
-    Implement board class
-
     Implement AI class
 */
 
@@ -56,23 +52,18 @@ public class Tetris{
         curPos[0]=0;
         curPos[1]=5-(pieceToPlace.length);
         addPiece();
-        //printMatrix(pieceToPlace);
     }
 
     public static void addPiece(){
         int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
-        for(int i = 0; i < pieceToPlace.length; i++) // loop over x position of pentomino
-        {
-            for (int j = 0; j < pieceToPlace[i].length; j++) // loop over y position of pentomino
-            {
+        for(int i = 0; i < pieceToPlace.length; i++){ // loop over x position of pentomino
+            for (int j = 0; j < pieceToPlace[i].length; j++){ // loop over y position of pentomino
                 if (pieceToPlace[i][j] == 1){
                     // Add the ID of the pentomino to the board if the pentomino occupies this square
                     tempField[curPos[0] + j][curPos[1] + i] = curPiece;
                 }
             }
         }
-        //printMatrix(tempField);
-        //System.out.println();
     }
 
     public static void printMatrix(int[][] m) {
@@ -85,8 +76,7 @@ public class Tetris{
     }
 
     public static void getNewPiece(){ //TODO Max randomize the return between 0 and 11
-        Random r = new Random();
-        curPiece = r.nextInt(12);
+        curPiece = 0;
         curPieceRotation=0; // don't touch!
     }
 
@@ -117,12 +107,7 @@ public class Tetris{
         }else{
             for (int i = 0; i < pieceToPlace.length; i++) { // loop over x position of pentomino
                 for (int j = 0; j < pieceToPlace[i].length; j++) { // loop over y position of pentomino
-                    /*System.out.println(tempField[temPos[0] +j][temPos[1] + i-1]);
-                    System.out.print(temPos[0] +j);
-                    System.out.print(" ");
-                    System.out.println(temPos[1] + i);*/
                     if (pieceToPlace[i][j] == 1){
-                        //System.out.print(tempField[temPos[0] +j][temPos[1] + i-1]);
                         if(field[temPos[0]+j][temPos[1] + i]!=-1){
                             return true;
                         }
@@ -228,6 +213,6 @@ public class Tetris{
         });
         instantiateNewPiece();
         Timer timer = new Timer();
-        timer.schedule(new GameTimer(), 0, 200);
+        timer.schedule(new GameTimer(), 0, 500);
     }
 }
