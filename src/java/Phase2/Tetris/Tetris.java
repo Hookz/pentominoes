@@ -94,15 +94,7 @@ public class Tetris{
     }
 
     public static void movePiece(boolean right){
-        int dir=0;
-        if (!right) dir=1;
-        if(!checkCollision(dir,curPieceRotation)){
-            int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
-            if(right&&curPos[0]+pieceToPlace[0].length<fieldWidth) curPos[0]+=1;
-            if(!right&&curPos[0]>0) curPos[0]-=1;
-            tempField=copyField(field);
-            addPiece();
-        }
+
     }
 
     public static boolean checkCollision(int move,int rotation){ //0:right 1:left 2:down
