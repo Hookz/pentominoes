@@ -30,6 +30,8 @@ public class Tetris{
     public static boolean spacePressed=false;
     public static boolean gameOver=false;
     public static int score = 0;
+    public static int nextPiece = (int) Math.random()*12;
+    public static Random rand = new Random(21370);
 
     public static void step(){
         if(leftPressed) movePiece(false);
@@ -76,13 +78,31 @@ public class Tetris{
     }
 
     public static void getNewPiece(){ //TODO Max randomize the return between 0 and 11
-        curPiece = 0;
+        curPiece = nextPiece;
+        nextPiece = rand.nextInt(12);
         curPieceRotation=0; // don't touch!
     }
 
     public static void rotatePiece(boolean cw){//TODO Lindalee change the pieceRotation variable to the right transformation (check the PentominoDatabase class)
-        int pieceRotation=0;
+        int pieceRotation=curPieceRotation;
+        if(cw) {
+            if (curPieceRotation < PentominoDatabase.data[Tetris.curPiece].length - 1) {
+                pieceRotation++;
+            }
+            if (curPieceRotation > PentominoDatabase.data[Tetris.curPiece].length - 1) {
+                pieceRotation = 0;
+            }
+        }
+        if(!cw) {
+            if (curPieceRotation == 0) {
+                pieceRotation = PentominoDatabase.data[Tetris.curPiece].length - 1;
+            }
+            else {
+                pieceRotation = pieceRotation - 1;
+            }
+        }
         curPieceRotation=pieceRotation;
+        gameWrapper.ui.setState(Tetris.tempField);
     }
 
     public static void movePiece(boolean right){
@@ -213,6 +233,6 @@ public class Tetris{
         });
         instantiateNewPiece();
         Timer timer = new Timer();
-        timer.schedule(new GameTimer(), 0, 100);
+        timer.schedule(new GameTimer(), 0, 500);
     }
 }
