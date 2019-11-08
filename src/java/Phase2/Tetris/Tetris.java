@@ -106,7 +106,46 @@ public class Tetris{
     }
 
     public static void movePiece(boolean right){
-
+        if(!right){
+            if(checkMoveCollision(-1)){
+                curPos[0] -= 1;
+                tempField = copyField(field);
+                addPiece();
+                gameWrapper.ui.setState(tempField);
+            }
+        }
+        if(right){
+            if(checkMoveCollision(1)){
+                curPos[0] += 1;
+                tempField = copyField(field);
+                addPiece();
+                gameWrapper.ui.setState(tempField);
+            }
+        }
+    }
+    
+    public static boolean checkMoveCollision(int i) {
+        int[] tempPos = new int[2];
+        tempPos[0] = curPos[0]+i;
+        tempPos[1] = curPos[1];
+        boolean colPiece = false;
+        int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
+        for(int j = 0 ; j< pieceToPlace.length;j++){
+            for(int k = 0; k< pieceToPlace[j].length ; k++){
+                if (pieceToPlace[i][j] == 1){
+                    if(field[tempPos[0]+j][tempPos[1] + i]!=-1){
+                        colPiece = true;
+                    }
+                }
+            }
+        }
+        if(tempPos[0] <0) {
+            return false;
+        }
+        if((tempPos[0]+ pieceToPlace[0].length)> fieldWidth){
+            return false;
+        }
+        return true;
     }
 
     public static boolean checkCollision(int move,int rotation){ //0:right 1:left 2:down
