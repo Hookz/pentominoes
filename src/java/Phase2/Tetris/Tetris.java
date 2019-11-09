@@ -32,6 +32,7 @@ public class Tetris{
     public static int score = 0;
     public static int nextPiece = (int) Math.random()*12;
     public static Random rand = new Random(21370);
+    public static boolean start = true;
 
     public static void step(){
         if(leftPressed) movePiece(false);
@@ -78,8 +79,14 @@ public class Tetris{
     }
 
     public static void getNewPiece(){ //TODO Max randomize the return between 0 and 11
-        curPiece = nextPiece;
-        nextPiece = rand.nextInt(12);
+        if (start) {
+            curPiece = (int) (12 * Math.random());
+            start = false;
+        }
+        else {
+            curPiece = nextPiece;
+        }
+        nextPiece = (int) (12 * Math.random());
         curPieceRotation=0; // don't touch!
     }
 
@@ -200,12 +207,35 @@ public class Tetris{
         }
     }
 
-    private void checkRows(){
-        //check if there's a full row, if there is use removeRows
-    }
-
-    private void removeRows(int row){
-        //remove this row, update the score and move all above rows down by the amount of full rows
+    private void rowElimination() {
+        // TODO Ali implements score
+        for(int i = field.length - 1; i >= 0; i--) {
+            int cntr = 0;
+            boolean fullRow = false;
+            // Count amount of non -1 entries in row i
+            for(int j = 0; j < field[0].length; j++) {
+                if (field[i][j] != -1)
+                    cntr++;
+            }
+            // Check for full row
+            if (cntr == field[0].length)
+                fullRow = true;
+            if (fullRow) {
+                // Move all rows above full row i down one row
+                for(int k = i; k >= 0; k--) {
+                    if (k == 0) {
+                        for (int m = 0; m < field[0].length; m++)
+                            field[k][m] = -1;
+                    }
+                    else {
+                        for (int m = 0; m < field[0].length; m++)
+                            field[k][m] = field[k - 1][m];
+                    }
+                }
+                // This statement is needed for full rows that are stacked on top of each other
+                i++;
+            }
+        }
     }
 
     private static int[][] copyField(int[][] f0){
