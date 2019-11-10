@@ -91,33 +91,56 @@ public class Tetris{
     }
 
     public static void rotatePiece(boolean cw){//TODO Lindalee change the pieceRotation variable to the right transformation (check the PentominoDatabase class)
-        //System.out.println(curPieceRotation);
-        int tempRotation=curPieceRotation;
-        int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
-        if(!cw) {
-            if (curPieceRotation < PentominoDatabase.data[Tetris.curPiece].length - 1) {
-                tempRotation++;
-            }
-            if (curPieceRotation > PentominoDatabase.data[Tetris.curPiece].length - 1) {
-                tempRotation = 0;
-            }
-        }
+        int pieceRotation=curPieceRotation;
         if(cw) {
-            if (curPieceRotation == 0) {
-                tempRotation = PentominoDatabase.data[Tetris.curPiece].length - 1;
+            if(pieceRotation <4) {
+                if (curPieceRotation < 3) {
+                    pieceRotation++;
+                }
+                if (curPieceRotation ==3) {
+                    pieceRotation = 0;
+                }
             }
-            else {
-                tempRotation = tempRotation - 1;
+            if(pieceRotation>3){
+                if(curPieceRotation <7){
+                    pieceRotation++;
+                }
+                if(curPieceRotation ==7){
+                    pieceRotation = 4;
+                }
             }
         }
-        int [] temPos=arrayCopy(curPos);
-        temPos[0]=curPos[0]-(pieceToPlace[0].length/2);
-        temPos[1]=curPos[1]-(pieceToPlace[0].length/2);
-        if(!checkCollision(temPos,tempRotation)){
-            curPieceRotation=tempRotation;
-            curPos=temPos;
-            gameWrapper.ui.setState(Tetris.tempField);
+        if(!cw) {
+            if(pieceRotation <4) {
+                if (curPieceRotation > 0) {
+                    pieceRotation--;
+                }
+                if (curPieceRotation ==0) {
+                    pieceRotation = 3;
+                }
+            }
+            if(pieceRotation>3){
+                if(curPieceRotation >3){
+                    pieceRotation--;
+                }
+                if(curPieceRotation ==4){
+                    pieceRotation = 7;
+                }
+            }
+
         }
+        int[] tempPos = new int[2];
+        tempPos[0]= curPos[0];
+        tempPos[1]= curPos[1];
+        int[] tempPosMiddle = new int[2];
+        int[][] piece = PentominoDatabase.data[curPiece][curPieceRotation];
+        int[][] pieceToPlace = PentominoDatabase.data[curPiece][pieceRotation];
+        tempPosMiddle[0]= tempPos[0] +  Math.round(piece.length/2);
+        tempPosMiddle[1] = tempPos[1]+ Math.round(piece[0].length/2);
+        curPos[0]= tempPosMiddle[0] - Math.round(pieceToPlace.length/2);
+        curPos[1]= tempPosMiddle[1] - Math.round(pieceToPlace.length/2);
+        curPieceRotation=pieceRotation;
+        gameWrapper.ui.setState(Tetris.tempField);
     }
 
     public static void movePiece(boolean right){
