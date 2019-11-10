@@ -91,59 +91,60 @@ public class Tetris{
     }
 
     public static void rotatePiece(boolean cw){//TODO Lindalee change the pieceRotation variable to the right transformation (check the PentominoDatabase class)
-        int pieceRotation=curPieceRotation;
-        if(cw) {
+        //System.out.println(curPieceRotation);
+        int tempRotation=curPieceRotation;
+        int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
+        if(!cw) {
             if (curPieceRotation < PentominoDatabase.data[Tetris.curPiece].length - 1) {
-                pieceRotation++;
+                tempRotation++;
             }
             if (curPieceRotation > PentominoDatabase.data[Tetris.curPiece].length - 1) {
-                pieceRotation = 0;
+                tempRotation = 0;
             }
         }
-        if(!cw) {
+        if(cw) {
             if (curPieceRotation == 0) {
-                pieceRotation = PentominoDatabase.data[Tetris.curPiece].length - 1;
+                tempRotation = PentominoDatabase.data[Tetris.curPiece].length - 1;
             }
             else {
-                pieceRotation = pieceRotation - 1;
+                tempRotation = tempRotation - 1;
             }
         }
-        curPieceRotation=pieceRotation;
-        gameWrapper.ui.setState(Tetris.tempField);
+        int [] temPos=arrayCopy(curPos);
+        temPos[0]=curPos[0]-(pieceToPlace[0].length/2);
+        temPos[1]=curPos[1]-(pieceToPlace[0].length/2);
+        if(!checkCollision(temPos,tempRotation)){
+            curPieceRotation=tempRotation;
+            curPos=temPos;
+            gameWrapper.ui.setState(Tetris.tempField);
+        }
     }
 
     public static void movePiece(boolean right){
         int dir=0;
         if (!right) dir=1;
-        if(!checkCollision(dir,curPieceRotation)){
-            int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
-            if(right&&curPos[0]+pieceToPlace[0].length<fieldWidth) curPos[0]+=1;
-            if(!right&&curPos[0]>0) curPos[0]-=1;
+        int [] temPos=arrayCopy(curPos);
+        int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
+        if(right&&curPos[0]+pieceToPlace[0].length<fieldWidth) temPos[0]+=1;
+        if(!right&&curPos[0]>0) temPos[0]-=1;
+
+        if(!checkCollision(temPos,curPieceRotation)){
+            curPos=temPos;
             tempField=copyField(field);
             addPiece();
         }
     }
 
-    public static boolean checkCollision(int move,int rotation){ //0:right 1:left 2:down
-        int[] temPos=new int[2];
-        int temRot=curPieceRotation;
-        System.arraycopy(curPos, 0, temPos, 0, 2);
-        if (move==0) temPos[0]=curPos[0]+1;
-        else if (move==1) temPos[0]=curPos[0]-1;
-        else if (move==2) temPos[1]=curPos[1]+1;
-        if(rotation!=curPieceRotation){
-            temPos[0]=curPos[0];
-            temRot=rotation;
-        }
+    public static boolean checkCollision(int [] nextPos, int nextRot){
 
-        int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
-        if(pieceToPlace.length+temPos[1]>fieldHeight||temPos[0]<0||temPos[0]>fieldWidth-pieceToPlace[0].length) {
+        int[][] pieceToPlace = PentominoDatabase.data[curPiece][nextRot];
+        if(pieceToPlace.length+nextPos[1]>fieldHeight||nextPos[0]<0||nextPos[0]>fieldWidth-pieceToPlace[0].length) {
             return true;
         }else{
             for (int i = 0; i < pieceToPlace.length; i++) { // loop over x position of pentomino
                 for (int j = 0; j < pieceToPlace[i].length; j++) { // loop over y position of pentomino
                     if (pieceToPlace[i][j] == 1){
-                        if(field[temPos[0]+j][temPos[1] + i]!=-1){
+                        if(field[nextPos[0]+j][nextPos[1] + i]!=-1){
                             return true;
                         }
                     }
@@ -157,8 +158,18 @@ public class Tetris{
 
     }
 
+    public static int[] arrayCopy(int [] old){
+        int[]n = new int[old.length];
+        for(int i=0;i<old.length;i++){
+            n[i]=old[i];
+        }
+        return n;
+    }
+
     public static void movePieceDown(){
-        if(!checkCollision(2,curPieceRotation)) {
+        int [] temPos=arrayCopy(curPos);
+        temPos[1] += 1;
+        if(!checkCollision(temPos,curPieceRotation)) {
             curPos[1] += 1;
             tempField = copyField(field);
             addPiece();
@@ -171,34 +182,35 @@ public class Tetris{
                 wipeField(tempField);
             }
             field=copyField(tempField);
+            rowElimination();
             instantiateNewPiece();
             gameWrapper.ui.setState(tempField);
         }
     }
 
-    private void rowElimination() {
+    public static void rowElimination() {
         // TODO Ali implements score
-        for(int i = field.length - 1; i >= 0; i--) {
+        for(int i = field[0].length - 1; i >= 0; i--) {
             int cntr = 0;
             boolean fullRow = false;
             // Count amount of non -1 entries in row i
-            for(int j = 0; j < field[0].length; j++) {
-                if (field[i][j] != -1)
+            for(int j = 0; j < field.length; j++) {
+                if (field[j][i] != -1)
                     cntr++;
             }
             // Check for full row
-            if (cntr == field[0].length)
+            if (cntr == field.length)
                 fullRow = true;
             if (fullRow) {
                 // Move all rows above full row i down one row
                 for(int k = i; k >= 0; k--) {
                     if (k == 0) {
-                        for (int m = 0; m < field[0].length; m++)
-                            field[k][m] = -1;
+                        for (int m = 0; m < field.length; m++)
+                            field[m][k] = -1;
                     }
                     else {
-                        for (int m = 0; m < field[0].length; m++)
-                            field[k][m] = field[k - 1][m];
+                        for (int m = 0; m < field.length; m++)
+                            field[m][k] = field[m][k-1];
                     }
                 }
                 // This statement is needed for full rows that are stacked on top of each other
