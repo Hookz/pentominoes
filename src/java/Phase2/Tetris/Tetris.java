@@ -93,21 +93,52 @@ public class Tetris{
     public static void rotatePiece(boolean cw){//TODO Lindalee change the pieceRotation variable to the right transformation (check the PentominoDatabase class)
         int pieceRotation=curPieceRotation;
         if(cw) {
-            if (curPieceRotation < PentominoDatabase.data[Tetris.curPiece].length - 1) {
-                pieceRotation++;
+            if(pieceRotation <4) {
+                if (curPieceRotation < 3) {
+                    pieceRotation++;
+                }
+                if (curPieceRotation ==3) {
+                    pieceRotation = 0;
+                }
             }
-            if (curPieceRotation > PentominoDatabase.data[Tetris.curPiece].length - 1) {
-                pieceRotation = 0;
+            if(pieceRotation>3){
+                if(curPieceRotation <7){
+                    pieceRotation++;
+                }
+                if(curPieceRotation ==7){
+                    pieceRotation = 4;
+                }
             }
         }
         if(!cw) {
-            if (curPieceRotation == 0) {
-                pieceRotation = PentominoDatabase.data[Tetris.curPiece].length - 1;
+            if(pieceRotation <4) {
+                if (curPieceRotation > 0) {
+                    pieceRotation--;
+                }
+                if (curPieceRotation ==0) {
+                    pieceRotation = 3;
+                }
             }
-            else {
-                pieceRotation = pieceRotation - 1;
+            if(pieceRotation>3){
+                if(curPieceRotation >3){
+                    pieceRotation--;
+                }
+                if(curPieceRotation ==4){
+                    pieceRotation = 7;
+                }
             }
+
         }
+        int[] tempPos = new int[2];
+        tempPos[0]= curPos[0];
+        tempPos[1]= curPos[1];
+        int[] tempPosMiddle = new int[2];
+        int[][] piece = PentominoDatabase.data[curPiece][curPieceRotation];
+        int[][] pieceToPlace = PentominoDatabase.data[curPiece][pieceRotation];
+        tempPosMiddle[0]= tempPos[0] +  Math.round(piece.length/2);
+        tempPosMiddle[1] = tempPos[1]+ Math.round(piece[0].length/2);
+        curPos[0]= tempPosMiddle[0] - Math.round(pieceToPlace.length/2);
+        curPos[1]= tempPosMiddle[1] - Math.round(pieceToPlace.length/2);
         curPieceRotation=pieceRotation;
         gameWrapper.ui.setState(Tetris.tempField);
     }
