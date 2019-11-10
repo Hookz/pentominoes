@@ -31,10 +31,12 @@ public class GameWrapper extends JPanel{
 
         JLabel nextPieceLabel = new JLabel("Next piece", JLabel.CENTER);
         nextPieceLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 22));
+
         for(int i=0;i<gamePieces.length;i++){
             gamePieces[i].setHorizontalAlignment(JLabel.CENTER);
             gamePieces[i].setBackground(Color.white);
         }
+
         // TODO: To be set to randomly generated ID number used for randomizing game pieces
         nextPiece = gamePieces[2];
 
@@ -56,6 +58,7 @@ public class GameWrapper extends JPanel{
         */
         nextPiece.setIcon(gamePieces[7].getIcon());
     }
+
     private static String number(int x){
         String sequence = Integer.toString(x);
         return sequence;
