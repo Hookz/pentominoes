@@ -23,6 +23,7 @@ public class Tetris{
     public static int curPieceRotation=0;
     public static int curPos[]=new int[2];
     public static GameWrapper gameWrapper;
+    public static boolean canMove=false;
     public static boolean upPressed=false;
     public static boolean downPressed=false;
     public static boolean rightPressed=false;
@@ -30,17 +31,20 @@ public class Tetris{
     public static boolean spacePressed=false;
     public static boolean gameOver=false;
     public static int score = 0;
-    public static int nextPiece = (int) Math.random()*12;
+    public static int nextPiece;
+    public static int nextRot;
     public static Random rand = new Random(21370);
     public static boolean start = true;
 
     public static void step(){
-        if(leftPressed) movePiece(false);
-        if(rightPressed) movePiece(true);
-        if(upPressed) rotatePiece(false);
-        if(downPressed) rotatePiece(true);
-        if(spacePressed) dropPiece();
-        gameWrapper.ui.setState(tempField);
+        if(canMove){
+            if(leftPressed) movePiece(false);
+            if(rightPressed) movePiece(true);
+            if(upPressed) rotatePiece(false);
+            if(downPressed) rotatePiece(true);
+            if(spacePressed) dropPiece();
+            gameWrapper.ui.setState(tempField);
+        }
     }
 
     public static void wipeField(int[][] field){
@@ -55,6 +59,7 @@ public class Tetris{
         curPos[0]=0;
         curPos[1]=5-(pieceToPlace.length);
         addPiece();
+        canMove=true;
     }
 
     public static void addPiece(){
@@ -80,17 +85,19 @@ public class Tetris{
 
     public static void getNewPiece(){ //TODO Max randomize the return between 0 and 11
         if (start) {
-            curPiece = (int) (12 * Math.random());
+            curPiece = (int)(12 * Math.random());
+            curPieceRotation=(int)Math.random()*PentominoDatabase.data[curPiece].length;
             start = false;
         }
         else {
             curPiece = nextPiece;
+            curPieceRotation=nextRot;
         }
         nextPiece = (int) (12 * Math.random());
-        curPieceRotation=0; // don't touch!
+        nextRot=(int)(Math.random()*PentominoDatabase.data[curPiece].length);
     }
 
-    public static void rotatePiece(boolean cw){//TODO Lindalee change the pieceRotation variable to the right transformation (check the PentominoDatabase class)
+    public static void rotatePiece(boolean cw){
         int pieceRotation=curPieceRotation;
         if(cw) {
             if(pieceRotation <4) {
@@ -127,20 +134,20 @@ public class Tetris{
                     pieceRotation = 7;
                 }
             }
-
         }
-        int[] tempPos = new int[2];
-        tempPos[0]= curPos[0];
-        tempPos[1]= curPos[1];
-        int[] tempPosMiddle = new int[2];
-        int[][] piece = PentominoDatabase.data[curPiece][curPieceRotation];
+        int[] temPos = arrayCopy(curPos);
         int[][] pieceToPlace = PentominoDatabase.data[curPiece][pieceRotation];
-        tempPosMiddle[0]= tempPos[0] +  Math.round(piece.length/2);
-        tempPosMiddle[1] = tempPos[1]+ Math.round(piece[0].length/2);
-        curPos[0]= tempPosMiddle[0] - Math.round(pieceToPlace.length/2);
-        curPos[1]= tempPosMiddle[1] - Math.round(pieceToPlace.length/2);
-        curPieceRotation=pieceRotation;
-        gameWrapper.ui.setState(Tetris.tempField);
+        if(pieceToPlace.length!=pieceToPlace[0].length){
+            temPos[0]+=pieceToPlace[0].length-pieceToPlace.length;
+        }
+        if(temPos[0]<0) temPos[0]=0;
+        if(temPos[0]+pieceToPlace[0].length>fieldWidth) temPos[0]=fieldWidth-pieceToPlace[0].length;
+        if(!checkCollision(temPos,pieceRotation)){
+            curPos=temPos;
+            curPieceRotation=pieceRotation;
+            tempField=copyField(field);
+            addPiece();
+        }
     }
 
     public static void movePiece(boolean right){
@@ -198,9 +205,10 @@ public class Tetris{
             addPiece();
             gameWrapper.ui.setState(tempField);
         } else {
-            int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
+            canMove=false;
             if(curPos[1]<5){
                 gameOver=true;
+                start=true;
                 wipeField(field);
                 wipeField(tempField);
             }
