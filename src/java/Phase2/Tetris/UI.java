@@ -78,18 +78,18 @@ public class UI extends JPanel
     // Decodes the ID of a pentomino into a color
     private Color GetColorOfID(int i, int a)
     {
-        if(i==0) {return new Color(0, 0, 255, a);}
-        else if(i==1) {return new Color(255, 102, 0, a);}
-        else if(i==2) {return new Color(0, 255, 255, a);}
-        else if(i==3) {return new Color(0, 204, 0, a);}
-        else if(i==4) {return new Color(255, 0, 255, a);}
-        else if(i==5) {return new Color(255, 51, 255, a);}
-        else if(i==6) {return new Color(255, 0, 0, a);}
-        else if(i==7) {return new Color(255, 255, 0, a);}
-        else if(i==8) {return new Color(0, 0, 0, a);}
-        else if(i==9) {return new Color(0, 0, 100, a);}
-        else if(i==10) {return new Color(100, 0, 0, a);}
-        else if(i==11) {return new Color(0, 100, 0, a);}
+        if(i==0) {return new Color(15, 0, 255, a);}
+        else if(i==1) {return new Color(204, 0, 0, a);}
+        else if(i==2) {return new Color(51, 255, 0, a);}
+        else if(i==3) {return new Color(254, 255, 0, a);}
+        else if(i==4) {return new Color(255,102,204, a);}
+        else if(i==5) {return new Color(51,102,0, a);}
+        else if(i==6) {return new Color(255,52,153, a);}
+        else if(i==7) {return new Color(51,0,153, a);}
+        else if(i==8) {return new Color(204,255,0, a);}
+        else if(i==9) {return new Color(255,1,51, a);}
+        else if(i==10) {return new Color(51,204,255, a);}
+        else if(i==11) {return new Color(204,103,1, a);}
         else {return Color.LIGHT_GRAY;}
     }
 
