@@ -3,6 +3,21 @@ public class NeuralEvolution {
     public static int neuronsN=10;
 }
 
+/*
+int [] nextPos=arrayCopy(curPos);
+nextPos[1]++;
+while(!checkCollision(nextPos,curPieceRotation)){
+    curPos[1]++;
+    nextPos[1]++;
+    tempField = copyField(field);
+    addPiece();
+}
+field=copyField(tempField);
+rowElimination();
+instantiateNewPiece();
+gameWrapper.ui.setState(tempField);
+ */
+
 class Neuron{
     private double[]weights;
     private double bias;

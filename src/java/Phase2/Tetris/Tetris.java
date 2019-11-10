@@ -184,7 +184,7 @@ public class Tetris{
         return false;
     }
 
-    public static void dropPiece(){//TODO Drago Drop piece to the bottom
+    public static void dropPiece(){//TODO DRAGO
 
     }
 
