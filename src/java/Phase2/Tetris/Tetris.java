@@ -30,6 +30,7 @@ public class Tetris{
     public static Random rand = new Random(21370);
     public static boolean enableBot = true;
     public static String botType = "Q";
+    public static boolean aboutToCollide=false;
 
     public static void step(){
         if(canMove){
@@ -195,29 +196,31 @@ public class Tetris{
     }
 
     public static void movePieceDown(){
-        int [] temPos=arrayCopy(curPos);
-        temPos[1] += 1;
-        if(!checkCollision(temPos,curPieceRotation)) {
-            curPos[1] += 1;
-            tempField = copyField(field);
-            addPiece();
-        } else {
-            canMove=false;
-            if(curPos[1]<5){
-                gameOver=true;
-                score=0;
-                wipeField(field);
-                wipeField(tempField);
+        if(!aboutToCollide){
+            int [] temPos=arrayCopy(curPos);
+            temPos[1] += 1;
+            if(!checkCollision(temPos,curPieceRotation)) {
+                curPos[1] += 1;
+                tempField = copyField(field);
+                addPiece();
+                temPos[1] += 1;
+                if(checkCollision(temPos,curPieceRotation)) aboutToCollide=true;
+            } else {
+                canMove=false;
+                if(curPos[1]<5){
+                    gameOver=true;
+                    score=0;
+                    wipeField(field);
+                    wipeField(tempField);
+                }
+                field=copyField(tempField);
+                rowElimination();
+                instantiateNewPiece();
+                //runBot();
             }
-            field=copyField(tempField);
-            rowElimination();
-            instantiateNewPiece();
-        }
-        gameWrapper.ui.setState(tempField);
             gameWrapper.ui.setState(tempField);
-
-            //When a piece is placed, run the bot
-            runBot();
+        }
+        else aboutToCollide=false;
     }
 
     public static void rowElimination() {
@@ -333,6 +336,6 @@ public class Tetris{
         timer.schedule(new Phase2.Tetris.GameTimer(), 0, 500);
 
         //Run the bot
-        runBot();
+        //runBot();
     }
 }
