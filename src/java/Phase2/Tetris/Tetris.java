@@ -27,10 +27,8 @@ public class Tetris{
     public static boolean spacePressed=false;
     public static boolean gameOver=false;
     public static int score = 0;
-    public static int nextPiece;
-    public static int nextRot;
+    public static int nextPiece = (int)(12 * Math.random());
     public static Random rand = new Random(21370);
-    public static boolean start = true;
     public static boolean enableBot = true;
     public static String botType = "Q";
 
@@ -82,17 +80,9 @@ public class Tetris{
     }
 
     public static void getNewPiece(){ //TODO Max randomize the return between 0 and 11
-        if (start) {
-            curPiece = (int)(12 * Math.random());
-            curPieceRotation=(int)Math.random()*PentominoDatabase.data[curPiece].length;
-            start = false;
-        }
-        else {
             curPiece = nextPiece;
-            curPieceRotation=nextRot;
-        }
-        nextPiece = (int) (12 * Math.random());
-        nextRot=(int)(Math.random()*PentominoDatabase.data[curPiece].length);
+            nextPiece = (int)(12 * Math.random());
+            curPieceRotation=0;
     }
 
     public static void rotatePiece(boolean cw){
@@ -216,7 +206,6 @@ public class Tetris{
             canMove=false;
             if(curPos[1]<5){
                 gameOver=true;
-                start=true;
                 wipeField(field);
                 wipeField(tempField);
             }
