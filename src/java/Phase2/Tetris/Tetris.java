@@ -216,7 +216,7 @@ public class Tetris{
                 field=copyField(tempField);
                 rowElimination();
                 instantiateNewPiece();
-                //runBot();
+                runBot();
             }
             gameWrapper.ui.setState(tempField);
         }
@@ -336,6 +336,6 @@ public class Tetris{
         timer.schedule(new Phase2.Tetris.GameTimer(), 0, 500);
 
         //Run the bot
-        //runBot();
+        runBot();
     }
 }
