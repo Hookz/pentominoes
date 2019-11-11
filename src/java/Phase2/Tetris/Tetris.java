@@ -229,7 +229,6 @@ public class Tetris{
 
             //When a piece is placed, run the bot
             runBot();
-        }
     }
 
     public static void rowElimination() {
