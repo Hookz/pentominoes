@@ -183,7 +183,18 @@ public class Tetris{
     }
 
     public static void dropPiece(){//TODO DRAGO
-
+        int [] nextPos=arrayCopy(curPos);
+        nextPos[1]++;
+        while(!checkCollision(nextPos,curPieceRotation)){
+            curPos[1]++;
+            nextPos[1]++;
+            tempField = copyField(field);
+            addPiece();
+        }
+        field=copyField(tempField);
+        rowElimination();
+        instantiateNewPiece();
+        gameWrapper.ui.setState(tempField);
     }
 
     public static int[] arrayCopy(int [] old){
