@@ -205,6 +205,7 @@ public class Tetris{
             canMove=false;
             if(curPos[1]<5){
                 gameOver=true;
+                score=0;
                 wipeField(field);
                 wipeField(tempField);
             }
