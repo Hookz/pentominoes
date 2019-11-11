@@ -38,7 +38,8 @@ public class GameWrapper extends JPanel{
         }
 
         // TODO: To be set to randomly generated ID number used for randomizing game pieces
-        nextPiece = gamePieces[2];
+        nextPiece = new JLabel();
+        nextPiece.setHorizontalAlignment(JLabel.CENTER);
 
         nextPiecePanel.add(nextPieceLabel);
         nextPiecePanel.add(nextPiece);
