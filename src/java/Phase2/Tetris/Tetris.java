@@ -214,6 +214,9 @@ public class Tetris{
             rowElimination();
             instantiateNewPiece();
             gameWrapper.ui.setState(tempField);
+
+            //When a piece is placed, run the bot
+            runBot();
         }
     }
 
@@ -323,5 +326,8 @@ public class Tetris{
         instantiateNewPiece();
         Timer timer = new Timer();
         timer.schedule(new Phase2.Tetris.GameTimer(), 0, 500);
+
+        //Run the bot
+        runBot();
     }
 }
