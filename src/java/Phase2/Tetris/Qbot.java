@@ -1,6 +1,9 @@
 package Phase2.Tetris;
 public class Qbot {
-    //TODO change i and j
+    //TODO check i and j
+    //TODO get a correct score
+    //TODO keep placed blocks better into account
+    //TODO use fieldScores
     //Add AI class, with fieldScores variable and findBestPlaceToPlace and updateFieldScores method
     private static int[][] fieldScores;
 
@@ -10,6 +13,8 @@ public class Qbot {
     }
 
     public static void genRewards(int[][] field, int fieldHeight, int fieldWidth) {
+        fieldScores = new int[fieldWidth][fieldHeight];
+
         //give scores
         for (int j = 0; j < fieldHeight; j++) {
             for (int i = 0; i < fieldWidth; i++) {
@@ -17,7 +22,7 @@ public class Qbot {
                 int amountOfBlocksInRow = 0;
 
                 //only check field that aren't filled (you don't want to put a score in a cell that has already been taken)
-                if (field[i][j] != -1) {
+                if (field[i][j] == -1) {
                     //check surroundings
                     //check same layer, but exclude the cell itself
                     if (j > 1) {
@@ -50,7 +55,7 @@ public class Qbot {
 
                     //update score
                     //multiply the surrounding blocks by the height and add a default 'bonus' based on the layer
-                    field[i][j] = amountOfBlocksSurrounding * (5 * (i + 1)) + 25 * (i) + amountOfBlocksInRow * (3 * (i) + 3) + 1;
+                    fieldScores[i][j] = amountOfBlocksSurrounding * (5 * (i + 1)) + 25 * (i) + amountOfBlocksInRow * (3 * (i) + 3) + 1;
                 }
 
             }
@@ -60,7 +65,7 @@ public class Qbot {
         //print field
         for (int j = 0; j < fieldHeight; j++) {
             for (int i = 0; i < fieldWidth; i++) {
-                System.out.print(String.format("%4d", field[i][j]));
+                System.out.print(String.format("%4d", fieldScores[i][j]));
             }
             System.out.println();
         }
