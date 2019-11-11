@@ -1,5 +1,6 @@
 package Phase2.Tetris;
 public class Qbot {
+    //TODO change i and j
     //Add AI class, with fieldScores variable and findBestPlaceToPlace and updateFieldScores method
     private static int[][] fieldScores;
 
@@ -10,8 +11,8 @@ public class Qbot {
 
     public static void genRewards(int[][] field, int fieldHeight, int fieldWidth) {
         //give scores
-        for (int i = 0; i < fieldHeight; i++) {
-            for (int j = 0; j < fieldWidth; j++) {
+        for (int j = 0; j < fieldHeight; j++) {
+            for (int i = 0; i < fieldWidth; i++) {
                 int amountOfBlocksSurrounding = 0;
                 int amountOfBlocksInRow = 0;
 
@@ -22,12 +23,12 @@ public class Qbot {
                     if (j > 1) {
                         if (field[i][j - 1] == -1) amountOfBlocksSurrounding++;
                     }
-                    if (j < fieldWidth - 1) {
+                    if (j < fieldHeight - 1) {
                         if (field[i][j + 1] == -1) amountOfBlocksSurrounding++;
                     }
 
                     //check layer below
-                    if (i < fieldHeight - 1) {
+                    if (i < fieldWidth - 1) {
 
                         if (j > 1) {
                             if (field[i + 1][j - 1] == -1) amountOfBlocksSurrounding++;
@@ -35,13 +36,13 @@ public class Qbot {
 
                         if (field[i + 1][j] == -1) amountOfBlocksSurrounding++;
 
-                        if (j < fieldWidth - 1) {
+                        if (j < fieldHeight - 1) {
                             if (field[i + 1][j + 1] == -1) amountOfBlocksSurrounding++;
                         }
                     }
 
                     //get the amount of blocks in this row
-                    for (int k = 0; k < fieldWidth; k++) {
+                    for (int k = 0; k < fieldHeight; k++) {
                         if (field[i][k] == -1) {
                             amountOfBlocksInRow++;
                         }
@@ -57,8 +58,8 @@ public class Qbot {
 
         //TODO remove after debugging
         //print field
-        for (int i = 0; i < fieldHeight; i++) {
-            for (int j = 0; j < fieldWidth; j++) {
+        for (int j = 0; j < fieldHeight; j++) {
+            for (int i = 0; i < fieldWidth; i++) {
                 System.out.print(String.format("%4d", field[i][j]));
             }
             System.out.println();

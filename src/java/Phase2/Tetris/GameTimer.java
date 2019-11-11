@@ -20,6 +20,9 @@ public class GameTimer extends TimerTask {
         Tetris.addPiece();
         Tetris.gameWrapper.ui.setState(Tetris.tempField);
         n++;*/
+        //TODO fix blocks becoming invisible
+        Phase2.Tetris.Tetris.runBot();
         Tetris.movePieceDown();
+
     }
 }

@@ -22,7 +22,7 @@ public class Tetris{
     public static int curPiece;
     public static int curPieceRotation=0;
     public static int curPos[]=new int[2];
-    public static GameWrapper gameWrapper;
+    public static Phase2.Tetris.GameWrapper gameWrapper;
     public static boolean canMove=false;
     public static boolean upPressed=false;
     public static boolean downPressed=false;
@@ -35,6 +35,8 @@ public class Tetris{
     public static int nextRot;
     public static Random rand = new Random(21370);
     public static boolean start = true;
+    public static boolean enableBot = true;
+    public static String botType = "Q";
 
     public static void step(){
         if(canMove){
@@ -185,7 +187,7 @@ public class Tetris{
     }
 
     public static void dropPiece(){//TODO DRAGO
-
+        
     }
 
     public static int[] arrayCopy(int [] old){
@@ -260,10 +262,19 @@ public class Tetris{
         return f1;
     }
 
+    public static void runBot(){
+        //TODO
+        if(enableBot){
+            if(botType.equals("Q")){
+                Phase2.Tetris.Qbot.genRewards(Tetris.field, Tetris.fieldHeight, Tetris.fieldWidth);
+            }
+        }
+    }
+
     public static void main(String[] args){
         fieldWidth = 5;
         fieldHeight = 20;
-        gameWrapper = new GameWrapper(fieldWidth, fieldHeight-5, 50);
+        gameWrapper = new Phase2.Tetris.GameWrapper(fieldWidth, fieldHeight-5, 50);
         blocks = 5;
         field = new int[fieldWidth][fieldHeight];
         tempField = new int[fieldWidth][fieldHeight];
@@ -314,6 +325,6 @@ public class Tetris{
         });
         instantiateNewPiece();
         Timer timer = new Timer();
-        timer.schedule(new GameTimer(), 0, 500);
+        timer.schedule(new Phase2.Tetris.GameTimer(), 0, 500);
     }
 }
