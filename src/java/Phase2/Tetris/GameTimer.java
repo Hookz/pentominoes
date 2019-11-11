@@ -23,6 +23,5 @@ public class GameTimer extends TimerTask {
         //TODO fix blocks becoming invisible
         Phase2.Tetris.Tetris.runBot();
         Tetris.movePieceDown();
-
     }
 }

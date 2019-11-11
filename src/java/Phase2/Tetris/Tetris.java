@@ -41,8 +41,8 @@ public class Tetris{
             if(upPressed) rotatePiece(false);
             if(downPressed) rotatePiece(true);
             if(spacePressed) dropPiece();
-            gameWrapper.ui.setState(tempField);
         }
+        gameWrapper.ui.setState(tempField);
     }
 
     public static void wipeField(int[][] field){
