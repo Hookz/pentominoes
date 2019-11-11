@@ -171,8 +171,19 @@ public class Tetris{
         return false;
     }
 
-    public static void dropPiece(){//TODO DRAGO
-
+    public static void dropPiece(){
+        int [] nextPos=arrayCopy(curPos);
+        nextPos[1]++;
+        while(!checkCollision(nextPos,curPieceRotation)){
+            curPos[1]++;
+            nextPos[1]++;
+            tempField = copyField(field);
+            addPiece();
+        }
+        field=copyField(tempField);
+        rowElimination();
+        instantiateNewPiece();
+        gameWrapper.ui.setState(tempField);
     }
 
     public static int[] arrayCopy(int [] old){
@@ -205,11 +216,11 @@ public class Tetris{
             gameWrapper.ui.setState(tempField);
 
             //When a piece is placed, run the bot
-            runBot();
+            //runBot();
     }
 
     public static void rowElimination() {
-        // TODO Ali implements score
+        int consecutive=0;
         for(int i = field[0].length - 1; i >= 0; i--) {
             int cntr = 0;
             boolean fullRow = false;
@@ -219,8 +230,12 @@ public class Tetris{
                     cntr++;
             }
             // Check for full row
-            if (cntr == field.length)
+            if (cntr == field.length){
                 fullRow = true;
+                consecutive++;
+                score+=100*consecutive;
+            }
+
             if (fullRow) {
                 // Move all rows above full row i down one row
                 for(int k = i; k >= 0; k--) {
@@ -237,6 +252,7 @@ public class Tetris{
                 i++;
             }
         }
+        System.out.println(score);
     }
 
     private static int[][] copyField(int[][] f0){
@@ -316,6 +332,6 @@ public class Tetris{
         timer.schedule(new Phase2.Tetris.GameTimer(), 0, 500);
 
         //Run the bot
-        runBot();
+        //runBot();
     }
 }
