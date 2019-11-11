@@ -1,5 +1,7 @@
 package Phase2.Tetris;
 
+import General.PentominoDatabase;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -72,7 +74,15 @@ public class UI extends JPanel
                 localGraphics2D.fill(new Rectangle2D.Double(i * size + 1, j * size + 1, size - 1, size - 1));
             }
         }
-        Tetris.gameWrapper.nextPiece.setIcon(Tetris.gameWrapper.gamePieces[Tetris.nextPiece].getIcon());
+        int ico=0;
+        int[][] pieceToPlace = PentominoDatabase.data[Tetris.curPiece][Tetris.curPieceRotation];
+        if(Tetris.curPiece==2||Tetris.curPiece>6){
+            if(Tetris.curPieceRotation<(PentominoDatabase.data[Tetris.curPiece].length/2))
+                ico=Tetris.curPiece;
+            else
+                ico=Tetris.curPiece+12;
+        } else ico=Tetris.curPiece;
+        Tetris.gameWrapper.nextPiece.setIcon(Tetris.gameWrapper.gamePieces[ico].getIcon());
     }
 
     // Decodes the ID of a pentomino into a color

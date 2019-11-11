@@ -84,14 +84,13 @@ public class Tetris{
     public static void getNewPiece(){
         if (start) {
             curPiece = (int)(12 * Math.random());
-            curPieceRotation=(int)Math.random()*PentominoDatabase.data[curPiece].length;
+            curPieceRotation=(int)(Math.random()*PentominoDatabase.data[curPiece].length);
             start = false;
-        }
-        else {
+        } else {
             curPiece = nextPiece;
             curPieceRotation=nextRot;
         }
-        nextPiece = (int) (12 * Math.random());
+        nextPiece = (int)(12 * Math.random());
         nextRot=(int)(Math.random()*PentominoDatabase.data[curPiece].length);
     }
 
@@ -342,6 +341,7 @@ public class Tetris{
             public void keyTyped(KeyEvent e) {
             }
         });
+        start = true;
         instantiateNewPiece();
         Timer timer = new Timer();
         timer.schedule(new Phase2.Tetris.GameTimer(), 0, 500);
