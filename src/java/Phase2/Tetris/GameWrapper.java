@@ -52,7 +52,7 @@ public class GameWrapper extends JPanel{
         window.setVisible(true);
     }
 
-    private static String number(int x){
+    public static String number(int x){
         String sequence = Integer.toString(x);
         return sequence;
     }

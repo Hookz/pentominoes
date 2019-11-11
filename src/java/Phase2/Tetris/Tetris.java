@@ -216,7 +216,7 @@ public class Tetris{
             gameWrapper.ui.setState(tempField);
 
             //When a piece is placed, run the bot
-            //runBot();
+            runBot();
     }
 
     public static void rowElimination() {
@@ -252,7 +252,7 @@ public class Tetris{
                 i++;
             }
         }
-        System.out.println(score);
+        gameWrapper.score.setText(gameWrapper.number(score));
     }
 
     private static int[][] copyField(int[][] f0){
@@ -332,6 +332,6 @@ public class Tetris{
         timer.schedule(new Phase2.Tetris.GameTimer(), 0, 500);
 
         //Run the bot
-        //runBot();
+        runBot();
     }
 }
