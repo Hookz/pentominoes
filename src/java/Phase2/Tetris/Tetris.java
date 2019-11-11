@@ -201,7 +201,6 @@ public class Tetris{
             curPos[1] += 1;
             tempField = copyField(field);
             addPiece();
-            gameWrapper.ui.setState(tempField);
         } else {
             canMove=false;
             if(curPos[1]<5){
@@ -213,8 +212,8 @@ public class Tetris{
             field=copyField(tempField);
             rowElimination();
             instantiateNewPiece();
-            gameWrapper.ui.setState(tempField);
         }
+        gameWrapper.ui.setState(tempField);
     }
 
     public static void rowElimination() {

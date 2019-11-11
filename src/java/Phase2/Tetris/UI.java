@@ -70,9 +70,10 @@ public class UI extends JPanel
                 if(Tetris.tempField[i][j+5]!=Tetris.field[i][j+5]) n=255;
                 localGraphics2D.setColor(GetColorOfID(state[i][j],n));
                 localGraphics2D.fill(new Rectangle2D.Double(i * size + 1, j * size + 1, size - 1, size - 1));
-                Tetris.gameWrapper.nextPiece.setIcon(Tetris.gameWrapper.gamePieces[Tetris.nextPiece].getIcon());
+
             }
         }
+        Tetris.gameWrapper.nextPiece.setIcon(Tetris.gameWrapper.gamePieces[Tetris.nextPiece].getIcon());
     }
 
     // Decodes the ID of a pentomino into a color
