@@ -8,10 +8,6 @@ import java.util.Timer;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-/*TODO
-    Implement AI class
-*/
-
 public class Tetris{
     public static int fieldWidth;
     public static int fieldHeight;
@@ -172,7 +168,7 @@ public class Tetris{
         int[][] pieceToPlace = PentominoDatabase.data[curPiece][nextRot];
         if(pieceToPlace.length+nextPos[1]>fieldHeight||nextPos[0]<0||nextPos[0]>fieldWidth-pieceToPlace[0].length) {
             return true;
-        }else{
+        } else {
             for (int i = 0; i < pieceToPlace.length; i++) { // loop over x position of pentomino
                 for (int j = 0; j < pieceToPlace[i].length; j++) { // loop over y position of pentomino
                     if (pieceToPlace[i][j] == 1){
@@ -187,7 +183,7 @@ public class Tetris{
     }
 
     public static void dropPiece(){//TODO DRAGO
-        
+
     }
 
     public static int[] arrayCopy(int [] old){
@@ -266,7 +262,8 @@ public class Tetris{
         //TODO
         if(enableBot){
             if(botType.equals("Q")){
-                Phase2.Tetris.Qbot.genRewards(Tetris.field, Tetris.fieldHeight, Tetris.fieldWidth);
+                //use copyField because of pass by value (otherwise the blocks would become invisible
+                Phase2.Tetris.Qbot.genRewards(copyField(Tetris.field), Tetris.fieldHeight, Tetris.fieldWidth);
             }
         }
     }
