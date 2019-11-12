@@ -76,12 +76,12 @@ public class UI extends JPanel
         }
         int ico=0;
         int[][] pieceToPlace = PentominoDatabase.data[Tetris.curPiece][Tetris.curPieceRotation];
-        if(Tetris.curPiece==2||Tetris.curPiece>6){
-            if(Tetris.curPieceRotation<(PentominoDatabase.data[Tetris.curPiece].length/2))
-                ico=Tetris.curPiece;
+        if(Tetris.nextPiece==2||Tetris.nextPiece>6){
+            if(Tetris.nextRot<(PentominoDatabase.data[Tetris.curPiece].length/2))
+                ico=Tetris.nextPiece;
             else
-                ico=Tetris.curPiece+12;
-        } else ico=Tetris.curPiece;
+                ico=Tetris.nextPiece+12;
+        } else ico=Tetris.nextPiece;
         Tetris.gameWrapper.nextPiece.setIcon(Tetris.gameWrapper.gamePieces[ico].getIcon());
     }
 
