@@ -42,7 +42,7 @@ public class ChoosePieces {
         BufferedImage img;
         Image dimg;
         ImageIcon imageIcon;
-        pieces = new JLabel[12];
+        pieces = new JLabel[24];
 
         pieces[0] = new JLabel();
         pieces[0].setBounds(450,275,75,75);
@@ -201,6 +201,94 @@ public class ChoosePieces {
                 Image.SCALE_SMOOTH);
         imageIcon = new ImageIcon(dimg);
         pieces[11].setIcon(imageIcon);
+
+        //--------------------------------------REFLECTIONS---------------------------------------
+
+        pieces[12] = new JLabel();
+        pieces[13] = new JLabel();
+        pieces[15] = new JLabel();
+        pieces[16] = new JLabel();
+        pieces[17] = new JLabel();
+        pieces[18] = new JLabel();
+
+
+        pieces[14] = new JLabel();
+        pieces[14].setBounds(550,400,75,75);
+        img = null;
+        try {
+            img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/Z1.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        dimg = img.getScaledInstance(pieces[14].getWidth(), pieces[14].getHeight(),
+                Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(dimg);
+        pieces[14].setIcon(imageIcon);
+
+        pieces[19] = new JLabel();
+        pieces[19].setBounds(550,275,50,100);
+        img = null;
+        try {
+            img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/Y1.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        dimg = img.getScaledInstance(pieces[19].getWidth(), pieces[19].getHeight(),
+                Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(dimg);
+        pieces[19].setIcon(imageIcon);
+
+        pieces[20] = new JLabel();
+        pieces[20].setBounds(300,150,50,100);
+        img = null;
+        try {
+            img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/L1.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        dimg = img.getScaledInstance(pieces[20].getWidth(), pieces[20].getHeight(),
+                Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(dimg);
+        pieces[20].setIcon(imageIcon);
+
+        pieces[21] = new JLabel();
+        pieces[21].setBounds(450,150,50,75);
+        img = null;
+        try {
+            img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/P1.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        dimg = img.getScaledInstance(pieces[21].getWidth(), pieces[21].getHeight(),
+                Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(dimg);
+        pieces[21].setIcon(imageIcon);
+
+        pieces[22] = new JLabel();
+        pieces[22].setBounds(375,150,50,100);
+        img = null;
+        try {
+            img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/N1.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        dimg = img.getScaledInstance(pieces[22].getWidth(), pieces[22].getHeight(),
+                Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(dimg);
+        pieces[22].setIcon(imageIcon);
+
+        pieces[23] = new JLabel();
+        pieces[23].setBounds(150,150,75,75);
+        img = null;
+        try {
+            img = ImageIO.read(getClass().getResourceAsStream("/img/pieces/F1.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        dimg = img.getScaledInstance(pieces[23].getWidth(), pieces[23].getHeight(),
+                Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(dimg);
+        pieces[23].setIcon(imageIcon);
     }
 
 
