@@ -1,10 +1,6 @@
 package General;
-<<<<<<< HEAD:src/java/General/PentominoDatabase.java
 import java.io.File;
 import java.io.FileNotFoundException;
-=======
-
->>>>>>> newGame:src/java/General/PentominoDatabase.java
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Scanner;

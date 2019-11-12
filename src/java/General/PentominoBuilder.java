@@ -1,8 +1,4 @@
 package General;
-<<<<<<< HEAD:src/java/General/PentominoBuilder.java
-=======
-
->>>>>>> newGame:src/java/General/PentominoBuilder.java
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.PrintWriter;
