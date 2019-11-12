@@ -1,8 +1,4 @@
 package Phase1;
-<<<<<<< HEAD:src/java/Phase1/UI.java
-=======
-
->>>>>>> newGame:src/java/Phase1/UI.java
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
