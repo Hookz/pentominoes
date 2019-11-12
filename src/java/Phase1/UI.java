@@ -1,4 +1,8 @@
 package Phase1;
+<<<<<<< HEAD:src/java/Phase1/UI.java
+=======
+
+>>>>>>> newGame:src/java/Phase1/UI.java
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -40,7 +44,7 @@ public class UI extends JPanel
     }
   }
 
-  // Paint function, called by the system if required for a new frame, uses the state stored by the UI class
+  // Paint function, called by the system if required for a new frame, uses the state stored by the Phase1.UI class
   public void paintComponent(Graphics g)
   {
     Graphics2D localGraphics2D = (Graphics2D) g;

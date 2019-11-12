@@ -1,4 +1,10 @@
 package Phase1;
+<<<<<<< HEAD:src/java/Phase1/Search2.java
+=======
+
+import General.PentominoDatabase;
+
+>>>>>>> newGame:src/java/Phase1/Search2.java
 import java.util.Random;
 import java.util.Arrays;
 import java.util.Date;
@@ -13,7 +19,7 @@ public class Search2{
 
   public static final char[] input = {'I', 'Z', 'T', 'U', 'V', 'W', 'Y', 'L', 'P', 'N', 'F'};
 
-  // Static UI class to display the board
+  // Static Phase1.UI class to display the board
   public static UI ui = new UI(horizontalGridSize, verticalGridSize, 50);
 
   //get available pentominoes and store them in a static final

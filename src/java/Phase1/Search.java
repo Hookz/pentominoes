@@ -1,7 +1,12 @@
 package Phase1;
+<<<<<<< HEAD:src/java/Phase1/Search.java
+=======
+
+import General.PentominoDatabase;
+
+>>>>>>> newGame:src/java/Phase1/Search.java
 import java.util.Arrays;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 
 
@@ -31,7 +36,7 @@ public class Search
 	public static ArrayList<String> tempArr= new ArrayList<>();
 	public static ArrayList<String> solArr= new ArrayList<>();
 	/**
-	 * Static UI class to display the board
+	 * Static Phase1.UI class to display the board
  	 */
 	public static UI ui;
 	/**
@@ -43,9 +48,9 @@ public class Search
 	 */
 	public static int chosenAlgorithm = 1;
 	/**
-	 * Flag checking if the LandingPage and ChoosePieces classes have already been terminated.
+	 * Flag checking if the Phase1.LandingPage and Phase1.ChoosePieces classes have already been terminated.
 	 * <br>
-	 * Until it is the case, the Search class waits for their termination.
+	 * Until it is the case, the Phase1.Search class waits for their termination.
 	 */
 	public static boolean lpdone = false;
 

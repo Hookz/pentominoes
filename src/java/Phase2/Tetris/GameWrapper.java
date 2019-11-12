@@ -31,12 +31,23 @@ public class GameWrapper extends JPanel{
 
         JLabel nextPieceLabel = new JLabel("Next piece", JLabel.CENTER);
         nextPieceLabel.setFont(new Font("Comic Sans MS", Font.BOLD, 22));
+<<<<<<< HEAD
+=======
+
+>>>>>>> newGame
         for(int i=0;i<gamePieces.length;i++){
             gamePieces[i].setHorizontalAlignment(JLabel.CENTER);
             gamePieces[i].setBackground(Color.white);
         }
+<<<<<<< HEAD
         // TODO: To be set to randomly generated ID number used for randomizing game pieces
         nextPiece = gamePieces[2];
+=======
+
+        // TODO: To be set to randomly generated ID number used for randomizing game pieces
+        nextPiece = new JLabel();
+        nextPiece.setHorizontalAlignment(JLabel.CENTER);
+>>>>>>> newGame
 
         nextPiecePanel.add(nextPieceLabel);
         nextPiecePanel.add(nextPiece);
@@ -48,6 +59,7 @@ public class GameWrapper extends JPanel{
         window.pack();
         window.setResizable(false);
         window.setVisible(true);
+<<<<<<< HEAD
 
         /*Example update method for nextPiece.
         It can be accessed by other classes through the Tetris class as Tetris.gameWrapper.nextPiece.
@@ -56,6 +68,10 @@ public class GameWrapper extends JPanel{
         */
         nextPiece.setIcon(gamePieces[7].getIcon());
     }
+=======
+    }
+
+>>>>>>> newGame
     private static String number(int x){
         String sequence = Integer.toString(x);
         return sequence;

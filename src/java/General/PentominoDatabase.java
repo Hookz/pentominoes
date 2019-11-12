@@ -1,6 +1,10 @@
 package General;
+<<<<<<< HEAD:src/java/General/PentominoDatabase.java
 import java.io.File;
 import java.io.FileNotFoundException;
+=======
+
+>>>>>>> newGame:src/java/General/PentominoDatabase.java
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -9,7 +13,7 @@ import java.util.Scanner;
 // See attached documentation for structure of CSV (pentomino.csv.README)
 
 /**
- * Class that is able to map values from a CSV file to a four-dimensional array, further used in the Search class
+ * Class that is able to map values from a CSV file to a four-dimensional array, further used in the Phase1.Search class
  */
 public class PentominoDatabase
 {

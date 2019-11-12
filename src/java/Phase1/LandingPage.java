@@ -1,4 +1,8 @@
 package Phase1;
+<<<<<<< HEAD:src/java/Phase1/LandingPage.java
+=======
+
+>>>>>>> newGame:src/java/Phase1/LandingPage.java
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
