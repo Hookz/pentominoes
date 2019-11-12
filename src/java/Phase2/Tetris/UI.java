@@ -1,5 +1,7 @@
 package Phase2.Tetris;
 
+import General.PentominoDatabase;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -66,37 +68,22 @@ public class UI extends JPanel
         {
             for (int j = 0; j < state[0].length; j++)
             {
-<<<<<<< HEAD
-                localGraphics2D.setColor(GetColorOfID(state[i][j]));
-                localGraphics2D.fill(new Rectangle2D.Double(i * size + 1, j * size + 1, size - 1, size - 1));
-            }
-        }
-    }
-
-    // Decodes the ID of a pentomino into a color
-    private Color GetColorOfID(int i)
-    {
-        if(i==0) {return Color.BLUE;}
-        else if(i==1) {return Color.ORANGE;}
-        else if(i==2) {return Color.CYAN;}
-        else if(i==3) {return Color.GREEN;}
-        else if(i==4) {return Color.MAGENTA;}
-        else if(i==5) {return Color.PINK;}
-        else if(i==6) {return Color.RED;}
-        else if(i==7) {return Color.YELLOW;}
-        else if(i==8) {return new Color(0, 0, 0);}
-        else if(i==9) {return new Color(0, 0, 100);}
-        else if(i==10) {return new Color(100, 0,0);}
-        else if(i==11) {return new Color(0, 100, 0);}
-=======
                 int n=200;
                 if(Tetris.tempField[i][j+5]!=Tetris.field[i][j+5]) n=255;
                 localGraphics2D.setColor(GetColorOfID(state[i][j],n));
                 localGraphics2D.fill(new Rectangle2D.Double(i * size + 1, j * size + 1, size - 1, size - 1));
-
             }
         }
-        Tetris.gameWrapper.nextPiece.setIcon(Tetris.gameWrapper.gamePieces[Tetris.nextPiece].getIcon());
+        int ico=0;
+        int[][] pieceToPlace = PentominoDatabase.data[Tetris.curPiece][Tetris.curPieceRotation];
+        if(Tetris.nextPiece==2||Tetris.nextPiece>6){
+            if(Tetris.nextRot<(PentominoDatabase.data[Tetris.curPiece].length/2))
+                ico=Tetris.nextPiece;
+            else
+                ico=Tetris.nextPiece+12;
+        } else ico=Tetris.nextPiece;
+
+        Tetris.gameWrapper.nextPiece.setIcon(Tetris.gameWrapper.gamePieces[ico].getIcon());
     }
 
     // Decodes the ID of a pentomino into a color
@@ -114,7 +101,6 @@ public class UI extends JPanel
         else if(i==9) {return new Color(255,1,51, a);}
         else if(i==10) {return new Color(51,204,255, a);}
         else if(i==11) {return new Color(204,103,1, a);}
->>>>>>> newGame
         else {return Color.LIGHT_GRAY;}
     }
 
