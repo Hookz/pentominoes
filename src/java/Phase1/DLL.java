@@ -1,5 +1,8 @@
 package Phase1;
+<<<<<<< HEAD:src/java/Phase1/DLL.java
+=======
 
+>>>>>>> newGame:src/java/Phase1/DLL.java
 class Node {
 	private int data;
 	private Node up;
