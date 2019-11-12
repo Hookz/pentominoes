@@ -82,6 +82,7 @@ public class UI extends JPanel
             else
                 ico=Tetris.nextPiece+12;
         } else ico=Tetris.nextPiece;
+
         Tetris.gameWrapper.nextPiece.setIcon(Tetris.gameWrapper.gamePieces[ico].getIcon());
     }
 
