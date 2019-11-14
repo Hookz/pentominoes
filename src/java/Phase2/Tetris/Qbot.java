@@ -7,6 +7,10 @@ public class Qbot {
     //Add AI class, with fieldScores variable and findBestPlaceToPlace and updateFieldScores method
     private static int[][] fieldScores;
 
+    //TODO after it works: save the results so far so they can be reused if a position doesn't have a route
+    //TODO read advice: 1) Keep track of what positions have been tried and their results (if they were possible at all). This means that you need to save the best location and rotation for the 2 pentominoes that you are trying out.
+    // 2) When you finished finding the optimal position to place the first pentomino, check the second pentomino using the new scores that you can get from genRewards. As the field input, use the actually field with the first pentomino
+    // added in (as a tmp field).
     public static int findBestPlaceToPlace(int[][] piece, int[][] nextPiece){
         //find the the placement that yields the highest score for the current and the nextPiece
         return 0;
@@ -69,6 +73,11 @@ public class Qbot {
             }
             System.out.println();
         }
+
+        System.out.println();
+        System.out.println();
+        System.out.println();
+        System.out.println();
     }
 
     //TODO remove after debugging

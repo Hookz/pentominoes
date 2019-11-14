@@ -94,6 +94,7 @@ public class Tetris{
         nextRot=(int)(Math.random()*PentominoDatabase.data[curPiece].length);
     }
 
+    //cw = clock wise
     public static void rotatePiece(boolean cw){
         int pieceRotation=curPieceRotation;
         if(cw) {
