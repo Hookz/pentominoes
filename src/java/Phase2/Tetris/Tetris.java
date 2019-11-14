@@ -33,6 +33,7 @@ public class Tetris{
     public static boolean enableBot = true;
     public static String botType = "Q";
     public static boolean aboutToCollide=false;
+    public static boolean collided=false;
 
     public static void step(){
         if(canMove){
@@ -43,6 +44,12 @@ public class Tetris{
             if(spacePressed) dropPiece();
         }
         gameWrapper.ui.setState(tempField);
+        int[] temPos=arrayCopy(curPos);
+        temPos[1] += 1;
+        if(checkCollision(temPos,curPieceRotation)&&collided){
+            collided=false;
+            aboutToCollide=true;
+        }
     }
 
     public static void wipeField(int[][] field){
@@ -216,6 +223,7 @@ public class Tetris{
                 if(checkCollision(temPos,curPieceRotation)) aboutToCollide=true;
             } else {
                 canMove=false;
+                collided = true;
                 if(curPos[1]<5){
                     gameOver=true;
                     start=true;

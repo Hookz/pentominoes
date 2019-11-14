@@ -1,22 +1,32 @@
 package Phase2.Tetris;
+
 public class NeuralEvolution {
     public static int neuronsN=10;
+    public static int outputN=10;
+    public void networkCr(){
+
+    }
 }
 
-/*
-int [] nextPos=arrayCopy(curPos);
-nextPos[1]++;
-while(!checkCollision(nextPos,curPieceRotation)){
-    curPos[1]++;
-    nextPos[1]++;
-    tempField = copyField(field);
-    addPiece();
+class Network{
+    private Neuron[] n=new Neuron[NeuralEvolution.neuronsN];
+    private Output[] o=new Output[NeuralEvolution.outputN];
+
+    public Network(){
+        genRandomNetwork(n,o);
+    }
+
+    private void genRandomNetwork(Neuron[] n, Output[] o) {//TODO assign all weights and biases to random doubles
+        for(int i=0;i<n.length;i++){
+            //doSomething
+        }
+        for(int i=0;i<o.length;i++){
+            //doSomething
+        }
+    }
 }
-field=copyField(tempField);
-rowElimination();
-instantiateNewPiece();
-gameWrapper.ui.setState(tempField);
- */
+
+
 
 class Neuron{
     private double[]weights;
