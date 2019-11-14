@@ -1,4 +1,5 @@
 package Phase2.Tetris;
+import General.PentominoDatabase;
 public class Qbot {
     //TODO check i and j
     //TODO get a correct score
@@ -7,7 +8,9 @@ public class Qbot {
     //Add AI class, with fieldScores variable and findBestPlaceToPlace and updateFieldScores method
     private static int[][] fieldScores;
 
-    public static int findBestPlaceToPlace(int[][] piece, int[][] nextPiece){
+    public static int findBestPlaceToPlace(int piece, int pieceRotation, int nextPiece, int nextPieceRotation){
+        int[][] pieceArr = PentominoDatabase.data[piece][pieceRotation];
+        int[][] nextPieceArr = PentominoDatabase.data[nextPiece][nextPieceRotation];
         //find the the placement that yields the highest score for the current and the nextPiece
         return 0;
     }
