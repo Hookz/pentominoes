@@ -12,10 +12,21 @@ public class Qbot {
     //TODO read advice: 1) Keep track of what positions have been tried and their results (if they were possible at all). This means that you need to save the best location and rotation for the 2 pentominoes that you are trying out.
     // 2) When you finished finding the optimal position to place the first pentomino, check the second pentomino using the new scores that you can get from genRewards. As the field input, use the actually field with the first pentomino
     // added in (as a tmp field).
+     /*Qbot tip 3: don't try placing a pentomino in the sky or on a taken cell, find the lowest free cell of each column and try that one. 
+    Keep going up until you tried every cell in that column that could possibly be used. Then continue to the next column.
+    
+    Tip 4: For each of the cells that you try, fit in the pentomino in all it's possible rotations (not mirrors). 
+    If none work, save a false in a boolean array that stores the locations that are left to search trough. This is not strictly needed, but can really help you debugging.
+    */
+    
     public static int findBestPlaceToPlace(int piece, int pieceRotation, int nextPiece, int nextPieceRotation){
         int[][] pieceArr = PentominoDatabase.data[piece][pieceRotation];
         int[][] nextPieceArr = PentominoDatabase.data[nextPiece][nextPieceRotation];
         //find the the placement that yields the highest score for the current and the nextPiece
+        
+          // TODO the best position need to be stored so an array needs to be created to save best position
+         // TODO another array can be created to keep track of the results in order to add positions to the best position
+    
         return 0;
     }
 
