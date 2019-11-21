@@ -7,6 +7,7 @@ public class Qbot {
     //TODO use fieldScores
     //Add AI class, with fieldScores variable and findBestPlaceToPlace and updateFieldScores method
     private static int[][] fieldScores;
+    private static int[][] tempField = copyField(Tetris.field);
 
     //TODO after it works: save the results so far so they can be reused if a position doesn't have a route
     //TODO read advice: 1) Keep track of what positions have been tried and their results (if they were possible at all). This means that you need to save the best location and rotation for the 2 pentominoes that you are trying out.
@@ -18,17 +19,49 @@ public class Qbot {
     Tip 4: For each of the cells that you try, fit in the pentomino in all it's possible rotations (not mirrors). 
     If none work, save a false in a boolean array that stores the locations that are left to search trough. This is not strictly needed, but can really help you debugging.
     */
-    
-    public static int findBestPlaceToPlace(int piece, int pieceRotation, int nextPiece, int nextPieceRotation){
-        int[][] pieceArr = PentominoDatabase.data[piece][pieceRotation];
-        int[][] nextPieceArr = PentominoDatabase.data[nextPiece][nextPieceRotation];
+
+    /**
+     * Finds best place to place curPiece and nextPiece
+     * @return: best place to place current and next piece [xc,yc,rc,xn,yn,rn]
+     */
+    public static int[] findBestPlaceToPlace(){
+        int[][][] pieceArr = PentominoDatabase.data[Tetris.curPiece];
+        int[][][] nextPieceArr = PentominoDatabase.data[Tetris.nextPiece];
         //find the the placement that yields the highest score for the current and the nextPiece
-        
-          // TODO the best position need to be stored so an array needs to be created to save best position
-         // TODO another array can be created to keep track of the results in order to add positions to the best position
-    
-        return 0;
+
+        mainLoop(Tetris.curPiece,Tetris.curPieceRotation);
+        genRewards(tempField, Tetris.fieldHeight, Tetris.fieldWidth);
+        mainLoop(Tetris.nextPiece,Tetris.nextRot);
+
+        //TODO: return best placement of the curPiece and nextPiece
+        return null;
     }
+
+    /***
+     *
+     * @param piece: currently considered piece (curPiece: 1 / nextPiece: 2)
+     * @param pieceRotation:  rotation [curPieceRotation / nextRot](just to determine whether piece is flipped)
+     */
+    public static void mainLoop(int piece, int pieceRotation){
+        //TODO: create the x-axis / y-axis loop to go through all starting positions
+            //TODO: add a call to the pLoop to get score from the current piece
+            //TODO: compare new score with current score
+        //TODO: update the tempField to include the placement of the new block
+    }
+
+    /***
+     * Loop for a point "P" from mainLoop
+     * @param point: currently considered point P (in the form of an [x,y] array)
+     * @return: score for current piece in current point P and the rotation yielding that score
+     */
+    public static int[] pLoop(int[] point, int[][][] pieceArr){
+        //TODO: add a loop that goes through all possible rotations of a given piece
+        //TODO: calculate points in each rotation for the given point
+        //TODO: change return to be in form [score, rotationID]
+        return null;
+    }
+
+
 
     public static void genRewards(int[][] field, int fieldHeight, int fieldWidth) {
         fieldScores = new int[fieldWidth][fieldHeight];
@@ -87,6 +120,17 @@ public class Qbot {
             }
             System.out.println();
         }
+        System.out.println();
+    }
+
+    private static int[][] copyField(int[][] f0){
+        int [][] f1=new int[Tetris.fieldWidth][Tetris.fieldHeight];
+        for(int i=0;i<Tetris.fieldWidth;i++){
+            for(int j=0;j<Tetris.fieldHeight;j++){
+                f1[i][j]=f0[i][j];
+            }
+        }
+        return f1;
     }
 
     //TODO remove after debugging

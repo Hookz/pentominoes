@@ -169,6 +169,12 @@ public class Tetris{
         }
     }
 
+    /***
+     * Function checking if a collision is going to occur
+     * @param nextPos: next position of current piece
+     * @param nextRot: next rotation of current piece
+     * @return true if collision occurs, else false
+     */
     public static boolean checkCollision(int [] nextPos, int nextRot){
 
         int[][] pieceToPlace = PentominoDatabase.data[curPiece][nextRot];
@@ -188,6 +194,9 @@ public class Tetris{
         return false;
     }
 
+    /***
+     * Drops the current piece to the lowest level in current position x
+     */
     public static void dropPiece(){
         int [] nextPos=arrayCopy(curPos);
         nextPos[1]++;
@@ -211,6 +220,9 @@ public class Tetris{
         return n;
     }
 
+    /***
+     * Step function slowly moving piece down
+     */
     public static void movePieceDown(){
         if(!aboutToCollide){
             int [] temPos=arrayCopy(curPos);
@@ -241,6 +253,9 @@ public class Tetris{
         else aboutToCollide=false;
     }
 
+    /***
+     * Function eliminating all rows that are full and updating the score accordingly
+     */
     public static void rowElimination() {
         int consecutive=0;
         for(int i = field[0].length - 1; i >= 0; i--) {
@@ -287,13 +302,16 @@ public class Tetris{
         return f1;
     }
 
+    /***
+     * Starts the execution of the bot, if selected to be enabled
+     */
     public static void runBot(){
         //TODO
         if(enableBot){
             if(botType.equals("Q")){
                 //use copyField because of pass by value (otherwise the blocks would become invisible
                 Phase2.Tetris.Qbot.genRewards(copyField(Tetris.field), Tetris.fieldHeight, Tetris.fieldWidth);
-                Phase2.Tetris.Qbot.findBestPlaceToPlace(curPiece,curPieceRotation,nextPiece,nextRot);
+                Phase2.Tetris.Qbot.findBestPlaceToPlace();
             }
         }
     }
