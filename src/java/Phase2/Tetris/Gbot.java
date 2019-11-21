@@ -22,29 +22,29 @@ public class Gbot {
     private double mutationRate;
     private double mutationStep;
 
-    //Creates the initial population of genomes, each with random genes
+    //Creates the initial population of genomes, each with random genes TODO: Lindalee
     private void initPopulation(){}
-    //Evaluates the next individual in the population. If there is none, evolves the population
+    //Evaluates the next individual in the population. If there is none, evolves the population TODO: Lindalee
     private void evalIndividual(){}
-    //Creates the new population using the best individuals from the last
+    //Creates the new population using the best individuals from the last TODO: Lindalee
     private void getNextGen(){}
-    //Returns a child from 2 individuals
+    //Returns a child from 2 individuals TODO: Lindalee
     private void mate(){}
-    //Returns an array of possible moves
+    //Returns an array of possible moves TODO: Sam
     private void getBestMove(){}
-    //Makes the next move based on the genome
-    private void makeMove(){}
-    private void genBag(){}
-    private void nextShape(){}
+    //Makes the next move based on the genome TODO: Sam
+    private void makeMove(){} //TODO: Sam
+    private void genBag(){} // TODO: Sam
+    private void nextShape(){} //TODO: Sam
 
     //Genome Parameter Values
-    private void getCumHeight() {\\;)}
-    private void getHoles(){}
-    private void getHolesArray(){}
-    private void getRoughness(){}
-    private void getRelHeight(){}
-    private void getHeight(){}
-    private void getRowsCleared(){}
+    private void getCumHeight() {\\;)} //TODO: Lindalee
+    private void getHoles(){} //TODO: Lindalee
+    private void getHolesArray(){} //TODO: Lindalee
+    private void getRoughness(){} //TODO: Lindalee
+    private void getRelHeight(){} //TODO: Sam
+    private void getHeight(){} //TODO: Sam
+    private void getRowsCleared(){} //TODO: Sam
 
 
 
