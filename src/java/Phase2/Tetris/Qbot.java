@@ -45,7 +45,7 @@ public class Qbot {
     }
 
     public static void findBestPlaceToPlace(){
-        //find the the placement that yields the highest score for the current and the nextPiece
+        genRewards(tempField, Tetris.fieldHeight, Tetris.fieldWidth);
         mainLoop(Tetris.curPiece,Tetris.curPieceRotation);
         genRewards(tempField, Tetris.fieldHeight, Tetris.fieldWidth);
         mainLoop(Tetris.nextPiece,Tetris.nextRot);
@@ -155,7 +155,7 @@ public class Qbot {
     }
 
 
-    public static void genRewards(int[][] field, int fieldHeight, int fieldWidth) {
+    private static void genRewards(int[][] field, int fieldHeight, int fieldWidth) {
         fieldScores = new int[fieldWidth][fieldHeight];
 
         //give scores
