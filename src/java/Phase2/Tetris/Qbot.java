@@ -47,6 +47,25 @@ public class Qbot {
             //TODO: add a call to the pLoop to get score from the current piece
             //TODO: compare new score with current score
         //TODO: update the tempField to include the placement of the new block
+        int[][][] pieceArr = PentominoDatabase.data[Tetris.curPiece];
+        for (int x = 0; x < Tetris.fieldWidth; x++) {
+            for (int y = 0; y < Tetris.fieldHeight; y++) {
+                pLoop(x,y,pieceArr);
+                
+            }
+        }
+        // this is todo 4, not sure if it's correct but might work, this was used in method add piece
+        /*
+        int[][] pieceToPlace = PentominoDatabase.data[piece][pieceRotation];
+        for(int i = 0; i < pieceToPlace.length; i++){ // loop over x position of pentomino
+            for (int j = 0; j < pieceToPlace[i].length; j++){ // loop over y position of pentomino
+                if (pieceToPlace[i][j] == 1){
+                    // Add the ID of the pentomino to the board if the pentomino occupies this square
+                    tempField[curPos[0] + j][curPos[1] + i] = curPiece;
+                }
+            }
+        }
+        */
     }
 
     /***
