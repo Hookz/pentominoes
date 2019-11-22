@@ -25,16 +25,23 @@ public class Qbot {
      * @return: best place to place current and next piece [xc,yc,rc,xn,yn,rn]
      */
     public static int[] findBestPlaceToPlace(){
-        int[][][] pieceArr = PentominoDatabase.data[Tetris.curPiece];
-        int[][][] nextPieceArr = PentominoDatabase.data[Tetris.nextPiece];
+        int xCurrent = -1;
+        int yCurrent = -1;
+        int rotationCurrent = -1;
+        int xNext = -1;
+        int yNext = -1;
+        int rotationNext = -1;
         //find the the placement that yields the highest score for the current and the nextPiece
-
-        mainLoop(Tetris.curPiece,Tetris.curPieceRotation);
+        int[] temp = mainLoop(Tetris.curPiece,Tetris.curPieceRotation);
+        xCurrent = temp[0];
+        yCurrent = temp[1];
+        rotationCurrent = temp[2];
         genRewards(tempField, Tetris.fieldHeight, Tetris.fieldWidth);
-        mainLoop(Tetris.nextPiece,Tetris.nextRot);
-
-        //TODO: return best placement of the curPiece and nextPiece
-        return null;
+        temp = mainLoop(Tetris.nextPiece,Tetris.nextRot);
+        xNext = temp[0];
+        yNext = temp[1];
+        rotationNext = temp[2];
+        return new int[]{xCurrent,yCurrent,rotationCurrent,xNext,yNext,rotationNext};
     }
 
     /***
@@ -42,44 +49,72 @@ public class Qbot {
      * @param piece: currently considered piece (curPiece: 1 / nextPiece: 2)
      * @param pieceRotation:  rotation [curPieceRotation / nextRot](just to determine whether piece is flipped)
      */
-    public static void mainLoop(int piece, int pieceRotation){
-        //TODO: create the x-axis / y-axis loop to go through all starting positions
-            //TODO: add a call to the pLoop to get score from the current piece
-            //TODO: compare new score with current score
-        //TODO: update the tempField to include the placement of the new block
-        int[][][] pieceArr = PentominoDatabase.data[Tetris.curPiece];
+    private static int[] mainLoop(int piece, int pieceRotation){
+        int highestScore = 0;
+        int highestRotation = -1;
+        int highestX = -1;
+        int highestY = -1;
+        boolean isMirrored = false;
+        if(pieceRotation>3) isMirrored = true;
+        int[][][] pieceArr = PentominoDatabase.data[piece];
         for (int x = 0; x < Tetris.fieldWidth; x++) {
             for (int y = 0; y < Tetris.fieldHeight; y++) {
-                pLoop(x,y,pieceArr);
-                
+                int[] temp = pLoop(x,y,pieceArr,isMirrored);
+                if(temp[0]>highestScore){
+                    highestScore=temp[0];
+                    highestRotation=temp[1];
+                    highestX = x;
+                    highestY = y;
+                }
             }
         }
-        // this is todo 4, not sure if it's correct but might work, this was used in method add piece
-        /*
-        int[][] pieceToPlace = PentominoDatabase.data[piece][pieceRotation];
+        int[][] pieceToPlace = PentominoDatabase.data[piece][highestRotation];
         for(int i = 0; i < pieceToPlace.length; i++){ // loop over x position of pentomino
             for (int j = 0; j < pieceToPlace[i].length; j++){ // loop over y position of pentomino
                 if (pieceToPlace[i][j] == 1){
                     // Add the ID of the pentomino to the board if the pentomino occupies this square
-                    tempField[curPos[0] + j][curPos[1] + i] = curPiece;
+                    tempField[highestX + j][highestY + i] = piece;
                 }
             }
         }
-        */
+        return new int[]{highestX,highestY,highestRotation};
     }
 
     /***
      * Loop for a point "P" from mainLoop
-     * @param point: currently considered point P (in the form of an [x,y] array)
+     * @param xCoord: x coordinate of point P
+     * @param yCoord: y coordinate of point P
+     * @param pieceArr
+     * @param isMirrored: boolean value, checking if piece is mirrored
      * @return: score for current piece in current point P and the rotation yielding that score
      */
-    public static int[] pLoop(int[] point, int[][][] pieceArr){
-        //TODO: add a loop that goes through all possible rotations of a given piece
-        //TODO: calculate points in each rotation for the given point
-        //TODO: change return to be in form [score, rotationID]
-        return null;
+    private static int[] pLoop(int xCoord, int yCoord, int[][][] pieceArr, boolean isMirrored){
+        int[] iterator;
+        int highestScoreRotation = -1;
+        int highestScore = 0;
+        if(isMirrored){
+            iterator = new int[]{4,5,6,7};
+        }
+        else{
+            iterator = new int[]{0,1,2,3};
+        }
+        for(int rotationIndex=0; rotationIndex<iterator.length; rotationIndex++){
+            int[][] pieceArr2D = pieceArr[iterator[rotationIndex]];
+            int curScore = 0;
+            for(int i=0; i<pieceArr2D.length;i++) {
+                for (int j = 0; j < pieceArr2D[i].length; j++) {
+                    if (pieceArr2D[i][j] != 0) {
+                        curScore+=fieldScores[i+xCoord][j+yCoord];
+                    }
+                }
+            }
+            if(curScore>highestScore){
+                highestScore=curScore;
+                highestScoreRotation=rotationIndex;
+            }
+        }
+        return new int[]{highestScore,highestScoreRotation};
     }
-
 
 
     public static void genRewards(int[][] field, int fieldHeight, int fieldWidth) {
