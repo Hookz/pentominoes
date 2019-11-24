@@ -31,7 +31,7 @@ public class Tetris{
     public static Random rand = new Random(21370);
     public static boolean start = true;
     public static boolean enableBot = true;
-    public static String botType = "Q";
+    public static String botType = "G";
     public static boolean aboutToCollide=false;
     public static boolean collided=false;
 

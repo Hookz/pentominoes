@@ -1,5 +1,7 @@
 package Phase2.Tetris;
 
+import java.util.ArrayList;
+
 public class Gbot {
     class Archive {
         int populationSize = 0;
@@ -18,33 +20,46 @@ public class Gbot {
     private int currentGenome;
     private int generation;
     private double[] moveParameters;
-    private Archive[] archive =new Archive[];
+    private ArrayList<Archive> archive =new ArrayList<Archive>();
     private double mutationRate;
     private double mutationStep;
 
-    //Creates the initial population of genomes, each with random genes TODO: Lindalee
+    //Creates the initial population of genomes, each with random genes TO DO: Lindalee
     private void initPopulation(){}
-    //Evaluates the next individual in the population. If there is none, evolves the population TODO: Lindalee
+    //Evaluates the next individual in the population. If there is none, evolves the population TO DO: Lindalee
     private void evalIndividual(){}
-    //Creates the new population using the best individuals from the last TODO: Lindalee
+    //Creates the new population using the best individuals from the last TO DO: Lindalee
     private void getNextGen(){}
-    //Returns a child from 2 individuals TODO: Lindalee
+    //Returns a child from 2 individuals TO DO: Lindalee
     private void mate(){}
-    //Returns an array of possible moves TODO: Sam
-    private void getBestMove(){}
-    //Makes the next move based on the genome TODO: Sam
-    private void makeMove(){} //TODO: Sam
-    private void genBag(){} // TODO: Sam
-    private void nextShape(){} //TODO: Sam
+
+    private void getBestMove(){ //Returns an array of possible moves TODO: Sam
+
+    }
+    private void makeMove() { //Makes the next move based on the genome TODO: Sam
+
+    }
+    private void genBag() { // TODO: Sam
+
+    }
+    private void nextShape() { //TODO: Sam
+
+    }
 
     //Genome Parameter Values
-    private void getCumHeight() {\\;)} //TODO: Lindalee
-    private void getHoles(){} //TODO: Lindalee
-    private void getHolesArray(){} //TODO: Lindalee
-    private void getRoughness(){} //TODO: Lindalee
-    private void getRelHeight(){} //TODO: Sam
-    private void getHeight(){} //TODO: Sam
-    private void getRowsCleared(){} //TODO: Sam
+    private void getCumHeight() {} //TO DO: Lindalee
+    private void getHoles(){} //TO DO: Lindalee
+    private void getHolesArray(){} //TO DO: Lindalee
+    private void getRoughness(){} //TO DO: Lindalee
+    private void getRelHeight() { //TODO: Sam
+
+    }
+    private void getHeight() { //TODO: Sam
+
+    }
+    private void getRowsCleared() { //TODO: Sam
+
+    }
 
 
 
