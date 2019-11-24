@@ -341,7 +341,7 @@ public class Tetris{
         tempField = new int[fieldWidth][fieldHeight];
         wipeField(field);
         tempField = copyField(field);
-        /*gameWrapper.window.addKeyListener(new KeyListener() {
+        gameWrapper.window.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_LEFT:
@@ -383,7 +383,7 @@ public class Tetris{
             }
             public void keyTyped(KeyEvent e) {
             }
-        });*/
+        });
         start = true;
         instantiateNewPiece(false);
         timer = new Timer();
