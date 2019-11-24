@@ -26,17 +26,19 @@ public class Tetris{
     public static boolean spacePressed=false;
     public static boolean go=false;
     public static int score = 0;
+    public static int lastScore = 0;
     public static int seed = (int)(Math.random()*10000);
     public static Random rand = new Random(seed);
     public static int nextPiece = (int)(12 * rand.nextDouble());
     public static int nextRot;
     public static boolean start = true;
     public static boolean enableBot = true;
-    public static String botType = "Q";
+    public static String botType = "G";
     public static boolean aboutToCollide=false;
     public static boolean collided=false;
     public static boolean AI=true;
     public static Timer timer;
+    public static boolean training=false;
 
     public static void step(){
         if(canMove){
@@ -46,7 +48,7 @@ public class Tetris{
             if(downPressed) rotatePiece(true);
             if(spacePressed) dropPiece(false);
         }
-        if(!AI)gameWrapper.ui.setState(tempField);
+        if(!AI&&!training)gameWrapper.ui.setState(tempField);
         int[] temPos=arrayCopy(curPos);
         temPos[1] += 1;
         if(checkCollision(temPos,curPieceRotation)&&collided){
@@ -107,6 +109,7 @@ public class Tetris{
     public static void gameOver(){
         go=true;
         start=true;
+        lastScore=score;
         score=0;
         wipeField(field);
         wipeField(tempField);
@@ -250,13 +253,15 @@ public class Tetris{
                 collided = true;
                 if(curPos[1]<5){
                     gameOver();
+                    cr=-2;
+                } else {
+                    field=copyField(tempField);
+                    cr=rowElimination(ten);
+                    instantiateNewPiece(ten);
+                    runBot();
                 }
-                field=copyField(tempField);
-                cr=rowElimination(ten);
-                instantiateNewPiece(ten);
-                runBot();
             }
-            if(!ten){
+            if(!ten&&!training){
                 gameWrapper.ui.setState(tempField);
             }
         }
@@ -300,7 +305,7 @@ public class Tetris{
                 i++;
             }
         }
-        if(!ten) gameWrapper.score.setText(gameWrapper.number(score));
+        if(!ten&&!training) gameWrapper.score.setText(gameWrapper.number(score));
         return consecutive;
     }
 
@@ -336,7 +341,7 @@ public class Tetris{
         tempField = new int[fieldWidth][fieldHeight];
         wipeField(field);
         tempField = copyField(field);
-        gameWrapper.window.addKeyListener(new KeyListener() {
+        /*gameWrapper.window.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_LEFT:
@@ -378,15 +383,23 @@ public class Tetris{
             }
             public void keyTyped(KeyEvent e) {
             }
-        });
+        });*/
         start = true;
         instantiateNewPiece(false);
         timer = new Timer();
         timer.schedule(new Phase2.Tetris.GameTimer(), 0, 500);
         //Run the bot
-        if(botType=="G"){
+        if(botType=="G") {
             Gbot.initPopulation();
-            Gbot.makeMove();
+            while (true){
+                Gbot.makeMove();
+                wipeField(field);
+                tempField = copyField(field);
+                instantiateNewPiece(false);
+                start = true;
+                Gbot.games = 0;
+                Gbot.bestMoveNext = new int[3];
+            }
         }
         runBot();
     }
