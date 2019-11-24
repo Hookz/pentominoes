@@ -24,16 +24,19 @@ public class Tetris{
     public static boolean rightPressed=false;
     public static boolean leftPressed=false;
     public static boolean spacePressed=false;
-    public static boolean gameOver=false;
+    public static boolean go=false;
     public static int score = 0;
-    public static int nextPiece = (int)(12 * Math.random());
+    public static int seed = (int)(Math.random()*10000);
+    public static Random rand = new Random(seed);
+    public static int nextPiece = (int)(12 * rand.nextDouble());
     public static int nextRot;
-    public static Random rand = new Random(21370);
     public static boolean start = true;
     public static boolean enableBot = true;
-    public static String botType = "Q";
+    public static String botType = "G";
     public static boolean aboutToCollide=false;
     public static boolean collided=false;
+    public static boolean AI=true;
+    public static Timer timer;
 
     public static void step(){
         if(canMove){
@@ -41,9 +44,9 @@ public class Tetris{
             if(rightPressed) movePiece(true);
             if(upPressed) rotatePiece(false);
             if(downPressed) rotatePiece(true);
-            if(spacePressed) dropPiece();
+            if(spacePressed) dropPiece(false);
         }
-        gameWrapper.ui.setState(tempField);
+        if(!AI)gameWrapper.ui.setState(tempField);
         int[] temPos=arrayCopy(curPos);
         temPos[1] += 1;
         if(checkCollision(temPos,curPieceRotation)&&collided){
@@ -58,11 +61,11 @@ public class Tetris{
         }
     }
 
-    public static void instantiateNewPiece(){
-        getNewPiece();
+    public static void instantiateNewPiece(boolean ten){
+        if(!ten) getNewPiece();
         int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
         curPos[0]=0;
-        curPos[1]=5-(pieceToPlace.length);
+        curPos[1]=0;
         addPiece();
         canMove=true;
     }
@@ -90,15 +93,23 @@ public class Tetris{
 
     public static void getNewPiece(){
         if (start) {
-            curPiece = (int)(12 * Math.random());
-            curPieceRotation=(int)(Math.random()*PentominoDatabase.data[curPiece].length);
+            curPiece = (int)(12 * rand.nextDouble());
+            curPieceRotation=(int)(rand.nextDouble()*PentominoDatabase.data[curPiece].length);
             start = false;
         } else {
             curPiece = nextPiece;
             curPieceRotation=nextRot;
         }
-        nextPiece = (int)(12 * Math.random());
-        nextRot=(int)(Math.random()*PentominoDatabase.data[curPiece].length);
+        nextPiece = (int)(12 * rand.nextDouble());
+        nextRot=(int)(rand.nextDouble()*PentominoDatabase.data[curPiece].length);
+    }
+
+    public static void gameOver(){
+        go=true;
+        start=true;
+        score=0;
+        wipeField(field);
+        wipeField(tempField);
     }
 
     //cw = clock wise
@@ -198,7 +209,8 @@ public class Tetris{
     /***
      * Drops the current piece to the lowest level in current position x
      */
-    public static void dropPiece(){
+    public static int dropPiece(boolean ten){
+        int cr=0;
         int [] nextPos=arrayCopy(curPos);
         nextPos[1]++;
         while(!checkCollision(nextPos,curPieceRotation)){
@@ -207,10 +219,8 @@ public class Tetris{
             tempField = copyField(field);
             addPiece();
         }
-        field=copyField(tempField);
-        rowElimination();
-        instantiateNewPiece();
-        gameWrapper.ui.setState(tempField);
+        cr=movePieceDown(ten);
+        return cr;
     }
 
     public static int[] arrayCopy(int [] old){
@@ -224,7 +234,8 @@ public class Tetris{
     /***
      * Step function slowly moving piece down
      */
-    public static void movePieceDown(){
+    public static int movePieceDown(boolean ten){ //ten is true when the piece gets moved down tentatively therefore the UI doesn't update
+        int cr=-1;
         if(!aboutToCollide){
             int [] temPos=arrayCopy(curPos);
             temPos[1] += 1;
@@ -238,26 +249,25 @@ public class Tetris{
                 canMove=false;
                 collided = true;
                 if(curPos[1]<5){
-                    gameOver=true;
-                    start=true;
-                    score=0;
-                    wipeField(field);
-                    wipeField(tempField);
+                    gameOver();
                 }
                 field=copyField(tempField);
-                rowElimination();
-                instantiateNewPiece();
+                cr=rowElimination(ten);
+                instantiateNewPiece(ten);
                 runBot();
             }
-            gameWrapper.ui.setState(tempField);
+            if(!ten){
+                gameWrapper.ui.setState(tempField);
+            }
         }
         else aboutToCollide=false;
+        return cr;
     }
 
     /***
      * Function eliminating all rows that are full and updating the score accordingly
      */
-    public static void rowElimination() {
+    public static int rowElimination(boolean ten) {
         int consecutive=0;
         for(int i = field[0].length - 1; i >= 0; i--) {
             int cntr = 0;
@@ -290,7 +300,8 @@ public class Tetris{
                 i++;
             }
         }
-        gameWrapper.score.setText(gameWrapper.number(score));
+        if(!ten) gameWrapper.score.setText(gameWrapper.number(score));
+        return consecutive;
     }
 
     private static int[][] copyField(int[][] f0){
@@ -369,11 +380,14 @@ public class Tetris{
             }
         });
         start = true;
-        instantiateNewPiece();
-        Timer timer = new Timer();
+        instantiateNewPiece(false);
+        timer = new Timer();
         timer.schedule(new Phase2.Tetris.GameTimer(), 0, 500);
-
         //Run the bot
+        if(botType=="G"){
+            Gbot.initPopulation();
+            Gbot.makeMove();
+        }
         runBot();
     }
 }
