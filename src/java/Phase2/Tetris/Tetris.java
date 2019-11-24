@@ -32,7 +32,7 @@ public class Tetris{
     public static int nextRot;
     public static boolean start = true;
     public static boolean enableBot = true;
-    public static String botType = "G";
+    public static String botType = "Q";
     public static boolean aboutToCollide=false;
     public static boolean collided=false;
     public static boolean AI=true;
