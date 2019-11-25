@@ -8,7 +8,10 @@ public class Qbot {
     //Add AI class, with fieldScores variable and findBestPlaceToPlace and updateFieldScores method
     private static int[][] fieldScores;
     private static int[][] tempField = copyField(Tetris.field);
-
+    private static int bestX = -1;
+    private static int bestY = -1;
+    private static int bestRotation = -1;
+    private static int curPiece = 0;
     //TODO after it works: save the results so far so they can be reused if a position doesn't have a route
     //TODO read advice: 1) Keep track of what positions have been tried and their results (if they were possible at all). This means that you need to save the best location and rotation for the 2 pentominoes that you are trying out.
     // 2) When you finished finding the optimal position to place the first pentomino, check the second pentomino using the new scores that you can get from genRewards. As the field input, use the actually field with the first pentomino
@@ -45,13 +48,36 @@ public class Qbot {
     }
 
     public static void findBestPlaceToPlace(){
+        if(bestX==-1||bestRotation==-1) Tetris.gameOver();
+        bestX = -1;
+        bestY = -1;
+        bestRotation = -1;
+        curPiece = 0;
+        int cr = Tetris.movePieceDown(false);
+        curPiece = Tetris.curPiece;
+        bestRotation = Tetris.curPieceRotation;
         genRewards(tempField, Tetris.fieldHeight, Tetris.fieldWidth);
-        mainLoop(Tetris.curPiece,Tetris.curPieceRotation);
-        genRewards(tempField, Tetris.fieldHeight, Tetris.fieldWidth);
-        mainLoop(Tetris.nextPiece,Tetris.nextRot);
-        Tetris.field = copyField(tempField);
+        mainLoop(curPiece,bestRotation);
+        System.out.println(curPiece+" "+bestRotation);
+        for(int i=0;i<bestX;i++){
+            Tetris.movePiece(true);
+        }
+        while(Tetris.curPieceRotation!=bestRotation){
+            Tetris.rotatePiece(true);
+        }
+        while(cr==-1){
+            cr=Tetris.movePieceDown(false);
+            try {
+                Thread.sleep(200);
+            }
+            catch(InterruptedException ex){
+                Thread.currentThread().interrupt();
+            }
+        }
+        // genRewards(tempField, Tetris.fieldHeight, Tetris.fieldWidth);
+        // mainLoop(Tetris.nextPiece,Tetris.nextRot);
+        findBestPlaceToPlace();
     }
-
     /***
      *
      * @param piece: currently considered piece (curPiece: 1 / nextPiece: 2)
@@ -90,9 +116,6 @@ public class Qbot {
 
     private static void mainLoop(int piece, int pieceRotation){
         int highestScore = 0;
-        int highestRotation = -1;
-        int highestX = -1;
-        int highestY = -1;
         boolean isMirrored = false;
         if(pieceRotation>3) isMirrored = true;
         int[][][] pieceArr = PentominoDatabase.data[piece];
@@ -101,18 +124,18 @@ public class Qbot {
                 int[] temp = pLoop(x,y,pieceArr,isMirrored);
                 if(temp[0]>highestScore){
                     highestScore=temp[0];
-                    highestRotation=temp[1];
-                    highestX = x;
-                    highestY = y;
+                    bestRotation=temp[1];
+                    bestX = x;
+                    bestY = y;
                 }
             }
         }
-        int[][] pieceToPlace = PentominoDatabase.data[piece][highestRotation];
+        int[][] pieceToPlace = PentominoDatabase.data[piece][bestRotation];
         for(int i = 0; i < pieceToPlace.length; i++){ // loop over x position of pentomino
             for (int j = 0; j < pieceToPlace[i].length; j++){ // loop over y position of pentomino
                 if (pieceToPlace[i][j] == 1){
                     // Add the ID of the pentomino to the board if the pentomino occupies this square
-                    tempField[highestX + j][highestY + i] = piece;
+                    tempField[bestX + i][bestY + j] = piece;
                 }
             }
         }
@@ -139,6 +162,7 @@ public class Qbot {
         for(int rotationIndex=0; rotationIndex<iterator.length; rotationIndex++){
             int[][] pieceArr2D = pieceArr[iterator[rotationIndex]];
             int curScore = 0;
+            if(xCoord+pieceArr2D.length<fieldScores.length && yCoord+pieceArr2D[0].length < fieldScores[0].length)
             for(int i=0; i<pieceArr2D.length;i++) {
                 for (int j = 0; j < pieceArr2D[i].length; j++) {
                     if (pieceArr2D[i][j] != 0) {
@@ -148,7 +172,7 @@ public class Qbot {
             }
             if(curScore>highestScore){
                 highestScore=curScore;
-                highestScoreRotation=rotationIndex;
+                highestScoreRotation=iterator[rotationIndex];
             }
         }
         return new int[]{highestScore,highestScoreRotation};
