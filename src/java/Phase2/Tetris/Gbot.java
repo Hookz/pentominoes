@@ -147,7 +147,9 @@ public class Gbot {
         int[][] oldField = copyField(Tetris.field);
         int oldScore=Tetris.score;
         int oldPiece=Tetris.curPiece;
+        int oldNextPiece=Tetris.nextPiece;
         int oldPieceRotation=Tetris.curPieceRotation;
+        int oldNextPieceRotation = Tetris.nextRot;
         int oldPiecePos[]=arrayCopy(Tetris.curPos);
         ArrayList<Integer[]> possibleMoves= new ArrayList<Integer[]>();
 
@@ -158,7 +160,9 @@ public class Gbot {
                 Tetris.field = copyField(oldField);
                 Tetris.score = oldScore;
                 Tetris.curPiece = oldPiece;
+                Tetris.nextPiece=oldNextPiece;
                 Tetris.curPieceRotation = oldPieceRotation;
+                Tetris.nextRot = oldNextPieceRotation;
                 Tetris.curPos=arrayCopy(oldPiecePos);
                 for (int k = 0; k < i; k++) Tetris.rotatePiece(true);
                 for (int k = 0; k < t; k++) Tetris.movePiece(true);
@@ -187,14 +191,18 @@ public class Gbot {
                 int[][] oldField2 = copyField(Tetris.field);
                 int oldScore2=Tetris.score;
                 int oldPiece2=Tetris.curPiece;
+                int oldNextPiece2=Tetris.nextPiece;
                 int oldPieceRotation2=Tetris.curPieceRotation;
+                int oldNextPieceRotation2 = Tetris.nextRot;
                 int oldPiecePos2[]=arrayCopy(Tetris.curPos);
                 for (int j = 0; j < 4; j++) { //for each possible rotation
                     for (int l = 0; l < Tetris.fieldWidth; l++) {
                         Tetris.field = copyField(oldField2);
                         Tetris.score = oldScore2;
                         Tetris.curPiece = oldPiece2;
+                        Tetris.nextPiece = oldNextPiece2;
                         Tetris.curPieceRotation = oldPieceRotation2;
+                        Tetris.nextRot = oldNextPieceRotation2;
                         Tetris.curPos = oldPiecePos2;
                         for (int k = 0; k < j; k++) Tetris.rotatePiece(true);
                         for (int k = 0; k < l; k++) Tetris.movePiece(true);
@@ -232,11 +240,14 @@ public class Gbot {
                 }
             }
         }
-        Tetris.field=copyField(oldField);
-        Tetris.score=oldScore;
-        Tetris.curPiece=oldPiece;
-        Tetris.curPieceRotation=oldPieceRotation;
-        Tetris.curPos = oldPiecePos;
+        Tetris.field = copyField(oldField);
+        Tetris.score = oldScore;
+        Tetris.curPiece = oldPiece;
+        Tetris.nextPiece = oldNextPiece;
+        Tetris.curPieceRotation = oldPieceRotation;
+        Tetris.nextRot = oldNextPieceRotation;
+        Tetris.curPos=arrayCopy(oldPiecePos);
+
         int maxR=-10000;
         int maxMove=0;
         for (int i = 0; i < possibleMoves.size(); i++) {
@@ -270,8 +281,9 @@ public class Gbot {
         int cr=-1;
         while(cr==-1){
             cr=Tetris.movePieceDown(false);
+            System.out.println(Tetris.nextPiece);
             try {
-                Thread.sleep(20);
+                Thread.sleep(100);
             }
             catch(InterruptedException ex){
                 Thread.currentThread().interrupt();

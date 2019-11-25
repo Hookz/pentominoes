@@ -63,8 +63,8 @@ public class Tetris{
         }
     }
 
-    public static void instantiateNewPiece(boolean ten){
-        if(!ten) getNewPiece();
+    public static void instantiateNewPiece(){
+        getNewPiece();
         int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
         curPos[0]=0;
         curPos[1]=0;
@@ -99,10 +99,10 @@ public class Tetris{
             curPieceRotation=(int)(rand.nextDouble()*PentominoDatabase.data[curPiece].length);
             start = false;
         } else {
-            curPiece = nextPiece;
+            curPiece=nextPiece;
             curPieceRotation=nextRot;
         }
-        nextPiece = (int)(12 * rand.nextDouble());
+        nextPiece=(int)(12 * rand.nextDouble());
         nextRot=(int)(rand.nextDouble()*PentominoDatabase.data[curPiece].length);
     }
 
@@ -252,14 +252,14 @@ public class Tetris{
                 canMove=false;
                 collided = true;
                 if(curPos[1]<5){
-                    gameOver();
+                    if(!ten)gameOver();
                     cr=-2;
                 } else {
                     field=copyField(tempField);
                     cr=rowElimination(ten);
-                    instantiateNewPiece(ten);
                     runBot();
                 }
+                if(!ten) instantiateNewPiece();
             }
             if(!ten&&!training){
                 gameWrapper.ui.setState(tempField);
@@ -385,7 +385,7 @@ public class Tetris{
             }
         });
         start = true;
-        instantiateNewPiece(false);
+        instantiateNewPiece();
         timer = new Timer();
         timer.schedule(new Phase2.Tetris.GameTimer(), 0, 500);
         //Run the bot
@@ -395,7 +395,7 @@ public class Tetris{
                 Gbot.makeMove();
                 wipeField(field);
                 tempField = copyField(field);
-                instantiateNewPiece(false);
+                instantiateNewPiece();
                 start = true;
                 Gbot.games = 0;
                 Gbot.bestMoveNext = new int[3];

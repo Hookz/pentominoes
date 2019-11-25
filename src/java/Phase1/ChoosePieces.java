@@ -22,10 +22,11 @@ public class ChoosePieces {
     private JFrame choosePieces;
 
     /**
-     * Default class constructor
-     * <br>
-     * Whenever used, it makes sure that a new class instance is fired and that all settings are reset to default values
-     */
+    * Default class constructor
+    * <br>
+    * Whenever used, it makes sure that a new class instance is fired and that all settings are reset to default values
+    */
+
     public ChoosePieces(){
         piecesUsed = new boolean[12];
         choosePieces = new JFrame("Pentominoes: Settings");
@@ -36,7 +37,6 @@ public class ChoosePieces {
      * <br>
      * It adds the interactive layer with all clickable and adjustable elements to the GUI.
      */
-
 
     public void createPieces(){
         BufferedImage img;
