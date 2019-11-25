@@ -63,11 +63,13 @@ public class Tetris{
         }
     }
 
-    public static void instantiateNewPiece(){
-        getNewPiece();
-        int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
+    public static void instantiateNewPiece(boolean ten){
         curPos[0]=0;
         curPos[1]=0;
+        if(!ten){
+            getNewPiece();
+            int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
+        }
         addPiece();
         canMove=true;
     }
@@ -259,7 +261,8 @@ public class Tetris{
                     cr=rowElimination(ten);
                     runBot();
                 }
-                if(!ten) instantiateNewPiece();
+                //if(!ten)
+                    instantiateNewPiece(ten);
             }
             if(!ten&&!training){
                 gameWrapper.ui.setState(tempField);
@@ -385,7 +388,7 @@ public class Tetris{
             }
         });
         start = true;
-        instantiateNewPiece();
+        instantiateNewPiece(false);
         timer = new Timer();
         timer.schedule(new Phase2.Tetris.GameTimer(), 0, 500);
         //Run the bot
@@ -395,7 +398,7 @@ public class Tetris{
                 Gbot.makeMove();
                 wipeField(field);
                 tempField = copyField(field);
-                instantiateNewPiece();
+                instantiateNewPiece(false);
                 start = true;
                 Gbot.games = 0;
                 Gbot.bestMoveNext = new int[3];
