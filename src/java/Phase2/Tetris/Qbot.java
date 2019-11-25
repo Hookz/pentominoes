@@ -1,5 +1,8 @@
 package Phase2.Tetris;
 import General.PentominoDatabase;
+
+import java.io.IOException;
+
 public class Qbot {
     //TODO check i and j
     //TODO get a correct score
@@ -8,8 +11,8 @@ public class Qbot {
     //Add AI class, with fieldScores variable and findBestPlaceToPlace and updateFieldScores method
     private static int[][] fieldScores;
     private static int[][] tempField = copyField(Tetris.field);
-    private static int bestX = -1;
-    private static int bestY = -1;
+    private static int bestX = -2;
+    private static int bestY = -2;
     private static int bestRotation = -1;
     private static int curPiece = 0;
     //TODO after it works: save the results so far so they can be reused if a position doesn't have a route
@@ -47,17 +50,20 @@ public class Qbot {
         return new int[]{xCurrent,yCurrent,rotationCurrent,xNext,yNext,rotationNext};
     }
 
-    public static void findBestPlaceToPlace(){
-        if(bestX==-1||bestRotation==-1) Tetris.gameOver();
+    public static void findBestPlaceToPlace() throws IOException {
+        int cr = Tetris.movePieceDown(false);
+        if(cr==-2) return;
         bestX = -1;
         bestY = -1;
         bestRotation = -1;
         curPiece = 0;
-        int cr = Tetris.movePieceDown(false);
         curPiece = Tetris.curPiece;
         bestRotation = Tetris.curPieceRotation;
         genRewards(tempField, Tetris.fieldHeight, Tetris.fieldWidth);
         mainLoop(curPiece,bestRotation);
+        if(bestX==-1||bestRotation==-1) {
+            return;
+        }
         System.out.println(curPiece+" "+bestRotation);
         for(int i=0;i<bestX;i++){
             Tetris.movePiece(true);

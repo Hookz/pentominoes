@@ -1,9 +1,8 @@
 package Phase2.Tetris;
 import General.PentominoDatabase;
 
-import java.util.Arrays;
-import java.util.Random;
-import java.util.Timer;
+import java.io.*;
+import java.util.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -33,14 +32,15 @@ public class Tetris{
     public static int nextRot;
     public static boolean start = true;
     public static boolean enableBot = true;
-    public static String botType = "G";
+    public static String botType = "Q";
     public static boolean aboutToCollide=false;
     public static boolean collided=false;
     public static boolean AI=true;
     public static Timer timer;
     public static boolean training=false;
-
-    public static void step(){
+    private static int writerIterator = 0;
+    private static BufferedWriter writer;
+    public static void step() throws IOException {
         if(canMove){
             if(leftPressed) movePiece(false);
             if(rightPressed) movePiece(true);
@@ -108,7 +108,14 @@ public class Tetris{
         nextRot=(int)(rand.nextDouble()*PentominoDatabase.data[curPiece].length);
     }
 
-    public static void gameOver(){
+    public static void gameOver() throws IOException {
+        try {
+            writer = new BufferedWriter(new FileWriter("scores.csv",true));
+            writer.write(++writerIterator+","+score+"\n");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         go=true;
         start=true;
         lastScore=score;
@@ -214,7 +221,7 @@ public class Tetris{
     /***
      * Drops the current piece to the lowest level in current position x
      */
-    public static int dropPiece(boolean ten){
+    public static int dropPiece(boolean ten) throws IOException {
         int cr=0;
         int [] nextPos=arrayCopy(curPos);
         nextPos[1]++;
@@ -239,7 +246,7 @@ public class Tetris{
     /***
      * Step function slowly moving piece down
      */
-    public static int movePieceDown(boolean ten){ //ten is true when the piece gets moved down tentatively therefore the UI doesn't update
+    public static int movePieceDown(boolean ten) throws IOException { //ten is true when the piece gets moved down tentatively therefore the UI doesn't update
         int cr=-1;
         if(!aboutToCollide){
             int [] temPos=arrayCopy(curPos);
@@ -254,12 +261,12 @@ public class Tetris{
                 canMove=false;
                 collided = true;
                 if(curPos[1]<5){
-                    if(!ten)gameOver();
+                    if(!ten) gameOver();
                     cr=-2;
                 } else {
                     field=copyField(tempField);
                     cr=rowElimination(ten);
-                    runBot();
+                    //runBot();
                 }
                 //if(!ten)
                     instantiateNewPiece(ten);
@@ -308,7 +315,7 @@ public class Tetris{
                 i++;
             }
         }
-        if(!ten&&!training) gameWrapper.score.setText(gameWrapper.number(score));
+        //if(!ten&&!training) gameWrapper.score.setText(gameWrapper.number(score));
         return consecutive;
     }
 
@@ -325,17 +332,18 @@ public class Tetris{
     /***
      * Starts the execution of the bot, if selected to be enabled
      */
-    public static void runBot(){
+    public static void runBot() throws IOException {
         //TODO
         if(enableBot){
             if(botType.equals("Q")){
                 //use copyField because of pass by value (otherwise the blocks would become invisible
                 Phase2.Tetris.Qbot.findBestPlaceToPlace();
+                return;
             }
         }
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
         fieldWidth = 5;
         fieldHeight = 20;
         gameWrapper = new Phase2.Tetris.GameWrapper(fieldWidth, fieldHeight-5, 50);
@@ -363,7 +371,11 @@ public class Tetris{
                         spacePressed=true;
                         break;
                 }
-                step();
+                try {
+                    step();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
             public void keyReleased(KeyEvent e) {
                 switch (e.getKeyCode()) {
