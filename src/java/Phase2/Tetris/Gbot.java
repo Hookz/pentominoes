@@ -2,6 +2,7 @@ package Phase2.Tetris;
 
 import General.PentominoDatabase;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,7 +18,6 @@ public class Gbot {
         public Archive() {
         }
     }
-
     private int movesNumber;
     private int movesLimit;
     private int populationSize;
@@ -77,7 +77,7 @@ public class Gbot {
     private void mate() {
     }
 
-    private static int[] getBestMove() { //Returns an array of possible moves TODO: Sam
+    private static int[] getBestMove() throws IOException { //Returns an array of possible moves TODO: Sam
         int[][] oldField = copyField(Tetris.field);
         int oldScore=Tetris.score;
         int oldPiece=Tetris.curPiece;
@@ -143,7 +143,7 @@ public class Gbot {
         return bestMove;
     }
 
-    private static int[] getBestMove1() { //Returns an array of possible moves TODO: Sam
+    private static int[] getBestMove1() throws IOException { //Returns an array of possible moves TODO: Sam
         int[][] oldField = copyField(Tetris.field);
         int oldScore=Tetris.score;
         int oldPiece=Tetris.curPiece;
@@ -271,7 +271,7 @@ public class Gbot {
         return bestMove;
     }
 
-    public static void makeMove() { //Makes the next move based on the genome TODO: Sam
+    public static void makeMove() throws IOException { //Makes the next move based on the genome TODO: Sam
         int[][] oldField = copyField(Tetris.field);
         int oldScore=Tetris.score;
         int oldPiece=Tetris.curPiece;
@@ -281,13 +281,13 @@ public class Gbot {
         for (int i = 0; i < bestMove[1]; i++) Tetris.movePiece(true);
         int cr=-1;
         while(cr==-1){
-            cr=Tetris.movePieceDown(false);
-            try {
+            cr=Tetris.dropPiece(false);
+            /*ry {
                 Thread.sleep(50);
             }
             catch(InterruptedException ex){
                 Thread.currentThread().interrupt();
-            }
+            }*/
         }
         if(cr==-2){
             scores.add(Tetris.lastScore);
