@@ -184,13 +184,40 @@ public class Qbot {
         return new int[]{highestScore,highestScoreRotation};
     }
 
+    private static int[][] flipMatrix(int[][] field){
+        int[][] flipped = new int[field[0].length][field.length];
+
+        //flip x and y
+        for(int i=0; i<field.length; i++){
+            for(int j=0; j<field[0].length; j++){
+                flipped[j][i] = field[i][j];
+            }
+        }
+
+        //flip x-axis
+        int[][] tmp = new int[flipped.length][flipped[0].length];
+        for(int i=0; i<flipped.length; i++){
+            for(int j=0; j<flipped[0].length; j++){
+                tmp[i][flipped[0].length-1-j] = flipped[i][j];
+            }
+        }
+
+        flipped = tmp;
+
+        return flipped;
+    }
+
 
     private static void genRewards(int[][] field, int fieldHeight, int fieldWidth) {
+        //TODO make fieldHeight the playable field height, so don't include the off screen part on top
+        
+        int[][] flipped = flipMatrix(field);
+
         fieldScores = new int[fieldWidth][fieldHeight];
 
         //give scores
-        for (int x = 0; x < fieldWidth; x++) {
-            for (int y = 0; y < fieldHeight; y++) {
+        for (int y = 0; y < fieldHeight; y++) {
+            for (int x = 0; x < fieldWidth; x++) {
                 int amountOfBlocksSurrounding = 0;
                 int amountOfBlocksInRow = 0;
 
@@ -199,29 +226,29 @@ public class Qbot {
                     //check surroundings
                     //check same layer, but exclude the cell itself
                     if (x > 1) {
-                        if (field[x-1][y] == -1) amountOfBlocksSurrounding++;
+                        if (field[x-1][y] != -1) amountOfBlocksSurrounding++;
                     }
                     if (x < fieldWidth - 1) {
-                        if (field[x+1][y] == -1) amountOfBlocksSurrounding++;
+                        if (field[x+1][y] != -1) amountOfBlocksSurrounding++;
                     }
 
                     //check layer below
-                    if (y < fieldHeight - 1) {
+                    if (y>1) {
 
                         if (x > 1) {
-                            if (field[x-1][y+1] == -1) amountOfBlocksSurrounding++;
+                            if (field[x-1][y-1] != -1) amountOfBlocksSurrounding++;
                         }
 
-                        if (field[x][y+1] == -1) amountOfBlocksSurrounding++;
+                        if (field[x][y-1] != -1) amountOfBlocksSurrounding++;
 
                         if (x < fieldWidth - 1) {
-                            if (field[x+1][y+1] == -1) amountOfBlocksSurrounding++;
+                            if (field[x+1][y-1] != -1) amountOfBlocksSurrounding++;
                         }
                     }
 
                     //get the amount of blocks in this row
-                    for (int k = 0; k < fieldHeight; k++) {
-                        if (field[x][k] == -1) {
+                    for (int k = 0; k < fieldWidth; k++) {
+                        if (field[k][y] != -1) {
                             amountOfBlocksInRow++;
                         }
                     }
@@ -237,12 +264,19 @@ public class Qbot {
         //TODO remove after debugging
         //print field
         for (int y = 0; y < fieldHeight; y++) {
-            for (int i = 0; i < fieldWidth; i++) {
-                System.out.print(String.format("%6d", fieldScores[i][y]));
+            for (int x = 0; x < fieldWidth; x++) {
+                System.out.print(String.format("%6d", fieldScores[x][y]));
             }
             System.out.println();
         }
         System.out.println();
+//        for (int x = 0; x < fieldWidth; x++) {
+//            for (int y = 0; y < fieldHeight; y++) {
+//                System.out.print(String.format("%6d", fieldScores[x][y]));
+//            }
+//            System.out.println();
+//        }
+//        System.out.println();
     }
 
     private static int[][] copyField(int[][] f0){
