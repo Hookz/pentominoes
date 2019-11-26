@@ -10,6 +10,7 @@ public class Qbot {
     //TODO use fieldScores
     //Add AI class, with fieldScores variable and findBestPlaceToPlace and updateFieldScores method
     private static int[][] fieldScores;
+    //TODO to vague
     private static int[][] tempField = copyField(Tetris.field);
     private static int bestX = -2;
     private static int bestY = -2;
@@ -210,73 +211,77 @@ public class Qbot {
 
     private static void genRewards(int[][] field, int fieldHeight, int fieldWidth) {
         //TODO make fieldHeight the playable field height, so don't include the off screen part on top
-        
-        int[][] flipped = flipMatrix(field);
 
-        fieldScores = new int[fieldWidth][fieldHeight];
+        int[][] flipped = flipMatrix(field);
+        field = flipped;
+
+        //flip the field so i is y, j is x and a higher x means something is on the right and not on the left
+        //alternative comment: prevent headache
+        fieldScores = new int[fieldHeight][fieldWidth];
 
         //give scores
-        for (int y = 0; y < fieldHeight; y++) {
-            for (int x = 0; x < fieldWidth; x++) {
+        for (int i = 0; i < fieldHeight; i++) {
+            for (int j = 0; j < fieldWidth; j++) {
                 int amountOfBlocksSurrounding = 0;
                 int amountOfBlocksInRow = 0;
 
                 //only check field that aren't filled (you don't want to put a score in a cell that has already been taken)
-                if (field[x][y] == -1) {
+                if (field[i][j] == -1) {
                     //check surroundings
                     //check same layer, but exclude the cell itself
-                    if (x > 1) {
-                        if (field[x-1][y] != -1) amountOfBlocksSurrounding++;
+                    if (i > 1) {
+                        //left
+                        if (field[i-1][j] != -1) amountOfBlocksSurrounding++;
                     }
-                    if (x < fieldWidth - 1) {
-                        if (field[x+1][y] != -1) amountOfBlocksSurrounding++;
+                    if (i < fieldWidth - 1) {
+                        //right
+                        if (field[i+1][j] != -1) amountOfBlocksSurrounding++;
                     }
 
                     //check layer below
-                    if (y>1) {
+                    if (j>1) {
 
-                        if (x > 1) {
-                            if (field[x-1][y-1] != -1) amountOfBlocksSurrounding++;
+                        //left below
+                        if (i > 1) {
+                            if (field[i-1][j-1] != -1) amountOfBlocksSurrounding++;
                         }
 
-                        if (field[x][y-1] != -1) amountOfBlocksSurrounding++;
+                        //below
+                        if (field[i][j-1] != -1) amountOfBlocksSurrounding++;
 
-                        if (x < fieldWidth - 1) {
-                            if (field[x+1][y-1] != -1) amountOfBlocksSurrounding++;
+                        //below right
+                        if (i < fieldWidth - 1) {
+                            if (field[i+1][j-1] != -1) amountOfBlocksSurrounding++;
                         }
                     }
 
                     //get the amount of blocks in this row
                     for (int k = 0; k < fieldWidth; k++) {
-                        if (field[k][y] != -1) {
+                        if (field[k][j] != -1) {
                             amountOfBlocksInRow++;
                         }
                     }
 
                     //update score
                     //multiply the surrounding blocks by the height and add a default 'bonus' based on the layer
-                    fieldScores[x][y] = amountOfBlocksSurrounding * (5 * (y + 1)) + 25 * (y) + amountOfBlocksInRow * (3 * (y) + 3) + 1;
+                    fieldScores[i][j] = amountOfBlocksSurrounding * (5 * (i + 1)) + 25 * (i) + amountOfBlocksInRow * (3 * (i) + 3) + 1;
                 }
-
             }
         }
 
         //TODO remove after debugging
         //print field
-        for (int y = 0; y < fieldHeight; y++) {
-            for (int x = 0; x < fieldWidth; x++) {
-                System.out.print(String.format("%6d", fieldScores[x][y]));
+        for (int i = 0; i < fieldHeight; i++) {
+            for (int j = 0; j < fieldWidth; j++) {
+                System.out.print(String.format("%6d", fieldScores[i][j]));
             }
             System.out.println();
         }
         System.out.println();
-//        for (int x = 0; x < fieldWidth; x++) {
-//            for (int y = 0; y < fieldHeight; y++) {
-//                System.out.print(String.format("%6d", fieldScores[x][y]));
-//            }
-//            System.out.println();
-//        }
-//        System.out.println();
+
+        //flip back because others chose to suffer
+        fieldScores = flipMatrix(fieldScores);
+
     }
 
     private static int[][] copyField(int[][] f0){
