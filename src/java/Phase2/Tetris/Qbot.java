@@ -213,7 +213,6 @@ public class Qbot {
         //TODO make fieldHeight the playable field height, so don't include the off screen part on top
 
         int[][] flipped = flipMatrix(field);
-        field = flipped;
 
         //flip the field so i is y, j is x and a higher x means something is on the right and not on the left
         //alternative comment: prevent headache
@@ -226,16 +225,16 @@ public class Qbot {
                 int amountOfBlocksInRow = 0;
 
                 //only check field that aren't filled (you don't want to put a score in a cell that has already been taken)
-                if (field[i][j] == -1) {
+                if (flipped[i][j] == -1) {
                     //check surroundings
                     //check same layer, but exclude the cell itself
                     if (i > 1) {
                         //left
-                        if (field[i-1][j] != -1) amountOfBlocksSurrounding++;
+                        if (flipped[i-1][j] != -1) amountOfBlocksSurrounding++;
                     }
                     if (i < fieldWidth - 1) {
                         //right
-                        if (field[i+1][j] != -1) amountOfBlocksSurrounding++;
+                        if (flipped[i+1][j] != -1) amountOfBlocksSurrounding++;
                     }
 
                     //check layer below
@@ -243,21 +242,21 @@ public class Qbot {
 
                         //left below
                         if (i > 1) {
-                            if (field[i-1][j-1] != -1) amountOfBlocksSurrounding++;
+                            if (flipped[i-1][j-1] != -1) amountOfBlocksSurrounding++;
                         }
 
                         //below
-                        if (field[i][j-1] != -1) amountOfBlocksSurrounding++;
+                        if (flipped[i][j-1] != -1) amountOfBlocksSurrounding++;
 
                         //below right
                         if (i < fieldWidth - 1) {
-                            if (field[i+1][j-1] != -1) amountOfBlocksSurrounding++;
+                            if (flipped[i+1][j-1] != -1) amountOfBlocksSurrounding++;
                         }
                     }
 
                     //get the amount of blocks in this row
                     for (int k = 0; k < fieldWidth; k++) {
-                        if (field[k][j] != -1) {
+                        if (flipped[k][j] != -1) {
                             amountOfBlocksInRow++;
                         }
                     }
@@ -270,7 +269,7 @@ public class Qbot {
         }
 
         //TODO remove after debugging
-        //print field
+        //print flipped
         for (int i = 0; i < fieldHeight; i++) {
             for (int j = 0; j < fieldWidth; j++) {
                 System.out.print(String.format("%6d", fieldScores[i][j]));
