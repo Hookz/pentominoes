@@ -249,7 +249,7 @@ public class Tetris{
     /***
      * Step function slowly moving piece down
      */
-    public static int movePieceDown(boolean ten) throws IOException { //ten is true when the piece gets moved down tentatively therefore the UI doesn't update
+    public static int movePieceDown(boolean ten) throws IOException { //ten is true when the piece gets moved down tentatively therefore the UI doesn't update and we don't call gameOver
         int cr=-1;
         if(!aboutToCollide){
             int [] temPos=arrayCopy(curPos);
@@ -271,8 +271,7 @@ public class Tetris{
                     cr=rowElimination(ten);
                     //runBot();
                 }
-                //if(!ten)
-                    instantiateNewPiece(ten);
+                instantiateNewPiece(ten);
             }
             if(!ten&&!training){
                 gameWrapper.ui.setState(tempField);
@@ -318,7 +317,7 @@ public class Tetris{
                 i++;
             }
         }
-        //if(!ten&&!training) gameWrapper.score.setText(gameWrapper.number(score));
+        if(!ten&&!training) gameWrapper.score.setText(gameWrapper.number(score));
         return consecutive;
     }
 
