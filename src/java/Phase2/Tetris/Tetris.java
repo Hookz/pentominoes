@@ -7,6 +7,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Tetris{
+    public static boolean enableBot = true;
+    public static String botType = "Q";
+
     public static int fieldWidth;
     public static int fieldHeight;
     public static int blocks;
@@ -31,8 +34,6 @@ public class Tetris{
     public static int nextPiece = (int)(12 * rand.nextDouble());
     public static int nextRot;
     public static boolean start = true;
-    public static boolean enableBot = true;
-    public static String botType = "Q";
     public static boolean aboutToCollide=false;
     public static boolean collided=false;
     public static boolean AI=true;
@@ -337,6 +338,7 @@ public class Tetris{
         if(enableBot){
             if(botType.equals("Q")){
                 //use copyField because of pass by value (otherwise the blocks would become invisible
+                //TODO why is it not using V2?
                 Phase2.Tetris.Qbot.findBestPlaceToPlace();
                 return;
             }
@@ -347,6 +349,7 @@ public class Tetris{
         fieldWidth = 5;
         fieldHeight = 20;
         gameWrapper = new Phase2.Tetris.GameWrapper(fieldWidth, fieldHeight-5, 50);
+        //TODO what is "blocks"?
         blocks = 5;
         field = new int[fieldWidth][fieldHeight];
         tempField = new int[fieldWidth][fieldHeight];

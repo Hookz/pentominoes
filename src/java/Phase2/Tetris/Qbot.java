@@ -4,14 +4,11 @@ import General.PentominoDatabase;
 import java.io.IOException;
 
 public class Qbot {
-    //TODO check i and j
-    //TODO get a correct score
-    //TODO keep placed blocks better into account
-    //TODO use fieldScores
+
     //Add AI class, with fieldScores variable and findBestPlaceToPlace and updateFieldScores method
     private static int[][] fieldScores;
     //TODO to vague
-    private static int[][] tempField = copyField(Tetris.field);
+    private static int[][] tempField = copyField(Phase2.Tetris.Tetris.field);
     private static int bestX = -2;
     private static int bestY = -2;
     private static int bestRotation = -1;
@@ -39,41 +36,42 @@ public class Qbot {
         int yNext = -1;
         int rotationNext = -1;
         //find the the placement that yields the highest score for the current and the nextPiece
-        int[] temp = mainLoopV2(Tetris.curPiece,Tetris.curPieceRotation);
+        int[] temp = mainLoopV2(Phase2.Tetris.Tetris.curPiece, Phase2.Tetris.Tetris.curPieceRotation);
         xCurrent = temp[0];
         yCurrent = temp[1];
         rotationCurrent = temp[2];
-        genRewards(tempField, Tetris.fieldHeight, Tetris.fieldWidth);
-        temp = mainLoopV2(Tetris.nextPiece,Tetris.nextRot);
+        genRewards(tempField, Phase2.Tetris.Tetris.fieldHeight, Phase2.Tetris.Tetris.fieldWidth);
+        temp = mainLoopV2(Phase2.Tetris.Tetris.nextPiece, Phase2.Tetris.Tetris.nextRot);
         xNext = temp[0];
         yNext = temp[1];
         rotationNext = temp[2];
         return new int[]{xCurrent,yCurrent,rotationCurrent,xNext,yNext,rotationNext};
     }
 
+    //TODO What is still doing here?
     public static void findBestPlaceToPlace() throws IOException {
-        int cr = Tetris.movePieceDown(false);
+        int cr = Phase2.Tetris.Tetris.movePieceDown(false);
         if(cr==-2) return;
         bestX = -1;
         bestY = -1;
         bestRotation = -1;
         curPiece = 0;
-        curPiece = Tetris.curPiece;
-        bestRotation = Tetris.curPieceRotation;
-        genRewards(tempField, Tetris.fieldHeight, Tetris.fieldWidth);
+        curPiece = Phase2.Tetris.Tetris.curPiece;
+        bestRotation = Phase2.Tetris.Tetris.curPieceRotation;
+        genRewards(tempField, Phase2.Tetris.Tetris.fieldHeight, Phase2.Tetris.Tetris.fieldWidth);
         mainLoop(curPiece,bestRotation);
         if(bestX==-1||bestRotation==-1) {
             return;
         }
         System.out.println(curPiece+" "+bestRotation);
         for(int i=0;i<bestX;i++){
-            Tetris.movePiece(true);
+            Phase2.Tetris.Tetris.movePiece(true);
         }
-        while(Tetris.curPieceRotation!=bestRotation){
-            Tetris.rotatePiece(true);
+        while(Phase2.Tetris.Tetris.curPieceRotation!=bestRotation){
+            Phase2.Tetris.Tetris.rotatePiece(true);
         }
         while(cr==-1){
-            cr=Tetris.movePieceDown(false);
+            cr= Phase2.Tetris.Tetris.movePieceDown(false);
             try {
                 Thread.sleep(200);
             }
@@ -98,8 +96,8 @@ public class Qbot {
         boolean isMirrored = false;
         if (pieceRotation > 3) isMirrored = true;
         int[][][] pieceArr = PentominoDatabase.data[piece];
-        for (int x = 0; x < Tetris.fieldWidth; x++) {
-            for (int y = 0; y < Tetris.fieldHeight; y++) {
+        for (int x = 0; x < Phase2.Tetris.Tetris.fieldWidth; x++) {
+            for (int y = 0; y < Phase2.Tetris.Tetris.fieldHeight; y++) {
                 int[] temp = pLoop(x, y, pieceArr, isMirrored);
                 if (temp[0] > highestScore) {
                     highestScore = temp[0];
@@ -121,13 +119,14 @@ public class Qbot {
         return new int[]{highestX, highestY, highestRotation};
     }
 
+    //TODO what is this still doing here?
     private static void mainLoop(int piece, int pieceRotation){
         int highestScore = 0;
         boolean isMirrored = false;
         if(pieceRotation>3) isMirrored = true;
         int[][][] pieceArr = PentominoDatabase.data[piece];
-        for (int x = 0; x < Tetris.fieldWidth; x++) {
-            for (int y = 0; y < Tetris.fieldHeight; y++) {
+        for (int x = 0; x < Phase2.Tetris.Tetris.fieldWidth; x++) {
+            for (int y = 0; y < Phase2.Tetris.Tetris.fieldHeight; y++) {
                 int[] temp = pLoop(x,y,pieceArr,isMirrored);
                 if(temp[0]>highestScore){
                     highestScore=temp[0];
@@ -156,6 +155,7 @@ public class Qbot {
      * @param isMirrored: boolean value, checking if piece is mirrored
      * @return: score for current piece in current point P and the rotation yielding that score
      */
+    //TODO what does "Loop for a point "P" from mainLoop" mean?
     private static int[] pLoop(int xCoord, int yCoord, int[][][] pieceArr, boolean isMirrored){
         int[] iterator;
         int highestScoreRotation = -1;
@@ -284,9 +284,9 @@ public class Qbot {
     }
 
     private static int[][] copyField(int[][] f0){
-        int [][] f1=new int[Tetris.fieldWidth][Tetris.fieldHeight];
-        for(int i=0;i<Tetris.fieldWidth;i++){
-            for(int j=0;j<Tetris.fieldHeight;j++){
+        int [][] f1=new int[Phase2.Tetris.Tetris.fieldWidth][Phase2.Tetris.Tetris.fieldHeight];
+        for(int i = 0; i< Phase2.Tetris.Tetris.fieldWidth; i++){
+            for(int j = 0; j< Phase2.Tetris.Tetris.fieldHeight; j++){
                 f1[i][j]=f0[i][j];
             }
         }

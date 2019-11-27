@@ -69,21 +69,22 @@ public class UI extends JPanel
             for (int j = 0; j < state[0].length; j++)
             {
                 int n=200;
-                if(Tetris.tempField[i][j+5]!=Tetris.field[i][j+5]) n=255;
+                //TODO make +5 a final variable so it's clear what's going on
+                if(Phase2.Tetris.Tetris.tempField[i][j+5]!= Phase2.Tetris.Tetris.field[i][j+5]) n=255;
                 localGraphics2D.setColor(GetColorOfID(state[i][j],n));
                 localGraphics2D.fill(new Rectangle2D.Double(i * size + 1, j * size + 1, size - 1, size - 1));
             }
         }
         int ico=0;
-        int[][] pieceToPlace = PentominoDatabase.data[Tetris.curPiece][Tetris.curPieceRotation];
-        if(Tetris.nextPiece==2||Tetris.nextPiece>6){
-            if(Tetris.nextRot<(PentominoDatabase.data[Tetris.curPiece].length/2))
-                ico=Tetris.nextPiece;
+        int[][] pieceToPlace = PentominoDatabase.data[Phase2.Tetris.Tetris.curPiece][Phase2.Tetris.Tetris.curPieceRotation];
+        if(Phase2.Tetris.Tetris.nextPiece==2|| Phase2.Tetris.Tetris.nextPiece>6){
+            if(Phase2.Tetris.Tetris.nextRot<(PentominoDatabase.data[Phase2.Tetris.Tetris.curPiece].length/2))
+                ico= Phase2.Tetris.Tetris.nextPiece;
             else
-                ico=Tetris.nextPiece+12;
-        } else ico=Tetris.nextPiece;
+                ico= Phase2.Tetris.Tetris.nextPiece+12;
+        } else ico= Phase2.Tetris.Tetris.nextPiece;
 
-        Tetris.gameWrapper.nextPiece.setIcon(Tetris.gameWrapper.gamePieces[ico].getIcon());
+        Phase2.Tetris.Tetris.gameWrapper.nextPiece.setIcon(Phase2.Tetris.Tetris.gameWrapper.gamePieces[ico].getIcon());
     }
 
     // Decodes the ID of a pentomino into a color
