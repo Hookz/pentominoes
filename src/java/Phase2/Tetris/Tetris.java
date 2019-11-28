@@ -17,7 +17,6 @@ public class Tetris{
 
     public static int fieldWidth=5;
     public static int fieldHeight=20;
-    //TODO make full use of fieldPadding
     public static int fieldPadding=5;
 
     public static int[][] field;
@@ -48,7 +47,6 @@ public class Tetris{
     public static boolean training=false;
     private static int writerIterator = 0;
     private static BufferedWriter writer;
-    public static final int hiddenRows=5;
 
     public static void step() throws IOException {
         if(canMove){
@@ -100,6 +98,7 @@ public class Tetris{
         System.out.println();
         for (int i = 0; i < m.length; i++) {
             for (int j = 0; j < m[i].length; j++) {
+                //TODO is the +1 intended?
                 System.out.print(1+m[i][j]+" ");
             }
             System.out.println();
@@ -375,7 +374,7 @@ public class Tetris{
         tempField = copyField(field);
 
         //initialize and open the GUI
-        gameWrapper = new Phase2.Tetris.GameWrapper(fieldWidth, fieldHeight-hiddenRows, 50);
+        gameWrapper = new Phase2.Tetris.GameWrapper(fieldWidth, fieldHeight- fieldPadding, 50);
 
         //initialize key listeners
         gameWrapper.window.addKeyListener(new KeyListener() {
