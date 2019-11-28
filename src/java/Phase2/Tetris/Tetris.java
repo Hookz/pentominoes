@@ -41,6 +41,8 @@ public class Tetris{
     public static boolean training=false;
     private static int writerIterator = 0;
     private static BufferedWriter writer;
+    public static final int hiddenRows=5;
+
     public static void step() throws IOException {
         if(canMove){
             if(leftPressed) movePiece(false);
@@ -247,7 +249,7 @@ public class Tetris{
     /***
      * Step function slowly moving piece down
      */
-    public static int movePieceDown(boolean ten) throws IOException { //ten is true when the piece gets moved down tentatively therefore the UI doesn't update
+    public static int movePieceDown(boolean ten) throws IOException { //ten is true when the piece gets moved down tentatively therefore the UI doesn't update and we don't call gameOver
         int cr=-1;
         if(!aboutToCollide){
             int [] temPos=arrayCopy(curPos);
@@ -269,8 +271,7 @@ public class Tetris{
                     cr=rowElimination(ten);
                     //runBot();
                 }
-                //if(!ten)
-                    instantiateNewPiece(ten);
+                instantiateNewPiece(ten);
             }
             if(!ten&&!training){
                 gameWrapper.ui.setState(tempField);
@@ -316,7 +317,7 @@ public class Tetris{
                 i++;
             }
         }
-        //if(!ten&&!training) gameWrapper.score.setText(gameWrapper.number(score));
+        if(!ten&&!training) gameWrapper.score.setText(gameWrapper.number(score));
         return consecutive;
     }
 
@@ -334,8 +335,19 @@ public class Tetris{
      * Starts the execution of the bot, if selected to be enabled
      */
     public static void runBot() throws IOException {
-        //TODO
         if(enableBot){
+            if(botType=="G") {
+                Gbot.initPopulation();
+                while (true){
+                    Gbot.makeMove();
+                    wipeField(field);
+                    tempField = copyField(field);
+                    instantiateNewPiece(false);
+                    start = true;
+                    Gbot.games = 0;
+                    Gbot.bestMoveNext = new int[3];
+                }
+            }
             if(botType.equals("Q")){
                 //use copyField because of pass by value (otherwise the blocks would become invisible
                 //TODO why is it not using V2?
@@ -346,15 +358,19 @@ public class Tetris{
     }
 
     public static void main(String[] args) throws IOException {
+        //initialize field and tempField
         fieldWidth = 5;
         fieldHeight = 20;
-        gameWrapper = new Phase2.Tetris.GameWrapper(fieldWidth, fieldHeight-5, 50);
-        //TODO what is "blocks"?
-        blocks = 5;
+
         field = new int[fieldWidth][fieldHeight];
         tempField = new int[fieldWidth][fieldHeight];
         wipeField(field);
         tempField = copyField(field);
+
+        //initialize and open the GUI
+        gameWrapper = new Phase2.Tetris.GameWrapper(fieldWidth, fieldHeight-hiddenRows, 50);
+
+        //initialize key listeners
         gameWrapper.window.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
@@ -402,23 +418,16 @@ public class Tetris{
             public void keyTyped(KeyEvent e) {
             }
         });
+
+        //we instantiate a new piece, "start=true" has the function generate 2 pieces instead of 1
         start = true;
         instantiateNewPiece(false);
+
+        //initiate the timer for the game
         timer = new Timer();
         timer.schedule(new Phase2.Tetris.GameTimer(), 0, 500);
+
         //Run the bot
-        if(botType=="G") {
-            Phase2.Tetris.Gbot.initPopulation();
-            while (true){
-                Phase2.Tetris.Gbot.makeMove();
-                wipeField(field);
-                tempField = copyField(field);
-                instantiateNewPiece(false);
-                start = true;
-                Phase2.Tetris.Gbot.games = 0;
-                Phase2.Tetris.Gbot.bestMoveNext = new int[3];
-            }
-        }
         runBot();
     }
 }
