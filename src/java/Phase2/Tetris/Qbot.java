@@ -7,7 +7,7 @@ public class Qbot {
 
     //Add AI class, with fieldScores variable and findBestPlaceToPlace and updateFieldScores method
     private static int[][] fieldScores;
-    //TODO to vague
+
     //TODO Is this really the right way to use tempField?
     private static int[][] tempField = copyField(Phase2.Tetris.Tetris.field);
     private static int bestX = -2;
@@ -49,7 +49,6 @@ public class Qbot {
 //        return new int[]{xCurrent,yCurrent,rotationCurrent,xNext,yNext,rotationNext};
 //    }
 
-    //TODO What is it still doing here?
     public static void findBestPlaceToPlace() throws IOException {
         System.out.println("PRINT MATRIX");
         Phase2.Tetris.Tetris.printMatrix(Phase2.Tetris.Tetris.field);
@@ -123,7 +122,7 @@ public class Qbot {
 //        return new int[]{highestX, highestY, highestRotation};
 //    }
 
-    //TODO what is this still doing here?
+    //find the place to get the highest score, after going trough all options put the piece in the tmpField
     private static void mainLoop(int piece, int pieceRotation){
         int highestScore = 0;
         boolean isMirrored = false;
@@ -140,15 +139,16 @@ public class Qbot {
                 }
             }
         }
-        int[][] pieceToPlace = PentominoDatabase.data[piece][bestRotation];
-        for(int i = 0; i < pieceToPlace.length; i++){ // loop over x position of pentomino
-            for (int j = 0; j < pieceToPlace[i].length; j++){ // loop over y position of pentomino
-                if (pieceToPlace[i][j] == 1){
-                    // Add the ID of the pentomino to the board if the pentomino occupies this square
-                    tempField[bestX + i][bestY + j] = piece;
-                }
-            }
-        }
+        //this was used for debugging TODO delete later
+//        int[][] pieceToPlace = PentominoDatabase.data[piece][bestRotation];
+//        for(int i = 0; i < pieceToPlace.length; i++){ // loop over x position of pentomino
+//            for (int j = 0; j < pieceToPlace[i].length; j++){ // loop over y position of pentomino
+//                if (pieceToPlace[i][j] == 1){
+//                    // Add the ID of the pentomino to the board if the pentomino occupies this square
+//                    tempField[bestX + i][bestY + j] = piece;
+//                }
+//            }
+//        }
     }
 
     /***
@@ -159,7 +159,7 @@ public class Qbot {
      * @param isMirrored: boolean value, checking if piece is mirrored
      * @return: score for current piece in current point P and the rotation yielding that score
      */
-    //TODO what does "Loop for a point "P" from mainLoop" mean?
+    //tries to get the highest score for that coordinate
     private static int[] pLoop(int xCoord, int yCoord, int[][][] pieceArr, boolean isMirrored){
         int[] iterator;
         int highestScoreRotation = -1;
@@ -305,18 +305,4 @@ public class Qbot {
         return f1;
     }
 
-    //TODO remove after debugging
-    /*
-    static static public int[][] addBlock(int[][] field, int fieldWidth, int fieldHeight){
-        int randomX = (int)(Math.random()*fieldWidth);
-        int randomY = (int)(Math.random()*fieldHeight);
-
-        if(field[randomY][randomX] != -1){
-            field[randomY][randomX] = -1;
-        } else {
-            addBlock(field, fieldWidth, fieldHeight);
-        }
-
-        return field;
-    }*/
 }
