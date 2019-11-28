@@ -15,8 +15,8 @@ public class Tetris{
     public static boolean enableBot = true;
     public static String botType = "Q";
 
-    public static int fieldWidth=20;
-    public static int fieldHeight=5;
+    public static int fieldWidth=5;
+    public static int fieldHeight=20;
     //TODO make full use of fieldPadding
     public static int fieldPadding=5;
 
