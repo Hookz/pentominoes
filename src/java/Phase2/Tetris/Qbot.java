@@ -209,14 +209,24 @@ public class Qbot {
 
         Phase2.Tetris.Tetris.printMatrix(flipped);
 
+        //remove unplayable part of the field
+        int[][] tmp = new int[fieldHeight-fieldPadding][fieldWidth];
+        for(int i=0; i<fieldHeight-fieldPadding; i++){
+            tmp[i] = flipped[i+fieldPadding];
+        }
+
+        flipped = tmp;
+
+        Phase2.Tetris.Tetris.printMatrix(flipped);
+
         //flip the field so i is y, j is x and a higher x means something is on the right and not on the left
         //alternative comment: prevent headache
-        fieldScores = new int[fieldHeight][fieldWidth];
+        fieldScores = new int[fieldHeight-fieldPadding][fieldWidth];
 
         //give scores
         //skip the part of the field that isn't in the playable area
-        for (int i = 0; i < fieldHeight; i++) {
-            for (int j = 0; j < fieldWidth; j++) {
+        for (int i = 0; i < fieldScores.length; i++) {
+            for (int j = 0; j < fieldScores[0].length; j++) {
                 int amountOfBlocksSurrounding = 0;
                 int amountOfBlocksInRow = 0;
 
@@ -271,7 +281,7 @@ public class Qbot {
         //print flipped
         //TODO this print functions doesn't work, it increases all values by one and mixes some up (I have no idea why, it seems to be on drugs)
 //        Phase2.Tetris.Tetris.printMatrix(fieldScores);
-        for (int i = 0; i < fieldHeight; i++) {
+        for (int i = 0; i < fieldHeight-fieldPadding; i++) {
             for (int j = 0; j < fieldWidth; j++) {
                 System.out.print(String.format("%6d", fieldScores[i][j]));
             }
