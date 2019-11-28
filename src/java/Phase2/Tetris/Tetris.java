@@ -1,18 +1,25 @@
 package Phase2.Tetris;
+
 import General.PentominoDatabase;
 
-import java.io.*;
-import java.util.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Random;
+import java.util.Timer;
 
 public class Tetris{
     public static boolean enableBot = true;
     public static String botType = "Q";
 
-    public static int fieldWidth;
-    public static int fieldHeight;
-    public static int blocks;
+    public static int fieldWidth=20;
+    public static int fieldHeight=5;
+    //TODO make full use of fieldPadding
+    public static int fieldPadding=5;
+
     public static int[][] field;
     public static int[][] tempField;
     private static boolean keys[]=new boolean[65536];
@@ -337,15 +344,15 @@ public class Tetris{
     public static void runBot() throws IOException {
         if(enableBot){
             if(botType=="G") {
-                Gbot.initPopulation();
+                Phase2.Tetris.Gbot.initPopulation();
                 while (true){
-                    Gbot.makeMove();
+                    Phase2.Tetris.Gbot.makeMove();
                     wipeField(field);
                     tempField = copyField(field);
                     instantiateNewPiece(false);
                     start = true;
-                    Gbot.games = 0;
-                    Gbot.bestMoveNext = new int[3];
+                    Phase2.Tetris.Gbot.games = 0;
+                    Phase2.Tetris.Gbot.bestMoveNext = new int[3];
                 }
             }
             if(botType.equals("Q")){
@@ -359,9 +366,6 @@ public class Tetris{
 
     public static void main(String[] args) throws IOException {
         //initialize field and tempField
-        fieldWidth = 5;
-        fieldHeight = 20;
-
         field = new int[fieldWidth][fieldHeight];
         tempField = new int[fieldWidth][fieldHeight];
         wipeField(field);
