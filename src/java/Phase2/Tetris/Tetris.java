@@ -16,7 +16,7 @@ public class Tetris{
     public static String botType = "Q";
 
     public static int fieldWidth=5;
-    public static int fieldHeight=20
+    public static int fieldHeight=20;
     public static int fieldPadding=5;
 
     public static int[][] field;
