@@ -408,15 +408,15 @@ public class Tetris{
         timer.schedule(new Phase2.Tetris.GameTimer(), 0, 500);
         //Run the bot
         if(botType=="G") {
-            Gbot.initPopulation();
+            Phase2.Tetris.Gbot.initPopulation();
             while (true){
-                Gbot.makeMove();
+                Phase2.Tetris.Gbot.makeMove();
                 wipeField(field);
                 tempField = copyField(field);
                 instantiateNewPiece(false);
                 start = true;
-                Gbot.games = 0;
-                Gbot.bestMoveNext = new int[3];
+                Phase2.Tetris.Gbot.games = 0;
+                Phase2.Tetris.Gbot.bestMoveNext = new int[3];
             }
         }
         runBot();

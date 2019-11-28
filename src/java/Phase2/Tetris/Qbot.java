@@ -48,8 +48,12 @@ public class Qbot {
         return new int[]{xCurrent,yCurrent,rotationCurrent,xNext,yNext,rotationNext};
     }
 
-    //TODO What is still doing here?
+    //TODO What is it still doing here?
     public static void findBestPlaceToPlace() throws IOException {
+        System.out.println("PRINT MATRIX");
+        Phase2.Tetris.Tetris.printMatrix(tempField);
+
+
         int cr = Phase2.Tetris.Tetris.movePieceDown(false);
         if(cr==-2) return;
         bestX = -1;
