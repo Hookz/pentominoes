@@ -25,30 +25,6 @@ public class Qbot {
     If none work, save a false in a boolean array that stores the locations that are left to search trough. This is not strictly needed, but can really help you debugging.
     */
 
-    /**
-     * Finds best place to place curPiece and nextPiece
-     * @return: best place to place current and next piece [xc,yc,rc,xn,yn,rn]
-     */
-//    public static int[] findBestPlaceToPlaceV2(){
-//        int xCurrent = -1;
-//        int yCurrent = -1;
-//        int rotationCurrent = -1;
-//        int xNext = -1;
-//        int yNext = -1;
-//        int rotationNext = -1;
-//        //find the the placement that yields the highest score for the current and the nextPiece
-//        int[] temp = mainLoopV2(Phase2.Tetris.Tetris.curPiece, Phase2.Tetris.Tetris.curPieceRotation);
-//        xCurrent = temp[0];
-//        yCurrent = temp[1];
-//        rotationCurrent = temp[2];
-//        genRewards(tempField, Phase2.Tetris.Tetris.fieldHeight, Phase2.Tetris.Tetris.fieldWidth);
-//        temp = mainLoopV2(Phase2.Tetris.Tetris.nextPiece, Phase2.Tetris.Tetris.nextRot);
-//        xNext = temp[0];
-//        yNext = temp[1];
-//        rotationNext = temp[2];
-//        return new int[]{xCurrent,yCurrent,rotationCurrent,xNext,yNext,rotationNext};
-//    }
-
     public static void findBestPlaceToPlace() throws IOException {
         System.out.println("PRINT MATRIX");
         Phase2.Tetris.Tetris.printMatrix(Phase2.Tetris.Tetris.field);
@@ -86,41 +62,6 @@ public class Qbot {
         // mainLoop(Tetris.nextPiece,Tetris.nextRot);
         findBestPlaceToPlace();
     }
-    /***
-     *
-     * @param piece: currently considered piece (curPiece: 1 / nextPiece: 2)
-     * @param pieceRotation:  rotation [curPieceRotation / nextRot](just to determine whether piece is flipped)
-     */
-//    private static int[] mainLoopV2(int piece, int pieceRotation) {
-//        int highestScore = 0;
-//        int highestRotation = -1;
-//        int highestX = -1;
-//        int highestY = -1;
-//        boolean isMirrored = false;
-//        if (pieceRotation > 3) isMirrored = true;
-//        int[][][] pieceArr = PentominoDatabase.data[piece];
-//        for (int x = 0; x < Phase2.Tetris.Tetris.fieldWidth; x++) {
-//            for (int y = 0; y < Phase2.Tetris.Tetris.fieldHeight; y++) {
-//                int[] temp = pLoop(x, y, pieceArr, isMirrored);
-//                if (temp[0] > highestScore) {
-//                    highestScore = temp[0];
-//                    highestRotation = temp[1];
-//                    highestX = x;
-//                    highestY = y;
-//                }
-//            }
-//        }
-//        int[][] pieceToPlace = PentominoDatabase.data[piece][highestRotation];
-//        for (int i = 0; i < pieceToPlace.length; i++) { // loop over x position of pentomino
-//            for (int j = 0; j < pieceToPlace[i].length; j++) { // loop over y position of pentomino
-//                if (pieceToPlace[i][j] == 1) {
-//                    // Add the ID of the pentomino to the board if the pentomino occupies this square
-//                    tempField[highestX + j][highestY + i] = piece;
-//                }
-//            }
-//        }
-//        return new int[]{highestX, highestY, highestRotation};
-//    }
 
     //find the place to get the highest score, after going trough all options put the piece in the tmpField
     private static void mainLoop(int piece, int pieceRotation){
@@ -201,7 +142,6 @@ public class Qbot {
 
         return flipped;
     }
-
 
     //TODO let row elimination come before placing the next block
     private static void genRewards(int[][] field, int fieldHeight, int fieldWidth, int fieldPadding) {
@@ -304,5 +244,68 @@ public class Qbot {
         }
         return f1;
     }
+
+    //OLD STUF
+    //TODO remove
+    
+    /**
+     * Finds best place to place curPiece and nextPiece
+     * @return: best place to place current and next piece [xc,yc,rc,xn,yn,rn]
+     */
+//    public static int[] findBestPlaceToPlaceV2(){
+//        int xCurrent = -1;
+//        int yCurrent = -1;
+//        int rotationCurrent = -1;
+//        int xNext = -1;
+//        int yNext = -1;
+//        int rotationNext = -1;
+//        //find the the placement that yields the highest score for the current and the nextPiece
+//        int[] temp = mainLoopV2(Phase2.Tetris.Tetris.curPiece, Phase2.Tetris.Tetris.curPieceRotation);
+//        xCurrent = temp[0];
+//        yCurrent = temp[1];
+//        rotationCurrent = temp[2];
+//        genRewards(tempField, Phase2.Tetris.Tetris.fieldHeight, Phase2.Tetris.Tetris.fieldWidth);
+//        temp = mainLoopV2(Phase2.Tetris.Tetris.nextPiece, Phase2.Tetris.Tetris.nextRot);
+//        xNext = temp[0];
+//        yNext = temp[1];
+//        rotationNext = temp[2];
+//        return new int[]{xCurrent,yCurrent,rotationCurrent,xNext,yNext,rotationNext};
+//    }
+
+    /***
+     *
+     * @param piece: currently considered piece (curPiece: 1 / nextPiece: 2)
+     * @param pieceRotation:  rotation [curPieceRotation / nextRot](just to determine whether piece is flipped)
+     */
+//    private static int[] mainLoopV2(int piece, int pieceRotation) {
+//        int highestScore = 0;
+//        int highestRotation = -1;
+//        int highestX = -1;
+//        int highestY = -1;
+//        boolean isMirrored = false;
+//        if (pieceRotation > 3) isMirrored = true;
+//        int[][][] pieceArr = PentominoDatabase.data[piece];
+//        for (int x = 0; x < Phase2.Tetris.Tetris.fieldWidth; x++) {
+//            for (int y = 0; y < Phase2.Tetris.Tetris.fieldHeight; y++) {
+//                int[] temp = pLoop(x, y, pieceArr, isMirrored);
+//                if (temp[0] > highestScore) {
+//                    highestScore = temp[0];
+//                    highestRotation = temp[1];
+//                    highestX = x;
+//                    highestY = y;
+//                }
+//            }
+//        }
+//        int[][] pieceToPlace = PentominoDatabase.data[piece][highestRotation];
+//        for (int i = 0; i < pieceToPlace.length; i++) { // loop over x position of pentomino
+//            for (int j = 0; j < pieceToPlace[i].length; j++) { // loop over y position of pentomino
+//                if (pieceToPlace[i][j] == 1) {
+//                    // Add the ID of the pentomino to the board if the pentomino occupies this square
+//                    tempField[highestX + j][highestY + i] = piece;
+//                }
+//            }
+//        }
+//        return new int[]{highestX, highestY, highestRotation};
+//    }
 
 }
