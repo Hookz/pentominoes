@@ -98,6 +98,7 @@ public class Tetris{
         System.out.println();
         for (int i = 0; i < m.length; i++) {
             for (int j = 0; j < m[i].length; j++) {
+                //TODO is the +1 intended?
                 System.out.print(1+m[i][j]+" ");
             }
             System.out.println();

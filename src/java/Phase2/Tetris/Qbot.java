@@ -229,7 +229,6 @@ public class Qbot {
         }
         System.out.println();
 
-
         //flip back because others chose to suffer
         fieldScores = flipMatrix(fieldScores);
 
@@ -245,9 +244,35 @@ public class Qbot {
         return f1;
     }
 
+    //Try to move the pentomino up one line
+    //y is the current y
+    //the x and y are the starting point for the pentomino
+    public static boolean canBeMovedUp(int[][] pent, int[][] field, int x, int y){
+
+        //check if it fits on the field
+        if(y + pent.length < Phase2.Tetris.Tetris.fieldHeight){
+            //loop over x position of pentomino
+            for (int i = 0; i < pent.length; i++) {
+                //loop over y position of pentomino
+                for (int j = 0; j < pent[i].length; j++) {
+                    //if the block has a value in this cell
+                    if (pent[i][j] == 1){
+                        //check if the cell in the game field is occupied
+                        if(field[x+i][y+j+1] != -1){
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
+        }
+    }
+
     //OLD STUF
     //TODO remove
-    
+
     /**
      * Finds best place to place curPiece and nextPiece
      * @return: best place to place current and next piece [xc,yc,rc,xn,yn,rn]
