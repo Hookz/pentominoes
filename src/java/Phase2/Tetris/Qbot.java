@@ -62,7 +62,7 @@ public class Qbot {
         curPiece = 0;
         curPiece = Phase2.Tetris.Tetris.curPiece;
         bestRotation = Phase2.Tetris.Tetris.curPieceRotation;
-        genRewards(Phase2.Tetris.Tetris.field, Phase2.Tetris.Tetris.fieldHeight - Phase2.Tetris.Tetris.fieldPadding, Phase2.Tetris.Tetris.fieldWidth);
+        genRewards(Phase2.Tetris.Tetris.field, Phase2.Tetris.Tetris.fieldHeight, Phase2.Tetris.Tetris.fieldWidth, Phase2.Tetris.Tetris.fieldPadding);
         mainLoop(curPiece,bestRotation);
         if(bestX==-1||bestRotation==-1) {
             return;
@@ -203,7 +203,8 @@ public class Qbot {
     }
 
 
-    private static void genRewards(int[][] field, int fieldHeight, int fieldWidth) {
+    //TODO let row elimination come before placing the next block
+    private static void genRewards(int[][] field, int fieldHeight, int fieldWidth, int fieldPadding) {
         int[][] flipped = flipMatrix(field);
 
         Phase2.Tetris.Tetris.printMatrix(flipped);
@@ -213,6 +214,7 @@ public class Qbot {
         fieldScores = new int[fieldHeight][fieldWidth];
 
         //give scores
+        //skip the part of the field that isn't in the playable area
         for (int i = 0; i < fieldHeight; i++) {
             for (int j = 0; j < fieldWidth; j++) {
                 int amountOfBlocksSurrounding = 0;
@@ -258,12 +260,17 @@ public class Qbot {
                     //update score
                     //multiply the surrounding blocks by the height and add a default 'bonus' based on the layer
                     fieldScores[i][j] = amountOfBlocksSurrounding * (5 * (i + 1)) + 25 * (i) + amountOfBlocksInRow * (3 * (i) + 3) + 1;
+                } else {
+                    //if the cell is already taken, set it's score to 0
+                    fieldScores[i][j] = 0;
                 }
             }
         }
 
         //TODO remove after debugging
         //print flipped
+        //TODO this print functions doesn't work, it increases all values by one and mixes some up (I have no idea why, it seems to be on drugs)
+//        Phase2.Tetris.Tetris.printMatrix(fieldScores);
         for (int i = 0; i < fieldHeight; i++) {
             for (int j = 0; j < fieldWidth; j++) {
                 System.out.print(String.format("%6d", fieldScores[i][j]));
@@ -271,6 +278,7 @@ public class Qbot {
             System.out.println();
         }
         System.out.println();
+
 
         //flip back because others chose to suffer
         fieldScores = flipMatrix(fieldScores);
