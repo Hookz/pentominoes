@@ -199,24 +199,14 @@ public class Qbot {
             }
         }
 
-        //flip x-axis
-        int[][] tmp = new int[flipped.length][flipped[0].length];
-        for(int i=0; i<flipped.length; i++){
-            for(int j=0; j<flipped[0].length; j++){
-                tmp[i][flipped[0].length-1-j] = flipped[i][j];
-            }
-        }
-
-        flipped = tmp;
-
         return flipped;
     }
 
 
     private static void genRewards(int[][] field, int fieldHeight, int fieldWidth) {
-        //TODO make fieldHeight the playable field height, so don't include the off screen part on top
-
         int[][] flipped = flipMatrix(field);
+
+        Phase2.Tetris.Tetris.printMatrix(flipped);
 
         //flip the field so i is y, j is x and a higher x means something is on the right and not on the left
         //alternative comment: prevent headache
