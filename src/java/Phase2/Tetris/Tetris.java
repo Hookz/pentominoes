@@ -16,8 +16,7 @@ public class Tetris{
     public static String botType = "Q";
 
     public static int fieldWidth=5;
-    public static int fieldHeight=20;
-    //TODO make full use of fieldPadding
+    public static int fieldHeight=20
     public static int fieldPadding=5;
 
     public static int[][] field;
@@ -48,7 +47,6 @@ public class Tetris{
     public static boolean training=false;
     private static int writerIterator = 0;
     private static BufferedWriter writer;
-    public static final int hiddenRows=5;
 
     public static void step() throws IOException {
         if(canMove){
@@ -374,7 +372,7 @@ public class Tetris{
         tempField = copyField(field);
 
         //initialize and open the GUI
-        gameWrapper = new Phase2.Tetris.GameWrapper(fieldWidth, fieldHeight-hiddenRows, 50);
+        gameWrapper = new Phase2.Tetris.GameWrapper(fieldWidth, fieldHeight- fieldPadding, 50);
 
         //initialize key listeners
         gameWrapper.window.addKeyListener(new KeyListener() {
