@@ -247,6 +247,8 @@ public class Qbot {
     //Try to move the pentomino up one line
     //y is the current y
     //the x and y are the starting point for the pentomino
+    //pent = pentomino and it requires a matrix that already has the desired rotation
+    //TODO check if it works
     public static boolean canBeMovedUp(int[][] pent, int[][] field, int x, int y){
 
         //check if it fits on the field
