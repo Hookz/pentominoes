@@ -69,7 +69,7 @@ public class Qbot {
         if (pieceRotation > 3) isMirrored = true;
         int[][][] pieceArr = PentominoDatabase.data[piece];
         for (int x = 0; x < Phase2.Tetris.Tetris.fieldWidth; x++) {
-            for (int y = Tetris.hiddenRows; y < Phase2.Tetris.Tetris.fieldHeight; y++) {
+            for (int y = 5; y < Phase2.Tetris.Tetris.fieldHeight; y++) {
 
                 int[] temp = pLoop(x, y, pieceArr, isMirrored);
                 if (temp[0] > highestScore) {
