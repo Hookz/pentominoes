@@ -68,7 +68,7 @@ public class Qbot {
             return;
         }
         System.out.println(curPiece+" "+bestRotation);
-        for(int i=0;i<bestX;i++){
+        for(int i=0;i<bestX+1;i++){
             Phase2.Tetris.Tetris.movePiece(true);
         }
         while(Phase2.Tetris.Tetris.curPieceRotation!=bestRotation){
@@ -85,7 +85,7 @@ public class Qbot {
         }
         // genRewards(tempField, Tetris.fieldHeight, Tetris.fieldWidth);
         // mainLoop(Tetris.nextPiece,Tetris.nextRot);
-        findBestPlaceToPlace();
+        // findBestPlaceToPlace();
     }
     /***
      *
@@ -130,7 +130,8 @@ public class Qbot {
         if(pieceRotation>3) isMirrored = true;
         int[][][] pieceArr = PentominoDatabase.data[piece];
         for (int x = 0; x < Phase2.Tetris.Tetris.fieldWidth; x++) {
-            for (int y = 0; y < Phase2.Tetris.Tetris.fieldHeight; y++) {
+            for (int y = Tetris.hiddenRows; y < Phase2.Tetris.Tetris.fieldHeight; y++) {
+
                 int[] temp = pLoop(x,y,pieceArr,isMirrored);
                 if(temp[0]>highestScore){
                     highestScore=temp[0];
@@ -140,6 +141,7 @@ public class Qbot {
                 }
             }
         }
+        System.out.println("Highest score: "+highestScore);
         int[][] pieceToPlace = PentominoDatabase.data[piece][bestRotation];
         for(int i = 0; i < pieceToPlace.length; i++){ // loop over x position of pentomino
             for (int j = 0; j < pieceToPlace[i].length; j++){ // loop over y position of pentomino
@@ -177,6 +179,7 @@ public class Qbot {
             for(int i=0; i<pieceArr2D.length;i++) {
                 for (int j = 0; j < pieceArr2D[i].length; j++) {
                     if (pieceArr2D[i][j] != 0) {
+                        //if(fieldScores[i+xCoord][j+yCoord]==0) return new int[]{-1,-1};
                         curScore+=fieldScores[i+xCoord][j+yCoord];
                     }
                 }
@@ -208,6 +211,8 @@ public class Qbot {
         int[][] flipped = flipMatrix(field);
 
         Phase2.Tetris.Tetris.printMatrix(flipped);
+        Tetris.printMatrix(flipped);
+
 
         //remove unplayable part of the field
         int[][] tmp = new int[fieldHeight-fieldPadding][fieldWidth];

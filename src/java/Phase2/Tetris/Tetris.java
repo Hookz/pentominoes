@@ -73,7 +73,7 @@ public class Tetris{
         }
     }
 
-    public static void instantiateNewPiece(boolean ten){
+    public static void instantiateNewPiece(boolean ten) throws IOException {
         curPos[0]=0;
         curPos[1]=0;
         if(!ten){
@@ -107,7 +107,7 @@ public class Tetris{
         System.out.println();
     }
 
-    public static void getNewPiece(){
+    public static void getNewPiece() throws IOException {
         if (start) {
             curPiece = (int)(12 * rand.nextDouble());
             curPieceRotation=(int)(rand.nextDouble()*PentominoDatabase.data[curPiece].length);
@@ -118,9 +118,10 @@ public class Tetris{
         }
         nextPiece=(int)(12 * rand.nextDouble());
         nextRot=(int)(rand.nextDouble()*PentominoDatabase.data[curPiece].length);
+        runBot();
     }
 
-    public static void gameOver() throws IOException {
+    public static void gameOver(){
         try {
             writer = new BufferedWriter(new FileWriter("scores.csv",true));
             writer.write(++writerIterator+","+score+"\n");
@@ -134,6 +135,7 @@ public class Tetris{
         score=0;
         wipeField(field);
         wipeField(tempField);
+        gameWrapper.score.setText("0");
     }
 
     //cw = clock wise
@@ -278,7 +280,6 @@ public class Tetris{
                 } else {
                     field=copyField(tempField);
                     cr=rowElimination(ten);
-                    //runBot();
                 }
                 instantiateNewPiece(ten);
             }
