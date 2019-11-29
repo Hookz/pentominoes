@@ -7,28 +7,20 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class Gbot {
-    class Archive {
-        int populationSize = 0;
-        int currentGen = 0;
-        double[][] elites;
-        double[][] genomes;
-
-        public Archive() {
-        }
-    }
 
     private double score;
     private double speed;
     private int movesNumber;
     private int movesLimit;
-    private int populationSize;
-    private static double[][] genomes=new double[1][5];
+    private int populationSize=50;
+    private static double[][] genomes=new double[1][7];
+    private int elites=10;
     private static int currentGenome=0;
     private int generation;
     private double[] moveParameters;
-    private ArrayList<Archive> archive = new ArrayList<Archive>();
     private double mutationRate;
     private double mutationStep;
+
 
     public static int[][] copyField(int[][] f0) {
         int[][] f1 = new int[Tetris.fieldWidth][Tetris.fieldHeight];
@@ -49,22 +41,51 @@ public class Gbot {
     }
 
     //Creates the initial population of genomes, each with random genes TO DO: Lindalee
-    public static void initPopulation() {
-        //double []gen={Math.random(),Math.random(),Math.random(),Math.random(),Math.random(),Math.random()};
-        double []gen={0.658,-0.191,-0.460,-0.306,0.023,-0.049}; //Siraj's weights
-        genomes[0]=gen;
+    public  void initPopulation() {
+        for(int i = 0; i<populationSize ; i ++) {
+            double[] gen = {Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5, Math.random() * 0.5, Math.random() - 0.5,Math.random()-0.5,0};
+            //double []gen={0.658,-0.191,-0.460,-0.306,0.023,-0.049}; //Siraj's weights
+            genomes[i] = gen;
+        }
+        evalIndividual();
     }
 
     //Evaluates the next individual in the population. If there is none, evolves the population TO DO: Lindalee
     private void evalIndividual() {
+        currentGenome++;
+        if(currentGenome == genomes.length){
+            getNextGen();
+        }
+        movesNumber = 0;
+        makeMove();
     }
 
     //Creates the new population using the best individuals from the last TO DO: Lindalee
     private void getNextGen() {
+        generation++;
+        geneSort(genomes);
+
+
     }
 
     //Returns a child from 2 individuals TO DO: Lindalee
-    private void mate() {
+    private double[] mate(int mom , int dad ) {
+        int crossover = (int)Math.random()*5;
+        double[] child = new double[7];
+        for(int i = 0; i < crossover;i++){
+            child[i] = genomes[dad][i];
+        }
+        for(int i = crossover; i < child.length -1;i++){
+            child[i] = genomes[mom][i];
+        }
+        child[7]= 0;
+
+        for(int i = 0;i < child.length-1; i++) {
+            if (Math.random() < mutationRate) {
+                child[i] = child[i] + Math.random() * mutationStep * 2 - mutationStep;
+            }
+        }
+        return child;
     }
 
     private static int[] getBestMove() { //Returns an array of possible moves TODO: Sam
