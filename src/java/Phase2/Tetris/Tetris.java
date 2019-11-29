@@ -1,16 +1,24 @@
 package Phase2.Tetris;
+
 import General.PentominoDatabase;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Timer;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 public class Tetris{
-    public static int fieldWidth;
-    public static int fieldHeight;
-    public static int blocks;
+    public static boolean enableBot = true;
+    public static String botType = "Q";
+
+    public static int fieldWidth=5;
+    public static int fieldHeight=20;
+    public static int fieldPadding=5;
+
     public static int[][] field;
     public static int[][] tempField;
     private static boolean keys[]=new boolean[65536];
@@ -26,19 +34,21 @@ public class Tetris{
     public static boolean spacePressed=false;
     public static boolean go=false;
     public static int score = 0;
+    public static int lastScore = 0;
     public static int seed = (int)(Math.random()*10000);
     public static Random rand = new Random(seed);
     public static int nextPiece = (int)(12 * rand.nextDouble());
     public static int nextRot;
     public static boolean start = true;
-    public static boolean enableBot = true;
-    public static String botType = "Q";
     public static boolean aboutToCollide=false;
     public static boolean collided=false;
     public static boolean AI=true;
     public static Timer timer;
+    public static boolean training=false;
+    private static int writerIterator = 0;
+    private static BufferedWriter writer;
 
-    public static void step(){
+    public static void step() throws IOException {
         if(canMove){
             if(leftPressed) movePiece(false);
             if(rightPressed) movePiece(true);
@@ -46,7 +56,7 @@ public class Tetris{
             if(downPressed) rotatePiece(true);
             if(spacePressed) dropPiece(false);
         }
-        if(!AI)gameWrapper.ui.setState(tempField);
+        if(!AI&&!training)gameWrapper.ui.setState(tempField);
         int[] temPos=arrayCopy(curPos);
         temPos[1] += 1;
         if(checkCollision(temPos,curPieceRotation)&&collided){
@@ -61,11 +71,13 @@ public class Tetris{
         }
     }
 
-    public static void instantiateNewPiece(boolean ten){
-        if(!ten) getNewPiece();
-        int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
+    public static void instantiateNewPiece(boolean ten) throws IOException {
         curPos[0]=0;
         curPos[1]=0;
+        if(!ten){
+            getNewPiece();
+            int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
+        }
         addPiece();
         canMove=true;
     }
@@ -83,33 +95,46 @@ public class Tetris{
     }
 
     public static void printMatrix(int[][] m) {
+        System.out.println();
         for (int i = 0; i < m.length; i++) {
             for (int j = 0; j < m[i].length; j++) {
+                //TODO is the +1 intended?
                 System.out.print(1+m[i][j]+" ");
             }
             System.out.println();
         }
+        System.out.println();
     }
 
-    public static void getNewPiece(){
+    public static void getNewPiece() throws IOException {
         if (start) {
             curPiece = (int)(12 * rand.nextDouble());
             curPieceRotation=(int)(rand.nextDouble()*PentominoDatabase.data[curPiece].length);
             start = false;
         } else {
-            curPiece = nextPiece;
+            curPiece=nextPiece;
             curPieceRotation=nextRot;
         }
-        nextPiece = (int)(12 * rand.nextDouble());
+        nextPiece=(int)(12 * rand.nextDouble());
         nextRot=(int)(rand.nextDouble()*PentominoDatabase.data[curPiece].length);
+        runBot();
     }
 
     public static void gameOver(){
+        try {
+            writer = new BufferedWriter(new FileWriter("scores.csv",true));
+            writer.write(++writerIterator+","+score+"\n");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         go=true;
         start=true;
+        lastScore=score;
         score=0;
         wipeField(field);
         wipeField(tempField);
+        gameWrapper.score.setText("0");
     }
 
     //cw = clock wise
@@ -209,7 +234,7 @@ public class Tetris{
     /***
      * Drops the current piece to the lowest level in current position x
      */
-    public static int dropPiece(boolean ten){
+    public static int dropPiece(boolean ten) throws IOException {
         int cr=0;
         int [] nextPos=arrayCopy(curPos);
         nextPos[1]++;
@@ -234,7 +259,7 @@ public class Tetris{
     /***
      * Step function slowly moving piece down
      */
-    public static int movePieceDown(boolean ten){ //ten is true when the piece gets moved down tentatively therefore the UI doesn't update
+    public static int movePieceDown(boolean ten) throws IOException { //ten is true when the piece gets moved down tentatively therefore the UI doesn't update and we don't call gameOver
         int cr=-1;
         if(!aboutToCollide){
             int [] temPos=arrayCopy(curPos);
@@ -249,14 +274,15 @@ public class Tetris{
                 canMove=false;
                 collided = true;
                 if(curPos[1]<5){
-                    gameOver();
+                    if(!ten) gameOver();
+                    cr=-2;
+                } else {
+                    field=copyField(tempField);
+                    cr=rowElimination(ten);
                 }
-                field=copyField(tempField);
-                cr=rowElimination(ten);
                 instantiateNewPiece(ten);
-                runBot();
             }
-            if(!ten){
+            if(!ten&&!training){
                 gameWrapper.ui.setState(tempField);
             }
         }
@@ -300,7 +326,7 @@ public class Tetris{
                 i++;
             }
         }
-        if(!ten) gameWrapper.score.setText(gameWrapper.number(score));
+        if(!ten&&!training) gameWrapper.score.setText(gameWrapper.number(score));
         return consecutive;
     }
 
@@ -317,25 +343,39 @@ public class Tetris{
     /***
      * Starts the execution of the bot, if selected to be enabled
      */
-    public static void runBot(){
-        //TODO
+    public static void runBot() throws IOException {
         if(enableBot){
+            if(botType=="G") {
+                Phase2.Tetris.Gbot.initPopulation();
+                while (true){
+                    Phase2.Tetris.Gbot.makeMove();
+                    wipeField(field);
+                    tempField = copyField(field);
+                    instantiateNewPiece(false);
+                    start = true;
+                    Phase2.Tetris.Gbot.games = 0;
+                    Phase2.Tetris.Gbot.bestMoveNext = new int[3];
+                }
+            }
             if(botType.equals("Q")){
                 //use copyField because of pass by value (otherwise the blocks would become invisible
                 Phase2.Tetris.Qbot.findBestPlaceToPlace();
+                return;
             }
         }
     }
 
-    public static void main(String[] args){
-        fieldWidth = 5;
-        fieldHeight = 20;
-        gameWrapper = new Phase2.Tetris.GameWrapper(fieldWidth, fieldHeight-5, 50);
-        blocks = 5;
+    public static void main(String[] args) throws IOException {
+        //initialize field and tempField
         field = new int[fieldWidth][fieldHeight];
         tempField = new int[fieldWidth][fieldHeight];
         wipeField(field);
         tempField = copyField(field);
+
+        //initialize and open the GUI
+        gameWrapper = new Phase2.Tetris.GameWrapper(fieldWidth, fieldHeight- fieldPadding, 50);
+
+        //initialize key listeners
         gameWrapper.window.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent e) {
                 switch (e.getKeyCode()) {
@@ -355,7 +395,11 @@ public class Tetris{
                         spacePressed=true;
                         break;
                 }
-                step();
+                try {
+                    step();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
             public void keyReleased(KeyEvent e) {
                 switch (e.getKeyCode()) {
@@ -379,15 +423,16 @@ public class Tetris{
             public void keyTyped(KeyEvent e) {
             }
         });
+
+        //we instantiate a new piece, "start=true" has the function generate 2 pieces instead of 1
         start = true;
         instantiateNewPiece(false);
+
+        //initiate the timer for the game
         timer = new Timer();
         timer.schedule(new Phase2.Tetris.GameTimer(), 0, 500);
+
         //Run the bot
-        if(botType=="G"){
-            Gbot.initPopulation();
-            Gbot.makeMove();
-        }
         runBot();
     }
 }
