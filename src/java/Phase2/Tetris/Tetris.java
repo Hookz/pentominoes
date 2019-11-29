@@ -359,7 +359,6 @@ public class Tetris{
             }
             if(botType.equals("Q")){
                 //use copyField because of pass by value (otherwise the blocks would become invisible
-                //TODO why is it not using V2?
                 Phase2.Tetris.Qbot.findBestPlaceToPlace();
                 return;
             }

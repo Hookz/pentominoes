@@ -147,7 +147,7 @@ public class Qbot {
     private static void genRewards(int[][] field, int fieldHeight, int fieldWidth, int fieldPadding) {
         int[][] flipped = flipMatrix(field);
 
-        Tetris.printMatrix(flipped);
+        Phase2.Tetris.Tetris.printMatrix(flipped);
 
 
         //remove unplayable part of the field

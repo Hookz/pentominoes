@@ -105,6 +105,7 @@ public class UI extends JPanel
     }
 
     // This function should be called to update the displayed state (Makes a copy)
+    //TODO is the 5 coming from fieldPadding?
     public void setState(int[][] _state)
     {
         for (int i = 0; i < state.length; i++)
