@@ -230,7 +230,7 @@ public class Tetris{
     /***
      * Drops the current piece to the lowest level in current position x
      */
-    public static int dropPiece(boolean ten) throws IOException {
+    public static int dropPiece(boolean ten) {
         int cr=0;
         int [] nextPos=arrayCopy(curPos);
         nextPos[1]++;
@@ -340,7 +340,7 @@ public class Tetris{
     /***
      * Starts the execution of the bot, if selected to be enabled
      */
-    public static void runBot() throws IOException {
+    public static void runBot() {
 
         if(enableBot){
             if(botType=="G") {
