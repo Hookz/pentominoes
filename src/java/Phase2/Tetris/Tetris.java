@@ -12,9 +12,9 @@ import java.util.Timer;
 
 public class Tetris{
     public static boolean enableBot = true;
-    public static String botType = "G";
+    public static String botType = "Q";
 
-    public static int fieldWidth=8;
+    public static int fieldWidth=5;
     public static int fieldHeight=20;
     public static final int hiddenRows=5;
 
@@ -344,21 +344,12 @@ public class Tetris{
 
         if(enableBot){
             if(botType=="G") {
-                Phase2.Tetris.Gbot.initPopulation();
-                while (true){
-                    Phase2.Tetris.Gbot.makeMove();
-                    wipeField(field);
-                    tempField = copyField(field);
-                    instantiateNewPiece(false);
-                    start = true;
-                    Phase2.Tetris.Gbot.games = 0;
-                    Phase2.Tetris.Gbot.bestMoveNext = new int[3];
-                }
+                Phase2.Tetris.Gbot.train();
             }
             if(botType.equals("Q")){
                 //use copyField because of pass by value (otherwise the blocks would become invisible
                 //TODO why is it not using V2?
-                Phase2.Tetris.Qbot.findBestPlaceToPlace();
+                //Phase2.Tetris.Qbot.findBestPlaceToPlace();
                 return;
             }
         }
