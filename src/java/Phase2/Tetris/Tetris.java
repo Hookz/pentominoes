@@ -1,7 +1,6 @@
 package Phase2.Tetris;
 
 import General.PentominoDatabase;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.BufferedWriter;
@@ -13,11 +12,11 @@ import java.util.Timer;
 
 public class Tetris{
     public static boolean enableBot = true;
-    public static String botType = "Q";
+    public static String botType = "G";
 
-    public static int fieldWidth=5;
+    public static int fieldWidth=8;
     public static int fieldHeight=20;
-    public static int fieldPadding=5;
+    public static final int hiddenRows=5;
 
     public static int[][] field;
     public static int[][] tempField;
@@ -42,7 +41,7 @@ public class Tetris{
     public static boolean start = true;
     public static boolean aboutToCollide=false;
     public static boolean collided=false;
-    public static boolean AI=true;
+    public static boolean AI=false;
     public static Timer timer;
     public static boolean training=false;
     private static int writerIterator = 0;
@@ -71,7 +70,7 @@ public class Tetris{
         }
     }
 
-    public static void instantiateNewPiece(boolean ten) throws IOException {
+    public static void instantiateNewPiece(boolean ten){
         curPos[0]=0;
         curPos[1]=0;
         if(!ten){
@@ -98,7 +97,6 @@ public class Tetris{
         System.out.println();
         for (int i = 0; i < m.length; i++) {
             for (int j = 0; j < m[i].length; j++) {
-                //TODO is the +1 intended?
                 System.out.print(1+m[i][j]+" ");
             }
             System.out.println();
@@ -106,7 +104,7 @@ public class Tetris{
         System.out.println();
     }
 
-    public static void getNewPiece() throws IOException {
+    public static void getNewPiece(){
         if (start) {
             curPiece = (int)(12 * rand.nextDouble());
             curPieceRotation=(int)(rand.nextDouble()*PentominoDatabase.data[curPiece].length);
@@ -117,10 +115,9 @@ public class Tetris{
         }
         nextPiece=(int)(12 * rand.nextDouble());
         nextRot=(int)(rand.nextDouble()*PentominoDatabase.data[curPiece].length);
-        runBot();
     }
 
-    public static void gameOver(){
+    public static void gameOver() {
         try {
             writer = new BufferedWriter(new FileWriter("scores.csv",true));
             writer.write(++writerIterator+","+score+"\n");
@@ -134,7 +131,6 @@ public class Tetris{
         score=0;
         wipeField(field);
         wipeField(tempField);
-        gameWrapper.score.setText("0");
     }
 
     //cw = clock wise
@@ -259,7 +255,7 @@ public class Tetris{
     /***
      * Step function slowly moving piece down
      */
-    public static int movePieceDown(boolean ten) throws IOException { //ten is true when the piece gets moved down tentatively therefore the UI doesn't update and we don't call gameOver
+    public static int movePieceDown(boolean ten) { //ten is true when the piece gets moved down tentatively therefore the UI doesn't update and we don't call gameOver
         int cr=-1;
         if(!aboutToCollide){
             int [] temPos=arrayCopy(curPos);
@@ -279,6 +275,7 @@ public class Tetris{
                 } else {
                     field=copyField(tempField);
                     cr=rowElimination(ten);
+                    //runBot();
                 }
                 instantiateNewPiece(ten);
             }
@@ -344,6 +341,7 @@ public class Tetris{
      * Starts the execution of the bot, if selected to be enabled
      */
     public static void runBot() throws IOException {
+
         if(enableBot){
             if(botType=="G") {
                 Phase2.Tetris.Gbot.initPopulation();
@@ -359,6 +357,7 @@ public class Tetris{
             }
             if(botType.equals("Q")){
                 //use copyField because of pass by value (otherwise the blocks would become invisible
+                //TODO why is it not using V2?
                 Phase2.Tetris.Qbot.findBestPlaceToPlace();
                 return;
             }
@@ -373,7 +372,7 @@ public class Tetris{
         tempField = copyField(field);
 
         //initialize and open the GUI
-        gameWrapper = new Phase2.Tetris.GameWrapper(fieldWidth, fieldHeight- fieldPadding, 50);
+        gameWrapper = new Phase2.Tetris.GameWrapper(fieldWidth, fieldHeight-hiddenRows, 50);
 
         //initialize key listeners
         gameWrapper.window.addKeyListener(new KeyListener() {

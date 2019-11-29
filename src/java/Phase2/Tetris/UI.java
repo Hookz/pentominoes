@@ -69,7 +69,7 @@ public class UI extends JPanel
             for (int j = 0; j < state[0].length; j++)
             {
                 int n=200;
-                if(Phase2.Tetris.Tetris.tempField[i][j+ Phase2.Tetris.Tetris.fieldPadding]!= Phase2.Tetris.Tetris.field[i][j+Phase2.Tetris.Tetris.fieldPadding]) n=255;
+                //if(Phase2.Tetris.Tetris.tempField[i][j+ Phase2.Tetris.Tetris.fieldPadding]!= Phase2.Tetris.Tetris.field[i][j+Phase2.Tetris.Tetris.fieldPadding]) n=255;
                 localGraphics2D.setColor(GetColorOfID(state[i][j],n));
                 localGraphics2D.fill(new Rectangle2D.Double(i * size + 1, j * size + 1, size - 1, size - 1));
             }

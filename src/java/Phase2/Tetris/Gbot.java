@@ -1,23 +1,9 @@
 package Phase2.Tetris;
-
-import General.PentominoDatabase;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class Gbot {
-
-    class Archive {
-        int populationSize = 0;
-        int currentGen = 0;
-        double[][] elites;
-        double[][] genomes;
-
-        public Archive() {
-        }
-    }
     private int movesNumber;
     private int movesLimit;
     private int populationSize;
@@ -25,7 +11,6 @@ public class Gbot {
     private static int currentGenome=0;
     private int generation;
     private double[] moveParameters;
-    private ArrayList<Archive> archive = new ArrayList<Archive>();
     private double mutationRate;
     private double mutationStep;
     public static int games=0;
@@ -58,26 +43,26 @@ public class Gbot {
         return n;
     }
 
-    //Creates the initial population of genomes, each with random genes TO DO: Lindalee
+    //Creates the initial population of genomes, each with random genes TODO: Lindalee
     public static void initPopulation() {
         //double []gen={Math.random(),Math.random(),Math.random(),Math.random(),Math.random(),Math.random()};
         double []gen={0.658,-0.191,-0.460,-0.306,0.023,-0.049,0.35}; //Siraj's weights
         genomes[0]=gen;
     }
 
-    //Evaluates the next individual in the population. If there is none, evolves the population TO DO: Lindalee
+    //Evaluates the next individual in the population. If there is none, evolves the population TODO: Lindalee
     private void evalIndividual() {
     }
 
-    //Creates the new population using the best individuals from the last TO DO: Lindalee
+    //Creates the new population using the best individuals from the last TODO: Lindalee
     private void getNextGen() {
     }
 
-    //Returns a child from 2 individuals TO DO: Lindalee
+    //Returns a child from 2 individuals TODO: Lindalee
     private void mate() {
     }
 
-    private static int[] getBestMove() throws IOException { //Returns an array of possible moves TODO: Sam
+    private static int[] getBestMove() throws IOException { //Returns an array of possible moves
         int[][] oldField = copyField(Tetris.field);
         int oldScore=Tetris.score;
         int oldPiece=Tetris.curPiece;
@@ -143,7 +128,7 @@ public class Gbot {
         return bestMove;
     }
 
-    private static int[] getBestMove1() throws IOException { //Returns an array of possible moves TODO: Sam
+    private static int[] getBestMove1() throws IOException { //Returns an array of possible moves
         int[][] oldField = copyField(Tetris.field);
         int oldScore=Tetris.score;
         int oldPiece=Tetris.curPiece;
@@ -258,7 +243,6 @@ public class Gbot {
             }
         }
 
-        //System.out.println(Arrays.toString(possibleMoves.get(maxMove)));
         int[] bestMove=new int[3];
         bestMove[0]=possibleMoves.get(maxMove)[0];
         bestMove[1]=possibleMoves.get(maxMove)[1];
@@ -271,7 +255,7 @@ public class Gbot {
         return bestMove;
     }
 
-    public static void makeMove() throws IOException { //Makes the next move based on the genome TODO: Sam
+    public static void makeMove() throws IOException {
         int[][] oldField = copyField(Tetris.field);
         int oldScore=Tetris.score;
         int oldPiece=Tetris.curPiece;
@@ -281,13 +265,13 @@ public class Gbot {
         for (int i = 0; i < bestMove[1]; i++) Tetris.movePiece(true);
         int cr=-1;
         while(cr==-1){
-            cr=Tetris.dropPiece(false);
-            /*ry {
+            cr=Tetris.movePieceDown(false);
+            try {
                 Thread.sleep(50);
             }
             catch(InterruptedException ex){
                 Thread.currentThread().interrupt();
-            }*/
+            }
         }
         if(cr==-2){
             scores.add(Tetris.lastScore);
