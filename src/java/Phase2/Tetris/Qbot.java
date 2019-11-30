@@ -303,6 +303,75 @@ public class Qbot {
         return f1;
     }
 
+    private static void movePieceUp() {
+        // Create temporary position; move it up by 1
+        int[] temPos = arrayCopy(Tetris.curPos);
+        temPos[1] -= 1;
+
+        // Create temporary permutation
+        int tempPer = Tetris.curPieceRotation;
+
+        // Indicates whether the loop needs to be stopped
+        boolean stop = false;
+
+        // Indicates whether the loop is being run for the first time
+        boolean initial = true;
+
+        /* A while loop which goes through every single permutation of the current pentomino. It will only stop when either
+        of these two situations occurs:
+        1) Every single permutation has been tried
+        2) The pentomino is able to go up
+         */
+        while (tempPer < 7 && !stop) {
+            if (!checkCollision(PentominoDatabase.data[curPiece][tempPer], Tetris.field, temPos[0], temPos[1])) {
+                // Able to move up
+                curPos[1] -= 1;
+                Tetris.tempField = copyField(Tetris.field);
+                Tetris.addPiece();
+                temPos[1] -= 1;
+                // Update permutation
+                Tetris.curPieceRotation = tempPer;
+                // Stop loop; permutation found
+                stop = true;
+            } else {
+                // In case this is the first time the loop is activated: reset permutation to zero
+                if (initial) {
+                    tempPer = 0;
+                    initial = false;
+                } else
+                    // Try next permutation
+                    tempPer++;
+            }
+        }
+    }
+
+    //Try to move the pentomino up one line
+    //y is the current y
+    //the x and y are the starting point for the pentomino
+    //pent = pentomino and it requires a matrix that already has the desired rotation
+    //TODO check if it works
+    public static boolean checkCollision(int[][] pent, int[][] field, int x, int y) {
+
+        //check if it fits on the field
+        if (y + pent.length < Phase2.Tetris.Tetris.fieldHeight) {
+            //loop over x position of pentomino
+            for (int i = 0; i < pent.length; i++) {
+                //loop over y position of pentomino
+                for (int j = 0; j < pent[i].length; j++) {
+                    //if the block has a value in this cell
+                    if (pent[i][j] == 1) {
+                        //check if the cell in the game field is occupied
+                        if (field[x + i][y + j + 1] != -1) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+    }
+
     //TODO remove after debugging
     /*
     static static public int[][] addBlock(int[][] field, int fieldWidth, int fieldHeight){
