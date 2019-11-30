@@ -1,16 +1,37 @@
 package Phase2.Tetris;
 
+/*
+I had to use
+
+--module-path "C:\Program Files\Java\javafx-sdk-11.0.2\lib" --add-modules javafx.controls,javafx.fxml
+
+for configurations -> VM options for both programs
+
+to get javaFX working
+
+JavaFX is used for the audio
+ */
+
 import General.PentominoDatabase;
+import javafx.application.Application;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Timer;
 
-public class Tetris{
+public class Tetris extends Application{
+    MediaPlayer mediaplayer;
+
     public static boolean enableBot = true;
     public static String botType = "Q";
 
@@ -356,6 +377,23 @@ public class Tetris{
     }
 
     public static void main(String[] args) throws IOException {
+        //needed for the music
+        launch(args);
+
+        //TODO remove note
+        //NOTE the previous content of main was moved to start in order to allow
+        //the use of javaFX for audio. If the code would remain here
+        //it would never be run.
+    }
+
+
+    public void start(Stage stage) throws URISyntaxException {
+        //start music
+//        String path = getClass().getResource("/music/Tetris_theme.mp3").toURI().toString();
+//        Media musicFile = new Media(path);
+//        mediaplayer = new MediaPlayer(musicFile);
+//        mediaplayer.setAutoPlay(true);
+
         //initialize field and tempField
         field = new int[fieldWidth][fieldHeight];
         tempField = new int[fieldWidth][fieldHeight];
@@ -412,6 +450,7 @@ public class Tetris{
             }
             public void keyTyped(KeyEvent e) {
             }
+
         });
 
         //we instantiate a new piece, "start=true" has the function generate 2 pieces instead of 1
@@ -424,5 +463,6 @@ public class Tetris{
 
         //Run the bot
         runBot();
+
     }
 }
