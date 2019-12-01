@@ -50,7 +50,7 @@ public class Qbot {
     //TODO What is it still doing here?
     public static void findBestPlaceToPlace() throws IOException {
         System.out.println("PRINT MATRIX");
-        Tetris.printMatrix(Tetris.field);
+        Phase2.Tetris.Tetris.printMatrix(Phase2.Tetris.Tetris.field);
 
         int cr = Phase2.Tetris.Tetris.movePieceDown(false);
         if(cr==-2) return;
@@ -60,7 +60,7 @@ public class Qbot {
         curPiece = 0;
         curPiece = Phase2.Tetris.Tetris.curPiece;
         bestRotation = Phase2.Tetris.Tetris.curPieceRotation;
-        genRewards(Phase2.Tetris.Tetris.field, Phase2.Tetris.Tetris.fieldHeight, Phase2.Tetris.Tetris.fieldWidth, Tetris.hiddenRows);
+        genRewards(Phase2.Tetris.Tetris.field, Phase2.Tetris.Tetris.fieldHeight, Phase2.Tetris.Tetris.fieldWidth, Phase2.Tetris.Tetris.hiddenRows);
         mainLoop(curPiece,bestRotation);
         if(bestX==-1||bestRotation==-1) {
             return;
@@ -305,11 +305,11 @@ public class Qbot {
 
     private static void movePieceUp() {
         // Create temporary position; move it up by 1
-        int[] temPos = arrayCopy(Tetris.curPos);
+        int[] temPos = arrayCopy(Phase2.Tetris.Tetris.curPos);
         temPos[1] -= 1;
 
         // Create temporary permutation
-        int tempPer = Tetris.curPieceRotation;
+        int tempPer = Phase2.Tetris.Tetris.curPieceRotation;
 
         // Indicates whether the loop needs to be stopped
         boolean stop = false;
@@ -323,14 +323,14 @@ public class Qbot {
         2) The pentomino is able to go up
          */
         while (tempPer < 7 && !stop) {
-            if (!checkCollision(PentominoDatabase.data[curPiece][tempPer], Tetris.field, temPos[0], temPos[1])) {
+            if (!checkCollision(PentominoDatabase.data[curPiece][tempPer], Phase2.Tetris.Tetris.field, temPos[0], temPos[1])) {
                 // Able to move up
                 curPos[1] -= 1;
-                Tetris.tempField = copyField(Tetris.field);
-                Tetris.addPiece();
+                Phase2.Tetris.Tetris.tempField = copyField(Phase2.Tetris.Tetris.field);
+                Phase2.Tetris.Tetris.addPiece();
                 temPos[1] -= 1;
                 // Update permutation
-                Tetris.curPieceRotation = tempPer;
+                Phase2.Tetris.Tetris.curPieceRotation = tempPer;
                 // Stop loop; permutation found
                 stop = true;
             } else {
@@ -367,8 +367,9 @@ public class Qbot {
                     }
                 }
             }
-            return true;
         }
+
+        return true;
 
     }
 

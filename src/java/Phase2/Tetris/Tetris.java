@@ -30,7 +30,8 @@ import java.util.Random;
 import java.util.Timer;
 
 public class Tetris extends Application{
-    MediaPlayer mediaplayer;
+    static MediaPlayer mediaplayer;
+    static Media music;
 
     public static boolean enableBot = true;
     public static String botType = "Q";
@@ -390,8 +391,8 @@ public class Tetris extends Application{
     public void start(Stage stage) throws URISyntaxException {
         //start music
 //        String path = getClass().getResource("/music/Tetris_theme.mp3").toURI().toString();
-//        Media musicFile = new Media(path);
-//        mediaplayer = new MediaPlayer(musicFile);
+//        music = new Media(path);
+//        mediaplayer = new MediaPlayer(music);
 //        mediaplayer.setAutoPlay(true);
 
         //initialize field and tempField
