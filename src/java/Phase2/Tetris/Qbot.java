@@ -343,6 +343,15 @@ public class Qbot {
                     tempPer++;
             }
         }
+        // if the bot tried all the permutations and it didn't succeed in going up
+        if(tempPer==7 && stop){
+            // the scores of the temporary position are set to 0 
+            fieldScores[temPos[0]][temPos[1]]=0;
+            // this is a recursive call that will take the next best position since the scores 
+            // of the previous best position are set to 0
+            movePieceUp();
+           
+        }
     }
 
     //Try to move the pentomino up one line
