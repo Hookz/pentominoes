@@ -1,4 +1,4 @@
-package Phase2.Tetris;
+package Tetris;
 import General.PentominoDatabase;
 
 import java.io.IOException;
@@ -35,12 +35,12 @@ public class Qbot {
 //        int yNext = -1;
 //        int rotationNext = -1;
 //        //find the the placement that yields the highest score for the current and the nextPiece
-//        int[] temp = mainLoopV2(Phase2.Tetris.Tetris.curPiece, Phase2.Tetris.Tetris.curPieceRotation);
+//        int[] temp = mainLoopV2(Tetris.curPiece, Tetris.curPieceRotation);
 //        xCurrent = temp[0];
 //        yCurrent = temp[1];
 //        rotationCurrent = temp[2];
-//        genRewards(tempField, Phase2.Tetris.Tetris.fieldHeight, Phase2.Tetris.Tetris.fieldWidth);
-//        temp = mainLoopV2(Phase2.Tetris.Tetris.nextPiece, Phase2.Tetris.Tetris.nextRot);
+//        genRewards(tempField, Tetris.fieldHeight, Tetris.fieldWidth);
+//        temp = mainLoopV2(Tetris.nextPiece, Tetris.nextRot);
 //        xNext = temp[0];
 //        yNext = temp[1];
 //        rotationNext = temp[2];
@@ -50,30 +50,30 @@ public class Qbot {
     //TODO What is it still doing here?
     public static void findBestPlaceToPlace() throws IOException {
         System.out.println("PRINT MATRIX");
-        Phase2.Tetris.Tetris.printMatrix(Phase2.Tetris.Tetris.field);
+        Tetris.printMatrix(Tetris.field);
 
-        int cr = Phase2.Tetris.Tetris.movePieceDown(false);
+        int cr = Tetris.movePieceDown(false);
         if(cr==-2) return;
         bestX = -1;
         bestY = -1;
         bestRotation = -1;
         curPiece = 0;
-        curPiece = Phase2.Tetris.Tetris.curPiece;
-        bestRotation = Phase2.Tetris.Tetris.curPieceRotation;
-        genRewards(Phase2.Tetris.Tetris.field, Phase2.Tetris.Tetris.fieldHeight, Phase2.Tetris.Tetris.fieldWidth, Phase2.Tetris.Tetris.hiddenRows);
+        curPiece = Tetris.curPiece;
+        bestRotation = Tetris.curPieceRotation;
+        genRewards(Tetris.field, Tetris.fieldHeight, Tetris.fieldWidth, Tetris.hiddenRows);
         mainLoop(curPiece,bestRotation);
         if(bestX==-1||bestRotation==-1) {
             return;
         }
         System.out.println(curPiece+" "+bestRotation);
         for(int i=0;i<bestX;i++){
-            Phase2.Tetris.Tetris.movePiece(true);
+            Tetris.movePiece(true);
         }
-        while(Phase2.Tetris.Tetris.curPieceRotation!=bestRotation){
-            Phase2.Tetris.Tetris.rotatePiece(true);
+        while(Tetris.curPieceRotation!=bestRotation){
+            Tetris.rotatePiece(true);
         }
         while(cr==-1){
-            cr= Phase2.Tetris.Tetris.movePieceDown(false);
+            cr= Tetris.movePieceDown(false);
             try {
                 Thread.sleep(200);
             }
@@ -98,8 +98,8 @@ public class Qbot {
 //        boolean isMirrored = false;
 //        if (pieceRotation > 3) isMirrored = true;
 //        int[][][] pieceArr = PentominoDatabase.data[piece];
-//        for (int x = 0; x < Phase2.Tetris.Tetris.fieldWidth; x++) {
-//            for (int y = 0; y < Phase2.Tetris.Tetris.fieldHeight; y++) {
+//        for (int x = 0; x < Tetris.fieldWidth; x++) {
+//            for (int y = 0; y < Tetris.fieldHeight; y++) {
 //                int[] temp = pLoop(x, y, pieceArr, isMirrored);
 //                if (temp[0] > highestScore) {
 //                    highestScore = temp[0];
@@ -127,8 +127,8 @@ public class Qbot {
         boolean isMirrored = false;
         if(pieceRotation>3) isMirrored = true;
         int[][][] pieceArr = PentominoDatabase.data[piece];
-        for (int x = 0; x < Phase2.Tetris.Tetris.fieldWidth; x++) {
-            for (int y = 0; y < Phase2.Tetris.Tetris.fieldHeight; y++) {
+        for (int x = 0; x < Tetris.fieldWidth; x++) {
+            for (int y = 0; y < Tetris.fieldHeight; y++) {
                 int[] temp = pLoop(x,y,pieceArr,isMirrored);
                 if(temp[0]>highestScore){
                     highestScore=temp[0];
@@ -205,7 +205,7 @@ public class Qbot {
     private static void genRewards(int[][] field, int fieldHeight, int fieldWidth, int fieldPadding) {
         int[][] flipped = flipMatrix(field);
 
-        Phase2.Tetris.Tetris.printMatrix(flipped);
+        Tetris.printMatrix(flipped);
 
         //remove unplayable part of the field
         int[][] tmp = new int[fieldHeight-fieldPadding][fieldWidth];
@@ -215,7 +215,7 @@ public class Qbot {
 
         flipped = tmp;
 
-        Phase2.Tetris.Tetris.printMatrix(flipped);
+        Tetris.printMatrix(flipped);
 
         //flip the field so i is y, j is x and a higher x means something is on the right and not on the left
         //alternative comment: prevent headache
@@ -275,28 +275,24 @@ public class Qbot {
             }
         }
 
-        //TODO remove after debugging
-        //print flipped
-        //TODO this print functions doesn't work, it increases all values by one and mixes some up (I have no idea why, it seems to be on drugs)
-//        Phase2.Tetris.Tetris.printMatrix(fieldScores);
-        for (int i = 0; i < fieldHeight-fieldPadding; i++) {
-            for (int j = 0; j < fieldWidth; j++) {
-                System.out.print(String.format("%6d", fieldScores[i][j]));
-            }
-            System.out.println();
-        }
-        System.out.println();
-
+//        //debugging
+//        //print flipped
+//        for (int i = 0; i < fieldHeight-fieldPadding; i++) {
+//            for (int j = 0; j < fieldWidth; j++) {
+//                System.out.print(String.format("%6d", fieldScores[i][j]));
+//            }
+//            System.out.println();
+//        }
+//        System.out.println();
 
         //flip back because others chose to suffer
         fieldScores = flipMatrix(fieldScores);
-
     }
 
     private static int[][] copyField(int[][] f0){
-        int [][] f1=new int[Phase2.Tetris.Tetris.fieldWidth][Phase2.Tetris.Tetris.fieldHeight];
-        for(int i = 0; i< Phase2.Tetris.Tetris.fieldWidth; i++){
-            for(int j = 0; j< Phase2.Tetris.Tetris.fieldHeight; j++){
+        int [][] f1=new int[Tetris.fieldWidth][Tetris.fieldHeight];
+        for(int i = 0; i< Tetris.fieldWidth; i++){
+            for(int j = 0; j< Tetris.fieldHeight; j++){
                 f1[i][j]=f0[i][j];
             }
         }
@@ -305,11 +301,11 @@ public class Qbot {
 
     private static void movePieceUp() {
         // Create temporary position; move it up by 1
-        int[] temPos = arrayCopy(Phase2.Tetris.Tetris.curPos);
+        int[] temPos = Tetris.arrayCopy(Tetris.curPos);
         temPos[1] -= 1;
 
         // Create temporary permutation
-        int tempPer = Phase2.Tetris.Tetris.curPieceRotation;
+        int tempPer = Tetris.curPieceRotation;
 
         // Indicates whether the loop needs to be stopped
         boolean stop = false;
@@ -323,14 +319,14 @@ public class Qbot {
         2) The pentomino is able to go up
          */
         while (tempPer < 7 && !stop) {
-            if (!checkCollision(PentominoDatabase.data[curPiece][tempPer], Phase2.Tetris.Tetris.field, temPos[0], temPos[1])) {
+            if (!checkCollision(PentominoDatabase.data[curPiece][tempPer], Tetris.field, temPos[0], temPos[1])) {
                 // Able to move up
-                curPos[1] -= 1;
-                Phase2.Tetris.Tetris.tempField = copyField(Phase2.Tetris.Tetris.field);
-                Phase2.Tetris.Tetris.addPiece();
+                Tetris.curPos[1] -= 1;
+                Tetris.tempField = copyField(Tetris.field);
+                Tetris.addPiece();
                 temPos[1] -= 1;
                 // Update permutation
-                Phase2.Tetris.Tetris.curPieceRotation = tempPer;
+                Tetris.curPieceRotation = tempPer;
                 // Stop loop; permutation found
                 stop = true;
             } else {
@@ -350,7 +346,6 @@ public class Qbot {
             // this is a recursive call that will take the next best position since the scores 
             // of the previous best position are set to 0
             movePieceUp();
-           
         }
     }
 
@@ -362,7 +357,7 @@ public class Qbot {
     public static boolean checkCollision(int[][] pent, int[][] field, int x, int y) {
 
         //check if it fits on the field
-        if (y + pent.length < Phase2.Tetris.Tetris.fieldHeight) {
+        if (y + pent.length < Tetris.fieldHeight) {
             //loop over x position of pentomino
             for (int i = 0; i < pent.length; i++) {
                 //loop over y position of pentomino
@@ -379,21 +374,5 @@ public class Qbot {
         }
 
         return true;
-
     }
-
-    //TODO remove after debugging
-    /*
-    static static public int[][] addBlock(int[][] field, int fieldWidth, int fieldHeight){
-        int randomX = (int)(Math.random()*fieldWidth);
-        int randomY = (int)(Math.random()*fieldHeight);
-
-        if(field[randomY][randomX] != -1){
-            field[randomY][randomX] = -1;
-        } else {
-            addBlock(field, fieldWidth, fieldHeight);
-        }
-
-        return field;
-    }*/
 }

@@ -1,4 +1,4 @@
-package Phase2.Tetris;
+package Tetris;
 
 /*
 I had to use
@@ -46,7 +46,7 @@ public class Tetris extends Application{
     public static int curPiece;
     public static int curPieceRotation=0;
     public static int curPos[]=new int[2];
-    public static Phase2.Tetris.GameWrapper gameWrapper;
+    public static GameWrapper gameWrapper;
     public static boolean canMove=false;
     public static boolean upPressed=false;
     public static boolean downPressed=false;
@@ -366,12 +366,12 @@ public class Tetris extends Application{
 
         if(enableBot){
             if(botType=="G") {
-                Phase2.Tetris.Gbot.train();
+                Gbot.train();
             }
             if(botType.equals("Q")){
                 //use copyField because of pass by value (otherwise the blocks would become invisible
                 //TODO why is it not using V2?
-                //Phase2.Tetris.Qbot.findBestPlaceToPlace();
+                //Qbot.findBestPlaceToPlace();
                 return;
             }
         }
@@ -402,7 +402,7 @@ public class Tetris extends Application{
         tempField = copyField(field);
 
         //initialize and open the GUI
-        gameWrapper = new Phase2.Tetris.GameWrapper(fieldWidth, fieldHeight-hiddenRows, 50);
+        gameWrapper = new GameWrapper(fieldWidth, fieldHeight-hiddenRows, 50);
 
         //initialize key listeners
         gameWrapper.window.addKeyListener(new KeyListener() {
@@ -460,7 +460,7 @@ public class Tetris extends Application{
 
         //initiate the timer for the game
         timer = new Timer();
-        timer.schedule(new Phase2.Tetris.GameTimer(), 0, 500);
+        timer.schedule(new GameTimer(), 0, 500);
 
         //Run the bot
         runBot();
