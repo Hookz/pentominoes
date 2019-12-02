@@ -138,6 +138,7 @@ public class Qbot {
                 }
             }
         }
+        //TODO what is this doing?
         int[][] pieceToPlace = PentominoDatabase.data[piece][bestRotation];
         for(int i = 0; i < pieceToPlace.length; i++){ // loop over x position of pentomino
             for (int j = 0; j < pieceToPlace[i].length; j++){ // loop over y position of pentomino
