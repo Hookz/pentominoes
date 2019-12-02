@@ -1,4 +1,4 @@
-package Phase2.Tetris;
+package Tetris;
 
 import java.util.TimerTask;
 

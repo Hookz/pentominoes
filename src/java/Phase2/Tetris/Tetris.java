@@ -1,18 +1,41 @@
-package Phase2.Tetris;
+package Tetris;
+
+/*
+I had to use
+
+--module-path "C:\Program Files\Java\javafx-sdk-11.0.2\lib" --add-modules javafx.controls,javafx.fxml
+
+for configurations -> VM options for both programs
+
+to get javaFX working
+
+JavaFX is used for the audio
+ */
 
 import General.PentominoDatabase;
+import Phase2.Tetris.GameWrapper;
+import javafx.application.Application;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.stage.Stage;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Timer;
 
-public class Tetris{
+public class Tetris extends Application{
+    static MediaPlayer mediaplayer;
+    static Media music;
+
     public static boolean enableBot = true;
-    public static String botType = "G";
+    public static String botType = "Q";
 
     public static int fieldWidth=5;
     public static int fieldHeight=20;
@@ -24,7 +47,7 @@ public class Tetris{
     public static int curPiece;
     public static int curPieceRotation=0;
     public static int curPos[]=new int[2];
-    public static Phase2.Tetris.GameWrapper gameWrapper;
+    public static GameWrapper gameWrapper;
     public static boolean canMove=false;
     public static boolean upPressed=false;
     public static boolean downPressed=false;
@@ -357,13 +380,30 @@ public class Tetris{
             if(botType.equals("Q")){
                 //use copyField because of pass by value (otherwise the blocks would become invisible
                 //TODO why is it not using V2?
-                //Phase2.Tetris.Qbot.findBestPlaceToPlace();
+                //Qbot.findBestPlaceToPlace();
                 return;
             }
         }
     }
 
     public static void main(String[] args) throws IOException {
+        //needed for the music
+        launch(args);
+
+        //TODO remove note
+        //NOTE the previous content of main was moved to start in order to allow
+        //the use of javaFX for audio. If the code would remain here
+        //it would never be run.
+    }
+
+
+    public void start(Stage stage) throws URISyntaxException {
+        //start music
+//        String path = getClass().getResource("/music/Tetris_theme.mp3").toURI().toString();
+//        music = new Media(path);
+//        mediaplayer = new MediaPlayer(music);
+//        mediaplayer.setAutoPlay(true);
+
         //initialize field and tempField
         field = new int[fieldWidth][fieldHeight];
         tempField = new int[fieldWidth][fieldHeight];
@@ -385,7 +425,7 @@ public class Tetris{
         runBot();
 
         if(!training){
-            gameWrapper = new Phase2.Tetris.GameWrapper(fieldWidth, fieldHeight-hiddenRows, 50);
+            gameWrapper = new GameWrapper(fieldWidth, fieldHeight-hiddenRows, 50);
 
             //initialize key listeners
             gameWrapper.window.addKeyListener(new KeyListener() {

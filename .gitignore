@@ -89,3 +89,4 @@ bin/sample/sample.fxml
 .DS_Store
 /javadoc/
 /.metadata/
+src/resources/music/Tetris_theme.ogg
