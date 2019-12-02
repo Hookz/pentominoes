@@ -13,7 +13,7 @@ JavaFX is used for the audio
  */
 
 import General.PentominoDatabase;
-import Phase2.Tetris.GameWrapper;
+import Tetris.GameWrapper;
 import javafx.application.Application;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -35,7 +35,7 @@ public class Tetris extends Application{
     static Media music;
 
     public static boolean enableBot = true;
-    public static String botType = "Q";
+    public static String botType = "G";
 
     public static int fieldWidth=5;
     public static int fieldHeight=20;
@@ -419,62 +419,59 @@ public class Tetris extends Application{
 
         //initiate the timer for the game
         timer = new Timer();
-        timer.schedule(new Phase2.Tetris.GameTimer(), 0, 500);
+        timer.schedule(new GameTimer(), 0, 500);
 
+        gameWrapper = new GameWrapper(fieldWidth, fieldHeight-hiddenRows, 50);
+
+        //initialize key listeners
+        gameWrapper.window.addKeyListener(new KeyListener() {
+            public void keyPressed(KeyEvent e) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_LEFT:
+                        leftPressed=true;
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        rightPressed=true;
+                        break;
+                    case KeyEvent.VK_UP:
+                        upPressed=true;
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        downPressed=true;
+                        break;
+                    case KeyEvent.VK_SPACE:
+                        spacePressed=true;
+                        break;
+                }
+                try {
+                    step();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            public void keyReleased(KeyEvent e) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_LEFT:
+                        leftPressed=false;
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        rightPressed=false;
+                        break;
+                    case KeyEvent.VK_UP:
+                        upPressed=false;
+                        break;
+                    case KeyEvent.VK_DOWN:
+                        downPressed=false;
+                        break;
+                    case KeyEvent.VK_SPACE:
+                        spacePressed=false;
+                        break;
+                }
+            }
+            public void keyTyped(KeyEvent e) {
+            }
+        });
         //Run the bot
         runBot();
-
-        if(!training){
-            gameWrapper = new GameWrapper(fieldWidth, fieldHeight-hiddenRows, 50);
-
-            //initialize key listeners
-            gameWrapper.window.addKeyListener(new KeyListener() {
-                public void keyPressed(KeyEvent e) {
-                    switch (e.getKeyCode()) {
-                        case KeyEvent.VK_LEFT:
-                            leftPressed=true;
-                            break;
-                        case KeyEvent.VK_RIGHT:
-                            rightPressed=true;
-                            break;
-                        case KeyEvent.VK_UP:
-                            upPressed=true;
-                            break;
-                        case KeyEvent.VK_DOWN:
-                            downPressed=true;
-                            break;
-                        case KeyEvent.VK_SPACE:
-                            spacePressed=true;
-                            break;
-                    }
-                    try {
-                        step();
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-                public void keyReleased(KeyEvent e) {
-                    switch (e.getKeyCode()) {
-                        case KeyEvent.VK_LEFT:
-                            leftPressed=false;
-                            break;
-                        case KeyEvent.VK_RIGHT:
-                            rightPressed=false;
-                            break;
-                        case KeyEvent.VK_UP:
-                            upPressed=false;
-                            break;
-                        case KeyEvent.VK_DOWN:
-                            downPressed=false;
-                            break;
-                        case KeyEvent.VK_SPACE:
-                            spacePressed=false;
-                            break;
-                    }
-                }
-                public void keyTyped(KeyEvent e) {
-                }
-            });
-        }
     }
 }

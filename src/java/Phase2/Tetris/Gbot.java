@@ -1,4 +1,6 @@
 package Phase2.Tetris;
+import Tetris.Tetris;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
