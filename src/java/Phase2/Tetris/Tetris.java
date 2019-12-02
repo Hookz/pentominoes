@@ -12,7 +12,7 @@ import java.util.Timer;
 
 public class Tetris{
     public static boolean enableBot = true;
-    public static String botType = "Q";
+    public static String botType = "G";
 
     public static int fieldWidth=5;
     public static int fieldHeight=20;
@@ -55,8 +55,8 @@ public class Tetris{
             if(downPressed) rotatePiece(true);
             if(spacePressed) dropPiece(false);
         }
-        if(!AI&&!training)gameWrapper.ui.setState(tempField);
-        int[] temPos=arrayCopy(curPos);
+        if(!training)gameWrapper.ui.setState(tempField);
+        int[] temPos=curPos.clone();;
         temPos[1] += 1;
         if(checkCollision(temPos,curPieceRotation)&&collided){
             collided=false;
@@ -75,7 +75,6 @@ public class Tetris{
         curPos[1]=0;
         if(!ten){
             getNewPiece();
-            int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
         }
         addPiece();
         canMove=true;
@@ -172,7 +171,7 @@ public class Tetris{
                 }
             }
         }
-        int[] temPos = arrayCopy(curPos);
+        int[] temPos = curPos.clone();;
         int[][] pieceToPlace = PentominoDatabase.data[curPiece][pieceRotation];
         if(pieceToPlace.length!=pieceToPlace[0].length){
             temPos[0]+=pieceToPlace[0].length-pieceToPlace.length;
@@ -187,19 +186,27 @@ public class Tetris{
         }
     }
 
-    public static void movePiece(boolean right){
+    public static boolean movePiece(boolean right){//returns true if moved
         int dir=0;
         if (!right) dir=1;
-        int [] temPos=arrayCopy(curPos);
+        int [] temPos=curPos.clone();
         int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
-        if(right&&curPos[0]+pieceToPlace[0].length<fieldWidth) temPos[0]+=1;
-        if(!right&&curPos[0]>0) temPos[0]-=1;
-
+        if(right){
+            if(curPos[0]+pieceToPlace[0].length<fieldWidth){
+                temPos[0]+=1;
+            } else return false;
+        }
+        if(!right){
+            if(curPos[0]>0){
+                temPos[0]-=1;
+            } else return false;
+        }
         if(!checkCollision(temPos,curPieceRotation)){
             curPos=temPos;
             tempField=copyField(field);
             addPiece();
-        }
+        } else return false;
+        return true;
     }
 
     /***
@@ -232,7 +239,7 @@ public class Tetris{
      */
     public static int dropPiece(boolean ten) {
         int cr=0;
-        int [] nextPos=arrayCopy(curPos);
+        int [] nextPos=curPos.clone();;
         nextPos[1]++;
         while(!checkCollision(nextPos,curPieceRotation)){
             curPos[1]++;
@@ -258,7 +265,7 @@ public class Tetris{
     public static int movePieceDown(boolean ten) { //ten is true when the piece gets moved down tentatively therefore the UI doesn't update and we don't call gameOver
         int cr=-1;
         if(!aboutToCollide){
-            int [] temPos=arrayCopy(curPos);
+            int [] temPos=curPos.clone();;
             temPos[1] += 1;
             if(!checkCollision(temPos,curPieceRotation)) {
                 curPos[1] += 1;
@@ -323,7 +330,7 @@ public class Tetris{
                 i++;
             }
         }
-        if(!ten&&!training) gameWrapper.score.setText(gameWrapper.number(score));
+        if(!ten && !training) gameWrapper.score.setText(gameWrapper.number(score));
         return consecutive;
     }
 
@@ -344,7 +351,8 @@ public class Tetris{
 
         if(enableBot){
             if(botType=="G") {
-                Phase2.Tetris.Gbot.train();
+//                Phase2.Tetris.Gbot.train();
+                Phase2.Tetris.Gbot.Play();
             }
             if(botType.equals("Q")){
                 //use copyField because of pass by value (otherwise the blocks would become invisible
@@ -363,56 +371,7 @@ public class Tetris{
         tempField = copyField(field);
 
         //initialize and open the GUI
-        gameWrapper = new Phase2.Tetris.GameWrapper(fieldWidth, fieldHeight-hiddenRows, 50);
 
-        //initialize key listeners
-        gameWrapper.window.addKeyListener(new KeyListener() {
-            public void keyPressed(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_LEFT:
-                        leftPressed=true;
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        rightPressed=true;
-                        break;
-                    case KeyEvent.VK_UP:
-                        upPressed=true;
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        downPressed=true;
-                        break;
-                    case KeyEvent.VK_SPACE:
-                        spacePressed=true;
-                        break;
-                }
-                try {
-                    step();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-            public void keyReleased(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_LEFT:
-                        leftPressed=false;
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        rightPressed=false;
-                        break;
-                    case KeyEvent.VK_UP:
-                        upPressed=false;
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        downPressed=false;
-                        break;
-                    case KeyEvent.VK_SPACE:
-                        spacePressed=false;
-                        break;
-                }
-            }
-            public void keyTyped(KeyEvent e) {
-            }
-        });
 
         //we instantiate a new piece, "start=true" has the function generate 2 pieces instead of 1
         start = true;
@@ -424,5 +383,58 @@ public class Tetris{
 
         //Run the bot
         runBot();
+
+        if(!training){
+            gameWrapper = new Phase2.Tetris.GameWrapper(fieldWidth, fieldHeight-hiddenRows, 50);
+
+            //initialize key listeners
+            gameWrapper.window.addKeyListener(new KeyListener() {
+                public void keyPressed(KeyEvent e) {
+                    switch (e.getKeyCode()) {
+                        case KeyEvent.VK_LEFT:
+                            leftPressed=true;
+                            break;
+                        case KeyEvent.VK_RIGHT:
+                            rightPressed=true;
+                            break;
+                        case KeyEvent.VK_UP:
+                            upPressed=true;
+                            break;
+                        case KeyEvent.VK_DOWN:
+                            downPressed=true;
+                            break;
+                        case KeyEvent.VK_SPACE:
+                            spacePressed=true;
+                            break;
+                    }
+                    try {
+                        step();
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                public void keyReleased(KeyEvent e) {
+                    switch (e.getKeyCode()) {
+                        case KeyEvent.VK_LEFT:
+                            leftPressed=false;
+                            break;
+                        case KeyEvent.VK_RIGHT:
+                            rightPressed=false;
+                            break;
+                        case KeyEvent.VK_UP:
+                            upPressed=false;
+                            break;
+                        case KeyEvent.VK_DOWN:
+                            downPressed=false;
+                            break;
+                        case KeyEvent.VK_SPACE:
+                            spacePressed=false;
+                            break;
+                    }
+                }
+                public void keyTyped(KeyEvent e) {
+                }
+            });
+        }
     }
 }
