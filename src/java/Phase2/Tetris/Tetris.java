@@ -13,6 +13,7 @@ JavaFX is used for the audio
  */
 
 import General.PentominoDatabase;
+import Tetris.GameWrapper;
 import javafx.application.Application;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -34,7 +35,7 @@ public class Tetris extends Application{
     static Media music;
 
     public static boolean enableBot = true;
-    public static String botType = "Q";
+    public static String botType = "G";
 
     public static int fieldWidth=5;
     public static int fieldHeight=20;
@@ -77,8 +78,8 @@ public class Tetris extends Application{
             if(downPressed) rotatePiece(true);
             if(spacePressed) dropPiece(false);
         }
-        if(!AI&&!training)gameWrapper.ui.setState(tempField);
-        int[] temPos=arrayCopy(curPos);
+        if(!training)gameWrapper.ui.setState(tempField);
+        int[] temPos=curPos.clone();;
         temPos[1] += 1;
         if(checkCollision(temPos,curPieceRotation)&&collided){
             collided=false;
@@ -97,7 +98,6 @@ public class Tetris extends Application{
         curPos[1]=0;
         if(!ten){
             getNewPiece();
-            int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
         }
         addPiece();
         canMove=true;
@@ -194,7 +194,7 @@ public class Tetris extends Application{
                 }
             }
         }
-        int[] temPos = arrayCopy(curPos);
+        int[] temPos = curPos.clone();;
         int[][] pieceToPlace = PentominoDatabase.data[curPiece][pieceRotation];
         if(pieceToPlace.length!=pieceToPlace[0].length){
             temPos[0]+=pieceToPlace[0].length-pieceToPlace.length;
@@ -209,19 +209,27 @@ public class Tetris extends Application{
         }
     }
 
-    public static void movePiece(boolean right){
+    public static boolean movePiece(boolean right){//returns true if moved
         int dir=0;
         if (!right) dir=1;
-        int [] temPos=arrayCopy(curPos);
+        int [] temPos=curPos.clone();
         int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
-        if(right&&curPos[0]+pieceToPlace[0].length<fieldWidth) temPos[0]+=1;
-        if(!right&&curPos[0]>0) temPos[0]-=1;
-
+        if(right){
+            if(curPos[0]+pieceToPlace[0].length<fieldWidth){
+                temPos[0]+=1;
+            } else return false;
+        }
+        if(!right){
+            if(curPos[0]>0){
+                temPos[0]-=1;
+            } else return false;
+        }
         if(!checkCollision(temPos,curPieceRotation)){
             curPos=temPos;
             tempField=copyField(field);
             addPiece();
-        }
+        } else return false;
+        return true;
     }
 
     /***
@@ -254,7 +262,7 @@ public class Tetris extends Application{
      */
     public static int dropPiece(boolean ten) {
         int cr=0;
-        int [] nextPos=arrayCopy(curPos);
+        int [] nextPos=curPos.clone();;
         nextPos[1]++;
         while(!checkCollision(nextPos,curPieceRotation)){
             curPos[1]++;
@@ -280,7 +288,7 @@ public class Tetris extends Application{
     public static int movePieceDown(boolean ten) { //ten is true when the piece gets moved down tentatively therefore the UI doesn't update and we don't call gameOver
         int cr=-1;
         if(!aboutToCollide){
-            int [] temPos=arrayCopy(curPos);
+            int [] temPos=curPos.clone();;
             temPos[1] += 1;
             if(!checkCollision(temPos,curPieceRotation)) {
                 curPos[1] += 1;
@@ -345,7 +353,7 @@ public class Tetris extends Application{
                 i++;
             }
         }
-        if(!ten&&!training) gameWrapper.score.setText(gameWrapper.number(score));
+        if(!ten && !training) gameWrapper.score.setText(gameWrapper.number(score));
         return consecutive;
     }
 
@@ -366,7 +374,8 @@ public class Tetris extends Application{
 
         if(enableBot){
             if(botType=="G") {
-                Gbot.train();
+//                Phase2.Tetris.Gbot.train();
+                Phase2.Tetris.Gbot.Play();
             }
             if(botType.equals("Q")){
                 //use copyField because of pass by value (otherwise the blocks would become invisible
@@ -402,6 +411,16 @@ public class Tetris extends Application{
         tempField = copyField(field);
 
         //initialize and open the GUI
+
+
+        //we instantiate a new piece, "start=true" has the function generate 2 pieces instead of 1
+        start = true;
+        instantiateNewPiece(false);
+
+        //initiate the timer for the game
+        timer = new Timer();
+        timer.schedule(new GameTimer(), 0, 500);
+
         gameWrapper = new GameWrapper(fieldWidth, fieldHeight-hiddenRows, 50);
 
         //initialize key listeners
@@ -451,19 +470,8 @@ public class Tetris extends Application{
             }
             public void keyTyped(KeyEvent e) {
             }
-
         });
-
-        //we instantiate a new piece, "start=true" has the function generate 2 pieces instead of 1
-        start = true;
-        instantiateNewPiece(false);
-
-        //initiate the timer for the game
-        timer = new Timer();
-        timer.schedule(new GameTimer(), 0, 500);
-
         //Run the bot
         runBot();
-
     }
 }

@@ -346,6 +346,7 @@ public class Qbot {
             fieldScores[temPos[0]][temPos[1]]=0;
             // this is a recursive call that will take the next best position since the scores 
             // of the previous best position are set to 0
+            findBestPlaceToPlace();
             movePieceUp();
         }
     }

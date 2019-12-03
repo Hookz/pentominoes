@@ -1,30 +1,30 @@
-package Tetris;
+package Phase2.Tetris;
+import Tetris.Tetris;
 
-import General.PentominoDatabase;
-
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Random;
 
 public class Gbot {
-
-    private static double topInd;
-    private static int seed;
-    private double score;
-    private double speed;
-    private int movesNumber;
-    private int movesLimit;
-    private static int populationSize=25;
-    private static int parNo = 7;
+    private static int populationSize=100;
+    private static int tournamentSize=5;
+    private static int parNo = 8;
+    private static int gamesN = 30;
     private static double[][] genomes=new double[populationSize][parNo];
-    private static int elites=5;
+    private static double[][] top10=new double[10][parNo];
     private static int currentGenome=0;
-    private static int generation;
-    private double[] moveParameters;
-    private static double mutationRate=0.05;
-    private static double mutationStep=0.2;
+    private static int generation=0;
+    private static double mutationRate=0.1;
+    private static double mutationStep=0.01;
+    private static double mutationRate2=0.05;
+    private static double mutationStep2=3;
+    private static int writerIterator = 0;
+    private static BufferedWriter writer;
+    private static File file;
     public static int games=0;
     private static ArrayList<Integer> scores = new ArrayList<Integer>();
     public static int[] bestMoveNext;
@@ -55,169 +55,192 @@ public class Gbot {
         return n;
     }
 
+    public static double[] arrayCopy(double[] old){
+        double[]n = new double[old.length];
+        for(int i=0;i<old.length;i++){
+            n[i]=old[i];
+        }
+        return n;
+    }
+
     //Creates the initial population of genomes, each with random genes TO DO: Lindalee
     public static void initPopulation() {
         for(int i = 0; i<populationSize ; i ++) {
             double[] gen = {Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5, Math.random() * 0.5, Math.random() - 0.5,Math.random()-0.5,0};
-            //double []gen={0.658,-0.191,-0.460,-0.306,0.023,-0.049}; //Siraj's weights
             genomes[i] = gen;
+            if(i<top10.length)top10[i]=gen.clone();
         }
+        //genomes[0]=new double[]{3.6974782858162163, 0.020477199087742037, -0.23918114942987156, -0.11603246371208442, -1.6252129706895644, -0.6811390204242889, 1.044093597983097, 4160.0};
+    }
+    public static void Play() {
+        Tetris.training = false;
+        double []gen1={14.928740819414838, 0.22815685282185916, -0.40505060750400884, 1.3945551853055056, -5.415407771851985, -2.5420017356444644, 1.0560452657245811, 4640.0}; //best individual
+        //double []gen1={2.883322384854915, 0.48480348209139357, -2.7311401426486226, 0.7769037846237963, -4.525753498240361, -4.223996415025829, 1.088329351302793, 3803.3333333333335}; //best individual
+
+        genomes[0] = gen1;
+        currentGenome=0;
+        makePlay(true);
     }
 
     public static void train() {
+        LocalDate myObj = LocalDate.now();
+        file = new File("src/resources/topIndividuals"+myObj.toString()+".txt");
+        Tetris.training = true;
         initPopulation();
-        while(topInd<2000){
+        while(true){
+            //System.out.println(generation);
             evalPopulation();
             getNextGen();
-            System.out.println(topInd);
         }
+        /*try {
+            Thread.sleep(100);
+        }
+        catch(InterruptedException ex){
+            Thread.currentThread().interrupt();
+        }*/
+    }
+
+    public static void updateTop10(){
+
+        for(int i=0;i<top10.length;i++){
+            if(genomes[0][7]>top10[i][7]){
+                top10[top10.length-1]=genomes[0].clone();
+                break;
+            }
+        }
+        java.util.Arrays.sort(top10, new java.util.Comparator<double[]>() {
+            public int compare(double[] a, double[] b) {
+                return Double.compare(b[7], a[7]);
+            }
+        });
+
+        for(int i=0;i<top10.length;i++)
+            System.out.println(Arrays.toString(top10[i]));
     }
 
     //Evaluates the next individual in the population. If there is none, evolves the population TO DO: Lindalee
     private static void evalPopulation() {
+        State s1=new State();
         for(int i=0;i<populationSize;i++){
+            System.out.print("-");
+            loadState(s1);
             currentGenome=i;
-            int[][] oldField = copyField(Tetris.field);
-            int oldScore=Tetris.score;
-            int oldPiece=Tetris.curPiece;
-            int oldNextPiece=Tetris.nextPiece;
-            int oldPieceRotation=Tetris.curPieceRotation;
-            int oldNextPieceRotation = Tetris.nextRot;
-            int oldPiecePos[]=arrayCopy(Tetris.curPos);
-            makePlay();
+            makePlay(false);
+
         }
+        System.out.println();
     }
 
     //Creates the new population using the best individuals from the last TO DO: Lindalee
     private static void getNextGen() {
         generation++;
         geneSort(genomes);
-//        System.out.println();
-//        for(int i=0;i<genomes.length;i++){
-//            System.out.println(genomes[i][6]);
-//        }
-//        System.out.println();
-        topInd=genomes[0][6];
+
+        updateTop10();
+
+        try {
+            writer = new BufferedWriter(new FileWriter(file,true));
+            writer.write(Arrays.toString(genomes[0])+"\n");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        for(int i=0;i<5;i++)
+//            System.out.println(Arrays.toString(genomes[i]));
+        /*for(int i=0;i<genomes.length;i++){
+            System.out.println(Arrays.toString(genomes[i]));
+        }
+        System.out.println();*/
         int k = 0;
         double[][] tempGene = new double [populationSize][parNo];
-            for (int i = 0; i < elites; i++) {
-                for (int j = 0; j < elites; j++) {
-                    tempGene[k] = mate(i, j);
-                    k++;
-                }
-            }
+        int[]parents=new int[2];
+        int elites=(int)(genomes.length/50.0);
+        for (int i = 0; i < elites; i++) {
+            tempGene[i]=genomes[i];
+        }
+        for (int i = elites; i < populationSize; i++) {
+            parents=tournamentSelection(tournamentSize);
+            tempGene[i]=mate(parents[0], parents[1]);
+        }
         genomes = tempGene;
+    }
+
+    public static int[] tournamentSelection(int tSize){
+        int[] parents={0,0};
+        double bestScore=0;
+        int bestInd=0;
+        int a=0;
+        for (int i = 0; i < tSize; i++) {
+            a=(int)(Math.random()*populationSize);
+            if(genomes[a][7]>bestScore){
+                bestScore=genomes[a][7];
+                bestInd=a;
+            }
+        }
+        parents[0]=bestInd;
+        bestScore=0;
+        bestInd=0;
+        for (int i = 0; i < tSize; i++) {
+            a=(int)(Math.random()*populationSize);
+            if(genomes[a][7]>bestScore){
+                bestScore=genomes[a][7];
+                bestInd=a;
+            }
+        }
+        parents[1]=bestInd;
+        //System.out.println(Arrays.toString(parents));
+        return parents;
     }
 
     //Returns a child from 2 individuals TO DO: Lindalee
     private static double[] mate(int mom, int dad) {
-        int crossover = (int)Math.random()*5;
-        double[] child = new double[7];
+        int crossover = (int)Math.random()*6;
+        double[] child = new double[parNo];
         for(int i = 0; i < crossover;i++){
             child[i] = genomes[dad][i];
         }
         for(int i = crossover; i < child.length -1;i++){
             child[i] = genomes[mom][i];
         }
-        child[6]= 0;
+        child[7]= 0;
 
         for(int i = 0;i < child.length-1; i++) {
             if (Math.random() < mutationRate) {
-                child[i] = child[i] + Math.random() * mutationStep * 2 - mutationStep;
+                double mut=Math.random() * mutationStep * 2.0;
+                child[i] = child[i] + mut - mutationStep;
+            }
+            if (Math.random() < mutationRate2) {
+                double mut=Math.random() * mutationStep2 * 2.0;
+                child[i] = child[i] + mut - mutationStep2;
+            }
+            if (Math.random() < mutationRate) {
+                child[i] = (genomes[mom][i] + genomes[dad][i])/2;
             }
         }
         return child;
     }
 
-    private static int[] getBestMove() throws IOException { //Returns an array of possible moves TODO: Sam
-        int[][] oldField = copyField(Tetris.field);
-        int oldScore=Tetris.score;
-        int oldPiece=Tetris.curPiece;
-        int oldPieceRotation=Tetris.curPieceRotation;
-        ArrayList<Integer[]> possibleMoves= new ArrayList<Integer[]>();
-
-        Integer[] move = new Integer[3]; //rotation,translation,rating
-        double[] algorithm = new double[6]; //rowsCleared, weightedHeight, cumulativeHeight, relativeHeight, holes, roughness
-        for (int i = 0; i < 4; i++) { //for each possible rotation
-            for (int t = 0; t < Tetris.fieldWidth; t++) {
-                Tetris.field = copyField(oldField);
-                Tetris.score = oldScore;
-                Tetris.curPiece = oldPiece;
-                Tetris.curPieceRotation = oldPieceRotation;
-                for (int k = 0; k < i; k++) Tetris.rotatePiece(true);
-                for (int k = 0; k < t; k++) Tetris.movePiece(true);
-                int er = Tetris.dropPiece(true);
-                int rating = 0;
-                if(er==-2){
-                    rating-=500;
-                    er=0;
-                }
-                if(er==-1) er=0;
-
-                algorithm[0] = er;
-                algorithm[1] = Math.pow(getHeight(), 1.5);
-                algorithm[2] = getCumHeight();
-                algorithm[3] = getRelHeight();
-                algorithm[4] = getHoles();
-                algorithm[5] = getRoughness();
-
-                rating+= algorithm[0] * genomes[currentGenome][0];
-                rating+= algorithm[1] * genomes[currentGenome][1];
-                rating+= algorithm[2] * genomes[currentGenome][2];
-                rating+= algorithm[3] * genomes[currentGenome][3];
-                rating+= algorithm[4] * genomes[currentGenome][4];
-                rating+= algorithm[5] * genomes[currentGenome][5];
-
-                move[0] = i;
-                move[1] = t;
-                move[2] = rating;
-                possibleMoves.add(arrayCopy(move));
-            }
-        }
-        Tetris.field=copyField(oldField);
-        Tetris.score=oldScore;
-        Tetris.curPiece=oldPiece;
-        Tetris.curPieceRotation=oldPieceRotation;
-        int maxR=-10000;
-        int maxMove=0;
-        for (int i = 0; i < possibleMoves.size(); i++) {
-            if(possibleMoves.get(i)[2]>maxR) {
-                maxR=possibleMoves.get(i)[2];
-                maxMove=i;
-            }
-        }
-
-        //System.out.println(Arrays.toString(possibleMoves.get(maxMove)));
-        int[] bestMove=new int[3];
-        bestMove[0]=possibleMoves.get(maxMove)[0];
-        bestMove[1]=possibleMoves.get(maxMove)[1];
-        bestMove[2]=possibleMoves.get(maxMove)[2];
-        return bestMove;
-    }
-
     private static int[] getBestMove1() { //Returns an array of possible moves
-        int[][] oldField = copyField(Tetris.field);
-        int oldScore=Tetris.score;
-        int oldPiece=Tetris.curPiece;
-        int oldNextPiece=Tetris.nextPiece;
-        int oldPieceRotation=Tetris.curPieceRotation;
-        int oldNextPieceRotation = Tetris.nextRot;
-        int oldPiecePos[]=arrayCopy(Tetris.curPos);
+        State s1=new State();
         ArrayList<Integer[]> possibleMoves= new ArrayList<Integer[]>();
-
         Integer[] move = new Integer[7]; //rotation,translation,rating
-        double[] algorithm = new double[6]; //rowsCleared, weightedHeight, cumulativeHeight, relativeHeight, holes, roughness
-        for (int i = 0; i < 4; i++) { //for each possible rotation
+        double[] algorithm = new double[6];
+        int [] rot= new int[]{1,2,2,4,4,4,4,4,4,4,4,4};
+        for (int i = 0; i < rot[Tetris.curPiece]; i++) { //for each possible rotation
+            loadState(s1);
             for (int t = 0; t < Tetris.fieldWidth; t++) {
-                Tetris.field = copyField(oldField);
-                Tetris.score = oldScore;
-                Tetris.curPiece = oldPiece;
-                Tetris.nextPiece=oldNextPiece;
-                Tetris.curPieceRotation = oldPieceRotation;
-                Tetris.nextRot = oldNextPieceRotation;
-                Tetris.curPos=arrayCopy(oldPiecePos);
+                loadState(s1);
+                boolean moved=true;
                 for (int k = 0; k < i; k++) Tetris.rotatePiece(true);
-                for (int k = 0; k < t; k++) Tetris.movePiece(true);
+                for (int k = 0; k < Tetris.fieldWidth; k++){
+                    Tetris.movePiece(false);
+                }
+                for (int k = 0; k < t; k++){
+                    if(!Tetris.movePiece(true)) moved=false;
+                }
+                if(!moved){
+                    break;
+                }
                 int er = Tetris.dropPiece(true);
                 int rating1 = 0;
                 if(er==-2){
@@ -232,74 +255,76 @@ public class Gbot {
                 algorithm[3] = getRelHeight();
                 algorithm[4] = getHoles();
                 algorithm[5] = getRoughness();
-                if(bestMoveNext!=null && i==bestMoveNext[0] && t==bestMoveNext[1]) rating1+=genomes[currentGenome][6];
+
                 rating1 += algorithm[0] * genomes[currentGenome][0];
                 rating1 += algorithm[1] * genomes[currentGenome][1];
                 rating1 += algorithm[2] * genomes[currentGenome][2];
                 rating1 += algorithm[3] * genomes[currentGenome][3];
                 rating1 += algorithm[4] * genomes[currentGenome][4];
                 rating1 += algorithm[5] * genomes[currentGenome][5];
+                if(bestMoveNext!=null && i==bestMoveNext[0] && t==bestMoveNext[1]) rating1*=genomes[currentGenome][6];
 
-                int[][] oldField2 = copyField(Tetris.field);
-                int oldScore2=Tetris.score;
-                int oldPiece2=Tetris.curPiece;
-                int oldNextPiece2=Tetris.nextPiece;
-                int oldPieceRotation2=Tetris.curPieceRotation;
-                int oldNextPieceRotation2 = Tetris.nextRot;
-                int oldPiecePos2[]=arrayCopy(Tetris.curPos);
-
-                if ((Tetris.curPos[0]!=oldPiecePos[0]&&Tetris.curPos[1]!=oldPiecePos[1])||Tetris.curPieceRotation!=oldPieceRotation) {
-                    for (int j = 0; j < 4; j++) { //for each possible rotation
-                        for (int l = 0; l < Tetris.fieldWidth; l++) {
-                            Tetris.field = copyField(oldField2);
-                            Tetris.score = oldScore2;
-                            Tetris.curPiece = Tetris.nextPiece;
-                            Tetris.curPieceRotation = Tetris.nextRot;
-                            Tetris.curPos = oldPiecePos2;
-                            for (int k = 0; k < j; k++) Tetris.rotatePiece(true);
-                            for (int k = 0; k < l; k++) Tetris.movePiece(true);
-                            er = Tetris.dropPiece(true);
-                            int rating2 = 0;
-                            if (er == -2) {
-                                rating2 -= 500;
-                                er = 0;
-                            }
-                            if (er == -1) er = 0;
-
-                            algorithm[0] = er;
-                            algorithm[1] = Math.pow(getHeight(), 1.5);
-                            algorithm[2] = getCumHeight();
-                            algorithm[3] = getRelHeight();
-                            algorithm[4] = getHoles();
-                            algorithm[5] = getRoughness();
-
-                            rating2 += algorithm[0] * genomes[currentGenome][0];
-                            rating2 += algorithm[1] * genomes[currentGenome][1];
-                            rating2 += algorithm[2] * genomes[currentGenome][2];
-                            rating2 += algorithm[3] * genomes[currentGenome][3];
-                            rating2 += algorithm[4] * genomes[currentGenome][4];
-                            rating2 += algorithm[5] * genomes[currentGenome][5];
-
-                            move[0] = i;
-                            move[1] = t;
-                            move[2] = j;
-                            move[3] = l;
-                            move[4] = rating1;
-                            move[5] = rating2;
-                            move[6] = rating1 + rating2;
-                            possibleMoves.add(arrayCopy(move));
+                State s2=new State();
+                for (int j = 0; j < rot[Tetris.nextPiece]; j++) { //for each possible rotation
+                    for (int l = 0; l < Tetris.fieldWidth; l++) {
+                        Tetris.field = copyField(s2.oldField);
+                        Tetris.score = s2.oldScore;
+                        Tetris.curPiece = Tetris.nextPiece;
+                        Tetris.curPieceRotation = Tetris.nextRot;
+                        Tetris.curPos = s2.oldPiecePos;
+                        moved=true;
+                        for (int k = 0; k < j; k++) Tetris.rotatePiece(true);
+                        for (int k = 0; k < Tetris.fieldWidth; k++){
+                            Tetris.movePiece(false);
                         }
+                        for (int k = 0; k < l; k++){
+                            if(!Tetris.movePiece(true)) moved=false;
+                        }
+                        if(!moved){
+                            break;
+                        }
+                        er = Tetris.dropPiece(true);
+                        int rating2 = 0;
+                        if (er == -2) {
+                            rating2 -= 500;
+                            er = 0;
+                        }
+                        if (er == -1) er = 0;
+
+                        algorithm[0] = er;
+                        algorithm[1] = Math.pow(getHeight(), 1.5);
+                        algorithm[2] = getCumHeight();
+                        algorithm[3] = getRelHeight();
+                        algorithm[4] = getHoles();
+                        algorithm[5] = getRoughness();
+
+                        rating2 += algorithm[0] * genomes[currentGenome][0];
+                        rating2 += algorithm[1] * genomes[currentGenome][1];
+                        rating2 += algorithm[2] * genomes[currentGenome][2];
+                        rating2 += algorithm[3] * genomes[currentGenome][3];
+                        rating2 += algorithm[4] * genomes[currentGenome][4];
+                        rating2 += algorithm[5] * genomes[currentGenome][5];
+
+                        move[0] = i;
+                        move[1] = t;
+                        move[2] = j;
+                        move[3] = l;
+                        move[4] = rating1;
+                        move[5] = rating2;
+                        move[6] = rating1 + rating2;
+                        possibleMoves.add(move.clone());
+
+                        /*try {
+                            Thread.sleep(1000);
+                        }
+                        catch(InterruptedException ex){
+                            Thread.currentThread().interrupt();
+                        }*/
                     }
                 }
             }
         }
-        Tetris.field = copyField(oldField);
-        Tetris.score = oldScore;
-        Tetris.curPiece = oldPiece;
-        Tetris.nextPiece = oldNextPiece;
-        Tetris.curPieceRotation = oldPieceRotation;
-        Tetris.nextRot = oldNextPieceRotation;
-        Tetris.curPos=arrayCopy(oldPiecePos);
+        loadState(s1);
 
         int maxR=-10000;
         int maxMove=0;
@@ -322,76 +347,113 @@ public class Gbot {
         return bestMove;
     }
 
-    public static void makePlay() { //Makes the next move based on the genome TODO: Sam
-        /*Tetris.field = copyField(oldField);
-        Tetris.score = oldScore;
-        Tetris.curPiece = oldPiece;
-        Tetris.nextPiece = oldNextPiece;
-        Tetris.curPieceRotation = oldPieceRotation;
-        Tetris.nextRot = oldNextPieceRotation;
-        Tetris.curPos = arrayCopy(oldPiecePos);*/
+    static class State{
+        int[][] oldField=new int[Tetris.fieldWidth][Tetris.fieldHeight];
+        int oldScore;
+        int oldPiece;
+        int oldNextPiece;
+        int oldPieceRotation;
+        int oldNextPieceRotation;
+        int oldPiecePos[]=new int[2];
+        public State(){
+            oldField = copyField(Tetris.field);
+            oldScore=Tetris.score;
+            oldPiece=Tetris.curPiece;
+            oldNextPiece=Tetris.nextPiece;
+            oldPieceRotation=Tetris.curPieceRotation;
+            oldNextPieceRotation = Tetris.nextRot;
+            oldPiecePos=Tetris.curPos.clone();
+        }
+    }
 
-        int[]bestMove=getBestMove1();
+    public static void loadState(State s){
+        Tetris.field = copyField(s.oldField);
+        Tetris.score = s.oldScore;
+        Tetris.curPiece = s.oldPiece;
+        Tetris.nextPiece = s.oldNextPiece;
+        Tetris.curPieceRotation = s.oldPieceRotation;
+        Tetris.nextRot = s.oldNextPieceRotation;
+        Tetris.curPos=s.oldPiecePos.clone();
+    }
 
-        for (int i = 0; i < bestMove[0]; i++) Tetris.rotatePiece(true);
-        for (int i = 0; i < bestMove[1]; i++) Tetris.movePiece(true);
-        int cr=-1;
-        while(cr==-1){
-            cr=Tetris.dropPiece(false);
+    public static void makePlay(boolean play) { //Makes the next move based on the genome TODO: Sam
+        if(play){
+            while(true) {
+                int[] bestMove = getBestMove1();
+                for (int i = 0; i < bestMove[0]; i++) Tetris.rotatePiece(true);
+                for (int i = 0; i < Tetris.fieldWidth; i++) Tetris.movePiece(false);
+                for (int i = 0; i < bestMove[1]; i++) Tetris.movePiece(true);
+                int cr = -1;
+                while (cr == -1) {
+                    cr = Tetris.movePieceDown(false);
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+                if (cr == -2) {
+                    scores.add(Tetris.lastScore);
+                    games++;
+                    //System.out.println(games);
+                }
+            }
+        }else{
+            while(games<gamesN){
+                int[]bestMove=getBestMove1();
+                for (int i = 0; i < bestMove[0]; i++) Tetris.rotatePiece(true);
+                for (int i = 0; i < Tetris.fieldWidth; i++) Tetris.movePiece(false);
+                for (int i = 0; i < bestMove[1]; i++) Tetris.movePiece(true);
+                int cr=-1;
+                while(cr==-1){
+                    cr=Tetris.dropPiece(false);
             /*try {
-                Thread.sleep(50);
+                Thread.sleep(5);
             }
             catch(InterruptedException ex){
                 Thread.currentThread().interrupt();
             }*/
-        }
-        if(cr==-2){
-            scores.add(Tetris.lastScore);
-            games++;
-            //System.out.println(games);
-        }
-        if(games<1){
-            makePlay();
-        } else {
+                }
+                if(cr==-2){
+                    scores.add(Tetris.lastScore);
+                    games++;
+                    //System.out.println(games);
+                }
+            }
             Integer sum = 0;
             if(!scores.isEmpty()) {
                 for (Integer mark : scores) {
                     sum += mark;
                 }
                 double avg=sum.doubleValue() / scores.size();
-                genomes[currentGenome][6]=avg;
-                System.out.println(avg);
+                genomes[currentGenome][7]=avg;
+                //System.out.println(avg);
                 scores= new ArrayList<Integer>();
             }
-
-
-            Tetris.wipeField(Tetris.field);
-            Tetris.tempField = copyField(Tetris.field);
-            Tetris.instantiateNewPiece(false);
-            Tetris.start = true;
-            games = 0;
-            bestMoveNext = new int[3];
         }
+
+        Tetris.wipeField(Tetris.field);
+        Tetris.tempField = copyField(Tetris.field);
+        Tetris.instantiateNewPiece(false);
+        Tetris.start = true;
+        games = 0;
+        bestMoveNext = new int[3];
     }
 
     private static double getCumHeight() {
         int cumHeight=0;
         int [] l = new int [Tetris.fieldWidth];
-        ArrayList<ArrayList<Integer>> l1 = new ArrayList<ArrayList<Integer>>();
-        for (int i = 0; i < Tetris.fieldWidth; i++) l1.add(new ArrayList<Integer>());
-
+        for (int i = 0; i < l.length; i++) l[i]=20;
         for (int i = 0; i < Tetris.fieldWidth; i++) {
             for (int j = 0; j < Tetris.fieldHeight; j++) {
                 if(Tetris.field[i][j]!=-1){
-                    l1.get(i).add(j);
+                    l[i]=20-j;
+                    break;
                 }
             }
         }
-        for (int k = 0; k < l1.size(); k++) {
-            if(l1.get(k).size()>0) l[k]=20-Collections.min(l1.get(k));
-            else l[k]=0;
-        }
         for(int i=0;i<l.length;i++){
+            if(l[i]==20)l[i]=0;
             cumHeight+=l[i];
         }
         return cumHeight;
@@ -400,23 +462,18 @@ public class Gbot {
     private static double getHoles() {
         int holes=0;
         int [] l = new int [Tetris.fieldWidth];
-        ArrayList<ArrayList<Integer>> l1 = new ArrayList<ArrayList<Integer>>();
-        for (int i = 0; i < Tetris.fieldWidth; i++) l1.add(new ArrayList<Integer>());
-
+        for (int i = 0; i < l.length; i++) l[i]=20;
         for (int i = 0; i < Tetris.fieldWidth; i++) {
             for (int j = 0; j < Tetris.fieldHeight; j++) {
                 if(Tetris.field[i][j]!=-1){
-                    l1.get(i).add(j);
+                    l[i]=j;
+                    break;
                 }
             }
         }
-        for (int k = 0; k < l1.size(); k++) {
-            if(l1.get(k).size()>0) l[k]=Collections.min(l1.get(k));
-            else l[k]=20;
-        }
         for(int i=0;i<Tetris.fieldWidth;i++){
-            for(int j=0;j<Tetris.fieldHeight;j++){
-                if(j>l[i]&&Tetris.field[i][j]==-1) holes++;
+            for(int j=l[i];j<Tetris.fieldHeight;j++){
+                if(Tetris.field[i][j]==-1) holes++;
             }
         }
         return holes;
@@ -425,19 +482,17 @@ public class Gbot {
     private static double getRoughness() {
         int roughness=0;
         int [] l = new int [Tetris.fieldWidth];
-        ArrayList<ArrayList<Integer>> l1 = new ArrayList<ArrayList<Integer>>();
-        for (int i = 0; i < Tetris.fieldWidth; i++) l1.add(new ArrayList<Integer>());
-
+        for (int i = 0; i < l.length; i++) l[i]=20;
         for (int i = 0; i < Tetris.fieldWidth; i++) {
             for (int j = 0; j < Tetris.fieldHeight; j++) {
                 if(Tetris.field[i][j]!=-1){
-                    l1.get(i).add(j);
+                    l[i]=20-j;
+                    break;
                 }
             }
         }
-        for (int k = 0; k < l1.size(); k++) {
-            if(l1.get(k).size()>0) l[k]=Collections.min(l1.get(k));
-            else l[k]=20;
+        for(int i=0;i<l.length;i++) {
+            if (l[i] == 20) l[i] = 0;
         }
         for(int i=0;i<l.length-1;i++){
             roughness+=Math.abs(l[i]-l[i+1]);
@@ -446,43 +501,47 @@ public class Gbot {
     }
 
     private static double getRelHeight() {
-        ArrayList<Integer> l = new ArrayList<Integer>();
-        ArrayList<ArrayList<Integer>> l1 = new ArrayList<ArrayList<Integer>>();
-
-        for (int i = 0; i < Tetris.fieldWidth; i++){
-            l1.add(new ArrayList<Integer>());
-            l.add(20);
-        }
-
+        int [] l = new int [Tetris.fieldWidth];
+        for (int i = 0; i < l.length; i++) l[i]=20;
         for (int i = 0; i < Tetris.fieldWidth; i++) {
             for (int j = 0; j < Tetris.fieldHeight; j++) {
                 if(Tetris.field[i][j]!=-1){
-                    l1.get(i).add(j);
+                    l[i]=20-j;
+                    break;
                 }
             }
         }
-        for (int k = 0; k < l1.size(); k++) {
-            if(l1.get(k).size()>0) l.set(k,Collections.min(l1.get(k)));
-            else l.set(k,20);
+        for(int i=0;i<l.length;i++) {
+            if (l[i] == 20) l[i] = 0;
         }
-        return (int)(Collections.max(l)-Collections.min(l));
+        int max=0;
+        int min=20;
+        for(int i=0;i<l.length;i++) {
+            if(l[i]>max)max=l[i];
+            else if(l[i]<min)min=l[i];
+        }
+        return (int)(max-min);
     }
 
     private static double getHeight() { //TODO: Sam
-        ArrayList<Integer> l=new ArrayList<Integer>();
-        l.add(0);
-        for(int i=0;i<Tetris.fieldWidth;i++){
-            for(int j=0;j<Tetris.fieldHeight;j++){
-                if(Tetris.field[i][j]!=-1) l.add(20-j);
+        int height=0;
+        int [] l = new int [Tetris.fieldWidth];
+        for (int i = 0; i < l.length; i++) l[i]=20;
+        for (int i = 0; i < Tetris.fieldWidth; i++) {
+            for (int j = 0; j < Tetris.fieldHeight; j++) {
+                if(Tetris.field[i][j]!=-1){
+                    height=20-j;
+                    break;
+                }
             }
         }
-        return (int)Collections.max(l);
+        return height;
     }
 
     public static void geneSort(double [][] gen){
         java.util.Arrays.sort(gen, new java.util.Comparator<double[]>() {
             public int compare(double[] a, double[] b) {
-                return Double.compare(b[6], a[6]);
+                return Double.compare(b[7], a[7]);
             }
         });
     }
