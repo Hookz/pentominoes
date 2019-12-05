@@ -58,8 +58,8 @@ public class Tetris extends Application{
     public static int score = 0;
     public static int lastScore = 0;
     public static int seed = (int)(Math.random()*10000);
-    public static Random rand = new Random(seed);
-    public static int nextPiece = (int)(12 * rand.nextDouble());
+    public static Random rand = new Random(89832);
+    public static int nextPiece;
     public static int nextRot;
     public static boolean start = true;
     public static boolean aboutToCollide=false;

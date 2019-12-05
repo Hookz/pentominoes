@@ -13,11 +13,11 @@ public class Search
 	/**
 	 * It holds the value of the horizontal size of the grid
 	 */
-	public static int horizontalGridSize = 6;
+	public static int horizontalGridSize = 5;
 	/**
 	 * It holds the value of the vertical size of the grid
 	 */
-	public static int verticalGridSize = 5;
+	public static int verticalGridSize = 12;
 	/**
 	 * It holds the value of the area of the grid (horizontal size * vertical size)
 	 */
@@ -543,11 +543,11 @@ public class Search
 	 */
 	public static void main(String[] args)
 	{
-		LandingPage.createWindow();
-		while(!lpdone){
-			System.out.print("");
-		}
-		System.out.println("Done!");
+		//LandingPage.createWindow();
+//		while(!lpdone){
+//			System.out.print("");
+//		}
+//		System.out.println("Done!");
 		createWindow();
 	}
 }
