@@ -13,11 +13,6 @@ JavaFX is used for the audio
  */
 
 import General.PentominoDatabase;
-import Tetris.GameWrapper;
-import javafx.application.Application;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.stage.Stage;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -30,10 +25,7 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.Timer;
 
-public class Tetris extends Application{
-    static MediaPlayer mediaplayer;
-    static Media music;
-
+public class Tetris{
     public static boolean enableBot = true;
     public static String botType = "G";
 
@@ -387,23 +379,6 @@ public class Tetris extends Application{
     }
 
     public static void main(String[] args) throws IOException {
-        //needed for the music
-        launch(args);
-
-        //TODO remove note
-        //NOTE the previous content of main was moved to start in order to allow
-        //the use of javaFX for audio. If the code would remain here
-        //it would never be run.
-    }
-
-
-    public void start(Stage stage) throws URISyntaxException {
-        //start music
-//        String path = getClass().getResource("/music/Tetris_theme.mp3").toURI().toString();
-//        music = new Media(path);
-//        mediaplayer = new MediaPlayer(music);
-//        mediaplayer.setAutoPlay(true);
-
         //initialize field and tempField
         field = new int[fieldWidth][fieldHeight];
         tempField = new int[fieldWidth][fieldHeight];

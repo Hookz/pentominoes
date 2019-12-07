@@ -300,7 +300,7 @@ public class Qbot {
         return f1;
     }
 
-    private static void movePieceUp() {
+    private static void movePieceUp() throws IOException {
         // Create temporary position; move it up by 1
         int[] temPos = Tetris.arrayCopy(Tetris.curPos);
         temPos[1] -= 1;
