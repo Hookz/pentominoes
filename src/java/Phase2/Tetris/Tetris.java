@@ -26,7 +26,7 @@ import java.util.Random;
 import java.util.Timer;
 
 public class Tetris{
-    public static boolean enableBot = true;
+    public static boolean enableBot = false;
     public static String botType = "G";
 
     public static int fieldWidth=5;
@@ -446,7 +446,9 @@ public class Tetris{
             public void keyTyped(KeyEvent e) {
             }
         });
+
+
         //Run the bot
-        runBot();
+        //runBot();
     }
 }
