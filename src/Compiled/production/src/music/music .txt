@@ -1,4 +1,0 @@
-found on: https://commons.wikimedia.org/wiki/File:Tetris_theme.ogg
-made by: Bogozi
-license: https://creativecommons.org/licenses/by-sa/3.0/deed.en
-The only change was the conversion from .ogg to .mp3

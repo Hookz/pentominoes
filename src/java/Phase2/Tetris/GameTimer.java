@@ -1,4 +1,4 @@
-package Tetris;
+package Phase2.Tetris;
 import java.util.TimerTask;
 import General.PentominoDatabase;
 

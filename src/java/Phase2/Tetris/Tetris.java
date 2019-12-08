@@ -1,16 +1,4 @@
-package Tetris;
-
-/*
-I had to use
-
---module-path "C:\Program Files\Java\javafx-sdk-11.0.2\lib" --add-modules javafx.controls,javafx.fxml
-
-for configurations -> VM options for both programs
-
-to get javaFX working
-
-JavaFX is used for the audio
- */
+package Phase2.Tetris;
 
 import General.PentominoDatabase;
 

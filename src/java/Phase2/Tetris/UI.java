@@ -1,4 +1,4 @@
-package Tetris;
+package Phase2.Tetris;
 
 import General.PentominoDatabase;
 

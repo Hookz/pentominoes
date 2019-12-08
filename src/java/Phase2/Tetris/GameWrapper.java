@@ -1,4 +1,4 @@
-package Tetris;
+package Phase2.Tetris;
 
 import javax.swing.*;
 import java.awt.*;
