@@ -25,29 +25,8 @@ public class Qbot {
 
     /**
      * Finds best place to place curPiece and nextPiece
-     * @return: best place to place current and next piece [xc,yc,rc,xn,yn,rn]
+     * @throws IOException
      */
-//    public static int[] findBestPlaceToPlaceV2(){
-//        int xCurrent = -1;
-//        int yCurrent = -1;
-//        int rotationCurrent = -1;
-//        int xNext = -1;
-//        int yNext = -1;
-//        int rotationNext = -1;
-//        //find the the placement that yields the highest score for the current and the nextPiece
-//        int[] temp = mainLoopV2(Tetris.curPiece, Tetris.curPieceRotation);
-//        xCurrent = temp[0];
-//        yCurrent = temp[1];
-//        rotationCurrent = temp[2];
-//        genRewards(tempField, Tetris.fieldHeight, Tetris.fieldWidth);
-//        temp = mainLoopV2(Tetris.nextPiece, Tetris.nextRot);
-//        xNext = temp[0];
-//        yNext = temp[1];
-//        rotationNext = temp[2];
-//        return new int[]{xCurrent,yCurrent,rotationCurrent,xNext,yNext,rotationNext};
-//    }
-
-    //TODO What is it still doing here?
     public static void findBestPlaceToPlace() throws IOException {
         System.out.println("PRINT MATRIX");
         Tetris.printMatrix(Tetris.field);
@@ -85,43 +64,11 @@ public class Qbot {
         // mainLoop(Tetris.nextPiece,Tetris.nextRot);
         findBestPlaceToPlace();
     }
-    /***
-     *
+    /**
+     * Performs the main loop (through all elements of the game field)
      * @param piece: currently considered piece (curPiece: 1 / nextPiece: 2)
-     * @param pieceRotation:  rotation [curPieceRotation / nextRot](just to determine whether piece is flipped)
+     * @param pieceRotation: rotation [curPieceRotation / nextRot](just to determine whether piece is flipped)
      */
-//    private static int[] mainLoopV2(int piece, int pieceRotation) {
-//        int highestScore = 0;
-//        int highestRotation = -1;
-//        int highestX = -1;
-//        int highestY = -1;
-//        boolean isMirrored = false;
-//        if (pieceRotation > 3) isMirrored = true;
-//        int[][][] pieceArr = PentominoDatabase.data[piece];
-//        for (int x = 0; x < Tetris.fieldWidth; x++) {
-//            for (int y = 0; y < Tetris.fieldHeight; y++) {
-//                int[] temp = pLoop(x, y, pieceArr, isMirrored);
-//                if (temp[0] > highestScore) {
-//                    highestScore = temp[0];
-//                    highestRotation = temp[1];
-//                    highestX = x;
-//                    highestY = y;
-//                }
-//            }
-//        }
-//        int[][] pieceToPlace = PentominoDatabase.data[piece][highestRotation];
-//        for (int i = 0; i < pieceToPlace.length; i++) { // loop over x position of pentomino
-//            for (int j = 0; j < pieceToPlace[i].length; j++) { // loop over y position of pentomino
-//                if (pieceToPlace[i][j] == 1) {
-//                    // Add the ID of the pentomino to the board if the pentomino occupies this square
-//                    tempField[highestX + j][highestY + i] = piece;
-//                }
-//            }
-//        }
-//        return new int[]{highestX, highestY, highestRotation};
-//    }
-
-    //TODO what is this still doing here?
     private static void mainLoop(int piece, int pieceRotation){
         int highestScore = 0;
         boolean isMirrored = false;
@@ -138,7 +85,6 @@ public class Qbot {
                 }
             }
         }
-        //TODO what is this doing?
         int[][] pieceToPlace = PentominoDatabase.data[piece][bestRotation];
         for(int i = 0; i < pieceToPlace.length; i++){ // loop over x position of pentomino
             for (int j = 0; j < pieceToPlace[i].length; j++){ // loop over y position of pentomino
@@ -151,14 +97,13 @@ public class Qbot {
     }
 
     /***
-     * Loop for a point "P" from mainLoop
+     * Internal loop for calculating best position from all positions for current piece starting in point "P"
      * @param xCoord: x coordinate of point P
      * @param yCoord: y coordinate of point P
-     * @param pieceArr
+     * @param pieceArr: array representing all rotations for current piece
      * @param isMirrored: boolean value, checking if piece is mirrored
      * @return: score for current piece in current point P and the rotation yielding that score
      */
-    //TODO what does "Loop for a point "P" from mainLoop" mean?
     private static int[] pLoop(int xCoord, int yCoord, int[][][] pieceArr, boolean isMirrored){
         int[] iterator;
         int highestScoreRotation = -1;
@@ -188,6 +133,11 @@ public class Qbot {
         return new int[]{highestScore,highestScoreRotation};
     }
 
+    /**
+     * Method flipping the game field
+     * @param field: field to be flipped
+     * @return: flipped representation of field
+     */
     private static int[][] flipMatrix(int[][] field){
         int[][] flipped = new int[field[0].length][field.length];
 
@@ -203,6 +153,14 @@ public class Qbot {
 
 
     //TODO let row elimination come before placing the next block
+
+    /**
+     * Generates rewards for the game field
+     * @param field: field to generate rewards for
+     * @param fieldHeight: height of the field
+     * @param fieldWidth: width of the field
+     * @param fieldPadding: padding of the field
+     */
     private static void genRewards(int[][] field, int fieldHeight, int fieldWidth, int fieldPadding) {
         int[][] flipped = flipMatrix(field);
 
@@ -290,6 +248,11 @@ public class Qbot {
         fieldScores = flipMatrix(fieldScores);
     }
 
+    /**
+     * Method for copying field
+     * @param f0: field to be copied
+     * @return: a copy of field f0
+     */
     private static int[][] copyField(int[][] f0){
         int [][] f1=new int[Tetris.fieldWidth][Tetris.fieldHeight];
         for(int i = 0; i< Tetris.fieldWidth; i++){
@@ -351,11 +314,16 @@ public class Qbot {
         }
     }
 
-    //Try to move the pentomino up one line
-    //y is the current y
-    //the x and y are the starting point for the pentomino
-    //pent = pentomino and it requires a matrix that already has the desired rotation
     //TODO check if it works
+
+    /**
+     * Method checking if pentomino is going to collide when moved
+     * @param pent: currently considered pentomino in array form
+     * @param field: game field
+     * @param x: current x
+     * @param y: current y
+     * @return: true if can be moved, false otherwise
+     */
     public static boolean checkCollision(int[][] pent, int[][] field, int x, int y) {
 
         //check if it fits on the field

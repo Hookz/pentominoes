@@ -62,7 +62,9 @@ public class Gbot {
         return n;
     }
 
-    //Creates the initial population of genomes, each with random genes TO DO: Lindalee
+    /**
+     * Creates the initial population of genomes, each with random genes
+     */
     public static void initPopulation() {
         for(int i = 0; i<populationSize ; i ++) {
             double[] gen = {Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5, Math.random() * 0.5, Math.random() - 0.5,Math.random()-0.5,0};
@@ -71,6 +73,10 @@ public class Gbot {
         }
         //genomes[0]=new double[]{3.6974782858162163, 0.020477199087742037, -0.23918114942987156, -0.11603246371208442, -1.6252129706895644, -0.6811390204242889, 1.044093597983097, 4160.0};
     }
+
+    /**
+     * Plays the game by making the next move (makePlay)
+     */
     public static void Play() {
         Tetris.training = false;
         double []gen1={14.928740819414838, 0.22815685282185916, -0.40505060750400884, 1.3945551853055056, -5.415407771851985, -2.5420017356444644, 1.0560452657245811, 4640.0}; //best individual
@@ -81,6 +87,9 @@ public class Gbot {
         makePlay(true);
     }
 
+    /**
+     * Trains the neural network
+     */
     public static void train() {
         LocalDate myObj = LocalDate.now();
         file = new File("src/resources/topIndividuals"+myObj.toString()+".txt");
@@ -99,6 +108,9 @@ public class Gbot {
         }*/
     }
 
+    /**
+     * Updates the saved top 10 individuals
+     */
     public static void updateTop10(){
 
         for(int i=0;i<top10.length;i++){
@@ -117,7 +129,9 @@ public class Gbot {
             System.out.println(Arrays.toString(top10[i]));
     }
 
-    //Evaluates the next individual in the population. If there is none, evolves the population TO DO: Lindalee
+    /**
+     * Evaluates the next individual in the population. If there is none, evolves the population
+     */
     private static void evalPopulation() {
         State s1=new State();
         for(int i=0;i<populationSize;i++){
@@ -130,7 +144,9 @@ public class Gbot {
         System.out.println();
     }
 
-    //Creates the new population using the best individuals from the last TO DO: Lindalee
+    /**
+     * Creates the new population using the best individuals from the last
+     */
     private static void getNextGen() {
         generation++;
         geneSort(genomes);
@@ -164,6 +180,11 @@ public class Gbot {
         genomes = tempGene;
     }
 
+    /**
+     * Performs the tournament selection for selection of parents
+     * @param tSize: size of population to undergo the selection
+     * @return: best parents from the tournament selection
+     */
     public static int[] tournamentSelection(int tSize){
         int[] parents={0,0};
         double bestScore=0;
@@ -191,7 +212,12 @@ public class Gbot {
         return parents;
     }
 
-    //Returns a child from 2 individuals TO DO: Lindalee
+    /**
+     * Gets a new child based on two parents (mom and dad)
+     * @param mom: female parent
+     * @param dad: male parent
+     * @return: a child of two individuals
+     */
     private static double[] mate(int mom, int dad) {
         int crossover = (int)Math.random()*6;
         double[] child = new double[parNo];
@@ -219,7 +245,11 @@ public class Gbot {
         return child;
     }
 
-    private static int[] getBestMove1() { //Returns an array of possible moves
+    /**
+     * Gets a best move
+     * @return: array of possible moves
+     */
+    private static int[] getBestMove1() {
         State s1=new State();
         ArrayList<Integer[]> possibleMoves= new ArrayList<Integer[]>();
         Integer[] move = new Integer[7]; //rotation,translation,rating
@@ -365,6 +395,10 @@ public class Gbot {
         }
     }
 
+    /**
+     * Loads a state
+     * @param s: state to be loaded
+     */
     public static void loadState(State s){
         Tetris.field = copyField(s.oldField);
         Tetris.score = s.oldScore;
@@ -375,7 +409,11 @@ public class Gbot {
         Tetris.curPos=s.oldPiecePos.clone();
     }
 
-    public static void makePlay(boolean play) { //Makes the next move based on the genome TODO: Sam
+    /**
+     * Makes next move based on the genome
+     * @param play: true if supposed to make next move, false otherwise
+     */
+    public static void makePlay(boolean play) {
         if(play){
             while(true) {
                 int[] bestMove = getBestMove1();
@@ -439,6 +477,10 @@ public class Gbot {
         bestMoveNext = new int[3];
     }
 
+    /**
+     * Calculates the cumulative height
+     * @return: cumulative height
+     */
     private static double getCumHeight() {
         int cumHeight=0;
         int [] l = new int [Tetris.fieldWidth];
@@ -458,6 +500,10 @@ public class Gbot {
         return cumHeight;
     }
 
+    /**
+     * Gets number of holes in the game field
+     * @return: number of holes in game field
+     */
     private static double getHoles() {
         int holes=0;
         int [] l = new int [Tetris.fieldWidth];
@@ -478,6 +524,10 @@ public class Gbot {
         return holes;
     }
 
+    /**
+     * Gets roughness
+     * @return: roughness
+     */
     private static double getRoughness() {
         int roughness=0;
         int [] l = new int [Tetris.fieldWidth];
@@ -499,6 +549,10 @@ public class Gbot {
         return roughness;
     }
 
+    /**
+     * Gets relative height
+     * @return: relative height
+     */
     private static double getRelHeight() {
         int [] l = new int [Tetris.fieldWidth];
         for (int i = 0; i < l.length; i++) l[i]=20;
@@ -522,6 +576,10 @@ public class Gbot {
         return (int)(max-min);
     }
 
+    /**
+     * Gets height
+     * @return height
+     */
     private static double getHeight() { //TODO: Sam
         int height=0;
         int [] l = new int [Tetris.fieldWidth];
@@ -537,6 +595,10 @@ public class Gbot {
         return height;
     }
 
+    /**
+     * Sorts the array of genes
+     * @param gen: sorted array of genes
+     */
     public static void geneSort(double [][] gen){
         java.util.Arrays.sort(gen, new java.util.Comparator<double[]>() {
             public int compare(double[] a, double[] b) {
