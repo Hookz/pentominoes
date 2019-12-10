@@ -5,27 +5,15 @@ import java.io.IOException;
 
 public class Qbot {
 
-    //Add AI class, with fieldScores variable and findBestPlaceToPlace and updateFieldScores method
     private static int[][] fieldScores;
-    //TODO to vague
     private static int bestX = -2;
     private static int bestY = -2;
     private static int bestRotation = -1;
     private static int curPiece = 0;
-    //TODO after it works: save the results so far so they can be reused if a position doesn't have a route
-    //TODO read advice: 1) Keep track of what positions have been tried and their results (if they were possible at all). This means that you need to save the best location and rotation for the 2 pentominoes that you are trying out.
-    // 2) When you finished finding the optimal position to place the first pentomino, check the second pentomino using the new scores that you can get from genRewards. As the field input, use the actually field with the first pentomino
-    // added in (as a tmp field).
-     /*Qbot tip 3: don't try placing a pentomino in the sky or on a taken cell, find the lowest free cell of each column and try that one. 
-    Keep going up until you tried every cell in that column that could possibly be used. Then continue to the next column.
-    
-    Tip 4: For each of the cells that you try, fit in the pentomino in all it's possible rotations (not mirrors). 
-    If none work, save a false in a boolean array that stores the locations that are left to search trough. This is not strictly needed, but can really help you debugging.
-    */
 
     /**
      * Finds best place to place curPiece and nextPiece
-     * @throws IOException
+     * @return: best place to place current and next piece [xc,yc,rc,xn,yn,rn]
      */
     public static void findBestPlaceToPlace() throws IOException {
         System.out.println("PRINT MATRIX");
@@ -64,10 +52,11 @@ public class Qbot {
         // mainLoop(Tetris.nextPiece,Tetris.nextRot);
         findBestPlaceToPlace();
     }
-    /**
-     * Performs the main loop (through all elements of the game field)
+
+    /***
+     *
      * @param piece: currently considered piece (curPiece: 1 / nextPiece: 2)
-     * @param pieceRotation: rotation [curPieceRotation / nextRot](just to determine whether piece is flipped)
+     * @param pieceRotation:  rotation [curPieceRotation / nextRot](just to determine whether piece is flipped)
      */
     private static void mainLoop(int piece, int pieceRotation){
         int highestScore = 0;
@@ -85,6 +74,7 @@ public class Qbot {
                 }
             }
         }
+        //TODO what is this doing?
         int[][] pieceToPlace = PentominoDatabase.data[piece][bestRotation];
         for(int i = 0; i < pieceToPlace.length; i++){ // loop over x position of pentomino
             for (int j = 0; j < pieceToPlace[i].length; j++){ // loop over y position of pentomino
@@ -97,13 +87,14 @@ public class Qbot {
     }
 
     /***
-     * Internal loop for calculating best position from all positions for current piece starting in point "P"
+     * Loop for a point "P" from mainLoop
      * @param xCoord: x coordinate of point P
      * @param yCoord: y coordinate of point P
-     * @param pieceArr: array representing all rotations for current piece
+     * @param pieceArr
      * @param isMirrored: boolean value, checking if piece is mirrored
      * @return: score for current piece in current point P and the rotation yielding that score
      */
+    //TODO what does "Loop for a point "P" from mainLoop" mean?
     private static int[] pLoop(int xCoord, int yCoord, int[][][] pieceArr, boolean isMirrored){
         int[] iterator;
         int highestScoreRotation = -1;
@@ -133,11 +124,6 @@ public class Qbot {
         return new int[]{highestScore,highestScoreRotation};
     }
 
-    /**
-     * Method flipping the game field
-     * @param field: field to be flipped
-     * @return: flipped representation of field
-     */
     private static int[][] flipMatrix(int[][] field){
         int[][] flipped = new int[field[0].length][field.length];
 
@@ -153,14 +139,6 @@ public class Qbot {
 
 
     //TODO let row elimination come before placing the next block
-
-    /**
-     * Generates rewards for the game field
-     * @param field: field to generate rewards for
-     * @param fieldHeight: height of the field
-     * @param fieldWidth: width of the field
-     * @param fieldPadding: padding of the field
-     */
     private static void genRewards(int[][] field, int fieldHeight, int fieldWidth, int fieldPadding) {
         int[][] flipped = flipMatrix(field);
 
@@ -248,11 +226,6 @@ public class Qbot {
         fieldScores = flipMatrix(fieldScores);
     }
 
-    /**
-     * Method for copying field
-     * @param f0: field to be copied
-     * @return: a copy of field f0
-     */
     private static int[][] copyField(int[][] f0){
         int [][] f1=new int[Tetris.fieldWidth][Tetris.fieldHeight];
         for(int i = 0; i< Tetris.fieldWidth; i++){
@@ -263,86 +236,10 @@ public class Qbot {
         return f1;
     }
 
-    private static void movePieceUp() throws IOException {
-        // Create temporary position; move it up by 1
-        int[] temPos = Tetris.arrayCopy(Tetris.curPos);
-        temPos[1] -= 1;
-
-        // Create temporary permutation
-        int tempPer = Tetris.curPieceRotation;
-
-        // Indicates whether the loop needs to be stopped
-        boolean stop = false;
-
-        // Indicates whether the loop is being run for the first time
-        boolean initial = true;
-
-        /* A while loop which goes through every single permutation of the current pentomino. It will only stop when either
-        of these two situations occurs:
-        1) Every single permutation has been tried
-        2) The pentomino is able to go up
-         */
-        while (tempPer < 7 && !stop) {
-            if (!checkCollision(PentominoDatabase.data[curPiece][tempPer], Tetris.field, temPos[0], temPos[1])) {
-                // Able to move up
-                Tetris.curPos[1] -= 1;
-                Tetris.tempField = copyField(Tetris.field);
-                Tetris.addPiece();
-                temPos[1] -= 1;
-                // Update permutation
-                Tetris.curPieceRotation = tempPer;
-                // Stop loop; permutation found
-                stop = true;
-            } else {
-                // In case this is the first time the loop is activated: reset permutation to zero
-                if (initial) {
-                    tempPer = 0;
-                    initial = false;
-                } else
-                    // Try next permutation
-                    tempPer++;
-            }
-        }
-        // if the bot tried all the permutations and it didn't succeed in going up
-        if(tempPer==7 && stop){
-            // the scores of the temporary position are set to 0 
-            fieldScores[temPos[0]][temPos[1]]=0;
-            // this is a recursive call that will take the next best position since the scores 
-            // of the previous best position are set to 0
-            findBestPlaceToPlace();
-            movePieceUp();
-        }
+    public static void run() throws IOException {
+        System.out.println("Starting Qbot");
+        findBestPlaceToPlace();
+        System.out.println("Found best place to place!");
     }
 
-    //TODO check if it works
-
-    /**
-     * Method checking if pentomino is going to collide when moved
-     * @param pent: currently considered pentomino in array form
-     * @param field: game field
-     * @param x: current x
-     * @param y: current y
-     * @return: true if can be moved, false otherwise
-     */
-    public static boolean checkCollision(int[][] pent, int[][] field, int x, int y) {
-
-        //check if it fits on the field
-        if (y + pent.length < Tetris.fieldHeight) {
-            //loop over x position of pentomino
-            for (int i = 0; i < pent.length; i++) {
-                //loop over y position of pentomino
-                for (int j = 0; j < pent[i].length; j++) {
-                    //if the block has a value in this cell
-                    if (pent[i][j] == 1) {
-                        //check if the cell in the game field is occupied
-                        if (field[x + i][y + j + 1] != -1) {
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-
-        return true;
-    }
 }

@@ -1,5 +1,17 @@
 package Phase2.Tetris;
 
+/*
+I had to use
+
+--module-path "C:\Program Files\Java\javafx-sdk-11.0.2\lib" --add-modules javafx.controls,javafx.fxml
+
+for configurations -> VM options for both programs
+
+to get javaFX working
+
+JavaFX is used for the audio
+ */
+
 import General.PentominoDatabase;
 
 import java.awt.event.KeyEvent;
@@ -14,8 +26,8 @@ import java.util.Random;
 import java.util.Timer;
 
 public class Tetris{
-    public static boolean enableBot = false;
-    public static String botType = "G";
+    public static boolean enableBot = true;
+    public static String botType = "Q";
 
     public static int fieldWidth=5;
     public static int fieldHeight=20;
@@ -38,7 +50,7 @@ public class Tetris{
     public static int score = 0;
     public static int lastScore = 0;
     public static int seed = (int)(Math.random()*10000);
-    public static Random rand = new Random(89832);
+    public static Random rand = new Random(seed);
     public static int nextPiece;
     public static int nextRot;
     public static boolean start = true;
@@ -50,10 +62,6 @@ public class Tetris{
     private static int writerIterator = 0;
     private static BufferedWriter writer;
 
-    /**
-     * Method performing steps of the game
-     * @throws IOException
-     */
     public static void step() throws IOException {
         if(canMove){
             if(leftPressed) movePiece(false);
@@ -71,20 +79,12 @@ public class Tetris{
         }
     }
 
-    /**
-     * Method clearing out the field
-     * @param field: field to be wiped (all field values reassigned to -1)
-     */
     public static void wipeField(int[][] field){
         for (int i = 0; i < field.length; i++) {
             Arrays.fill(field[i],-1);
         }
     }
 
-    /**
-     * Method instantiating a new piece
-     * @param ten: parameter defining if the action is performed tentatively
-     */
     public static void instantiateNewPiece(boolean ten){
         curPos[0]=0;
         curPos[1]=0;
@@ -95,9 +95,6 @@ public class Tetris{
         canMove=true;
     }
 
-    /**
-     * Method adding the current piece to the temporary field "tempField"
-     */
     public static void addPiece(){
         int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
         for(int i = 0; i < pieceToPlace.length; i++){ // loop over x position of pentomino
@@ -110,10 +107,6 @@ public class Tetris{
         }
     }
 
-    /**
-     * Method printing matrix to command line for debugging
-     * @param m: matrix to be printed to command line
-     */
     public static void printMatrix(int[][] m) {
         System.out.println();
         for (int i = 0; i < m.length; i++) {
@@ -125,9 +118,6 @@ public class Tetris{
         System.out.println();
     }
 
-    /**
-     * Method generating a new piece
-     */
     public static void getNewPiece(){
         if (start) {
             curPiece = (int)(12 * rand.nextDouble());
@@ -141,9 +131,6 @@ public class Tetris{
         nextRot=(int)(rand.nextDouble()*PentominoDatabase.data[curPiece].length);
     }
 
-    /**
-     * Method executed in case of gameOver, resetting all parameters
-     */
     public static void gameOver() {
         try {
             writer = new BufferedWriter(new FileWriter("scores.csv",true));
@@ -160,10 +147,7 @@ public class Tetris{
         wipeField(tempField);
     }
 
-    /**
-     * Method for rotating the current game piece
-     * @param cw: parameter true when rotating clockwise and false when rotating counter-clockwise
-     */
+    //cw = clock wise
     public static void rotatePiece(boolean cw){
         int pieceRotation=curPieceRotation;
         if(cw) {
@@ -217,11 +201,6 @@ public class Tetris{
         }
     }
 
-    /**
-     * Method for moving piece left / right
-     * @param right: true when moving right, false when moving left
-     * @return
-     */
     public static boolean movePiece(boolean right){//returns true if moved
         int dir=0;
         if (!right) dir=1;
@@ -287,11 +266,6 @@ public class Tetris{
         return cr;
     }
 
-    /**
-     * Method for copying arrays
-     * @param old: old array
-     * @return: new copy of the old array
-     */
     public static int[] arrayCopy(int [] old){
         int[]n = new int[old.length];
         for(int i=0;i<old.length;i++){
@@ -300,12 +274,10 @@ public class Tetris{
         return n;
     }
 
-    /**
-     * Step method slowly moving piece down
-     * @param ten: true when piece moved down tentatively (without UI updates), false otherwise
-     * @return: number of consecutively removed rows
+    /***
+     * Step function slowly moving piece down
      */
-    public static int movePieceDown(boolean ten) {
+    public static int movePieceDown(boolean ten) { //ten is true when the piece gets moved down tentatively therefore the UI doesn't update and we don't call gameOver
         int cr=-1;
         if(!aboutToCollide){
             int [] temPos=curPos.clone();;
@@ -337,10 +309,8 @@ public class Tetris{
         return cr;
     }
 
-    /**
-     * Method eliminating all rows that are full and updating the score accordingly
-     * @param ten: true when row eliminated tentatively, false otherwise
-     * @return: number of consecutively removed rows
+    /***
+     * Function eliminating all rows that are full and updating the score accordingly
      */
     public static int rowElimination(boolean ten) {
         int consecutive=0;
@@ -379,11 +349,6 @@ public class Tetris{
         return consecutive;
     }
 
-    /**
-     * Method for copying field
-     * @param f0: field to be copied
-     * @return: a copy of field f0
-     */
     private static int[][] copyField(int[][] f0){
         int [][] f1=new int[fieldWidth][fieldHeight];
         for(int i=0;i<fieldWidth;i++){
@@ -400,15 +365,16 @@ public class Tetris{
     public static void runBot() {
 
         if(enableBot){
-            if(botType=="G") {
+            if(botType.equals("G")) {
 //                Phase2.Tetris.Gbot.train();
                 Phase2.Tetris.Gbot.Play();
             }
             if(botType.equals("Q")){
                 //use copyField because of pass by value (otherwise the blocks would become invisible
-                //TODO why is it not using V2?
-                //Qbot.findBestPlaceToPlace();
-                return;
+                try {
+                    Qbot.run();
+                }
+                catch (IOException exception) {System.out.println("Error: input/output exception");}
             }
         }
     }
@@ -484,6 +450,6 @@ public class Tetris{
 
 
         //Run the bot
-        //runBot();
+        runBot();
     }
 }

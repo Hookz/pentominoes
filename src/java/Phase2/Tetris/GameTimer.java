@@ -4,6 +4,9 @@ import General.PentominoDatabase;
 
 public class GameTimer extends TimerTask {
     public void run() {
-        if(!Tetris.botType.equals("G")) Tetris.movePieceDown(false);
+
+        if((!Tetris.botType.equals("Q")) && (!Tetris.botType.equals("G")))
+            Tetris.movePieceDown(false);
+
     }
 }
