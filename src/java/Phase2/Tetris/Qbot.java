@@ -16,8 +16,8 @@ public class Qbot {
      * @return: best place to place current and next piece [xc,yc,rc,xn,yn,rn]
      */
     public static void findBestPlaceToPlace() throws IOException {
-        System.out.println("PRINT MATRIX");
-        Tetris.printMatrix(Tetris.field);
+        // System.out.println("PRINT MATRIX");
+        // Tetris.printMatrix(Tetris.field);
 
         int clearedRows = Tetris.movePieceDown(false);
         if(clearedRows==-2) return;
@@ -32,25 +32,6 @@ public class Qbot {
         if(bestX==-1||bestRotation==-1) {
             return;
         }
-        System.out.println(curPiece+" "+bestRotation);
-        for(int i=0;i<bestX;i++){
-            Tetris.movePiece(true);
-        }
-        while(Tetris.curPieceRotation!=bestRotation){
-            Tetris.rotatePiece(true);
-        }
-        while(clearedRows==-1){
-            clearedRows= Tetris.movePieceDown(false);
-            try {
-                Thread.sleep(200);
-            }
-            catch(InterruptedException ex){
-                Thread.currentThread().interrupt();
-            }
-        }
-        // genRewards(tempField, Tetris.fieldHeight, Tetris.fieldWidth);
-        // mainLoop(Tetris.nextPiece,Tetris.nextRot);
-        //findBestPlaceToPlace();
         return;
     }
 
@@ -143,7 +124,7 @@ public class Qbot {
     private static void genRewards(int[][] field, int fieldHeight, int fieldWidth, int fieldPadding) {
         int[][] flipped = flipMatrix(field);
 
-        Tetris.printMatrix(flipped);
+        // Tetris.printMatrix(flipped);
 
         //remove unplayable part of the field
         int[][] tmp = new int[fieldHeight-fieldPadding][fieldWidth];
@@ -153,7 +134,7 @@ public class Qbot {
 
         flipped = tmp;
 
-        Tetris.printMatrix(flipped);
+        // Tetris.printMatrix(flipped);
 
         //flip the field so i is y, j is x and a higher x means something is on the right and not on the left
         //alternative comment: prevent headache
@@ -238,9 +219,50 @@ public class Qbot {
     }
 
     public static void run() throws IOException {
-        System.out.println("Starting Qbot");
+        // Fetch best x-coordinate, best y-coordinate and best rotation for the current piece
         findBestPlaceToPlace();
-        System.out.println("Found best place to place!");
+
+        System.out.println("P. ID: " + curPiece); // P = Pentomino
+        System.out.println("R. ID: " + bestRotation); // R = Rotation
+        System.out.println("X: " + bestX);
+        System.out.println("Y: " + bestY);
+
+        // Update rotation
+        while(Tetris.curPieceRotation != bestRotation) {
+            Tetris.rotatePiece(true);
+        }
+
+        // Update x-coordinate
+        for(int i = 0; i < bestX; i++) {
+            Tetris.movePiece(true);
+        }
+
+        // Check for collision when dropping piece
+        if(!checkCollision()) {
+            // No collision detected; drop down possible
+            System.out.println("Success");
+            System.out.println();
+            // Drop piece
+            Tetris.dropPiece(false);
+        }
+        else {
+            // Collision detected; drop down not possible
+            System.out.println("Fail");
+            System.out.println();
+            // Set fieldscores for this position to zero
+            fieldScores[bestX][bestY] = 0;
+            // Try again
+            run();
+        }
+    }
+
+    private static boolean checkCollision() {
+        for(int y = 0; y < bestY; y++) {
+            if(Tetris.field[bestX][y] != -1)
+                return true;
+        }
+
+        return false;
     }
 
 }

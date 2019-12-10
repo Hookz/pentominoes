@@ -61,6 +61,7 @@ public class Tetris{
     public static boolean training=false;
     private static int writerIterator = 0;
     private static BufferedWriter writer;
+    private static boolean done = false;
 
     public static void step() throws IOException {
         if(canMove){
@@ -351,7 +352,7 @@ public class Tetris{
         return consecutive;
     }
 
-    private static int[][] copyField(int[][] f0){
+    public static int[][] copyField(int[][] f0){
         int [][] f1=new int[fieldWidth][fieldHeight];
         for(int i=0;i<fieldWidth;i++){
             for(int j=0;j<fieldHeight;j++){
@@ -364,7 +365,7 @@ public class Tetris{
     /***
      * Starts the execution of the bot, if selected to be enabled
      */
-    public static void runBot() {
+    public static void runBot() throws InterruptedException {
 
         if(enableBot){
             if(botType.equals("G")) {
@@ -374,14 +375,17 @@ public class Tetris{
             if(botType.equals("Q")){
                 //use copyField because of pass by value (otherwise the blocks would become invisible
                 try {
-                    Phase2.Tetris.Qbot.run();
+                    while(!done) {
+                        Phase2.Tetris.Qbot.run();
+                        Thread.sleep(1000);
+                    }
                 }
                 catch (IOException exception) {System.out.println("Error: input/output exception");}
             }
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         //initialize field and tempField
         field = new int[fieldWidth][fieldHeight];
         tempField = new int[fieldWidth][fieldHeight];
