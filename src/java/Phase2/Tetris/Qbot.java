@@ -19,8 +19,8 @@ public class Qbot {
         System.out.println("PRINT MATRIX");
         Tetris.printMatrix(Tetris.field);
 
-        int cr = Tetris.movePieceDown(false);
-        if(cr==-2) return;
+        int clearedRows = Tetris.movePieceDown(false);
+        if(clearedRows==-2) return;
         bestX = -1;
         bestY = -1;
         bestRotation = -1;
@@ -39,8 +39,8 @@ public class Qbot {
         while(Tetris.curPieceRotation!=bestRotation){
             Tetris.rotatePiece(true);
         }
-        while(cr==-1){
-            cr= Tetris.movePieceDown(false);
+        while(clearedRows==-1){
+            clearedRows= Tetris.movePieceDown(false);
             try {
                 Thread.sleep(200);
             }
@@ -50,7 +50,8 @@ public class Qbot {
         }
         // genRewards(tempField, Tetris.fieldHeight, Tetris.fieldWidth);
         // mainLoop(Tetris.nextPiece,Tetris.nextRot);
-        findBestPlaceToPlace();
+        //findBestPlaceToPlace();
+        return;
     }
 
     /***

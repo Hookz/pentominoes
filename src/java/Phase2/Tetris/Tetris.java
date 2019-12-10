@@ -39,7 +39,7 @@ public class Tetris{
     public static int curPiece;
     public static int curPieceRotation=0;
     public static int curPos[]=new int[2];
-    public static GameWrapper gameWrapper;
+    public static Phase2.Tetris.GameWrapper gameWrapper;
     public static boolean canMove=false;
     public static boolean upPressed=false;
     public static boolean downPressed=false;
@@ -85,10 +85,10 @@ public class Tetris{
         }
     }
 
-    public static void instantiateNewPiece(boolean ten){
+    public static void instantiateNewPiece(boolean tentative){
         curPos[0]=0;
         curPos[1]=0;
-        if(!ten){
+        if(!tentative){
             getNewPiece();
         }
         addPiece();
@@ -252,8 +252,8 @@ public class Tetris{
     /***
      * Drops the current piece to the lowest level in current position x
      */
-    public static int dropPiece(boolean ten) {
-        int cr=0;
+    public static int dropPiece(boolean tentative) {
+        int clearedRows=0;
         int [] nextPos=curPos.clone();;
         nextPos[1]++;
         while(!checkCollision(nextPos,curPieceRotation)){
@@ -262,8 +262,8 @@ public class Tetris{
             tempField = copyField(field);
             addPiece();
         }
-        cr=movePieceDown(ten);
-        return cr;
+        clearedRows=movePieceDown(tentative);
+        return clearedRows;
     }
 
     public static int[] arrayCopy(int [] old){
@@ -277,42 +277,44 @@ public class Tetris{
     /***
      * Step function slowly moving piece down
      */
-    public static int movePieceDown(boolean ten) { //ten is true when the piece gets moved down tentatively therefore the UI doesn't update and we don't call gameOver
-        int cr=-1;
+    //checks how many rows get cleared when moving the piece down
+    //tentative is true when the piece gets moved down tentatively therefore the UI doesn't update and we don't call gameOver
+    public static int movePieceDown(boolean tentative) {
+        int clearedRows=-1;
         if(!aboutToCollide){
             int [] temPos=curPos.clone();;
             temPos[1] += 1;
-            if(!checkCollision(temPos,curPieceRotation)) {
+            if(!checkCollision(temPos, curPieceRotation)) {
                 curPos[1] += 1;
                 tempField = copyField(field);
                 addPiece();
                 temPos[1] += 1;
-                if(checkCollision(temPos,curPieceRotation)) aboutToCollide=true;
+                if(checkCollision(temPos, curPieceRotation)) aboutToCollide=true;
             } else {
                 canMove=false;
                 collided = true;
                 if(curPos[1]<5){
-                    if(!ten) gameOver();
-                    cr=-2;
+                    if(!tentative) gameOver();
+                    clearedRows=-2;
                 } else {
                     field=copyField(tempField);
-                    cr=rowElimination(ten);
+                    clearedRows=rowElimination(tentative);
                     //runBot();
                 }
-                instantiateNewPiece(ten);
+                instantiateNewPiece(tentative);
             }
-            if(!ten&&!training){
+            if(!tentative&&!training){
                 gameWrapper.ui.setState(tempField);
             }
         }
         else aboutToCollide=false;
-        return cr;
+        return clearedRows;
     }
 
     /***
      * Function eliminating all rows that are full and updating the score accordingly
      */
-    public static int rowElimination(boolean ten) {
+    public static int rowElimination(boolean tentative) {
         int consecutive=0;
         for(int i = field[0].length - 1; i >= 0; i--) {
             int cntr = 0;
@@ -345,7 +347,7 @@ public class Tetris{
                 i++;
             }
         }
-        if(!ten && !training) gameWrapper.score.setText(gameWrapper.number(score));
+        if(!tentative && !training) gameWrapper.score.setText(gameWrapper.number(score));
         return consecutive;
     }
 
@@ -372,7 +374,7 @@ public class Tetris{
             if(botType.equals("Q")){
                 //use copyField because of pass by value (otherwise the blocks would become invisible
                 try {
-                    Qbot.run();
+                    Phase2.Tetris.Qbot.run();
                 }
                 catch (IOException exception) {System.out.println("Error: input/output exception");}
             }
@@ -395,9 +397,9 @@ public class Tetris{
 
         //initiate the timer for the game
         timer = new Timer();
-        timer.schedule(new GameTimer(), 0, 500);
+        timer.schedule(new Phase2.Tetris.GameTimer(), 0, 500);
 
-        gameWrapper = new GameWrapper(fieldWidth, fieldHeight-hiddenRows, 50);
+        gameWrapper = new Phase2.Tetris.GameWrapper(fieldWidth, fieldHeight-hiddenRows, 50);
 
         //initialize key listeners
         gameWrapper.window.addKeyListener(new KeyListener() {

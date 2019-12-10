@@ -382,16 +382,16 @@ public class Gbot {
                 for (int i = 0; i < bestMove[0]; i++) Tetris.rotatePiece(true);
                 for (int i = 0; i < Tetris.fieldWidth; i++) Tetris.movePiece(false);
                 for (int i = 0; i < bestMove[1]; i++) Tetris.movePiece(true);
-                int cr = -1;
-                while (cr == -1) {
-                    cr = Tetris.movePieceDown(false);
+                int clearedRows = -1;
+                while (clearedRows == -1) {
+                    clearedRows = Tetris.movePieceDown(false);
                     try {
                         Thread.sleep(50);
                     } catch (InterruptedException ex) {
                         Thread.currentThread().interrupt();
                     }
                 }
-                if (cr == -2) {
+                if (clearedRows == -2) {
                     scores.add(Tetris.lastScore);
                     games++;
                     //System.out.println(games);
@@ -403,9 +403,9 @@ public class Gbot {
                 for (int i = 0; i < bestMove[0]; i++) Tetris.rotatePiece(true);
                 for (int i = 0; i < Tetris.fieldWidth; i++) Tetris.movePiece(false);
                 for (int i = 0; i < bestMove[1]; i++) Tetris.movePiece(true);
-                int cr=-1;
-                while(cr==-1){
-                    cr=Tetris.dropPiece(false);
+                int clearedRows=-1;
+                while(clearedRows==-1){
+                    clearedRows=Tetris.dropPiece(false);
             /*try {
                 Thread.sleep(5);
             }
@@ -413,7 +413,7 @@ public class Gbot {
                 Thread.currentThread().interrupt();
             }*/
                 }
-                if(cr==-2){
+                if(clearedRows==-2){
                     scores.add(Tetris.lastScore);
                     games++;
                     //System.out.println(games);
