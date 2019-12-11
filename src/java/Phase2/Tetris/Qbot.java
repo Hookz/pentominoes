@@ -19,15 +19,15 @@ public class Qbot {
         // System.out.println("PRINT MATRIX");
         // Tetris.printMatrix(Tetris.field);
 
-        int clearedRows = Tetris.movePieceDown(false);
+        int clearedRows = Phase2.Tetris.Tetris.movePieceDown(false);
         if(clearedRows==-2) return;
         bestX = -1;
         bestY = -1;
         bestRotation = -1;
         curPiece = 0;
-        curPiece = Tetris.curPiece;
-        bestRotation = Tetris.curPieceRotation;
-        genRewards(Tetris.field, Tetris.fieldHeight, Tetris.fieldWidth, Tetris.hiddenRows);
+        curPiece = Phase2.Tetris.Tetris.curPiece;
+        bestRotation = Phase2.Tetris.Tetris.curPieceRotation;
+        genRewards(Phase2.Tetris.Tetris.field, Phase2.Tetris.Tetris.fieldHeight, Phase2.Tetris.Tetris.fieldWidth, Phase2.Tetris.Tetris.hiddenRows);
         mainLoop(curPiece,bestRotation);
         if(bestX==-1||bestRotation==-1) {
             return;
@@ -45,8 +45,8 @@ public class Qbot {
         boolean isMirrored = false;
         if(pieceRotation>3) isMirrored = true;
         int[][][] pieceArr = PentominoDatabase.data[piece];
-        for (int x = 0; x < Tetris.fieldWidth; x++) {
-            for (int y = 0; y < Tetris.fieldHeight; y++) {
+        for (int x = 0; x < Phase2.Tetris.Tetris.fieldWidth; x++) {
+            for (int y = 0; y < Phase2.Tetris.Tetris.fieldHeight; y++) {
                 int[] temp = pLoop(x,y,pieceArr,isMirrored);
                 if(temp[0]>highestScore){
                     highestScore=temp[0];
@@ -56,16 +56,16 @@ public class Qbot {
                 }
             }
         }
-        //TODO what is this doing?
-        int[][] pieceToPlace = PentominoDatabase.data[piece][bestRotation];
-        for(int i = 0; i < pieceToPlace.length; i++){ // loop over x position of pentomino
-            for (int j = 0; j < pieceToPlace[i].length; j++){ // loop over y position of pentomino
-                if (pieceToPlace[i][j] == 1){
-                    // Add the ID of the pentomino to the board if the pentomino occupies this square
-                    //tempField[bestX + i][bestY + j] = piece;
-                }
-            }
-        }
+//        //TODO what is this doing?
+//        int[][] pieceToPlace = PentominoDatabase.data[piece][bestRotation];
+//        for(int i = 0; i < pieceToPlace.length; i++){ // loop over x position of pentomino
+//            for (int j = 0; j < pieceToPlace[i].length; j++){ // loop over y position of pentomino
+//                if (pieceToPlace[i][j] == 1){
+//                    // Add the ID of the pentomino to the board if the pentomino occupies this square
+//                    //tempField[bestX + i][bestY + j] = piece;
+//                }
+//            }
+//        }
     }
 
     /***
@@ -76,11 +76,11 @@ public class Qbot {
      * @param isMirrored: boolean value, checking if piece is mirrored
      * @return: score for current piece in current point P and the rotation yielding that score
      */
-    //TODO what does "Loop for a point "P" from mainLoop" mean?
     private static int[] pLoop(int xCoord, int yCoord, int[][][] pieceArr, boolean isMirrored){
         int[] iterator;
         int highestScoreRotation = -1;
         int highestScore = 0;
+        //TODO why is there even the possibility for it to be mirrored?
         if(isMirrored){
             iterator = new int[]{4,5,6,7};
         }
@@ -90,6 +90,7 @@ public class Qbot {
         for(int rotationIndex=0; rotationIndex<iterator.length; rotationIndex++){
             int[][] pieceArr2D = pieceArr[iterator[rotationIndex]];
             int curScore = 0;
+            //TODO indent if statement and add documentation
             if(xCoord+pieceArr2D.length<fieldScores.length && yCoord+pieceArr2D[0].length < fieldScores[0].length)
             for(int i=0; i<pieceArr2D.length;i++) {
                 for (int j = 0; j < pieceArr2D[i].length; j++) {
@@ -195,23 +196,23 @@ public class Qbot {
         }
 
 //        //debugging
-//        //print flipped
-//        for (int i = 0; i < fieldHeight-fieldPadding; i++) {
-//            for (int j = 0; j < fieldWidth; j++) {
-//                System.out.print(String.format("%6d", fieldScores[i][j]));
-//            }
-//            System.out.println();
-//        }
-//        System.out.println();
+        //print flipped
+        for (int i = 0; i < fieldHeight-fieldPadding; i++) {
+            for (int j = 0; j < fieldWidth; j++) {
+                System.out.print(String.format("%6d", fieldScores[i][j]));
+            }
+            System.out.println();
+        }
+        System.out.println();
 
         //flip back because others chose to suffer
         fieldScores = flipMatrix(fieldScores);
     }
 
     private static int[][] copyField(int[][] f0){
-        int [][] f1=new int[Tetris.fieldWidth][Tetris.fieldHeight];
-        for(int i = 0; i< Tetris.fieldWidth; i++){
-            for(int j = 0; j< Tetris.fieldHeight; j++){
+        int [][] f1=new int[Phase2.Tetris.Tetris.fieldWidth][Phase2.Tetris.Tetris.fieldHeight];
+        for(int i = 0; i< Phase2.Tetris.Tetris.fieldWidth; i++){
+            for(int j = 0; j< Phase2.Tetris.Tetris.fieldHeight; j++){
                 f1[i][j]=f0[i][j];
             }
         }
@@ -228,13 +229,13 @@ public class Qbot {
         System.out.println("Y: " + bestY);
 
         // Update rotation
-        while(Tetris.curPieceRotation != bestRotation) {
-            Tetris.rotatePiece(true);
+        while(Phase2.Tetris.Tetris.curPieceRotation != bestRotation) {
+            Phase2.Tetris.Tetris.rotatePiece(true);
         }
 
         // Update x-coordinate
         for(int i = 0; i < bestX; i++) {
-            Tetris.movePiece(true);
+            Phase2.Tetris.Tetris.movePiece(true);
         }
 
         // Check for collision when dropping piece
@@ -243,7 +244,7 @@ public class Qbot {
             System.out.println("Success");
             System.out.println();
             // Drop piece
-            Tetris.dropPiece(false);
+            Phase2.Tetris.Tetris.dropPiece(false);
         }
         else {
             // Collision detected; drop down not possible
@@ -258,7 +259,7 @@ public class Qbot {
 
     private static boolean checkCollision() {
         for(int y = 0; y < bestY; y++) {
-            if(Tetris.field[bestX][y] != -1)
+            if(Phase2.Tetris.Tetris.field[bestX][y] != -1)
                 return true;
         }
 
