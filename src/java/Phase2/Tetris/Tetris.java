@@ -26,8 +26,8 @@ import java.util.Random;
 import java.util.Timer;
 
 public class Tetris{
-    public static boolean enableBot = false;
-    public static String botType = "Q";
+    public static boolean enableBot = true;
+    public static String botType = "G";
 
     public static int fieldWidth=5;
     public static int fieldHeight=20;
@@ -382,9 +382,6 @@ public class Tetris{
                 }
                 catch (IOException exception) {System.out.println("Error: input/output exception");}
             }
-        } else {
-            
-            GameTimer.run();
         }
     }
 
@@ -394,6 +391,7 @@ public class Tetris{
         tempField = new int[fieldWidth][fieldHeight];
         wipeField(field);
         tempField = copyField(field);
+        gameWrapper = new Phase2.Tetris.GameWrapper(fieldWidth, fieldHeight-hiddenRows, 50);
 
         //initialize and open the GUI
 
@@ -405,8 +403,6 @@ public class Tetris{
         //initiate the timer for the game
         timer = new Timer();
         timer.schedule(new Phase2.Tetris.GameTimer(), 0, 500);
-
-        gameWrapper = new Phase2.Tetris.GameWrapper(fieldWidth, fieldHeight-hiddenRows, 50);
 
         //initialize key listeners
         gameWrapper.window.addKeyListener(new KeyListener() {
