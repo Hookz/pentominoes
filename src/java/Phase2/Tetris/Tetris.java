@@ -26,7 +26,7 @@ import java.util.Random;
 import java.util.Timer;
 
 public class Tetris{
-    public static boolean enableBot = true;
+    public static boolean enableBot = false;
     public static String botType = "Q";
 
     public static int fieldWidth=5;
@@ -382,6 +382,9 @@ public class Tetris{
                 }
                 catch (IOException exception) {System.out.println("Error: input/output exception");}
             }
+        } else {
+            
+            GameTimer.run();
         }
     }
 
