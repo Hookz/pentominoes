@@ -1,7 +1,5 @@
 package Phase2.Tetris;
 
-import com.sun.scenario.effect.impl.sw.java.JSWBoxBlurPeer;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
