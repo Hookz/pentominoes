@@ -13,7 +13,7 @@ public class Qbot {
 
     /**
      * Finds best place to place curPiece and nextPiece
-     * @return: best place to place current and next piece [xc,yc,rc,xn,yn,rn]
+     * @throws IOException
      */
     public static void findBestPlaceToPlace() throws IOException {
         // System.out.println("PRINT MATRIX");
@@ -35,10 +35,10 @@ public class Qbot {
         return;
     }
 
-    /***
-     *
+    /**
+     * Performs the main loop (through all elements of the game field)
      * @param piece: currently considered piece (curPiece: 1 / nextPiece: 2)
-     * @param pieceRotation:  rotation [curPieceRotation / nextRot](just to determine whether piece is flipped)
+     * @param pieceRotation: rotation [curPieceRotation / nextRot](just to determine whether piece is flipped)
      */
     private static void mainLoop(int piece, int pieceRotation){
         int highestScore = 0;
@@ -56,23 +56,13 @@ public class Qbot {
                 }
             }
         }
-//        //TODO what is this doing?
-//        int[][] pieceToPlace = PentominoDatabase.data[piece][bestRotation];
-//        for(int i = 0; i < pieceToPlace.length; i++){ // loop over x position of pentomino
-//            for (int j = 0; j < pieceToPlace[i].length; j++){ // loop over y position of pentomino
-//                if (pieceToPlace[i][j] == 1){
-//                    // Add the ID of the pentomino to the board if the pentomino occupies this square
-//                    //tempField[bestX + i][bestY + j] = piece;
-//                }
-//            }
-//        }
     }
 
     /***
-     * Loop for a point "P" from mainLoop
+     * Internal loop for calculating best position from all positions for current piece starting in point "P"
      * @param xCoord: x coordinate of point P
      * @param yCoord: y coordinate of point P
-     * @param pieceArr
+     * @param pieceArr: array representing all rotations for current piece
      * @param isMirrored: boolean value, checking if piece is mirrored
      * @return: score for current piece in current point P and the rotation yielding that score
      */
@@ -107,6 +97,11 @@ public class Qbot {
         return new int[]{highestScore,highestScoreRotation};
     }
 
+    /**
+     * Method flipping the game field
+     * @param field: field to be flipped
+     * @return: flipped representation of field
+     */
     private static int[][] flipMatrix(int[][] field){
         int[][] flipped = new int[field[0].length][field.length];
 
@@ -121,7 +116,13 @@ public class Qbot {
     }
 
 
-    //TODO let row elimination come before placing the next block
+    /**
+     * Generates rewards for the game field
+     * @param field: field to generate rewards for
+     * @param fieldHeight: height of the field
+     * @param fieldWidth: width of the field
+     * @param fieldPadding: padding of the field
+     */
     private static void genRewards(int[][] field, int fieldHeight, int fieldWidth, int fieldPadding) {
         int[][] flipped = flipMatrix(field);
 
@@ -209,6 +210,11 @@ public class Qbot {
         fieldScores = flipMatrix(fieldScores);
     }
 
+    /**
+     * Method for copying field
+     * @param f0: field to be copied
+     * @return: a copy of field f0
+     */
     private static int[][] copyField(int[][] f0){
         int [][] f1=new int[Phase2.Tetris.Tetris.fieldWidth][Phase2.Tetris.Tetris.fieldHeight];
         for(int i = 0; i< Phase2.Tetris.Tetris.fieldWidth; i++){
@@ -257,6 +263,10 @@ public class Qbot {
         }
     }
 
+    /**
+     * Method checking if pentomino is going to collide when moved
+     * @return: true if can be moved, false otherwise
+     */
     private static boolean checkCollision() {
         for(int y = 0; y < bestY; y++) {
             if(Phase2.Tetris.Tetris.field[bestX][y] != -1)

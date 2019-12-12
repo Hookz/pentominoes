@@ -63,6 +63,10 @@ public class Tetris{
     private static BufferedWriter writer;
     private static boolean done = false;
 
+    /**
+     * Method performing steps of the game
+     * @throws IOException
+     */
     public static void step() throws IOException {
         if(canMove){
             if(leftPressed) movePiece(false);
@@ -80,12 +84,20 @@ public class Tetris{
         }
     }
 
+    /**
+     * Method clearing out the field
+     * @param field: field to be wiped (all field values reassigned to -1)
+     */
     public static void wipeField(int[][] field){
         for (int i = 0; i < field.length; i++) {
             Arrays.fill(field[i],-1);
         }
     }
 
+    /**
+     * Method instantiating a new piece
+     * @param tentative: parameter defining if the action is performed tentatively
+     */
     public static void instantiateNewPiece(boolean tentative){
         curPos[0]=0;
         curPos[1]=0;
@@ -96,6 +108,9 @@ public class Tetris{
         canMove=true;
     }
 
+    /**
+     * Method adding the current piece to the temporary field "tempField"
+     */
     public static void addPiece(){
         int[][] pieceToPlace = PentominoDatabase.data[curPiece][curPieceRotation];
         for(int i = 0; i < pieceToPlace.length; i++){ // loop over x position of pentomino
@@ -108,6 +123,10 @@ public class Tetris{
         }
     }
 
+    /**
+     * Method printing matrix to command line for debugging
+     * @param m: matrix to be printed to command line
+     */
     public static void printMatrix(int[][] m) {
         System.out.println();
         for (int i = 0; i < m.length; i++) {
@@ -119,6 +138,9 @@ public class Tetris{
         System.out.println();
     }
 
+    /**
+     * Method generating a new piece
+     */
     public static void getNewPiece(){
         if (start) {
             curPiece = (int)(12 * rand.nextDouble());
@@ -132,6 +154,9 @@ public class Tetris{
         nextRot=(int)(rand.nextDouble()*PentominoDatabase.data[curPiece].length);
     }
 
+    /**
+     * Method executed in case of gameOver, resetting all parameters
+     */
     public static void gameOver() {
         try {
             writer = new BufferedWriter(new FileWriter("scores.csv",true));
@@ -148,7 +173,10 @@ public class Tetris{
         wipeField(tempField);
     }
 
-    //cw = clock wise
+    /**
+     * Method for rotating the current game piece
+     * @param cw: parameter true when rotating clockwise and false when rotating counter-clockwise
+     */
     public static void rotatePiece(boolean cw){
         int pieceRotation=curPieceRotation;
         if(cw) {
@@ -202,7 +230,12 @@ public class Tetris{
         }
     }
 
-    public static boolean movePiece(boolean right){//returns true if moved
+    /**
+     * Method for moving piece left / right
+     * @param right: true when moving right, false when moving left
+     * @return: true if piece was moved, false otherwise
+     */
+    public static boolean movePiece(boolean right){
         int dir=0;
         if (!right) dir=1;
         int [] temPos=curPos.clone();
@@ -267,6 +300,11 @@ public class Tetris{
         return clearedRows;
     }
 
+    /**
+     * Method for copying arrays
+     * @param old: old array
+     * @return: new copy of the old array
+     */
     public static int[] arrayCopy(int [] old){
         int[]n = new int[old.length];
         for(int i=0;i<old.length;i++){
@@ -275,11 +313,11 @@ public class Tetris{
         return n;
     }
 
-    /***
-     * Step function slowly moving piece down
+    /**
+     * Method checking how many rows get cleared when moving the piece down
+     * @param tentative: true when piece moved down tentatively (without UI updates), false otherwise
+     * @return: number of consecutively removed rows
      */
-    //checks how many rows get cleared when moving the piece down
-    //tentative is true when the piece gets moved down tentatively therefore the UI doesn't update and we don't call gameOver
     public static int movePieceDown(boolean tentative) {
         int clearedRows=-1;
         if(!aboutToCollide){
@@ -312,8 +350,10 @@ public class Tetris{
         return clearedRows;
     }
 
-    /***
-     * Function eliminating all rows that are full and updating the score accordingly
+    /**
+     * Method eliminating all rows that are full and updating the score accordingly
+     * @param tentative: true when row eliminated tentatively, false otherwise
+     * @return: number of consecutively removed rows
      */
     public static int rowElimination(boolean tentative) {
         int consecutive=0;
@@ -352,6 +392,11 @@ public class Tetris{
         return consecutive;
     }
 
+    /**
+     * Method for copying field
+     * @param f0: field to be copied
+     * @return: a copy of field f0
+     */
     public static int[][] copyField(int[][] f0){
         int [][] f1=new int[fieldWidth][fieldHeight];
         for(int i=0;i<fieldWidth;i++){
@@ -362,8 +407,9 @@ public class Tetris{
         return f1;
     }
 
-    /***
+    /**
      * Starts the execution of the bot, if selected to be enabled
+     * @throws InterruptedException
      */
     public static void runBot() throws InterruptedException {
 
