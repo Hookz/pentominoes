@@ -56,12 +56,14 @@ public class Tetris{
     public static boolean start = true;
     public static boolean aboutToCollide=false;
     public static boolean collided=false;
-    public static boolean AI=false;
     public static Timer timer;
     public static boolean training=false;
     private static int writerIterator = 0;
     private static BufferedWriter writer;
     private static boolean done = false;
+    public static boolean gmsdone = false;
+
+    public static Object waitingObject = new Object();
 
     /**
      * Method performing steps of the game
@@ -432,6 +434,18 @@ public class Tetris{
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
+        GameModeSelector.createWindow();
+        synchronized (waitingObject){
+            while(!gmsdone){
+                try{
+                    waitingObject.wait();
+                }
+                catch (InterruptedException e) {
+                    // treat interrupt as exit request
+                    break;
+                }
+            }
+        }
         //initialize field and tempField
         field = new int[fieldWidth][fieldHeight];
         tempField = new int[fieldWidth][fieldHeight];
