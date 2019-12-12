@@ -11,7 +11,7 @@ public class GameModeSelector extends MouseAdapter{
         selectionWindow.setLayout(new GridLayout(4,1));
         //Top text
         JLabel title = new JLabel();
-        title.setText("<html><font color='#f032e6'>P</font><font color='#800000'>E</font><font color='#469990'>N</font><font color='#9A6324'>T</font><font color='#3cb44b'>R</font><font color='#808000'>I</font><font color='#f58231'>S</font> <font color='#4363d8'>Settings</font><html>");
+        title.setText("<html><font color='#f032e6'>P</font><font color='#800000'>E</font><font color='#469990'>N</font><font color='#9A6324'>T</font><font color='#3cb44b'>R</font><font color='#808000'>I</font><font color='#f58231'>S</font> (<font color='#4363d8'>Settings</font>)<html>");
         title.setFont(new Font("Impact", Font.BOLD, 60));
         title.setHorizontalAlignment(JLabel.CENTER);
 
