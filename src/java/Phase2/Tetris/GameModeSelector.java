@@ -11,15 +11,17 @@ public class GameModeSelector extends MouseAdapter{
         selectionWindow.setLayout(new GridLayout(4,1));
         //Top text
         JLabel title = new JLabel();
-        title.setText("PENTRIS Settings");
+        title.setText("<html><font color='#f032e6'>P</font><font color='#800000'>E</font><font color='#469990'>N</font><font color='#9A6324'>T</font><font color='#3cb44b'>R</font><font color='#808000'>I</font><font color='#f58231'>S</font> <font color='#4363d8'>Settings</font><html>");
         title.setFont(new Font("Impact", Font.BOLD, 60));
-        title.setForeground(new Color(255,206,40));
         title.setHorizontalAlignment(JLabel.CENTER);
 
         //Creating buttons
         JButton humanPlayer = new JButton("Human Player");
+        humanPlayer.setFont(humanPlayer.getFont().deriveFont(36.0f));
         JButton geneticBot = new JButton("G-Bot (Genetic)");
+        geneticBot.setFont(geneticBot.getFont().deriveFont(36.0f));
         JButton scoreBot = new JButton("Q-Bot");
+        scoreBot.setFont(scoreBot.getFont().deriveFont(36.0f));
 
         // Mouse listeners
         humanPlayer.addMouseListener(new MouseListener() {
