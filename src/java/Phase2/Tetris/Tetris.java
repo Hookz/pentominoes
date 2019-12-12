@@ -63,7 +63,7 @@ public class Tetris{
     private static boolean done = false;
     public static boolean gmsdone = false;
 
-    public static Object waitingObject = new Object();
+    public static final Object waitingObject = new Object();
 
     /**
      * Method performing steps of the game
