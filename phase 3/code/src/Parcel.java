@@ -25,7 +25,7 @@ public class Parcel extends Box {
         this.setTranslateY(yCenter);
         FX3D.createBoxLines(width, height, depth, xCenter-width/2, yCenter-height/2, -depth/2);
 
-        item_color = Color.rgb((int) (Math.random()*255), (int) (Math.random()*255), (int) (Math.random()*255), 0.8);
+        item_color = Color.rgb((int) (Math.random()*255), (int) (Math.random()*255), (int) (Math.random()*255), 1);
         item_material.setDiffuseColor(item_color);
         this.setMaterial(item_material);
 

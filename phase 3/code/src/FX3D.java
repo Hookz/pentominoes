@@ -14,6 +14,8 @@ import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 /*
 To get JavaFX working follow the following steps:
 1. Install JavaFX
@@ -39,6 +41,9 @@ public class FX3D extends Application {
     final static PhongMaterial edge_material = new PhongMaterial();
     final static PhongMaterial container_material = new PhongMaterial();
 
+    //create group of parcels
+    static ArrayList<Parcel> parcels = new ArrayList<Parcel>();
+
     public static void main(String[] args){
         launch(args);
     }
@@ -48,19 +53,22 @@ public class FX3D extends Application {
         container_material.setDiffuseColor(CONTAINER_COLOR);
         edge_material.setDiffuseColor(EDGE_COLOR);
 
-        //set objects
-        //TODO only create 'content_box' in a separate method
+        //Create container
         Box container = new Box(200, 200, 200);
-        Parcel parcel1 = new Parcel(50, 50, 0, 200, 200, 200);
-
-        //Set color
         container.setMaterial(container_material);
-
-        //Add items to group
         group.getChildren().add(container);
 
-        //TODO create array of parcels and use foreach loop
-        group.getChildren().add(parcel1);
+        //Create parcels
+        //TODO change i<2 to i<amountOfTYPEParcels, for instance i<amountOfAParcels
+        for(int i=1; i<4; i++){
+            Parcel parcel = new Parcel(50*i, 80*i, 0, 50*i, 80*i, 100);
+            parcels.add(parcel);
+        }
+
+        //TODO change i<2 to i<totalAmountOfParcels
+        for(int i=1; i<4; i++){
+            group.getChildren().add(parcels.get(i-1));
+        }
 
         //Setup camera (so that you can have the container at the origin and can still see it well
         camera.setTranslateX(-SCREEN_WIDTH/2);
