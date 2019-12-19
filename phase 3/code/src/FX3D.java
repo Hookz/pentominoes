@@ -4,7 +4,11 @@ import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -34,15 +38,25 @@ public class FX3D extends Application {
     final static int CONTAINER_HEIGHT = 200;
     final static int CONTAINER_DEPTH = 200;
 
-    final static double EDGE_WIDTH = 2;
-
+    static GridPane topGrid = new GridPane();
+    static BorderPane mainPane = new BorderPane();
     //SmartGroup helps with rotations
-    static SmartGroup group = new SmartGroup();
-    Camera camera = new PerspectiveCamera();
+    static SmartGroup contentGroup = new SmartGroup();
+
+    //TODO move to other class (problemWrapper?)
+    static double score = 0;
+
+    //TODO
+    //static int amountOfTypeX = 3;
+
+    //Setup camera
+    static Camera camera = new PerspectiveCamera();
 
     //Create materials
     final static PhongMaterial edge_material = new PhongMaterial();
     final static PhongMaterial container_material = new PhongMaterial();
+
+    final static double EDGE_WIDTH = 2;
 
     //create group of parcels
     static ArrayList<Parcel> parcels = new ArrayList<Parcel>();
@@ -52,6 +66,23 @@ public class FX3D extends Application {
     }
 
     public void start(Stage stage){
+        /*START Setup top menu*/
+
+        //Setup grid
+        topGrid.setHgap(10);
+        topGrid.setVgap(10);
+
+        //Setup items
+        //Add scoring label
+        Label scoringLabel = new Label("Score: " + score);
+        Button startButton = new Button("Start");
+
+        topGrid.add(scoringLabel, 0, 0);
+        topGrid.add(startButton, 0, 1);
+
+        //mainPane.setTop(topGrid);
+        /*END*/
+
         //Set materials
         container_material.setDiffuseColor(CONTAINER_COLOR);
         edge_material.setDiffuseColor(EDGE_COLOR);
@@ -66,7 +97,7 @@ public class FX3D extends Application {
         //Add the created parcels
         //TODO change to i<totalAmountOfParcels
         for(int i=0; i<4; i++){
-            group.getChildren().add(parcels.get(i));
+            contentGroup.getChildren().add(parcels.get(i));
         }
 
         //Create container (note: Has to be created after adding all the other objects in order to use transparency (I know, javaFX can be crappy))
@@ -75,43 +106,46 @@ public class FX3D extends Application {
         container.setTranslateY(CONTAINER_HEIGHT/2);
         container.setTranslateZ(CONTAINER_DEPTH/2);
         container.setMaterial(container_material);
-        group.getChildren().add(container);
+        contentGroup.getChildren().add(container);
 
         //Setup camera (so that you can have the container at the origin and can still see it well
-        camera.setTranslateX(-SCREEN_WIDTH/2);
-        camera.setTranslateY(-SCREEN_HEIGHT/2);
+        camera.setTranslateX(-SCREEN_WIDTH/2+CONTAINER_WIDTH/2);
+        camera.setTranslateY(-SCREEN_HEIGHT/2+CONTAINER_HEIGHT/2);
+
+        //Set the center view to the 3D content
+        //mainPane.setCenter(contentGroup);
 
         //Setup scene
-        Scene scene = new Scene(group, SCREEN_WIDTH, SCREEN_HEIGHT, true);
+        Scene scene = new Scene(contentGroup, SCREEN_WIDTH, SCREEN_HEIGHT, true);
 
         //Set eventListeners for zoom and rotation
         stage.addEventHandler(KeyEvent.KEY_PRESSED, event ->{
             switch (event.getCode()){
                 //go foreword
                 case UP:
-                    group.translateZProperty().set(group.getTranslateZ()-50);
+                    contentGroup.translateZProperty().set(contentGroup.getTranslateZ()-50);
                     break;
                 //go backwards
                 case DOWN:
-                    group.translateZProperty().set(group.getTranslateZ()+50);
+                    contentGroup.translateZProperty().set(contentGroup.getTranslateZ()+50);
                     break;
                 case Q:
-                    group.rotateByZ(ROTATE_SPEED);
+                    contentGroup.rotateByZ(ROTATE_SPEED);
                     break;
                 case E:
-                    group.rotateByZ(-ROTATE_SPEED);
+                    contentGroup.rotateByZ(-ROTATE_SPEED);
                     break;
                 case A:
-                    group.rotateByY(ROTATE_SPEED);
+                    contentGroup.rotateByY(ROTATE_SPEED);
                     break;
                 case D:
-                    group.rotateByY(-ROTATE_SPEED);
+                    contentGroup.rotateByY(-ROTATE_SPEED);
                     break;
                 case W:
-                    group.rotateByX(-ROTATE_SPEED);
+                    contentGroup.rotateByX(-ROTATE_SPEED);
                     break;
                 case S:
-                    group.rotateByX(ROTATE_SPEED);
+                    contentGroup.rotateByX(ROTATE_SPEED);
                     break;
             }
         });
@@ -169,7 +203,7 @@ public class FX3D extends Application {
 
         line.setMaterial(edge_material);
 
-        group.getChildren().add(line);
+        contentGroup.getChildren().add(line);
     }
 
     static class SmartGroup extends Group {
