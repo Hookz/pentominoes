@@ -30,6 +30,9 @@ public class FX3D extends Application {
     final static int ROTATE_SPEED = 10;
     final static int SCREEN_WIDTH = 1500;
     final static int SCREEN_HEIGHT = 1000;
+    final static int CONTAINER_WIDTH = 200;
+    final static int CONTAINER_HEIGHT = 200;
+    final static int CONTAINER_DEPTH = 200;
 
     final static double EDGE_WIDTH = 2;
 
@@ -54,19 +57,23 @@ public class FX3D extends Application {
         edge_material.setDiffuseColor(EDGE_COLOR);
 
         //Create parcels
-        //TODO change i<2 to i<amountOfTYPEParcels, for instance i<amountOfAParcels
-        for(int i=1; i<4; i++){
-            Parcel parcel = new Parcel(50*i, 80*i, 0, 50*i, 80*i, 100);
+        //TODO change to i<amountOfTYPEParcels, for instance i<amountOfAParcels
+        for(int i=0; i<4; i++){
+            Parcel parcel = new Parcel(50*i, 0, 0, 50, 80, 100);
             parcels.add(parcel);
         }
 
-        //TODO change i<2 to i<totalAmountOfParcels
-        for(int i=1; i<4; i++){
-            group.getChildren().add(parcels.get(i-1));
+        //Add the created parcels
+        //TODO change to i<totalAmountOfParcels
+        for(int i=0; i<4; i++){
+            group.getChildren().add(parcels.get(i));
         }
 
         //Create container (note: Has to be created after adding all the other objects in order to use transparency (I know, javaFX can be crappy))
-        Box container = new Box(200, 200, 200);
+        Box container = new Box(CONTAINER_WIDTH, CONTAINER_HEIGHT, CONTAINER_DEPTH);
+        container.setTranslateX(CONTAINER_WIDTH/2);
+        container.setTranslateY(CONTAINER_HEIGHT/2);
+        container.setTranslateZ(CONTAINER_DEPTH/2);
         container.setMaterial(container_material);
         group.getChildren().add(container);
 
