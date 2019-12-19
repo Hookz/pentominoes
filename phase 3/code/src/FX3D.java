@@ -53,11 +53,6 @@ public class FX3D extends Application {
         container_material.setDiffuseColor(CONTAINER_COLOR);
         edge_material.setDiffuseColor(EDGE_COLOR);
 
-        //Create container
-        Box container = new Box(200, 200, 200);
-        container.setMaterial(container_material);
-        group.getChildren().add(container);
-
         //Create parcels
         //TODO change i<2 to i<amountOfTYPEParcels, for instance i<amountOfAParcels
         for(int i=1; i<4; i++){
@@ -70,12 +65,17 @@ public class FX3D extends Application {
             group.getChildren().add(parcels.get(i-1));
         }
 
+        //Create container (note: Has to be created after adding all the other objects in order to use transparency (I know, javaFX can be crappy))
+        Box container = new Box(200, 200, 200);
+        container.setMaterial(container_material);
+        group.getChildren().add(container);
+
         //Setup camera (so that you can have the container at the origin and can still see it well
         camera.setTranslateX(-SCREEN_WIDTH/2);
         camera.setTranslateY(-SCREEN_HEIGHT/2);
 
         //Setup scene
-        Scene scene = new Scene(group, SCREEN_WIDTH, SCREEN_HEIGHT);
+        Scene scene = new Scene(group, SCREEN_WIDTH, SCREEN_HEIGHT, true);
 
         //Set eventListeners for zoom and rotation
         stage.addEventHandler(KeyEvent.KEY_PRESSED, event ->{
