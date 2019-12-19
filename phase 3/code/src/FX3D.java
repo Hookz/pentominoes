@@ -22,28 +22,22 @@ To get JavaFX working follow the following steps:
  */
 
 public class FX3D extends Application {
-    final Color BACKGROUND_COLOR = Color.rgb(220, 220, 220);
-    final Color CONTAINER_COLOR = Color.rgb(0, 0, 0, 0.2);
-    final Color ITEM_COLOR = Color.rgb(20, 20, 100, 0.8);
-    final Color EDGE_COLOR = Color.rgb(0, 0, 0, 0.5);
-    final int ROTATE_SPEED = 10;
-    final int SCREEN_WIDTH = 1500;
-    final int SCREEN_HEIGHT = 1000;
+    final static Color BACKGROUND_COLOR = Color.rgb(220, 220, 220);
+    final static Color CONTAINER_COLOR = Color.rgb(0, 0, 0, 0.2);
+    final static Color EDGE_COLOR = Color.rgb(0, 0, 0, 0.5);
+    final static int ROTATE_SPEED = 10;
+    final static int SCREEN_WIDTH = 1500;
+    final static int SCREEN_HEIGHT = 1000;
 
-    final double EDGE_WIDTH = 2;
-
-    private Rotate rotateX = new Rotate(0, Rotate.X_AXIS);
-    private Rotate rotateY = new Rotate(0, Rotate.Y_AXIS);
-    private Rotate rotateZ = new Rotate(0, Rotate.Z_AXIS);
+    final static double EDGE_WIDTH = 2;
 
     //SmartGroup helps with rotations
-    SmartGroup group = new SmartGroup();
+    static SmartGroup group = new SmartGroup();
     Camera camera = new PerspectiveCamera();
 
     //Create materials
-    final PhongMaterial edge_material = new PhongMaterial();
-    final PhongMaterial container_material = new PhongMaterial();
-    final PhongMaterial item_material = new PhongMaterial();
+    final static PhongMaterial edge_material = new PhongMaterial();
+    final static PhongMaterial container_material = new PhongMaterial();
 
     public static void main(String[] args){
         launch(args);
@@ -51,34 +45,26 @@ public class FX3D extends Application {
 
     public void start(Stage stage){
         //Set materials
-        //TODO make item color random when adding the item, and add borders
         container_material.setDiffuseColor(CONTAINER_COLOR);
-        item_material.setDiffuseColor(ITEM_COLOR);
         edge_material.setDiffuseColor(EDGE_COLOR);
 
         //set objects
         //TODO only create 'content_box' in a separate method
         Box container = new Box(200, 200, 200);
-        Box box2 = new Box(100, 100, 100);
-
-        //Set initial coordinates
-        //TODO only create 'content_box' in a separate method
-        container.setTranslateX(SCREEN_WIDTH/2);
-        container.setTranslateY(SCREEN_HEIGHT/2);
-        box2.setTranslateX(SCREEN_WIDTH/2);
-        box2.setTranslateY(SCREEN_HEIGHT/2);
-
-        //TODO only create 'content_box' in a separate method
-        createBoxLines(100, 100, 100, 700, 450, -50);
+        Parcel parcel1 = new Parcel(50, 50, 0, 200, 200, 200);
 
         //Set color
         container.setMaterial(container_material);
-        //TODO only create 'content_box' in a separate method
-        box2.setMaterial(item_material);
 
         //Add items to group
         group.getChildren().add(container);
-        group.getChildren().add(box2);
+
+        //TODO create array of parcels and use foreach loop
+        group.getChildren().add(parcel1);
+
+        //Setup camera (so that you can have the container at the origin and can still see it well
+        camera.setTranslateX(-SCREEN_WIDTH/2);
+        camera.setTranslateY(-SCREEN_HEIGHT/2);
 
         //Setup scene
         Scene scene = new Scene(group, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -122,8 +108,7 @@ public class FX3D extends Application {
         stage.show();
     }
 
-    //TODO implement this method directly into the constructor for 'content_box'
-    public void createBoxLines(double contW, double contH, double contD, double x, double y, double z) {
+    public static void createBoxLines(double contW, double contH, double contD, double x, double y, double z) {
         //You call this method to create a box with a size and location you put in
         //This method calls the createLine method for all the sides of your rectangle
         Point3D p1 = new Point3D(x, y, z);
@@ -150,7 +135,7 @@ public class FX3D extends Application {
         createLine(p4, p8);
     }
 
-    public void createLine(Point3D origin, Point3D target) {
+    public static void createLine(Point3D origin, Point3D target) {
         //creates a line from one point3d to another
         Point3D yAxis = new Point3D(0, 1, 0);
         Point3D diff = target.subtract(origin);
@@ -172,26 +157,26 @@ public class FX3D extends Application {
         group.getChildren().add(line);
     }
 
-    class SmartGroup extends Group {
+    static class SmartGroup extends Group {
         Rotate rotateDelta;
         Transform rotation = new Rotate();
 
         void rotateByX(int deg){
-            rotateDelta = new Rotate(deg, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 0, Rotate.X_AXIS);
+            rotateDelta = new Rotate(deg, 0, 0, 0, Rotate.X_AXIS);
             rotation = rotation.createConcatenation(rotateDelta);
             this.getTransforms().clear();
             this.getTransforms().addAll(rotation);
         }
 
         void rotateByY(int deg){
-            rotateDelta = new Rotate(deg, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 0, Rotate.Y_AXIS);
+            rotateDelta = new Rotate(deg, 0, 0, 0, Rotate.Y_AXIS);
             rotation = rotation.createConcatenation(rotateDelta);
             this.getTransforms().clear();
             this.getTransforms().addAll(rotation);
         }
 
         void rotateByZ(int deg){
-            rotateDelta = new Rotate(deg, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 0, Rotate.Z_AXIS);
+            rotateDelta = new Rotate(deg, 0, 0, 0, Rotate.Z_AXIS);
             rotation = rotation.createConcatenation(rotateDelta);
             this.getTransforms().clear();
             this.getTransforms().addAll(rotation);
