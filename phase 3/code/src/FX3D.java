@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
@@ -38,8 +37,9 @@ public class FX3D extends Application {
     final static int CONTAINER_HEIGHT = 200;
     final static int CONTAINER_DEPTH = 200;
 
+    static Group topGroup = new Group();
     static GridPane topGrid = new GridPane();
-    static BorderPane mainPane = new BorderPane();
+    static Group frameGroup = new Group();
     //SmartGroup helps with rotations
     static SmartGroup contentGroup = new SmartGroup();
 
@@ -79,8 +79,14 @@ public class FX3D extends Application {
 
         topGrid.add(scoringLabel, 0, 0);
         topGrid.add(startButton, 0, 1);
+        topGroup.getChildren().add(topGrid);
 
-        //mainPane.setTop(topGrid);
+        //Put the 2D elements in the top left corner and in front of the 3D elements
+        topGroup.setTranslateX(-SCREEN_WIDTH/3);
+        topGroup.setTranslateY(-SCREEN_HEIGHT/3);
+        topGroup.setTranslateZ(-1);
+
+        frameGroup.getChildren().add(topGroup);
         /*END*/
 
         //Set materials
@@ -112,11 +118,11 @@ public class FX3D extends Application {
         camera.setTranslateX(-SCREEN_WIDTH/2+CONTAINER_WIDTH/2);
         camera.setTranslateY(-SCREEN_HEIGHT/2+CONTAINER_HEIGHT/2);
 
-        //Set the center view to the 3D content
-        //mainPane.setCenter(contentGroup);
+        //Add the 3D objects to the group that gets displayed
+        frameGroup.getChildren().add(contentGroup);
 
         //Setup scene
-        Scene scene = new Scene(contentGroup, SCREEN_WIDTH, SCREEN_HEIGHT, true);
+        Scene scene = new Scene(frameGroup, SCREEN_WIDTH, SCREEN_HEIGHT, true);
 
         //Set eventListeners for zoom and rotation
         stage.addEventHandler(KeyEvent.KEY_PRESSED, event ->{
