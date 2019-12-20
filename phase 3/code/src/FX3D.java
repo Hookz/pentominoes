@@ -6,7 +6,9 @@ import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
@@ -77,9 +79,15 @@ public class FX3D extends Application {
         Label scoringLabel = new Label("Score: " + score);
         Button startButton = new Button("Start");
 
+        final ProgressIndicator[] pins = new ProgressIndicator[1];
+        final ProgressIndicator pin = pins[0] = new ProgressIndicator();
+        //-1 will make it display an animated disk, set to 1 to show that it's done
+        pin.setProgress(-1);
+
         topGrid.add(scoringLabel, 0, 0);
         topGrid.add(startButton, 0, 1);
         topGroup.getChildren().add(topGrid);
+
 
         //Put the 2D elements in the top left corner and in front of the 3D elements
         topGroup.setTranslateX(-SCREEN_WIDTH/3);
@@ -124,10 +132,21 @@ public class FX3D extends Application {
         //Setup scene
         Scene scene = new Scene(frameGroup, SCREEN_WIDTH, SCREEN_HEIGHT, true);
 
+        //Set evenListener for start button
+        startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event-> {
+            //Show loading circle (that was created at the start)
+            topGrid.add(pin, 0, 2);
+
+            //TODO start calculations
+            //TODO pin.setProgress(1); when it's done
+
+        });
+
         //Set eventListeners for zoom and rotation
         stage.addEventHandler(KeyEvent.KEY_PRESSED, event ->{
             switch (event.getCode()){
                 //go foreword
+                //TODO fix UP and DOWN not being detected since adding 2D components
                 case UP:
                     contentGroup.translateZProperty().set(contentGroup.getTranslateZ()-50);
                     break;
