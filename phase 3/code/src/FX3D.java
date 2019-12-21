@@ -1,4 +1,6 @@
 import javafx.application.Application;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.geometry.Point3D;
 import javafx.scene.Camera;
@@ -27,6 +29,13 @@ To get JavaFX working follow the following steps:
 3. Go to configuration (of the file (next to the run button)) -> VM options -> paste --module-path "C:\Program Files\Java\javafx-sdk-11.0.2\lib" --add-modules javafx.controls,javafx.fxml
  */
 
+/*
+Sources
+Mouse rotation - https://www.youtube.com/watch?v=yinIKzg7duc - 21/12
+Keyboard rotation (start) - https://www.youtube.com/watch?v=dNtZVVJ-lBg&list=PLhs1urmduZ295Ryetga7CNOqDymN_rhB_&index=4 - 18/12
+Object outline - https://stackoverflow.com/questions/42984225/javafx-shape3d-with-border - 18/12
+ */
+
 public class FX3D extends Application {
     final static Color BACKGROUND_COLOR = Color.rgb(220, 220, 220);
     final static Color CONTAINER_COLOR = Color.rgb(0, 0, 0, 0.2);
@@ -43,6 +52,13 @@ public class FX3D extends Application {
     static Group frameGroup = new Group();
     //SmartGroup helps with rotations
     static SmartGroup contentGroup = new SmartGroup();
+
+    //some variables for mouse rotation
+    private double anchorX, anchorY;
+    private double anchorAngleX = 0;
+    private double anchorAngleY = 0;
+    private final DoubleProperty angleX = new SimpleDoubleProperty(0);
+    private final DoubleProperty angleY = new SimpleDoubleProperty(0);
 
     //TODO move to other class (problemWrapper?)
     static double score = 0;
@@ -155,6 +171,9 @@ public class FX3D extends Application {
 
         //Setup scene
         Scene scene = new Scene(frameGroup, SCREEN_WIDTH, SCREEN_HEIGHT, true);
+
+        //Setup mouse rotation
+        initMouseControl(contentGroup, scene);
 
         //Set eventListener for mode selection
         modeSelection.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
@@ -317,5 +336,31 @@ public class FX3D extends Application {
             this.getTransforms().clear();
             this.getTransforms().addAll(rotation);
         }
+    }
+
+    //Needed for mouse rotation
+    private void initMouseControl(SmartGroup contentGroup, Scene scene){
+        Rotate xRotate;
+        Rotate yRotate;
+        contentGroup.getTransforms().addAll(
+            xRotate = new Rotate(0, Rotate.X_AXIS),
+            yRotate = new Rotate(0, Rotate.Y_AXIS)
+        );
+
+        xRotate.angleProperty().bind(angleX);
+        yRotate.angleProperty().bind(angleY);
+
+        scene.setOnMousePressed(event -> {
+            anchorX = event.getSceneX();
+            anchorY = event.getSceneY();
+
+            anchorAngleX = angleX.get();
+            anchorAngleY = angleY.get();
+        });
+
+        scene.setOnMouseDragged(event -> {
+            angleX.set(anchorAngleX - (anchorY - event.getSceneY()));
+            angleY.set(anchorAngleY + (anchorX - event.getSceneX()));
+        });
     }
 }
