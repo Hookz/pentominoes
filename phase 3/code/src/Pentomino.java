@@ -19,7 +19,7 @@ public class Pentomino{
     Group shape = new Group();
     Box[] cells = new Box[5];
 
-    final int CEL_SIZE = 100;
+    final int CEL_SIZE = 50;
 
     //ONLY L, P, T PENTOMINOES ARE REQUIRED
     //TODO add rotations

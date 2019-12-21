@@ -1,12 +1,11 @@
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.geometry.Point3D;
 import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -79,13 +78,36 @@ public class FX3D extends Application {
         Label scoringLabel = new Label("Score: " + score);
         Button startButton = new Button("Start");
 
+        ChoiceBox modeSelection = new ChoiceBox(FXCollections.observableArrayList(
+                "Parcels", "Pentominoes"
+        ));
+
+        modeSelection.setValue("");
+
+        //Parcel selection UI
+        Label Parcel1Label = new Label("Amount of parcel1: ");
+        Label Parcel2Label = new Label("Amount of parcel2: ");
+        Label Parcel3Label = new Label("Amount of parcel3: ");
+        TextField Parcel1TextField = new TextField();
+        TextField Parcel2TextField = new TextField();
+        TextField Parcel3TextField = new TextField();
+
+        //Pentominoe selection UI
+        Label LPentominoLabel = new Label("Amount of L pentominoes: ");
+        Label PPentominoLabel = new Label("Amount of P pentominoes: ");
+        Label TPentominoLabel = new Label("Amount of T pentominoes: ");
+        TextField LPentominoTextField = new TextField();
+        TextField PPentominoTextField = new TextField();
+        TextField TPentominoTextField = new TextField();
+
         final ProgressIndicator[] pins = new ProgressIndicator[1];
         final ProgressIndicator pin = pins[0] = new ProgressIndicator();
         //-1 will make it display an animated disk, set to 1 to show that it's done
         pin.setProgress(-1);
 
         topGrid.add(scoringLabel, 0, 0);
-        topGrid.add(startButton, 0, 1);
+        topGrid.add(modeSelection, 0, 1);
+        topGrid.add(startButton, 0, 5);
         topGroup.getChildren().add(topGrid);
 
 
@@ -115,7 +137,7 @@ public class FX3D extends Application {
         }
 
         //TODO create pentomino option
-        Pentomino L = new Pentomino(0, 0, 0);
+        Pentomino L = new Pentomino(0, 0, 0, 'L', 1);
 
         //Create container (note: Has to be created after adding all the other objects in order to use transparency (I know, javaFX can be crappy))
         Box container = new Box(CONTAINER_WIDTH, CONTAINER_HEIGHT, CONTAINER_DEPTH);
@@ -135,10 +157,42 @@ public class FX3D extends Application {
         //Setup scene
         Scene scene = new Scene(frameGroup, SCREEN_WIDTH, SCREEN_HEIGHT, true);
 
+        //Set eventListener for mode selection
+        modeSelection.addEventHandler(MouseEvent.MOUSE_RELEASED, event -> {
+            //check what mode was selected and show the corresponding options
+            if(modeSelection.getValue().toString().equals("Parcels")){
+                //remove other option
+                topGrid.getChildren().removeAll(LPentominoLabel, PPentominoLabel, TPentominoLabel, LPentominoTextField, PPentominoTextField, TPentominoTextField);
+
+                //add labels
+                topGrid.add(Parcel1Label, 0, 2);
+                topGrid.add(Parcel2Label, 0, 3);
+                topGrid.add(Parcel3Label, 0, 4);
+
+                //add text fields
+                topGrid.add(Parcel1TextField, 1, 2);
+                topGrid.add(Parcel2TextField, 1, 3);
+                topGrid.add(Parcel3TextField, 1, 4);
+            } else if (modeSelection.getValue().toString().equals("Pentominoes")){
+                //remove other option
+                topGrid.getChildren().removeAll(Parcel1Label, Parcel2Label, Parcel3Label, Parcel1TextField, Parcel2TextField, Parcel3TextField);
+
+                topGrid.add(LPentominoLabel, 0, 2);
+                topGrid.add(PPentominoLabel, 0, 3);
+                topGrid.add(TPentominoLabel, 0, 4);
+
+                topGrid.add(LPentominoTextField, 1, 2);
+                topGrid.add(PPentominoTextField, 1, 3);
+                topGrid.add(TPentominoTextField, 1, 4);
+            }
+        });
+
         //Set evenListener for start button
         startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event-> {
             //Show loading circle (that was created at the start)
             topGrid.add(pin, 0, 2);
+
+            //TODO use values from the textFields as input
 
             //TODO start calculations
             //TODO pin.setProgress(1); when it's done
