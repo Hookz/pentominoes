@@ -1,4 +1,3 @@
-import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
@@ -41,6 +40,7 @@ public class Pentomino{
             cells[i].setTranslateX(xCenter);
             cells[i].setTranslateY(yCenter + i*CEL_SIZE);
             cells[i].setTranslateZ(zCenter);
+            FX3D.createBoxLines(CEL_SIZE, CEL_SIZE, CEL_SIZE, xStart, yStart+i*CEL_SIZE, zStart);
         }
 
         //add cells to the group
@@ -50,24 +50,6 @@ public class Pentomino{
             FX3D.contentGroup.getChildren().add(cells[i]);
         }
 
-        //create the outline
-        //front
-        FX3D.createLine(new Point3D(0, 0, 0), new Point3D(CEL_SIZE, 0, 0));
-        FX3D.createLine(new Point3D(CEL_SIZE, 0, 0), new Point3D(CEL_SIZE, 5*CEL_SIZE, 0));
-        FX3D.createLine(new Point3D(CEL_SIZE, 5*CEL_SIZE, 0), new Point3D(0, 5*CEL_SIZE, 0));
-        FX3D.createLine(new Point3D(0, 5*CEL_SIZE, 0), new Point3D(0, 0, 0));
-
-        //back
-        FX3D.createLine(new Point3D(0, 0, CEL_SIZE), new Point3D(CEL_SIZE, 0, CEL_SIZE));
-        FX3D.createLine(new Point3D(CEL_SIZE, 0, CEL_SIZE), new Point3D(CEL_SIZE, 5*CEL_SIZE, CEL_SIZE));
-        FX3D.createLine(new Point3D(CEL_SIZE, 5*CEL_SIZE, CEL_SIZE), new Point3D(0, 5*CEL_SIZE, CEL_SIZE));
-        FX3D.createLine(new Point3D(0, 5*CEL_SIZE, CEL_SIZE), new Point3D(0, 0, CEL_SIZE));
-
-        //sides
-        FX3D.createLine(new Point3D(0, 0, 0), new Point3D(0, 0, CEL_SIZE));
-        FX3D.createLine(new Point3D(CEL_SIZE, 0, 0), new Point3D(CEL_SIZE, 0, CEL_SIZE));
-        FX3D.createLine(new Point3D(CEL_SIZE, 5*CEL_SIZE, 0), new Point3D(CEL_SIZE, 5*CEL_SIZE, CEL_SIZE));
-        FX3D.createLine(new Point3D(0, 5*CEL_SIZE, 0), new Point3D(0, 5*CEL_SIZE, CEL_SIZE));
     }
 
 
