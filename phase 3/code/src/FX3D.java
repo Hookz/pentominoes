@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
@@ -31,6 +32,7 @@ To get JavaFX working follow the following steps:
 
 /*
 Sources
+Mouse zoom - https://www.youtube.com/watch?v=SiPfsZA_GeI - 21/12
 Mouse rotation - https://www.youtube.com/watch?v=yinIKzg7duc - 21/12
 Keyboard rotation (start) - https://www.youtube.com/watch?v=dNtZVVJ-lBg&list=PLhs1urmduZ295Ryetga7CNOqDymN_rhB_&index=4 - 18/12
 Object outline - https://stackoverflow.com/questions/42984225/javafx-shape3d-with-border - 18/12
@@ -173,7 +175,7 @@ public class FX3D extends Application {
         Scene scene = new Scene(frameGroup, SCREEN_WIDTH, SCREEN_HEIGHT, true);
 
         //Setup mouse rotation
-        initMouseControl(contentGroup, scene);
+        initMouseControl(contentGroup, scene, stage);
 
         //Set eventListener for mode selection
         modeSelection.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
@@ -339,7 +341,7 @@ public class FX3D extends Application {
     }
 
     //Needed for mouse rotation
-    private void initMouseControl(SmartGroup contentGroup, Scene scene){
+    private void initMouseControl(SmartGroup contentGroup, Scene scene, Stage stage){
         Rotate xRotate;
         Rotate yRotate;
         contentGroup.getTransforms().addAll(
@@ -361,6 +363,11 @@ public class FX3D extends Application {
         scene.setOnMouseDragged(event -> {
             angleX.set(anchorAngleX - (anchorY - event.getSceneY()));
             angleY.set(anchorAngleY + (anchorX - event.getSceneX()));
+        });
+
+        stage.addEventHandler(ScrollEvent.SCROLL, event ->{
+            double movement = event.getDeltaY();
+            contentGroup.translateZProperty().set(contentGroup.getTranslateZ() - movement);
         });
     }
 }
