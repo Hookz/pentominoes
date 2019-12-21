@@ -110,7 +110,6 @@ public class FX3D extends Application {
         topGrid.add(startButton, 0, 5);
         topGroup.getChildren().add(topGrid);
 
-
         //Put the 2D elements in the top left corner and in front of the 3D elements
         topGroup.setTranslateX(-SCREEN_WIDTH/3);
         topGroup.setTranslateY(-SCREEN_HEIGHT/3);
@@ -123,18 +122,18 @@ public class FX3D extends Application {
         container_material.setDiffuseColor(CONTAINER_COLOR);
         edge_material.setDiffuseColor(EDGE_COLOR);
 
-        //Create parcels
-        //TODO change to i<amountOfTYPEParcels, for instance i<amountOfAParcels
-        for(int i=0; i<4; i++){
-            Parcel parcel = new Parcel(50*i, 0, 0, 50, 80, 100);
-            parcels.add(parcel);
-        }
-
-        //Add the created parcels
-        //TODO change to i<totalAmountOfParcels
-        for(int i=0; i<4; i++){
-            contentGroup.getChildren().add(parcels.get(i));
-        }
+//        //Create parcels
+//        //TODO change to i<amountOfTYPEParcels, for instance i<amountOfAParcels
+//        for(int i=0; i<4; i++){
+//            Parcel parcel = new Parcel(50*i, 0, 0, 50, 80, 100);
+//            parcels.add(parcel);
+//        }
+//
+//        //Add the created parcels
+//        //TODO change to i<totalAmountOfParcels
+//        for(int i=0; i<4; i++){
+//            contentGroup.getChildren().add(parcels.get(i));
+//        }
 
         //TODO create pentomino option
         Pentomino L = new Pentomino(0, 0, 0, 'L', 1);
@@ -158,11 +157,13 @@ public class FX3D extends Application {
         Scene scene = new Scene(frameGroup, SCREEN_WIDTH, SCREEN_HEIGHT, true);
 
         //Set eventListener for mode selection
-        modeSelection.addEventHandler(MouseEvent.MOUSE_RELEASED, event -> {
+        modeSelection.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
             //check what mode was selected and show the corresponding options
-            if(modeSelection.getValue().toString().equals("Parcels")){
+            if(newValue.equals("Parcels")){
                 //remove other option
-                topGrid.getChildren().removeAll(LPentominoLabel, PPentominoLabel, TPentominoLabel, LPentominoTextField, PPentominoTextField, TPentominoTextField);
+                if(oldValue.equals("Pentominoes")){
+                    topGrid.getChildren().removeAll(LPentominoLabel, PPentominoLabel, TPentominoLabel, LPentominoTextField, PPentominoTextField, TPentominoTextField);
+                }
 
                 //add labels
                 topGrid.add(Parcel1Label, 0, 2);
@@ -173,14 +174,18 @@ public class FX3D extends Application {
                 topGrid.add(Parcel1TextField, 1, 2);
                 topGrid.add(Parcel2TextField, 1, 3);
                 topGrid.add(Parcel3TextField, 1, 4);
-            } else if (modeSelection.getValue().toString().equals("Pentominoes")){
+            } else if (newValue.equals("Pentominoes")){
                 //remove other option
-                topGrid.getChildren().removeAll(Parcel1Label, Parcel2Label, Parcel3Label, Parcel1TextField, Parcel2TextField, Parcel3TextField);
+                if(oldValue.equals("Parcels")){
+                    topGrid.getChildren().removeAll(Parcel1Label, Parcel2Label, Parcel3Label, Parcel1TextField, Parcel2TextField, Parcel3TextField);
+                }
 
+                //add labels
                 topGrid.add(LPentominoLabel, 0, 2);
                 topGrid.add(PPentominoLabel, 0, 3);
                 topGrid.add(TPentominoLabel, 0, 4);
 
+                //add text fields
                 topGrid.add(LPentominoTextField, 1, 2);
                 topGrid.add(PPentominoTextField, 1, 3);
                 topGrid.add(TPentominoTextField, 1, 4);
@@ -190,7 +195,7 @@ public class FX3D extends Application {
         //Set evenListener for start button
         startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event-> {
             //Show loading circle (that was created at the start)
-            topGrid.add(pin, 0, 2);
+            topGrid.add(pin, 0, 6);
 
             //TODO use values from the textFields as input
 
