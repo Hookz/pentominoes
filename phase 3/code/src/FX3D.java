@@ -114,6 +114,9 @@ public class FX3D extends Application {
             contentGroup.getChildren().add(parcels.get(i));
         }
 
+        //TODO create pentomino option
+        Pentomino L = new Pentomino(0, 0, 0);
+
         //Create container (note: Has to be created after adding all the other objects in order to use transparency (I know, javaFX can be crappy))
         Box container = new Box(CONTAINER_WIDTH, CONTAINER_HEIGHT, CONTAINER_DEPTH);
         container.setTranslateX(CONTAINER_WIDTH/2);
