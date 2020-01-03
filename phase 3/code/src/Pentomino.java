@@ -3,6 +3,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 
+/* TODO
+Should there be separate subclasses for pentL, pentP and pentT?
+ */
+
 public class Pentomino{
     final double xCenter;
     final double yCenter;

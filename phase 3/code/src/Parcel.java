@@ -2,7 +2,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 
-public class Parcel extends Box {
+/* TODO
+Should there be separate subclasses for parcelA, parcelB and parcelC or should it stay the way it's now?
+ */
+
+public class Parcel {
     final double xCenter;
     final double yCenter;
     final double zCenter;
@@ -40,6 +44,4 @@ public class Parcel extends Box {
         this.setTranslateX(xCenter);
         this.setTranslateY(yCenter);
     }
-
-
 }

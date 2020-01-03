@@ -45,9 +45,6 @@ public class FX3D extends Application {
     final static int ROTATE_SPEED = 10;
     final static int SCREEN_WIDTH = 1500;
     final static int SCREEN_HEIGHT = 1000;
-    final static int CONTAINER_WIDTH = 200;
-    final static int CONTAINER_HEIGHT = 200;
-    final static int CONTAINER_DEPTH = 200;
 
     static Group topGroup = new Group();
     static GridPane topGrid = new GridPane();
@@ -140,6 +137,7 @@ public class FX3D extends Application {
         container_material.setDiffuseColor(CONTAINER_COLOR);
         edge_material.setDiffuseColor(EDGE_COLOR);
 
+        //TODO create seperate function to insert shapes (parcels and pentominoes)
 //        //Create parcels
 //        //TODO change to i<amountOfTYPEParcels, for instance i<amountOfAParcels
 //        for(int i=0; i<4; i++){
@@ -153,20 +151,20 @@ public class FX3D extends Application {
 //            contentGroup.getChildren().add(parcels.get(i));
 //        }
 
-        //TODO create pentomino option
+        //TODO finish Pentomino
         Pentomino L = new Pentomino(0, 0, 0, 'L', 1);
 
         //Create container (note: Has to be created after adding all the other objects in order to use transparency (I know, javaFX can be crappy))
-        Box container = new Box(CONTAINER_WIDTH, CONTAINER_HEIGHT, CONTAINER_DEPTH);
-        container.setTranslateX(CONTAINER_WIDTH/2);
-        container.setTranslateY(CONTAINER_HEIGHT/2);
-        container.setTranslateZ(CONTAINER_DEPTH/2);
+        Box container = new Box(Wrapper.CONTAINER_WIDTH, Wrapper.CONTAINER_HEIGHT, Wrapper.CONTAINER_DEPTH);
+        container.setTranslateX(Wrapper.CONTAINER_WIDTH/2);
+        container.setTranslateY(Wrapper.CONTAINER_HEIGHT/2);
+        container.setTranslateZ(Wrapper.CONTAINER_DEPTH/2);
         container.setMaterial(container_material);
         contentGroup.getChildren().add(container);
 
         //Setup camera (so that you can have the container at the origin and can still see it well
-        camera.setTranslateX(-SCREEN_WIDTH/2+CONTAINER_WIDTH/2);
-        camera.setTranslateY(-SCREEN_HEIGHT/2+CONTAINER_HEIGHT/2);
+        camera.setTranslateX(-SCREEN_WIDTH/2+Wrapper.CONTAINER_WIDTH/2);
+        camera.setTranslateY(-SCREEN_HEIGHT/2+Wrapper.CONTAINER_HEIGHT/2);
 
         //Add the 3D objects to the group that gets displayed
         frameGroup.getChildren().add(contentGroup);
@@ -225,6 +223,7 @@ public class FX3D extends Application {
 
         });
 
+        //TODO decide whether to keep the current setup or switch to one based on camera movement
         //Set eventListeners for zoom and rotation
         stage.addEventHandler(KeyEvent.KEY_PRESSED, event ->{
             switch (event.getCode()){
