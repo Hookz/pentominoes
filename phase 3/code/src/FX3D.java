@@ -82,6 +82,10 @@ public class FX3D extends Application {
     }
 
     public void start(Stage stage){
+        bootUI(stage);
+    }
+
+    public void bootUI(Stage stage){
         /*START Setup top menu*/
 
         //Setup grid
