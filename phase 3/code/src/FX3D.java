@@ -53,11 +53,11 @@ public class FX3D extends Application {
     static SmartGroup contentGroup = new SmartGroup();
 
     //some variables for mouse rotation
-    private double anchorX, anchorY;
-    private double anchorAngleX = 0;
-    private double anchorAngleY = 0;
-    private final DoubleProperty angleX = new SimpleDoubleProperty(0);
-    private final DoubleProperty angleY = new SimpleDoubleProperty(0);
+    private static double anchorX, anchorY;
+    private static double anchorAngleX = 0;
+    private static double anchorAngleY = 0;
+    private static final DoubleProperty angleX = new SimpleDoubleProperty(0);
+    private static final DoubleProperty angleY = new SimpleDoubleProperty(0);
 
     //TODO move to other class (problemWrapper?)
     static double score = 0;
@@ -72,7 +72,32 @@ public class FX3D extends Application {
     final static PhongMaterial edge_material = new PhongMaterial();
     final static PhongMaterial container_material = new PhongMaterial();
 
+    //Edge settings
     final static double EDGE_WIDTH = 2;
+
+    /*DEFAULT UI COMPONENTS*/
+    static Label scoringLabel;
+    static Button startButton;
+    static ChoiceBox modeSelection;
+    final static ProgressIndicator[] pins = new ProgressIndicator[1];
+    final static ProgressIndicator pin = pins[0] = new ProgressIndicator();
+
+    //Parcel selection UI
+    static Label Parcel1Label;
+    static Label Parcel2Label;
+    static Label Parcel3Label;
+    static TextField Parcel1TextField;
+    static TextField Parcel2TextField;
+    static TextField Parcel3TextField;
+
+    //Pentominoe selection UI
+    static Label LPentominoLabel;
+    static Label PPentominoLabel;
+    static Label TPentominoLabel;
+    static TextField LPentominoTextField;
+    static TextField PPentominoTextField;
+    static TextField TPentominoTextField;
+    /*END*/
 
     //create group of parcels
     static ArrayList<Parcel> parcels = new ArrayList<Parcel>();
@@ -85,43 +110,49 @@ public class FX3D extends Application {
         bootUI(stage);
     }
 
-    public void bootUI(Stage stage){
-        /*START Setup top menu*/
+    public static void bootUI(Stage stage){
+        setupUIPreElements(stage);
 
+        setupUIElements(stage);
+
+        setupUIPostElements(stage);
+    }
+
+    public static void setupUIPreElements(Stage stage){
+        /*START Setup top menu*/
         //Setup grid
         topGrid.setHgap(10);
         topGrid.setVgap(10);
 
         //Setup items
         //Add scoring label
-        Label scoringLabel = new Label("Score: " + score);
-        Button startButton = new Button("Start");
+        scoringLabel = new Label("Score: " + score);
+        startButton = new Button("Start");
 
-        ChoiceBox modeSelection = new ChoiceBox(FXCollections.observableArrayList(
+        modeSelection = new ChoiceBox(FXCollections.observableArrayList(
                 "Parcels", "Pentominoes"
         ));
 
         modeSelection.setValue("");
 
         //Parcel selection UI
-        Label Parcel1Label = new Label("Amount of parcel1: ");
-        Label Parcel2Label = new Label("Amount of parcel2: ");
-        Label Parcel3Label = new Label("Amount of parcel3: ");
-        TextField Parcel1TextField = new TextField();
-        TextField Parcel2TextField = new TextField();
-        TextField Parcel3TextField = new TextField();
+        Parcel1Label = new Label("Amount of parcel1: ");
+        Parcel2Label = new Label("Amount of parcel2: ");
+        Parcel3Label = new Label("Amount of parcel3: ");
+        Parcel1TextField = new TextField();
+        Parcel2TextField = new TextField();
+        Parcel3TextField = new TextField();
 
         //Pentominoe selection UI
-        Label LPentominoLabel = new Label("Amount of L pentominoes: ");
-        Label PPentominoLabel = new Label("Amount of P pentominoes: ");
-        Label TPentominoLabel = new Label("Amount of T pentominoes: ");
-        TextField LPentominoTextField = new TextField();
-        TextField PPentominoTextField = new TextField();
-        TextField TPentominoTextField = new TextField();
+        LPentominoLabel = new Label("Amount of L pentominoes: ");
+        PPentominoLabel = new Label("Amount of P pentominoes: ");
+        TPentominoLabel = new Label("Amount of T pentominoes: ");
+        LPentominoTextField = new TextField();
+        PPentominoTextField = new TextField();
+        TPentominoTextField = new TextField();
 
-        final ProgressIndicator[] pins = new ProgressIndicator[1];
-        final ProgressIndicator pin = pins[0] = new ProgressIndicator();
         //-1 will make it display an animated disk, set to 1 to show that it's done
+        //pin is the progress indicator
         pin.setProgress(-1);
 
         topGrid.add(scoringLabel, 0, 0);
@@ -140,6 +171,10 @@ public class FX3D extends Application {
         //Set materials
         container_material.setDiffuseColor(CONTAINER_COLOR);
         edge_material.setDiffuseColor(EDGE_COLOR);
+    }
+
+    public static void setupUIElements(Stage stage){
+        //TODO setup requested shapes
 
         //TODO create seperate function to insert shapes (parcels and pentominoes)
 //        //Create parcels
@@ -157,7 +192,9 @@ public class FX3D extends Application {
 
         //TODO finish Pentomino
         Pentomino L = new Pentomino(0, 0, 0, 'L', 1);
+    }
 
+    public static void setupUIPostElements(Stage stage){
         //Create container (note: Has to be created after adding all the other objects in order to use transparency (I know, javaFX can be crappy))
         Box container = new Box(Wrapper.CONTAINER_WIDTH, Wrapper.CONTAINER_HEIGHT, Wrapper.CONTAINER_DEPTH);
         container.setTranslateX(Wrapper.CONTAINER_WIDTH/2);
@@ -344,7 +381,7 @@ public class FX3D extends Application {
     }
 
     //Needed for mouse rotation
-    private void initMouseControl(SmartGroup contentGroup, Scene scene, Stage stage){
+    private static void initMouseControl(SmartGroup contentGroup, Scene scene, Stage stage){
         Rotate xRotate;
         Rotate yRotate;
         contentGroup.getTransforms().addAll(
