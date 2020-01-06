@@ -88,7 +88,7 @@ public class Pentomino{
         for(int i=0; i<5; i++){
             cells[i].setMaterial(item_material);
             shape.getChildren().add(cells[i]);
-            FX3D.contentGroup.getChildren().add(cells[i]);
+            FX3D.threeDGroup.getChildren().add(cells[i]);
         }
     }
 }

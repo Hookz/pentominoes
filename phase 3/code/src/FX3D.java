@@ -2,16 +2,15 @@ import javafx.application.Application;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
 import javafx.geometry.Point3D;
-import javafx.scene.Camera;
-import javafx.scene.Group;
-import javafx.scene.PerspectiveCamera;
-import javafx.scene.Scene;
+import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -20,6 +19,7 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
+
 import java.util.ArrayList;
 
 /*
@@ -49,12 +49,16 @@ public class FX3D extends Application {
     final static int SCREEN_WIDTH = 1500;
     final static int SCREEN_HEIGHT = 1000;
 
-    static Group topGroup = new Group();
     static GridPane topGrid = new GridPane();
-    static Group frameGroup = new Group();
+    static Group twoDGroup = new Group();
     //SmartGroup helps with rotations
-    static SmartGroup contentGroup = new SmartGroup();
+    static SmartGroup threeDGroup = new SmartGroup();
 
+    static HBox root = new HBox();
+    static Scene mainScene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT, true);
+    static SubScene twoD = new SubScene(twoDGroup, SCREEN_WIDTH*.2, SCREEN_HEIGHT);
+    static SubScene threeD = new SubScene(threeDGroup, SCREEN_WIDTH*.8, SCREEN_HEIGHT);
+    
     //some variables for mouse rotation
     private static double anchorX, anchorY;
     private static double anchorAngleX = 0;
@@ -117,6 +121,11 @@ public class FX3D extends Application {
     }
 
     public static void setupUIPreElements(Stage stage){
+        //add subscenes to scene
+        root.getChildren().addAll(twoD, threeD);
+        root.setSpacing(10);
+        root.setPadding(new Insets(20, 20, 20, 20));
+
         /*START Setup top menu*/
         //Setup grid
         topGrid.setHgap(10);
@@ -156,14 +165,7 @@ public class FX3D extends Application {
         topGrid.add(scoringLabel, 0, 0);
         topGrid.add(modeSelection, 0, 1);
         topGrid.add(startButton, 0, 5);
-        topGroup.getChildren().add(topGrid);
-
-        //Put the 2D elements in the top left corner and in front of the 3D elements
-        topGroup.setTranslateX(-SCREEN_WIDTH/3);
-        topGroup.setTranslateY(-SCREEN_HEIGHT/3);
-        topGroup.setTranslateZ(-1);
-
-        frameGroup.getChildren().add(topGroup);
+        twoDGroup.getChildren().add(topGrid);
         /*END*/
 
         //Set materials
@@ -207,20 +209,15 @@ public class FX3D extends Application {
         container.setTranslateY(Wrapper.CONTAINER_HEIGHT/2);
         container.setTranslateZ(Wrapper.CONTAINER_DEPTH/2);
         container.setMaterial(container_material);
-        contentGroup.getChildren().add(container);
+        threeDGroup.getChildren().add(container);
 
         //Setup camera (so that you can have the container at the origin and can still see it well
         camera.setTranslateX(-SCREEN_WIDTH/2+Wrapper.CONTAINER_WIDTH/2);
         camera.setTranslateY(-SCREEN_HEIGHT/2+Wrapper.CONTAINER_HEIGHT/2);
-
-        //Add the 3D objects to the group that gets displayed
-        frameGroup.getChildren().add(contentGroup);
-
-        //Setup scene
-        Scene scene = new Scene(frameGroup, SCREEN_WIDTH, SCREEN_HEIGHT, true);
+        camera.setTranslateZ(-Wrapper.CONTAINER_DEPTH/0.8);
 
         //Setup mouse rotation
-        initMouseControl(contentGroup, scene, stage);
+        initMouseControl(threeDGroup, mainScene, stage);
 
         //Set eventListener for mode selection
         modeSelection.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
@@ -277,37 +274,37 @@ public class FX3D extends Application {
                 //go foreword
                 //TODO fix UP and DOWN not being detected since adding 2D components
                 case UP:
-                    contentGroup.translateZProperty().set(contentGroup.getTranslateZ()-50);
+                    threeDGroup.translateZProperty().set(threeDGroup.getTranslateZ()-50);
                     break;
                 //go backwards
                 case DOWN:
-                    contentGroup.translateZProperty().set(contentGroup.getTranslateZ()+50);
+                    threeDGroup.translateZProperty().set(threeDGroup.getTranslateZ()+50);
                     break;
                 case Q:
-                    contentGroup.rotateByZ(ROTATE_SPEED);
+                    threeDGroup.rotateByZ(ROTATE_SPEED);
                     break;
                 case E:
-                    contentGroup.rotateByZ(-ROTATE_SPEED);
+                    threeDGroup.rotateByZ(-ROTATE_SPEED);
                     break;
                 case A:
-                    contentGroup.rotateByY(ROTATE_SPEED);
+                    threeDGroup.rotateByY(ROTATE_SPEED);
                     break;
                 case D:
-                    contentGroup.rotateByY(-ROTATE_SPEED);
+                    threeDGroup.rotateByY(-ROTATE_SPEED);
                     break;
                 case W:
-                    contentGroup.rotateByX(-ROTATE_SPEED);
+                    threeDGroup.rotateByX(-ROTATE_SPEED);
                     break;
                 case S:
-                    contentGroup.rotateByX(ROTATE_SPEED);
+                    threeDGroup.rotateByX(ROTATE_SPEED);
                     break;
             }
         });
 
-        scene.setCamera(camera);
+        threeD.setCamera(camera);
         stage.setTitle("Filling 3D objects");
-        scene.setFill(BACKGROUND_COLOR);
-        stage.setScene(scene);
+        threeD.setFill(BACKGROUND_COLOR);
+        stage.setScene(mainScene);
         stage.show();
     }
 
@@ -357,7 +354,7 @@ public class FX3D extends Application {
 
         line.setMaterial(edge_material);
 
-        contentGroup.getChildren().add(line);
+        threeDGroup.getChildren().add(line);
     }
 
     static class SmartGroup extends Group {
