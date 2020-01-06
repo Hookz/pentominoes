@@ -44,7 +44,6 @@ public class FX3D extends Application {
     final static Color BACKGROUND_COLOR = Color.rgb(220, 220, 220);
     final static Color CONTAINER_COLOR = Color.rgb(0, 0, 0, 0.2);
     final static Color EDGE_COLOR = Color.rgb(0, 0, 0, 0.5);
-    final static int ROTATE_SPEED = 10;
     final static int SCREEN_WIDTH = 1920;
     final static int SCREEN_HEIGHT = 1000;
 
@@ -208,11 +207,11 @@ public class FX3D extends Application {
     }
 
     public static void setupUIElements(Stage stage, int[][][] resultBoxesArray){
-        //TODO formalize color range
-        //give every filled in field a box representation and keep color in mind
+        //TODO check if I can assume the IDs to be either 1, 2 or 3 if filled in or 0 if not
         int colorStart = 0;
-        int colorEnd = 40;
+        int colorEnd = 0;
 
+        //give every filled in field a box representation and keep color in mind
         for(int x=0; x<resultBoxesArray.length; x++){
             for(int y=0; y<resultBoxesArray[x].length; y++){
                 for(int z=0; z<resultBoxesArray[x][y].length; z++){
@@ -221,13 +220,19 @@ public class FX3D extends Application {
                     //if this field is filled
                     if(currentValue!=0){
                         //update color range
-                        if(colorEnd<215){
-                            colorStart+=40;
-                            
+                        if(currentValue==1){
+                            colorStart = 0;
+                            colorEnd = 70;
+                        } else if (currentValue==2){
+                            colorStart = 85;
+                            colorEnd = 155;
+                        } else {
+                            colorStart = 170;
+                            colorEnd = 255;
                         }
 
                         //50 is used because that is the size that is given for each cell in the array
-                        Box cellBox = new UIParcel(x*50, y*50, z*50, 50, 50, 50, );
+                        Box cellBox = new UIParcel(x*50, y*50, z*50, 50, 50, 50, colorStart, colorEnd);
                     }
                 }
             }
