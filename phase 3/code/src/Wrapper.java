@@ -1,9 +1,10 @@
 import javax.lang.model.util.Elements;
 
 public class Wrapper {
-    final static int CONTAINER_WIDTH = 200;
-    final static int CONTAINER_HEIGHT = 200;
-    final static int CONTAINER_DEPTH = 200;
+    //sizes are in cm
+    final static int CONTAINER_WIDTH = 1650;
+    final static int CONTAINER_HEIGHT = 250;
+    final static int CONTAINER_DEPTH = 400;
 
     static float score = 0;
     static String inputType = ""; //can be parcel or pentomino
