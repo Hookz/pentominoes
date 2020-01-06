@@ -29,6 +29,9 @@ public class Pentomino{
     //TODO add rotations
     //L
     public Pentomino(double xStart, double yStart, double zStart, char type, int rotation) {
+        //TODO finish rotations
+
+
         this.xStart = xStart;
         this.yStart = yStart;
         this.zStart = zStart;
@@ -50,6 +53,8 @@ public class Pentomino{
         4: Turn clockwise 270
         5: Make it orthogonal to the back
         6: Make it orthogonal to the front
+        7:
+        8:
          */
 
         switch (type){

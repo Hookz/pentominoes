@@ -20,7 +20,6 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
 
 /*
@@ -37,6 +36,10 @@ Mouse rotation - https://www.youtube.com/watch?v=yinIKzg7duc - 21/12
 Keyboard rotation (start) - https://www.youtube.com/watch?v=dNtZVVJ-lBg&list=PLhs1urmduZ295Ryetga7CNOqDymN_rhB_&index=4 - 18/12
 Object outline - https://stackoverflow.com/questions/42984225/javafx-shape3d-with-border - 18/12
  */
+
+//TODO don't use pentominoes, use groups of blocks instead
+//Use the result of the algorithm with as format int[][][] (size = 2*actual size) that has the colorIDs for the object than display it as groups of blocks.
+//add a slider to select the (highest) layer that you want to see
 
 public class FX3D extends Application {
     final static Color BACKGROUND_COLOR = Color.rgb(220, 220, 220);
@@ -67,7 +70,8 @@ public class FX3D extends Application {
     final static PhongMaterial container_material = new PhongMaterial();
 
     //Edge settings
-    final static double EDGE_WIDTH = 2;
+    //TODO try out different values
+    final static double EDGE_WIDTH = .5;
 
     /*DEFAULT UI COMPONENTS*/
     static Label scoringLabel;
