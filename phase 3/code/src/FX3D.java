@@ -45,7 +45,7 @@ public class FX3D extends Application {
     final static Color CONTAINER_COLOR = Color.rgb(0, 0, 0, 0.2);
     final static Color EDGE_COLOR = Color.rgb(0, 0, 0, 0.5);
     final static int ROTATE_SPEED = 10;
-    final static int SCREEN_WIDTH = 1500;
+    final static int SCREEN_WIDTH = 1920;
     final static int SCREEN_HEIGHT = 1000;
 
     static GridPane topGrid = new GridPane();
@@ -84,20 +84,34 @@ public class FX3D extends Application {
     final static ProgressIndicator pin = pins[0] = new ProgressIndicator();
 
     //Parcel selection UI
-    static Label Parcel1Label;
-    static Label Parcel2Label;
-    static Label Parcel3Label;
-    static TextField Parcel1TextField;
-    static TextField Parcel2TextField;
-    static TextField Parcel3TextField;
+    static Label ParcelAAmountLabel;
+    static Label ParcelBAmountLabel;
+    static Label ParcelCAmountLabel;
+    static TextField ParcelAAmountTextField;
+    static TextField ParcelBAmountTextField;
+    static TextField ParcelCAmountTextField;
+
+    static Label ParcelAValueLabel;
+    static Label ParcelBValueLabel;
+    static Label ParcelCValueLabel;
+    static TextField ParcelAValueTextField;
+    static TextField ParcelBValueTextField;
+    static TextField ParcelCValueTextField;
 
     //Pentominoe selection UI
-    static Label LPentominoLabel;
-    static Label PPentominoLabel;
-    static Label TPentominoLabel;
-    static TextField LPentominoTextField;
-    static TextField PPentominoTextField;
-    static TextField TPentominoTextField;
+    static Label LPentominoAmountLabel;
+    static Label PPentominoAmountLabel;
+    static Label TPentominoAmountLabel;
+    static TextField LPentominoAmountTextField;
+    static TextField PPentominoAmountTextField;
+    static TextField TPentominoAmountTextField;
+
+    static Label LPentominoValueLabel;
+    static Label PPentominoValueLabel;
+    static Label TPentominoValueLabel;
+    static TextField LPentominoValueTextField;
+    static TextField PPentominoValueTextField;
+    static TextField TPentominoValueTextField;
     /*END*/
 
     //create group of parcels
@@ -142,20 +156,34 @@ public class FX3D extends Application {
         modeSelection.setValue("");
 
         //Parcel selection UI
-        Parcel1Label = new Label("Amount of parcel1: ");
-        Parcel2Label = new Label("Amount of parcel2: ");
-        Parcel3Label = new Label("Amount of parcel3: ");
-        Parcel1TextField = new TextField();
-        Parcel2TextField = new TextField();
-        Parcel3TextField = new TextField();
+        ParcelAAmountLabel = new Label("Amount of parcel A: ");
+        ParcelBAmountLabel = new Label("Amount of parcel B: ");
+        ParcelCAmountLabel = new Label("Amount of parcel C: ");
+        ParcelAAmountTextField = new TextField();
+        ParcelBAmountTextField = new TextField();
+        ParcelCAmountTextField = new TextField();
+
+        ParcelAValueLabel = new Label("Value of parcel A: ");
+        ParcelBValueLabel = new Label("Value of parcel B: ");
+        ParcelCValueLabel = new Label("Value of parcel C: ");
+        ParcelAValueTextField = new TextField();
+        ParcelBValueTextField = new TextField();
+        ParcelCValueTextField = new TextField();
 
         //Pentominoe selection UI
-        LPentominoLabel = new Label("Amount of L pentominoes: ");
-        PPentominoLabel = new Label("Amount of P pentominoes: ");
-        TPentominoLabel = new Label("Amount of T pentominoes: ");
-        LPentominoTextField = new TextField();
-        PPentominoTextField = new TextField();
-        TPentominoTextField = new TextField();
+        LPentominoAmountLabel = new Label("Amount of L pentominoes: ");
+        PPentominoAmountLabel = new Label("Amount of P pentominoes: ");
+        TPentominoAmountLabel = new Label("Amount of T pentominoes: ");
+        LPentominoAmountTextField = new TextField();
+        PPentominoAmountTextField = new TextField();
+        TPentominoAmountTextField = new TextField();
+
+        LPentominoValueLabel = new Label("Value of L pentominoes: ");
+        PPentominoValueLabel = new Label("Value of P pentominoes: ");
+        TPentominoValueLabel = new Label("Value of T pentominoes: ");
+        LPentominoValueTextField = new TextField();
+        PPentominoValueTextField = new TextField();
+        TPentominoValueTextField = new TextField();
 
         //-1 will make it display an animated disk, set to 1 to show that it's done
         //pin is the progress indicator
@@ -163,7 +191,7 @@ public class FX3D extends Application {
 
         topGrid.add(scoringLabel, 0, 0);
         topGrid.add(modeSelection, 0, 1);
-        topGrid.add(startButton, 0, 5);
+        topGrid.add(startButton, 0, 8);
         twoDGroup.getChildren().add(topGrid);
         /*END*/
 
@@ -211,7 +239,8 @@ public class FX3D extends Application {
         threeDGroup.getChildren().add(container);
 
         //Setup camera (so that you can have the container at the origin and can still see it well
-        camera.setTranslateX(-SCREEN_WIDTH/2+Wrapper.CONTAINER_WIDTH/2);
+        //The +200 comes from the compensation for the 2D subscene on the left
+        camera.setTranslateX(-SCREEN_WIDTH/2+Wrapper.CONTAINER_WIDTH/2+200);
         camera.setTranslateY(-SCREEN_HEIGHT/2+Wrapper.CONTAINER_HEIGHT/2);
         camera.setTranslateZ(-Wrapper.CONTAINER_DEPTH/0.5);
 
@@ -224,40 +253,57 @@ public class FX3D extends Application {
             if(newValue.equals("Parcels")){
                 //remove other option
                 if(oldValue.equals("Pentominoes")){
-                    topGrid.getChildren().removeAll(LPentominoLabel, PPentominoLabel, TPentominoLabel, LPentominoTextField, PPentominoTextField, TPentominoTextField);
+                    topGrid.getChildren().removeAll(LPentominoAmountLabel, PPentominoAmountLabel, TPentominoAmountLabel, LPentominoAmountTextField, PPentominoAmountTextField, TPentominoAmountTextField, LPentominoValueLabel, PPentominoValueLabel, TPentominoValueLabel, LPentominoValueTextField, PPentominoValueTextField, TPentominoValueTextField);
                 }
 
                 //add labels
-                topGrid.add(Parcel1Label, 0, 2);
-                topGrid.add(Parcel2Label, 0, 3);
-                topGrid.add(Parcel3Label, 0, 4);
+                topGrid.add(ParcelAAmountLabel, 0, 2);
+                topGrid.add(ParcelBAmountLabel, 0, 4);
+                topGrid.add(ParcelCAmountLabel, 0, 6);
+
+                topGrid.add(ParcelAValueLabel, 0, 3);
+                topGrid.add(ParcelBValueLabel, 0, 5);
+                topGrid.add(ParcelCValueLabel, 0, 7);
 
                 //add text fields
-                topGrid.add(Parcel1TextField, 1, 2);
-                topGrid.add(Parcel2TextField, 1, 3);
-                topGrid.add(Parcel3TextField, 1, 4);
+                topGrid.add(ParcelAAmountTextField, 1, 2);
+                topGrid.add(ParcelBAmountTextField, 1, 4);
+                topGrid.add(ParcelCAmountTextField, 1, 6);
+
+                topGrid.add(ParcelAValueTextField, 1, 3);
+                topGrid.add(ParcelBValueTextField, 1, 5);
+                topGrid.add(ParcelCValueTextField, 1, 7);
+
             } else if (newValue.equals("Pentominoes")){
                 //remove other option
                 if(oldValue.equals("Parcels")){
-                    topGrid.getChildren().removeAll(Parcel1Label, Parcel2Label, Parcel3Label, Parcel1TextField, Parcel2TextField, Parcel3TextField);
+                    topGrid.getChildren().removeAll(ParcelAAmountLabel, ParcelBAmountLabel, ParcelCAmountLabel, ParcelAAmountTextField, ParcelBAmountTextField, ParcelCAmountTextField, ParcelAValueLabel, ParcelBValueLabel, ParcelCValueLabel, ParcelAValueTextField, ParcelBValueTextField, ParcelCValueTextField);
                 }
 
                 //add labels
-                topGrid.add(LPentominoLabel, 0, 2);
-                topGrid.add(PPentominoLabel, 0, 3);
-                topGrid.add(TPentominoLabel, 0, 4);
+                topGrid.add(LPentominoAmountLabel, 0, 2);
+                topGrid.add(PPentominoAmountLabel, 0, 4);
+                topGrid.add(TPentominoAmountLabel, 0, 6);
+
+                topGrid.add(LPentominoValueLabel, 0, 3);
+                topGrid.add(PPentominoValueLabel, 0, 5);
+                topGrid.add(TPentominoValueLabel, 0, 7);
 
                 //add text fields
-                topGrid.add(LPentominoTextField, 1, 2);
-                topGrid.add(PPentominoTextField, 1, 3);
-                topGrid.add(TPentominoTextField, 1, 4);
+                topGrid.add(LPentominoAmountTextField, 1, 2);
+                topGrid.add(PPentominoAmountTextField, 1, 4);
+                topGrid.add(TPentominoAmountTextField, 1, 6);
+
+                topGrid.add(LPentominoValueTextField, 1, 3);
+                topGrid.add(PPentominoValueTextField, 1, 5);
+                topGrid.add(TPentominoValueTextField, 1, 7);
             }
         });
 
         //Set evenListener for start button
         startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event-> {
             //Show loading circle (that was created at the start)
-            topGrid.add(pin, 0, 6);
+            topGrid.add(pin, 0, 9);
 
             //TODO use values from the textFields as input
 
