@@ -48,6 +48,7 @@ public class FX3D extends Application {
     final static int SCREEN_WIDTH = 1920;
     final static int SCREEN_HEIGHT = 1000;
 
+    static Stage mainStage;
     static GridPane topGrid = new GridPane();
     static Group twoDGroup = new Group();
     //SmartGroup helps with rotations
@@ -122,15 +123,21 @@ public class FX3D extends Application {
     }
 
     public void start(Stage stage){
-        bootUI(stage);
+        mainStage = stage;
+        bootUI();
     }
 
-    public static void bootUI(Stage stage){
-        setupUIPreElements(stage);
+    public static void bootUI(){
+        setupUIPreElements(mainStage);
+        setupUIPostElements(mainStage);
+    }
 
-        setupUIElements(stage);
+    public static void updateUI(int[][][] resultBoxesArray){
+        setupUIPreElements(mainStage);
 
-        setupUIPostElements(stage);
+        setupUIElements(mainStage, resultBoxesArray);
+
+        setupUIPostElements(mainStage);
     }
 
     public static void setupUIPreElements(Stage stage){
@@ -200,33 +207,31 @@ public class FX3D extends Application {
         edge_material.setDiffuseColor(EDGE_COLOR);
     }
 
-    public static void setupUIElements(Stage stage){
-        //TODO setup requested shapes
+    public static void setupUIElements(Stage stage, int[][][] resultBoxesArray){
+        //TODO formalize color range
+        //give every filled in field a box representation and keep color in mind
+        int colorStart = 0;
+        int colorEnd = 40;
 
-        //Check if a type was specified and execute the code for the given type
-        if(Wrapper.inputType.equals("parcel")){
-            //Create parcels
-            /*
-            //TODO change to i<amountOfTYPEParcels, for instance i<amountOfAParcels
-            for(int i=0; i<4; i++){
-                UIParcel parcel = new UIParcel(50*i, 0, 0, 50, 80, 100);
-                parcels.add(parcel);
+        for(int x=0; x<resultBoxesArray.length; x++){
+            for(int y=0; y<resultBoxesArray[x].length; y++){
+                for(int z=0; z<resultBoxesArray[x][y].length; z++){
+                    int currentValue = resultBoxesArray[x][y][z];
+
+                    //if this field is filled
+                    if(currentValue!=0){
+                        //update color range
+                        if(colorEnd<215){
+                            colorStart+=40;
+                            
+                        }
+
+                        //50 is used because that is the size that is given for each cell in the array
+                        Box cellBox = new UIParcel(x*50, y*50, z*50, 50, 50, 50, );
+                    }
+                }
             }
-
-            //Add the created parcels
-            //TODO change to i<totalAmountOfParcels
-            for(int i=0; i<4; i++){
-                contentGroup.getChildren().add(parcels.get(i));
-            }*/
-        } else if (Wrapper.inputType.equals("pentomino")){
-
         }
-
-        //TODO create seperate function to insert shapes (parcels and pentominoes)
-
-
-        //TODO finish Pentomino
-        Pentomino L = new Pentomino(0, 0, 0, 'L', 1);
     }
 
     public static void setupUIPostElements(Stage stage){

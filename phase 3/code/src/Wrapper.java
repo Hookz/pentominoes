@@ -1,5 +1,3 @@
-import javax.lang.model.util.Elements;
-
 public class Wrapper {
     //sizes are in cm
     final static int CONTAINER_WIDTH = 1650;
@@ -9,7 +7,6 @@ public class Wrapper {
     static float score = 0;
     static String inputType = ""; //can be parcel or pentomino
     static inputDetail[] inputDetails; //It will have the format [inputDetail1, inputDetail2, ..., inputDetailN] with inputDetail having type, amount and value as fields. To be used for the algorithm
-    static Elements[] UIElementInfo;
 }
 
 //TODO

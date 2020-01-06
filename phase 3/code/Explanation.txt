@@ -11,3 +11,6 @@ test is used only to test out the code.
 inputDetail is used to store the input from the user in a more easy-to-use manner.
 
 Take a look at Program.uml for an overview of the structure.
+
+
+ONLY L, P and T pentominoes!
