@@ -6,7 +6,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.GridPane;
@@ -58,7 +57,7 @@ public class FX3D extends Application {
     static Scene mainScene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT, true);
     static SubScene twoD = new SubScene(twoDGroup, SCREEN_WIDTH*.2, SCREEN_HEIGHT);
     static SubScene threeD = new SubScene(threeDGroup, SCREEN_WIDTH*.8, SCREEN_HEIGHT);
-    
+
     //some variables for mouse rotation
     private static double anchorX, anchorY;
     private static double anchorAngleX = 0;
@@ -214,7 +213,7 @@ public class FX3D extends Application {
         //Setup camera (so that you can have the container at the origin and can still see it well
         camera.setTranslateX(-SCREEN_WIDTH/2+Wrapper.CONTAINER_WIDTH/2);
         camera.setTranslateY(-SCREEN_HEIGHT/2+Wrapper.CONTAINER_HEIGHT/2);
-        camera.setTranslateZ(-Wrapper.CONTAINER_DEPTH/0.8);
+        camera.setTranslateZ(-Wrapper.CONTAINER_DEPTH/0.5);
 
         //Setup mouse rotation
         initMouseControl(threeDGroup, mainScene, stage);
@@ -265,40 +264,6 @@ public class FX3D extends Application {
             //TODO start calculations
             //TODO pin.setProgress(1); when it's done
 
-        });
-
-        //TODO decide whether to keep the current setup or switch to one based on camera movement
-        //Set eventListeners for zoom and rotation
-        stage.addEventHandler(KeyEvent.KEY_PRESSED, event ->{
-            switch (event.getCode()){
-                //go foreword
-                //TODO fix UP and DOWN not being detected since adding 2D components
-                case UP:
-                    threeDGroup.translateZProperty().set(threeDGroup.getTranslateZ()-50);
-                    break;
-                //go backwards
-                case DOWN:
-                    threeDGroup.translateZProperty().set(threeDGroup.getTranslateZ()+50);
-                    break;
-                case Q:
-                    threeDGroup.rotateByZ(ROTATE_SPEED);
-                    break;
-                case E:
-                    threeDGroup.rotateByZ(-ROTATE_SPEED);
-                    break;
-                case A:
-                    threeDGroup.rotateByY(ROTATE_SPEED);
-                    break;
-                case D:
-                    threeDGroup.rotateByY(-ROTATE_SPEED);
-                    break;
-                case W:
-                    threeDGroup.rotateByX(-ROTATE_SPEED);
-                    break;
-                case S:
-                    threeDGroup.rotateByX(ROTATE_SPEED);
-                    break;
-            }
         });
 
         threeD.setCamera(camera);
@@ -360,36 +325,16 @@ public class FX3D extends Application {
     static class SmartGroup extends Group {
         Rotate rotateDelta;
         Transform rotation = new Rotate();
-
-        void rotateByX(int deg){
-            rotateDelta = new Rotate(deg, 0, 0, 0, Rotate.X_AXIS);
-            rotation = rotation.createConcatenation(rotateDelta);
-            this.getTransforms().clear();
-            this.getTransforms().addAll(rotation);
-        }
-
-        void rotateByY(int deg){
-            rotateDelta = new Rotate(deg, 0, 0, 0, Rotate.Y_AXIS);
-            rotation = rotation.createConcatenation(rotateDelta);
-            this.getTransforms().clear();
-            this.getTransforms().addAll(rotation);
-        }
-
-        void rotateByZ(int deg){
-            rotateDelta = new Rotate(deg, 0, 0, 0, Rotate.Z_AXIS);
-            rotation = rotation.createConcatenation(rotateDelta);
-            this.getTransforms().clear();
-            this.getTransforms().addAll(rotation);
-        }
     }
 
     //Needed for mouse rotation
     private static void initMouseControl(SmartGroup contentGroup, Scene scene, Stage stage){
         Rotate xRotate;
         Rotate yRotate;
+        //set the rotation origin to the center of the screen
         contentGroup.getTransforms().addAll(
-            xRotate = new Rotate(0, Rotate.X_AXIS),
-            yRotate = new Rotate(0, Rotate.Y_AXIS)
+            xRotate = new Rotate(0, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 0, Rotate.X_AXIS),
+            yRotate = new Rotate(0, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 0, Rotate.Y_AXIS)
         );
 
         xRotate.angleProperty().bind(angleX);
