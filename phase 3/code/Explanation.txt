@@ -1,7 +1,7 @@
 The code is split into two main parts, the UI and the Algorithm. The Wrapper is used to communicate between the two and keep everything together, you can think of it like the glue between
 the UI an the algorithm.
 
-The UI is setup in FX3D which creates the screen and can handle all of the UI events, like: rotation, zooming an user input. It makes use of Parcel and Pentomino to 'easily' create shapes
+The UI is setup in FX3D which creates the screen and can handle all of the UI events, like: rotation, zooming an user input. It makes use of UIParcel and Pentomino to 'easily' create shapes
 and insert them.
 
 Algorithm is where the problem actually gets solved.

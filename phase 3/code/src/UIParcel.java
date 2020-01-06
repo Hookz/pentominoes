@@ -6,7 +6,7 @@ import javafx.scene.shape.Box;
 Should there be separate subclasses for parcelA, parcelB and parcelC or should it stay the way it's now?
  */
 
-public class Parcel extends Box{
+public class UIParcel extends Box{
     final double xCenter;
     final double yCenter;
     final double zCenter;
@@ -19,7 +19,7 @@ public class Parcel extends Box{
     PhongMaterial item_material = new PhongMaterial();
     Color item_color;
 
-    public Parcel(double xStart, double yStart, double zStart, double width, double height, double depth) {
+    public UIParcel(double xStart, double yStart, double zStart, double width, double height, double depth) {
         super(width, height, depth);
 
         this.xStart = xStart;

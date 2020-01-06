@@ -59,12 +59,6 @@ public class FX3D extends Application {
     private static final DoubleProperty angleX = new SimpleDoubleProperty(0);
     private static final DoubleProperty angleY = new SimpleDoubleProperty(0);
 
-    //TODO move to other class (problemWrapper?)
-    static double score = 0;
-
-    //TODO
-    //static int amountOfTypeX = 3;
-
     //Setup camera
     static Camera camera = new PerspectiveCamera();
 
@@ -100,7 +94,7 @@ public class FX3D extends Application {
     /*END*/
 
     //create group of parcels
-    static ArrayList<Parcel> parcels = new ArrayList<Parcel>();
+    static ArrayList<UIParcel> parcels = new ArrayList<UIParcel>();
 
     public static void main(String[] args){
         launch(args);
@@ -126,7 +120,7 @@ public class FX3D extends Application {
 
         //Setup items
         //Add scoring label
-        scoringLabel = new Label("Score: " + score);
+        scoringLabel = new Label("Score: " + Wrapper.score);
         startButton = new Button("Start");
 
         modeSelection = new ChoiceBox(FXCollections.observableArrayList(
@@ -176,19 +170,27 @@ public class FX3D extends Application {
     public static void setupUIElements(Stage stage){
         //TODO setup requested shapes
 
+        //Check if a type was specified and execute the code for the given type
+        if(Wrapper.inputType.equals("parcel")){
+            //Create parcels
+            /*
+            //TODO change to i<amountOfTYPEParcels, for instance i<amountOfAParcels
+            for(int i=0; i<4; i++){
+                UIParcel parcel = new UIParcel(50*i, 0, 0, 50, 80, 100);
+                parcels.add(parcel);
+            }
+
+            //Add the created parcels
+            //TODO change to i<totalAmountOfParcels
+            for(int i=0; i<4; i++){
+                contentGroup.getChildren().add(parcels.get(i));
+            }*/
+        } else if (Wrapper.inputType.equals("pentomino")){
+
+        }
+
         //TODO create seperate function to insert shapes (parcels and pentominoes)
-//        //Create parcels
-//        //TODO change to i<amountOfTYPEParcels, for instance i<amountOfAParcels
-//        for(int i=0; i<4; i++){
-//            Parcel parcel = new Parcel(50*i, 0, 0, 50, 80, 100);
-//            parcels.add(parcel);
-//        }
-//
-//        //Add the created parcels
-//        //TODO change to i<totalAmountOfParcels
-//        for(int i=0; i<4; i++){
-//            contentGroup.getChildren().add(parcels.get(i));
-//        }
+
 
         //TODO finish Pentomino
         Pentomino L = new Pentomino(0, 0, 0, 'L', 1);
