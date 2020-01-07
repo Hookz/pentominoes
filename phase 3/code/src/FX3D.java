@@ -1,6 +1,8 @@
 import javafx.application.Application;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.*;
@@ -62,6 +64,9 @@ public class FX3D extends Application {
 
     //Setup camera
     static Camera camera;
+
+    // Slider value
+    static double valueSlider = 5.0;
 
     //Create materials
     final static PhongMaterial edge_material = new PhongMaterial();
@@ -265,7 +270,7 @@ public class FX3D extends Application {
     }
 
     public static void setupSlider(Stage stage){
-        layerLabel = new Label("Chose the layer to view");
+        layerLabel = new Label("Choose the amount of layers to view:");
         layerSlider = new Slider(0, Wrapper.CONTAINER_HEIGHT/cellSize, Wrapper.CONTAINER_HEIGHT/cellSize);
         layerSlider.setShowTickLabels(true);
         layerSlider.setShowTickMarks(true);
@@ -273,9 +278,42 @@ public class FX3D extends Application {
         layerSlider.setMajorTickUnit(1);
         layerSlider.setMinorTickCount(0);
         layerSlider.setSnapToTicks(true);
+        layerSlider.setValue(valueSlider);
 
         topGrid.add(layerLabel, 0, 10);
         topGrid.add(layerSlider, 0, 11);
+
+        layerSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
+                // Fetch the value of the slider
+                valueSlider = newValue.intValue();
+
+                // Create a new 3-Dimensional array and copy the values from the original input
+                int[][][] newInput = new int[33][5][8];
+
+                for(int x = 0; x < newInput.length; x++) {
+                    for(int y = 0; y < newInput[x].length; y++) {
+                        for(int z = 0; z < newInput[x][y].length; z++) {
+                            newInput[x][y][z] = test.input[x][y][z];
+                        }
+                    }
+                }
+
+                // Set all x and z values above the specified y value to 0
+                if (valueSlider != newInput[0].length) {
+                    for (int x = 0; x < newInput.length; x++) {
+                        for (int y = 0; y < newInput[x].length - (int) valueSlider; y++) {
+                            for (int z = 0; z < newInput[x][y].length; z++) {
+                                newInput[x][y][z] = 0;
+                            }
+                        }
+                    }
+                }
+
+                updateUI(newInput);
+            }
+        });
     }
 
     public static void setupUIPostElements(Stage stage){
