@@ -3,7 +3,6 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
-import javafx.geometry.Point3D;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -13,10 +12,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
-import javafx.scene.shape.Cylinder;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
-import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -146,7 +143,7 @@ public class FX3D extends Application {
         twoDGroup = new Group();
         threeDGroup = new SmartGroup();
         root = new HBox();
-        mainScene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT, true, SceneAntialiasing.BALANCED);
+        mainScene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT, true);
         twoD = new SubScene(twoDGroup, SCREEN_WIDTH*.2, SCREEN_HEIGHT);
         threeD = new SubScene(threeDGroup, SCREEN_WIDTH*.8, SCREEN_HEIGHT, true, SceneAntialiasing.BALANCED);
         anchorAngleX = 0;
@@ -264,7 +261,8 @@ public class FX3D extends Application {
 
     public static void setupUIPostElements(Stage stage){
         //Create container (note: Has to be created after adding all the other objects in order to use transparency (I know, javaFX can be crappy))
-        Box container = new Box(Wrapper.CONTAINER_WIDTH, Wrapper.CONTAINER_HEIGHT, Wrapper.CONTAINER_DEPTH);
+        int containerPadding = 20;
+        Box container = new Box(Wrapper.CONTAINER_WIDTH+containerPadding, Wrapper.CONTAINER_HEIGHT+containerPadding, Wrapper.CONTAINER_DEPTH+containerPadding);
         container.setTranslateX(Wrapper.CONTAINER_WIDTH/2);
         container.setTranslateY(Wrapper.CONTAINER_HEIGHT/2);
         container.setTranslateZ(Wrapper.CONTAINER_DEPTH/2);
@@ -352,55 +350,6 @@ public class FX3D extends Application {
         threeD.setFill(BACKGROUND_COLOR);
         stage.setScene(mainScene);
         stage.show();
-    }
-
-    public static void createBoxLines(double contW, double contH, double contD, double x, double y, double z) {
-        //You call this method to create a box with a size and location you put in
-        //This method calls the createLine method for all the sides of your rectangle
-        Point3D p1 = new Point3D(x, y, z);
-        Point3D p2 = new Point3D(contW + x, y, z);
-        Point3D p3 = new Point3D(x, contH + y, z);
-        Point3D p4 = new Point3D(contW + x, contH + y, z);
-        createLine(p1, p2);
-        createLine(p1, p3);
-        createLine(p3, p4);
-        createLine(p2, p4);
-
-        Point3D p5 = new Point3D(x, y, contD + z);
-        Point3D p6 = new Point3D(contW + x, y, contD + z);
-        Point3D p7 = new Point3D(x, contH + y, contD + z);
-        Point3D p8 = new Point3D(contW + x, contH + y, contD + z);
-        createLine(p5, p6);
-        createLine(p5, p7);
-        createLine(p7, p8);
-        createLine(p6, p8);
-
-        createLine(p1, p5);
-        createLine(p2, p6);
-        createLine(p3, p7);
-        createLine(p4, p8);
-    }
-
-    public static void createLine(Point3D origin, Point3D target) {
-        //creates a line from one point3d to another
-        Point3D yAxis = new Point3D(0, 1, 0);
-        Point3D diff = target.subtract(origin);
-        double height = diff.magnitude();
-
-        Point3D mid = target.midpoint(origin);
-        Translate moveToMidpoint = new Translate(mid.getX(), mid.getY(), mid.getZ());
-
-        Point3D axisOfRotation = diff.crossProduct(yAxis);
-        double angle = Math.acos(diff.normalize().dotProduct(yAxis));
-        Rotate rotateAroundCenter = new Rotate(-Math.toDegrees(angle), axisOfRotation);
-
-        Cylinder line = new Cylinder(EDGE_WIDTH, height);
-
-        line.getTransforms().addAll(moveToMidpoint, rotateAroundCenter);
-
-        line.setMaterial(edge_material);
-
-        threeDGroup.getChildren().add(line);
     }
 
     static class SmartGroup extends Group {
