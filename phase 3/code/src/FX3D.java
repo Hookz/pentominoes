@@ -70,6 +70,7 @@ public class FX3D extends Application {
 
     // Visibility of the warning message
     static boolean visibleWarning = false;
+    static boolean textFieldsFilled = true;
 
     // Slider value
     static double valueSlider = Wrapper.CONTAINER_HEIGHT/cellSize;
@@ -88,8 +89,8 @@ public class FX3D extends Application {
     static Slider layerSlider;
 
     //Parcel selection UI
-    static ArrayList<TextField> parcelTextFields = new ArrayList<>();
-    static ArrayList<TextField> pentominoTextFields = new ArrayList<>();
+    static ArrayList<TextField> parcelTextFields;
+    static ArrayList<TextField> pentominoTextFields;
 
     static Label ParcelAAmountLabel;
     static Label ParcelBAmountLabel;
@@ -177,6 +178,8 @@ public class FX3D extends Application {
         pins = new ProgressIndicator[1];
         pin = pins[0] = new ProgressIndicator();
         parcels = new ArrayList<UIParcel>();
+        parcelTextFields = new ArrayList<>();
+        pentominoTextFields = new ArrayList<>();
 
         //add subscenes to scene
         root.getChildren().addAll(twoD, threeD);
@@ -231,7 +234,7 @@ public class FX3D extends Application {
 
         warningLabel = new Label("Fill in every field correctly!");
         warningLabel.setFont(Font.font(null, FontWeight.BOLD, 14.0));
-        warningLabel.setTextFill(Color.rgb(255, 0, 0));
+        warningLabel.setTextFill(Color.rgb(255, 80, 80));
         warningLabel.setVisible(visibleWarning);
 
         parcelTextFields.add(ParcelAAmountTextField);
@@ -403,7 +406,7 @@ public class FX3D extends Application {
         //Set evenListener for start button
         startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event-> {
             //Check if the input isn't empty
-            boolean textFieldsFilled = true;
+            textFieldsFilled = true;
 
             // Retrieve selected option (Parcels or Pentominoes) and pass along value to Wrapper
             Wrapper.inputType = modeSelection.getValue().toString();
