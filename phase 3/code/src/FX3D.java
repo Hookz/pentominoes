@@ -86,6 +86,9 @@ public class FX3D extends Application {
     static Slider layerSlider;
 
     //Parcel selection UI
+    static ArrayList<TextField> parcelTextFields = new ArrayList<>();
+    static ArrayList<TextField> pentominoTextFields = new ArrayList<>();
+
     static Label ParcelAAmountLabel;
     static Label ParcelBAmountLabel;
     static Label ParcelCAmountLabel;
@@ -216,6 +219,19 @@ public class FX3D extends Application {
         LPentominoValueTextField = new TextField();
         PPentominoValueTextField = new TextField();
         TPentominoValueTextField = new TextField();
+
+        parcelTextFields.add(ParcelAAmountTextField);
+        parcelTextFields.add(ParcelBAmountTextField);
+        parcelTextFields.add(ParcelCAmountTextField);
+        parcelTextFields.add(ParcelAValueTextField);
+        parcelTextFields.add(ParcelBValueTextField);
+        parcelTextFields.add(ParcelCValueTextField);
+        pentominoTextFields.add(LPentominoAmountTextField);
+        pentominoTextFields.add(PPentominoAmountTextField);
+        pentominoTextFields.add(TPentominoAmountTextField);
+        pentominoTextFields.add(LPentominoValueTextField);
+        pentominoTextFields.add(PPentominoValueTextField);
+        pentominoTextFields.add(TPentominoValueTextField);
 
         //-1 will make it display an animated disk, set to 1 to show that it's done
         //pin is the progress indicator
@@ -390,36 +406,62 @@ public class FX3D extends Application {
 
         //Set evenListener for start button
         startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event-> {
-            //Show loading circle (that was created at the start)
-            topGrid.add(pin, 0, 9);
+            //Check if the input isn't empty
+            boolean textFieldsFilled = false;
 
             // Retrieve selected option (Parcels or Pentominoes) and pass along value to Wrapper
             Wrapper.inputType = modeSelection.getValue().toString();
 
             // Depending on the selected option, instantiate the corresponding inputDetail objects
             if (Wrapper.inputType.equals("Parcels")) {
-                // A
-                inputDetail1 = new inputDetail("A", Integer.parseInt(ParcelAAmountTextField.getText()), Float.parseFloat(ParcelAValueTextField.getText()));
-                // B
-                inputDetail2 = new inputDetail("B", Integer.parseInt(ParcelBAmountTextField.getText()), Float.parseFloat(ParcelBValueTextField.getText()));
-                // C
-                inputDetail3 = new inputDetail("C", Integer.parseInt(ParcelCAmountTextField.getText()), Float.parseFloat(ParcelCValueTextField.getText()));
-            }
-            else if (Wrapper.inputType.equals("Pentominoes")) {
-                // L
-                inputDetail1 = new inputDetail("L", Integer.parseInt(LPentominoAmountTextField.getText()), Float.parseFloat(LPentominoValueTextField.getText()));
-                // P
-                inputDetail2 = new inputDetail("P", Integer.parseInt(PPentominoAmountTextField.getText()), Float.parseFloat(PPentominoValueTextField.getText()));
-                // T
-                inputDetail3 = new inputDetail("T", Integer.parseInt(TPentominoAmountTextField.getText()), Float.parseFloat(TPentominoValueTextField.getText()));
+                for(TextField field : parcelTextFields){
+                    //if a field is empty, don't accept the input
+                    if(field.getText().trim().isEmpty()){
+                        textFieldsFilled = false;
+                    }
+                }
+
+                if(textFieldsFilled){
+                    // A
+                    inputDetail1 = new inputDetail("A", Integer.parseInt(ParcelAAmountTextField.getText()), Float.parseFloat(ParcelAValueTextField.getText()));
+                    // B
+                    inputDetail2 = new inputDetail("B", Integer.parseInt(ParcelBAmountTextField.getText()), Float.parseFloat(ParcelBValueTextField.getText()));
+                    // C
+                    inputDetail3 = new inputDetail("C", Integer.parseInt(ParcelCAmountTextField.getText()), Float.parseFloat(ParcelCValueTextField.getText()));
+                }
+            } else if (Wrapper.inputType.equals("Pentominoes")) {
+                for(TextField field : pentominoTextFields){
+                    //if a field is empty, don't accept the input
+                    if(field.getText().trim().isEmpty()){
+                        textFieldsFilled = false;
+                    }
+                }
+
+                if(textFieldsFilled){
+                    // L
+                    inputDetail1 = new inputDetail("L", Integer.parseInt(LPentominoAmountTextField.getText()), Float.parseFloat(LPentominoValueTextField.getText()));
+                    // P
+                    inputDetail2 = new inputDetail("P", Integer.parseInt(PPentominoAmountTextField.getText()), Float.parseFloat(PPentominoValueTextField.getText()));
+                    // T
+                    inputDetail3 = new inputDetail("T", Integer.parseInt(TPentominoAmountTextField.getText()), Float.parseFloat(TPentominoValueTextField.getText()));
+                }
             }
 
-            // Fill inputDetails[]
-            Wrapper.inputDetails[0] = inputDetail1;
-            Wrapper.inputDetails[1] = inputDetail2;
-            Wrapper.inputDetails[2] = inputDetail3;
+            if(textFieldsFilled){
+                // Fill inputDetails[]
+                Wrapper.inputDetails[0] = inputDetail1;
+                Wrapper.inputDetails[1] = inputDetail2;
+                Wrapper.inputDetails[2] = inputDetail3;
 
-            //TODO start calculations
+                //Show loading circle (that was created at the start)
+                topGrid.add(pin, 0, 9);
+
+                //TODO remove warning
+
+                //TODO start calculations
+            } else {
+                //TODO show warning
+            }
 
             //TODO remove after testing
             test.giveInput();
