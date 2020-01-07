@@ -72,10 +72,6 @@ public class FX3D extends Application {
     final static PhongMaterial edge_material = new PhongMaterial();
     final static PhongMaterial container_material = new PhongMaterial();
 
-    //Edge settings
-    //TODO try out different values
-    final static double EDGE_WIDTH = .5;
-
     /*DEFAULT UI COMPONENTS*/
     static Label scoringLabel;
     static Button startButton;
@@ -148,6 +144,8 @@ public class FX3D extends Application {
         setupUIPreElements(mainStage);
 
         setupSlider(mainStage);
+
+        updateTmpUIInput();
 
         setupUIElements(mainStage);
 
@@ -308,15 +306,7 @@ public class FX3D extends Application {
                 valueSlider = newValue.intValue();
 
                 // Set all x and z values above the specified y value to 0 while coping the rest
-                if (valueSlider != tmpUIInput[0].length) {
-                    for(int x = 0; x < tmpUIInput.length; x++) {
-                        for(int y = 0; y < tmpUIInput[x].length; y++) {
-                            for(int z = 0; z < tmpUIInput[x][y].length; z++) {
-                                tmpUIInput[x][y][z] = Wrapper.UIInput[x][y][z];
-                            }
-                        }
-                    }
-                }
+                updateTmpUIInput();
 
                 //TODO find better way to keep camera positioning and 2D UI
                 updateUI();
@@ -464,6 +454,26 @@ public class FX3D extends Application {
         threeD.setFill(BACKGROUND_COLOR);
         stage.setScene(mainScene);
         stage.show();
+    }
+
+    static void updateTmpUIInput(){
+        // Set all x and z values above the specified y value (valueSlider) to 0 while coping the rest
+        for(int x = 0; x < tmpUIInput.length; x++) {
+            for(int y = 0; y < tmpUIInput[x].length; y++) {
+                for(int z = 0; z < tmpUIInput[x][y].length; z++) {
+                    tmpUIInput[x][y][z] = Wrapper.UIInput[x][y][z];
+                }
+            }
+        }
+
+        for(int x = 0; x < tmpUIInput.length; x++) {
+            for (int y = 0; y < tmpUIInput[x].length - (int) valueSlider; y++) {
+                for (int z = 0; z < tmpUIInput[x][y].length; z++) {
+                    tmpUIInput[x][y][z] = 0;
+                }
+            }
+        }
+
     }
 
     static class SmartGroup extends Group {
