@@ -33,12 +33,9 @@ Keyboard rotation (start) - https://www.youtube.com/watch?v=dNtZVVJ-lBg&list=PLh
 Object outline - https://stackoverflow.com/questions/42984225/javafx-shape3d-with-border - 18/12
  */
 
-//TODO don't use pentominoes, use groups of blocks instead
-//Use the result of the algorithm with as format int[][][] (size = 2*actual size) that has the colorIDs for the object than display it as groups of blocks.
-//add a slider to select the (highest) layer that you want to see
-
 public class FX3D extends Application {
     final static int threeDOffsetLeft = 200;
+    final static int cellSize = 50;
     final static Color BACKGROUND_COLOR = Color.rgb(220, 220, 220);
     final static Color CONTAINER_COLOR = Color.rgb(0, 0, 0, 0.2);
     final static Color EDGE_COLOR = Color.rgb(0, 0, 0, 0.5);
@@ -80,6 +77,8 @@ public class FX3D extends Application {
     static ChoiceBox modeSelection;
     static ProgressIndicator[] pins;
     static ProgressIndicator pin;
+    static Label layerLabel;
+    static Slider layerSlider;
 
     //Parcel selection UI
     static Label ParcelAAmountLabel;
@@ -133,6 +132,8 @@ public class FX3D extends Application {
         setupUIPreElements(mainStage);
 
         setupUIElements(mainStage, resultBoxesArray);
+
+        setupSlider(mainStage);
 
         setupUIPostElements(mainStage);
     }
@@ -247,8 +248,7 @@ public class FX3D extends Application {
                             colorEnd = 255;
                         }
 
-                        //50 is used because that is the size that is given for each cell in the array
-                        UIParcel cellBox = new UIParcel(x*50, y*50, z*50, 50, 50, 50, colorStart, colorEnd);
+                        UIParcel cellBox = new UIParcel(x*cellSize, y*cellSize, z*cellSize, cellSize, cellSize, cellSize, colorStart, colorEnd);
                         parcels.add(cellBox);
                     }
                 }
@@ -257,6 +257,20 @@ public class FX3D extends Application {
 
         //show them
         threeDGroup.getChildren().addAll(parcels);
+    }
+
+    public static void setupSlider(Stage stage){
+        layerLabel = new Label("Chose the layer to view");
+        layerSlider = new Slider(0, Wrapper.CONTAINER_HEIGHT/cellSize, Wrapper.CONTAINER_HEIGHT/cellSize);
+        layerSlider.setShowTickLabels(true);
+        layerSlider.setShowTickMarks(true);
+        layerSlider.setBlockIncrement(1);
+        layerSlider.setMajorTickUnit(1);
+        layerSlider.setMinorTickCount(0);
+        layerSlider.setSnapToTicks(true);
+
+        topGrid.add(layerLabel, 0, 10);
+        topGrid.add(layerSlider, 0, 11);
     }
 
     public static void setupUIPostElements(Stage stage){
