@@ -1,7 +1,7 @@
 //This file is for testing only
 public class test {
 
-    static int[][][] input = new int[33][5][8];
+    static int[][][] input = new int[Wrapper.CONTAINER_WIDTH/FX3D.cellSize][Wrapper.CONTAINER_HEIGHT/FX3D.cellSize][Wrapper.CONTAINER_DEPTH/FX3D.cellSize];
 
     public static void giveInput(){
 
