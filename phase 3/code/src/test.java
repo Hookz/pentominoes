@@ -13,6 +13,8 @@ public class test {
             }
         }
 
-        FX3D.updateUI(input);
+        FX3D.updateUI();
+
+        Wrapper.UIInput = input;
     }
 }

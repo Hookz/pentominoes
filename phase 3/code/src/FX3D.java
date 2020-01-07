@@ -126,6 +126,9 @@ public class FX3D extends Application {
 
     //create group of parcels
     static ArrayList<UIParcel> parcels;
+    
+    //keep track of UIInput during 'layering'
+    static int[][][] tmpUIInput = new int[Wrapper.CONTAINER_WIDTH/FX3D.cellSize][Wrapper.CONTAINER_HEIGHT/FX3D.cellSize][Wrapper.CONTAINER_DEPTH/FX3D.cellSize];
 
     public static void main(String[] args){
         launch(args);
@@ -141,12 +144,12 @@ public class FX3D extends Application {
         setupUIPostElements(mainStage);
     }
 
-    public static void updateUI(int[][][] resultBoxesArray){
+    public static void updateUI(){
         setupUIPreElements(mainStage);
 
-        setupUIElements(mainStage, resultBoxesArray);
-
         setupSlider(mainStage);
+
+        setupUIElements(mainStage);
 
         setupUIPostElements(mainStage);
     }
@@ -248,17 +251,17 @@ public class FX3D extends Application {
         edge_material.setDiffuseColor(EDGE_COLOR);
     }
 
-    public static void setupUIElements(Stage stage, int[][][] resultBoxesArray){
+    public static void setupUIElements(Stage stage){
         //TODO check if I can assume the IDs to be either 1, 2 or 3 if filled in or 0 if not
         int colorStart = 0;
         int colorEnd = 0;
 
         //give every filled in field a box representation and keep color in mind
         //create all the boxes
-        for(int x=0; x<resultBoxesArray.length; x++){
-            for(int y=0; y<resultBoxesArray[x].length; y++){
-                for(int z=0; z<resultBoxesArray[x][y].length; z++){
-                    int currentValue = resultBoxesArray[x][y][z];
+        for(int x=0; x<tmpUIInput.length; x++){
+            for(int y=0; y<tmpUIInput[x].length; y++){
+                for(int z=0; z<tmpUIInput[x][y].length; z++){
+                    int currentValue = tmpUIInput[x][y][z];
 
                     //if this field is filled
                     if(currentValue!=0){
@@ -304,31 +307,19 @@ public class FX3D extends Application {
                 // Fetch the value of the slider
                 valueSlider = newValue.intValue();
 
-                // Create a new 3-Dimensional array and copy the values from the original input
-                int[][][] newInput = new int[Wrapper.CONTAINER_WIDTH/FX3D.cellSize][Wrapper.CONTAINER_HEIGHT/FX3D.cellSize][Wrapper.CONTAINER_DEPTH/FX3D.cellSize];
-
-                for(int x = 0; x < newInput.length; x++) {
-                    for(int y = 0; y < newInput[x].length; y++) {
-                        for(int z = 0; z < newInput[x][y].length; z++) {
-                            //TODO decouple from test
-                            newInput[x][y][z] = test.input[x][y][z];
-                        }
-                    }
-                }
-
-                // Set all x and z values above the specified y value to 0
-                if (valueSlider != newInput[0].length) {
-                    for (int x = 0; x < newInput.length; x++) {
-                        for (int y = 0; y < newInput[x].length - (int) valueSlider; y++) {
-                            for (int z = 0; z < newInput[x][y].length; z++) {
-                                newInput[x][y][z] = 0;
+                // Set all x and z values above the specified y value to 0 while coping the rest
+                if (valueSlider != tmpUIInput[0].length) {
+                    for(int x = 0; x < tmpUIInput.length; x++) {
+                        for(int y = 0; y < tmpUIInput[x].length; y++) {
+                            for(int z = 0; z < tmpUIInput[x][y].length; z++) {
+                                tmpUIInput[x][y][z] = Wrapper.UIInput[x][y][z];
                             }
                         }
                     }
                 }
 
                 //TODO find better way to keep camera positioning and 2D UI
-                updateUI(newInput);
+                updateUI();
             }
         });
     }
