@@ -14,6 +14,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
+
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.stage.Stage;
@@ -64,6 +67,9 @@ public class FX3D extends Application {
 
     //Setup camera
     static Camera camera;
+
+    // Visibility of the warning message
+    static boolean visibleWarning = false;
 
     // Slider value
     static double valueSlider = Wrapper.CONTAINER_HEIGHT/cellSize;
@@ -118,6 +124,8 @@ public class FX3D extends Application {
     static TextField LPentominoValueTextField;
     static TextField PPentominoValueTextField;
     static TextField TPentominoValueTextField;
+
+    static Label warningLabel;
     /*END*/
 
     //create group of parcels
@@ -221,6 +229,11 @@ public class FX3D extends Application {
         PPentominoValueTextField = new TextField();
         TPentominoValueTextField = new TextField();
 
+        warningLabel = new Label("Fill in every field correctly!");
+        warningLabel.setFont(Font.font(null, FontWeight.BOLD, 14.0));
+        warningLabel.setTextFill(Color.rgb(255, 0, 0));
+        warningLabel.setVisible(visibleWarning);
+
         parcelTextFields.add(ParcelAAmountTextField);
         parcelTextFields.add(ParcelBAmountTextField);
         parcelTextFields.add(ParcelCAmountTextField);
@@ -240,6 +253,7 @@ public class FX3D extends Application {
 
         topGrid.add(scoringLabel, 0, 0);
         topGrid.add(modeSelection, 0, 1);
+        topGrid.add(warningLabel, 1, 1);
         topGrid.add(startButton, 0, 8);
         twoDGroup.getChildren().add(topGrid);
         /*END*/
@@ -389,7 +403,7 @@ public class FX3D extends Application {
         //Set evenListener for start button
         startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event-> {
             //Check if the input isn't empty
-            boolean textFieldsFilled = false;
+            boolean textFieldsFilled = true;
 
             // Retrieve selected option (Parcels or Pentominoes) and pass along value to Wrapper
             Wrapper.inputType = modeSelection.getValue().toString();
@@ -438,11 +452,13 @@ public class FX3D extends Application {
                 //Show loading circle (that was created at the start)
                 topGrid.add(pin, 0, 9);
 
-                //TODO remove warning
+                // Hide warning
+                visibleWarning = false;
 
                 //TODO start calculations
             } else {
-                //TODO show warning
+                // Show warning
+                visibleWarning = true;
             }
 
             //TODO remove after testing
