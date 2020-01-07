@@ -41,6 +41,7 @@ Object outline - https://stackoverflow.com/questions/42984225/javafx-shape3d-wit
 //add a slider to select the (highest) layer that you want to see
 
 public class FX3D extends Application {
+    final static int threeDOffsetLeft = 200;
     final static Color BACKGROUND_COLOR = Color.rgb(220, 220, 220);
     final static Color CONTAINER_COLOR = Color.rgb(0, 0, 0, 0.2);
     final static Color EDGE_COLOR = Color.rgb(0, 0, 0, 0.5);
@@ -48,25 +49,25 @@ public class FX3D extends Application {
     final static int SCREEN_HEIGHT = 1000;
 
     static Stage mainStage;
-    static GridPane topGrid = new GridPane();
-    static Group twoDGroup = new Group();
+    static GridPane topGrid;
+    static Group twoDGroup;
     //SmartGroup helps with rotations
-    static SmartGroup threeDGroup = new SmartGroup();
+    static SmartGroup threeDGroup;
 
-    static HBox root = new HBox();
-    static Scene mainScene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT, true);
-    static SubScene twoD = new SubScene(twoDGroup, SCREEN_WIDTH*.2, SCREEN_HEIGHT);
-    static SubScene threeD = new SubScene(threeDGroup, SCREEN_WIDTH*.8, SCREEN_HEIGHT);
+    static HBox root;
+    static Scene mainScene;
+    static SubScene twoD;
+    static SubScene threeD;
 
     //some variables for mouse rotation
     private static double anchorX, anchorY;
-    private static double anchorAngleX = 0;
-    private static double anchorAngleY = 0;
-    private static final DoubleProperty angleX = new SimpleDoubleProperty(0);
-    private static final DoubleProperty angleY = new SimpleDoubleProperty(0);
+    private static double anchorAngleX;
+    private static double anchorAngleY;
+    private static DoubleProperty angleX;
+    private static DoubleProperty angleY;
 
     //Setup camera
-    static Camera camera = new PerspectiveCamera();
+    static Camera camera;
 
     //Create materials
     final static PhongMaterial edge_material = new PhongMaterial();
@@ -80,8 +81,8 @@ public class FX3D extends Application {
     static Label scoringLabel;
     static Button startButton;
     static ChoiceBox modeSelection;
-    final static ProgressIndicator[] pins = new ProgressIndicator[1];
-    final static ProgressIndicator pin = pins[0] = new ProgressIndicator();
+    static ProgressIndicator[] pins;
+    static ProgressIndicator pin;
 
     //Parcel selection UI
     static Label ParcelAAmountLabel;
@@ -115,7 +116,7 @@ public class FX3D extends Application {
     /*END*/
 
     //create group of parcels
-    static ArrayList<UIParcel> parcels = new ArrayList<UIParcel>();
+    static ArrayList<UIParcel> parcels;
 
     public static void main(String[] args){
         launch(args);
@@ -140,6 +141,23 @@ public class FX3D extends Application {
     }
 
     public static void setupUIPreElements(Stage stage){
+        //Setup grids, groups, scenes, camera and such so that the scene is made from scratch
+        topGrid = new GridPane();
+        twoDGroup = new Group();
+        threeDGroup = new SmartGroup();
+        root = new HBox();
+        mainScene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT, true);
+        twoD = new SubScene(twoDGroup, SCREEN_WIDTH*.2, SCREEN_HEIGHT);
+        threeD = new SubScene(threeDGroup, SCREEN_WIDTH*.8, SCREEN_HEIGHT);
+        anchorAngleX = 0;
+        anchorAngleY = 0;
+        angleX = new SimpleDoubleProperty(0);
+        angleY = new SimpleDoubleProperty(0);
+        camera = new PerspectiveCamera();
+        pins = new ProgressIndicator[1];
+        pin = pins[0] = new ProgressIndicator();
+        parcels = new ArrayList<UIParcel>();
+
         //add subscenes to scene
         root.getChildren().addAll(twoD, threeD);
         root.setSpacing(10);
@@ -212,6 +230,7 @@ public class FX3D extends Application {
         int colorEnd = 0;
 
         //give every filled in field a box representation and keep color in mind
+        //create all the boxes
         for(int x=0; x<resultBoxesArray.length; x++){
             for(int y=0; y<resultBoxesArray[x].length; y++){
                 for(int z=0; z<resultBoxesArray[x][y].length; z++){
@@ -232,11 +251,16 @@ public class FX3D extends Application {
                         }
 
                         //50 is used because that is the size that is given for each cell in the array
-                        Box cellBox = new UIParcel(x*50, y*50, z*50, 50, 50, 50, colorStart, colorEnd);
+                        UIParcel cellBox = new UIParcel(x*50, y*50, z*50, 50, 50, 50, colorStart, colorEnd);
+                        parcels.add(cellBox);
                     }
                 }
             }
         }
+
+        //show them
+        threeDGroup.getChildren().addAll(parcels);
+
     }
 
     public static void setupUIPostElements(Stage stage){
@@ -249,8 +273,8 @@ public class FX3D extends Application {
         threeDGroup.getChildren().add(container);
 
         //Setup camera (so that you can have the container at the origin and can still see it well
-        //The +200 comes from the compensation for the 2D subscene on the left
-        camera.setTranslateX(-SCREEN_WIDTH/2+Wrapper.CONTAINER_WIDTH/2+200);
+        //The +threeDOffsetLeft comes from the compensation for the 2D subscene on the left
+        camera.setTranslateX(-SCREEN_WIDTH/2+Wrapper.CONTAINER_WIDTH/2+threeDOffsetLeft);
         camera.setTranslateY(-SCREEN_HEIGHT/2+Wrapper.CONTAINER_HEIGHT/2);
         camera.setTranslateZ(-Wrapper.CONTAINER_DEPTH/0.5);
 
@@ -318,7 +342,9 @@ public class FX3D extends Application {
             //TODO use values from the textFields as input
 
             //TODO start calculations
-            //TODO pin.setProgress(1); when it's done
+
+            //TODO remove after testing
+            test.giveInput();
 
         });
 
@@ -389,8 +415,8 @@ public class FX3D extends Application {
         Rotate yRotate;
         //set the rotation origin to the center of the screen
         contentGroup.getTransforms().addAll(
-            xRotate = new Rotate(0, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 0, Rotate.X_AXIS),
-            yRotate = new Rotate(0, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 0, Rotate.Y_AXIS)
+            xRotate = new Rotate(0, SCREEN_WIDTH/2-threeDOffsetLeft, SCREEN_HEIGHT/2, 0, Rotate.X_AXIS),
+            yRotate = new Rotate(0, SCREEN_WIDTH/2-threeDOffsetLeft, SCREEN_HEIGHT/2, 0, Rotate.Y_AXIS)
         );
 
         xRotate.angleProperty().bind(angleX);

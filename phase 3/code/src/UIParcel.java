@@ -40,7 +40,7 @@ public class UIParcel extends Box{
         this.setTranslateX(xCenter);
         this.setTranslateY(yCenter);
         this.setTranslateZ(zCenter);
-        FX3D.createBoxLines(width, height, depth, xStart, yStart, zStart);
+        //FX3D.createBoxLines(width, height, depth, xStart, yStart, zStart);
 
         item_color = Color.rgb((int) (Math.random()*255), (int) (Math.random()*255), (int) (Math.random()*255), 1);
         item_material.setDiffuseColor(item_color);
@@ -70,7 +70,7 @@ public class UIParcel extends Box{
         this.setTranslateX(xCenter);
         this.setTranslateY(yCenter);
         this.setTranslateZ(zCenter);
-        FX3D.createBoxLines(width, height, depth, xStart, yStart, zStart);
+        //FX3D.createBoxLines(width, height, depth, xStart, yStart, zStart);
 
         //Generate a random color that is still within two values
         int red = (int) (colorStart + Math.random()*(colorEnd-colorStart));
