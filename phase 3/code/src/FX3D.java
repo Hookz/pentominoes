@@ -146,9 +146,10 @@ public class FX3D extends Application {
         twoDGroup = new Group();
         threeDGroup = new SmartGroup();
         root = new HBox();
-        mainScene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT, true);
+        mainScene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT, true, SceneAntialiasing.BALANCED);
         twoD = new SubScene(twoDGroup, SCREEN_WIDTH*.2, SCREEN_HEIGHT);
         threeD = new SubScene(threeDGroup, SCREEN_WIDTH*.8, SCREEN_HEIGHT);
+        SubScene test = new SubScene()
         anchorAngleX = 0;
         anchorAngleY = 0;
         angleX = new SimpleDoubleProperty(0);
@@ -260,7 +261,6 @@ public class FX3D extends Application {
 
         //show them
         threeDGroup.getChildren().addAll(parcels);
-
     }
 
     public static void setupUIPostElements(Stage stage){
