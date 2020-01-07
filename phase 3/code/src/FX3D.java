@@ -19,6 +19,8 @@ import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import java.util.ArrayList;
 
 /*
@@ -46,7 +48,7 @@ public class FX3D extends Application {
     final static Color CONTAINER_COLOR = Color.rgb(0, 0, 0, 0.2);
     final static Color EDGE_COLOR = Color.rgb(0, 0, 0, 0.5);
     final static int SCREEN_WIDTH = 1920;
-    final static int SCREEN_HEIGHT = 1000;
+    final static int SCREEN_HEIGHT = 800;
 
     static Stage mainStage;
     static GridPane topGrid;
@@ -98,6 +100,11 @@ public class FX3D extends Application {
     static TextField ParcelAValueTextField;
     static TextField ParcelBValueTextField;
     static TextField ParcelCValueTextField;
+
+    // Input details
+    static inputDetail inputDetail1;
+    static inputDetail inputDetail2;
+    static inputDetail inputDetail3;
 
     //Pentominoe selection UI
     static Label LPentominoAmountLabel;
@@ -172,6 +179,49 @@ public class FX3D extends Application {
         //Add scoring label
         scoringLabel = new Label("Score: " + Wrapper.score);
         startButton = new Button("Start");
+
+        // Create an event handler and add it to the Start Button
+        EventHandler<ActionEvent> startButtonHandler = new EventHandler<ActionEvent>() {
+
+            public void handle(ActionEvent event) {
+                // Retrieve selected option (Parcels or Pentominoes) and pass along value to Wrapper
+                Wrapper.inputType = modeSelection.getValue().toString();
+
+                // Depending on the selected option, instantiate the corresponding inputDetail objects
+                if (Wrapper.inputType.equals("Parcels")) {
+                    // A
+                    inputDetail1 = new inputDetail("A", Integer.parseInt(ParcelAAmountTextField.getText()), Float.parseFloat(ParcelAValueTextField.getText()));
+                    // B
+                    inputDetail2 = new inputDetail("B", Integer.parseInt(ParcelBAmountTextField.getText()), Float.parseFloat(ParcelBValueTextField.getText()));
+                    // C
+                    inputDetail3 = new inputDetail("C", Integer.parseInt(ParcelCAmountTextField.getText()), Float.parseFloat(ParcelCValueTextField.getText()));
+                }
+                else if (Wrapper.inputType.equals("Pentominoes")) {
+                    // L
+                    inputDetail1 = new inputDetail("L", Integer.parseInt(LPentominoAmountTextField.getText()), Float.parseFloat(LPentominoValueTextField.getText()));
+                    // P
+                    inputDetail2 = new inputDetail("P", Integer.parseInt(PPentominoAmountTextField.getText()), Float.parseFloat(PPentominoValueTextField.getText()));
+                    // T
+                    inputDetail3 = new inputDetail("T", Integer.parseInt(TPentominoAmountTextField.getText()), Float.parseFloat(TPentominoValueTextField.getText()));
+                }
+
+                // Fill inputDetails[]
+                Wrapper.inputDetails[0] = inputDetail1;
+                Wrapper.inputDetails[1] = inputDetail2;
+                Wrapper.inputDetails[2] = inputDetail3;
+
+                // Debug
+                /* for(int i = 0; i < Wrapper.inputDetails.length; i++) {
+                    System.out.println("Type: " + Wrapper.inputDetails[i].type);
+                    System.out.println("Amount: " + Wrapper.inputDetails[i].amount);
+                    System.out.println("Value: " + Wrapper.inputDetails[i].value);
+                    System.out.println();
+                } */
+            }
+
+        };
+
+        startButton.setOnAction(startButtonHandler);
 
         modeSelection = new ChoiceBox(FXCollections.observableArrayList(
                 "Parcels", "Pentominoes"
