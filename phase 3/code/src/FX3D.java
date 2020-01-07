@@ -273,7 +273,7 @@ public class FX3D extends Application {
         //The +threeDOffsetLeft comes from the compensation for the 2D subscene on the left
         camera.setTranslateX(-SCREEN_WIDTH/2+Wrapper.CONTAINER_WIDTH/2+threeDOffsetLeft);
         camera.setTranslateY(-SCREEN_HEIGHT/2+Wrapper.CONTAINER_HEIGHT/2);
-        camera.setTranslateZ(-Wrapper.CONTAINER_DEPTH/0.5);
+        camera.setTranslateZ(-Wrapper.CONTAINER_DEPTH/0.3);
 
         //Setup mouse rotation
         initMouseControl(threeDGroup, mainScene, stage);
@@ -363,7 +363,7 @@ public class FX3D extends Application {
         Rotate yRotate;
         //set the rotation origin to the center of the screen
         contentGroup.getTransforms().addAll(
-            xRotate = new Rotate(0, SCREEN_WIDTH/2-threeDOffsetLeft, SCREEN_HEIGHT/2, 0, Rotate.X_AXIS),
+            xRotate = new Rotate(0, SCREEN_WIDTH/2-threeDOffsetLeft, 50, 0, Rotate.X_AXIS),
             yRotate = new Rotate(0, SCREEN_WIDTH/2-threeDOffsetLeft, SCREEN_HEIGHT/2, 0, Rotate.Y_AXIS)
         );
 
