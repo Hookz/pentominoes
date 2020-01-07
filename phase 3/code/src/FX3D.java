@@ -148,7 +148,7 @@ public class FX3D extends Application {
         root = new HBox();
         mainScene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT, true, SceneAntialiasing.BALANCED);
         twoD = new SubScene(twoDGroup, SCREEN_WIDTH*.2, SCREEN_HEIGHT);
-        threeD = new SubScene(threeDGroup, SCREEN_WIDTH*.8, SCREEN_HEIGHT);
+        threeD = new SubScene(threeDGroup, SCREEN_WIDTH*.8, SCREEN_HEIGHT, true, SceneAntialiasing.BALANCED);
         anchorAngleX = 0;
         anchorAngleY = 0;
         angleX = new SimpleDoubleProperty(0);
