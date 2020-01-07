@@ -66,7 +66,7 @@ public class FX3D extends Application {
     static Camera camera;
 
     // Slider value
-    static double valueSlider = 5.0;
+    static double valueSlider = Wrapper.CONTAINER_HEIGHT/cellSize;
 
     //Create materials
     final static PhongMaterial edge_material = new PhongMaterial();
@@ -287,14 +287,13 @@ public class FX3D extends Application {
 
     public static void setupSlider(Stage stage){
         layerLabel = new Label("Choose the amount of layers to view:");
-        layerSlider = new Slider(0, Wrapper.CONTAINER_HEIGHT/cellSize, Wrapper.CONTAINER_HEIGHT/cellSize);
+        layerSlider = new Slider(0, Wrapper.CONTAINER_HEIGHT/cellSize, valueSlider);
         layerSlider.setShowTickLabels(true);
         layerSlider.setShowTickMarks(true);
         layerSlider.setBlockIncrement(1);
         layerSlider.setMajorTickUnit(1);
         layerSlider.setMinorTickCount(0);
         layerSlider.setSnapToTicks(true);
-        layerSlider.setValue(valueSlider);
 
         topGrid.add(layerLabel, 0, 10);
         topGrid.add(layerSlider, 0, 11);
@@ -306,11 +305,12 @@ public class FX3D extends Application {
                 valueSlider = newValue.intValue();
 
                 // Create a new 3-Dimensional array and copy the values from the original input
-                int[][][] newInput = new int[33][5][8];
+                int[][][] newInput = new int[Wrapper.CONTAINER_WIDTH/FX3D.cellSize][Wrapper.CONTAINER_HEIGHT/FX3D.cellSize][Wrapper.CONTAINER_DEPTH/FX3D.cellSize];
 
                 for(int x = 0; x < newInput.length; x++) {
                     for(int y = 0; y < newInput[x].length; y++) {
                         for(int z = 0; z < newInput[x][y].length; z++) {
+                            //TODO decouple from test
                             newInput[x][y][z] = test.input[x][y][z];
                         }
                     }
@@ -327,6 +327,7 @@ public class FX3D extends Application {
                     }
                 }
 
+                //TODO find better way to keep camera positioning and 2D UI
                 updateUI(newInput);
             }
         });
@@ -465,7 +466,6 @@ public class FX3D extends Application {
 
             //TODO remove after testing
             test.giveInput();
-
         });
 
         threeD.setCamera(camera);
