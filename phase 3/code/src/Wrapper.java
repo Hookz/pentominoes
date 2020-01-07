@@ -6,7 +6,7 @@ public class Wrapper {
 
     static float score = 0;
     static String inputType = ""; //can be parcel or pentomino
-    static inputDetail[] inputDetails; //It will have the format [inputDetail1, inputDetail2, ..., inputDetailN] with inputDetail having type, amount and value as fields. To be used for the algorithm
+    static inputDetail[] inputDetails = new inputDetail[3]; //It will have the format [inputDetail1, inputDetail2, ..., inputDetailN] with inputDetail having type, amount and value as fields. To be used for the algorithm
 }
 
 //TODO
