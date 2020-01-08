@@ -151,6 +151,7 @@ public class FX3D extends Application {
     }
 
     public static void updateUI(){
+        //TODO fix slider not working
         updateUIPreElements(mainStage);
         updateTmpUIInput();
         updateUIElements(mainStage);
@@ -385,10 +386,6 @@ public class FX3D extends Application {
                 Wrapper.inputDetails[1] = inputDetail2;
                 Wrapper.inputDetails[2] = inputDetail3;
 
-                //TODO check if this is needed
-                //Show loading circle (that was created at the start)
-                topGrid.add(pin, 0, 9);
-
                 // Hide warning
                 visibleWarning = false;
 
@@ -435,7 +432,6 @@ public class FX3D extends Application {
                 // Set all x and z values above the specified y value to 0 while coping the rest
                 updateTmpUIInput();
 
-                //TODO find better way to keep camera positioning and 2D UI
                 updateUI();
             }
         });
@@ -494,7 +490,6 @@ public class FX3D extends Application {
 
         //MUST BE DONE AFTER ADDING THE BOXES, otherwise they'll be invisible (thanks javaFX)
         addContainer();
-
     }
 
     static void updateUIPostElements(Stage stage){
