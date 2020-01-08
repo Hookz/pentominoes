@@ -39,7 +39,6 @@ Object outline - https://stackoverflow.com/questions/42984225/javafx-shape3d-wit
 
 public class FX3D extends Application {
     final static int threeDOffsetLeft = 200;
-    final static int cellSize = 50;
     final static Color BACKGROUND_COLOR = Color.rgb(220, 220, 220);
     final static Color CONTAINER_COLOR = Color.rgb(0, 0, 0, 0.2);
     final static Color EDGE_COLOR = Color.rgb(0, 0, 0, 0.5);
@@ -72,7 +71,7 @@ public class FX3D extends Application {
     static boolean textFieldsFilled = true;
 
     // Slider value
-    static double valueSlider = Wrapper.CONTAINER_HEIGHT/cellSize;
+    static double valueSlider = Wrapper.CONTAINER_HEIGHT/Wrapper.cellSize;
 
     //Create materials
     final static PhongMaterial edge_material = new PhongMaterial();
@@ -132,7 +131,7 @@ public class FX3D extends Application {
     static ArrayList<UIParcel> parcels;
     
     //keep track of UIInput during 'layering'
-    static int[][][] tmpUIInput = new int[Wrapper.CONTAINER_WIDTH/FX3D.cellSize][Wrapper.CONTAINER_HEIGHT/FX3D.cellSize][Wrapper.CONTAINER_DEPTH/FX3D.cellSize];
+    static int[][][] tmpUIInput = new int[Wrapper.CONTAINER_WIDTH/Wrapper.cellSize][Wrapper.CONTAINER_HEIGHT/Wrapper.cellSize][Wrapper.CONTAINER_DEPTH/Wrapper.cellSize];
 
     public static void main(String[] args){
         launch(args);
@@ -408,7 +407,7 @@ public class FX3D extends Application {
 
     public static void setupSlider(Stage stage){
         layerLabel = new Label("Choose the amount of layers to view:");
-        layerSlider = new Slider(0, Wrapper.CONTAINER_HEIGHT/cellSize, valueSlider);
+        layerSlider = new Slider(0, Wrapper.CONTAINER_HEIGHT/Wrapper.cellSize, valueSlider);
         layerSlider.setShowTickLabels(true);
         layerSlider.setShowTickMarks(true);
         layerSlider.setBlockIncrement(1);
@@ -479,7 +478,7 @@ public class FX3D extends Application {
                             blue = 40;
                         }
 
-                        UIParcel cellBox = new UIParcel(x*cellSize, y*cellSize, z*cellSize, cellSize, cellSize, cellSize, red, green, blue);
+                        UIParcel cellBox = new UIParcel(x*Wrapper.cellSize, y*Wrapper.cellSize, z*Wrapper.cellSize, Wrapper.cellSize, Wrapper.cellSize, Wrapper.cellSize, red, green, blue);
                         parcels.add(cellBox);
                     }
                 }
