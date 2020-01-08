@@ -448,6 +448,7 @@ public class FX3D extends Application {
     static void updateUIElements(Stage stage){
         //clear current 3D elements
         threeDGroup.getChildren().clear();
+        parcels.clear();
 
         //TODO check if I can assume the IDs to be either 1, 2 or 3 if filled in or 0 if not
         int red = 0;
