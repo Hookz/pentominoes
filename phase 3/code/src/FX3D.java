@@ -236,6 +236,7 @@ public class FX3D extends Application {
         warningLabel = new Label("Fill in every field correctly!");
         warningLabel.setFont(Font.font(null, FontWeight.BOLD, 14.0));
         warningLabel.setTextFill(Color.rgb(255, 80, 80));
+        warningLabel.setVisible(false);
 
         parcelTextFields.add(ParcelAAmountTextField);
         parcelTextFields.add(ParcelBAmountTextField);
@@ -417,6 +418,9 @@ public class FX3D extends Application {
         layerSlider.setMajorTickUnit(1);
         layerSlider.setMinorTickCount(0);
         layerSlider.setSnapToTicks(true);
+
+        //hide until needed
+        layerLabel.setVisible(false);
         layerSlider.setVisible(false);
 
         topGrid.add(layerLabel, 0, 10);
@@ -446,6 +450,7 @@ public class FX3D extends Application {
     }
 
     static void updateSetupSlider(Stage stage){
+        layerLabel.setVisible(true);
         layerSlider.setVisible(true);
     }
 
