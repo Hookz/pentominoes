@@ -14,7 +14,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
-
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.transform.Rotate;
@@ -146,19 +145,17 @@ public class FX3D extends Application {
 
     public static void bootUI(){
         setupUIPreElements(mainStage);
+        setupSlider(mainStage);
+        setupUIElements(mainStage);
         setupUIPostElements(mainStage);
     }
 
     public static void updateUI(){
-        setupUIPreElements(mainStage);
-
-        setupSlider(mainStage);
-
+        updateUIPreElements(mainStage);
+        updateSetupSlider(mainStage);
         updateTmpUIInput();
-
-        setupUIElements(mainStage);
-
-        setupUIPostElements(mainStage);
+        updateUIElements(mainStage);
+        updateUIPostElements(mainStage);
     }
 
     public static void setupUIComponents(){
@@ -239,7 +236,6 @@ public class FX3D extends Application {
         warningLabel = new Label("Fill in every field correctly!");
         warningLabel.setFont(Font.font(null, FontWeight.BOLD, 14.0));
         warningLabel.setTextFill(Color.rgb(255, 80, 80));
-        warningLabel.setVisible(visibleWarning);
 
         parcelTextFields.add(ParcelAAmountTextField);
         parcelTextFields.add(ParcelBAmountTextField);
@@ -254,10 +250,6 @@ public class FX3D extends Application {
         pentominoTextFields.add(PPentominoValueTextField);
         pentominoTextFields.add(TPentominoValueTextField);
 
-        //-1 will make it display an animated disk, set to 1 to show that it's done
-        //pin is the progress indicator
-        pin.setProgress(-1);
-
         topGrid.add(scoringLabel, 0, 0);
         topGrid.add(modeSelection, 0, 1);
         topGrid.add(warningLabel, 1, 1);
@@ -271,75 +263,6 @@ public class FX3D extends Application {
     }
 
     public static void setupUIElements(Stage stage){
-        //TODO check if I can assume the IDs to be either 1, 2 or 3 if filled in or 0 if not
-        int red = 0;
-        int green = 0;
-        int blue = 0;
-
-        //give every filled in field a box representation and keep color in mind
-        //create all the boxes
-        for(int x=0; x<tmpUIInput.length; x++){
-            for(int y=0; y<tmpUIInput[x].length; y++){
-                for(int z=0; z<tmpUIInput[x][y].length; z++){
-                    int currentValue = tmpUIInput[x][y][z];
-
-                    //if this field is filled
-                    if(currentValue!=0){
-                        //update color range
-                        if(currentValue==1){
-                            red = 50;
-                            green = 180;
-                            blue = 165;
-                        } else if (currentValue==2){
-                            red = 170;
-                            green = 220;
-                            blue = 40;
-                        } else {
-                            red = 220;
-                            green = 50;
-                            blue = 40;
-                        }
-
-                        UIParcel cellBox = new UIParcel(x*cellSize, y*cellSize, z*cellSize, cellSize, cellSize, cellSize, red, green, blue);
-                        parcels.add(cellBox);
-                    }
-                }
-            }
-        }
-
-        //show them
-        threeDGroup.getChildren().addAll(parcels);
-    }
-
-    public static void setupSlider(Stage stage){
-        layerLabel = new Label("Choose the amount of layers to view:");
-        layerSlider = new Slider(0, Wrapper.CONTAINER_HEIGHT/cellSize, valueSlider);
-        layerSlider.setShowTickLabels(true);
-        layerSlider.setShowTickMarks(true);
-        layerSlider.setBlockIncrement(1);
-        layerSlider.setMajorTickUnit(1);
-        layerSlider.setMinorTickCount(0);
-        layerSlider.setSnapToTicks(true);
-
-        topGrid.add(layerLabel, 0, 10);
-        topGrid.add(layerSlider, 0, 11);
-
-        layerSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
-                // Fetch the value of the slider
-                valueSlider = newValue.intValue();
-
-                // Set all x and z values above the specified y value to 0 while coping the rest
-                updateTmpUIInput();
-
-                //TODO find better way to keep camera positioning and 2D UI
-                updateUI();
-            }
-        });
-    }
-
-    public static void setupUIPostElements(Stage stage){
         //Create container (note: Has to be created after adding all the other objects in order to use transparency (I know, javaFX can be crappy))
         int containerPadding = 20;
         Box container = new Box(Wrapper.CONTAINER_WIDTH+containerPadding, Wrapper.CONTAINER_HEIGHT+containerPadding, Wrapper.CONTAINER_DEPTH+containerPadding);
@@ -348,7 +271,9 @@ public class FX3D extends Application {
         container.setTranslateZ(Wrapper.CONTAINER_DEPTH/2);
         container.setMaterial(container_material);
         threeDGroup.getChildren().add(container);
+    }
 
+    public static void setupUIPostElements(Stage stage){
         //Setup camera (so that you can have the container at the origin and can still see it well
         //The +threeDOffsetLeft comes from the compensation for the 2D subscene on the left
         camera.setTranslateX(-SCREEN_WIDTH/2+Wrapper.CONTAINER_WIDTH/2+threeDOffsetLeft);
@@ -482,6 +407,96 @@ public class FX3D extends Application {
         stage.setScene(mainScene);
         stage.show();
     }
+
+    public static void setupSlider(Stage stage){
+        layerLabel = new Label("Choose the amount of layers to view:");
+        layerSlider = new Slider(0, Wrapper.CONTAINER_HEIGHT/cellSize, valueSlider);
+        layerSlider.setShowTickLabels(true);
+        layerSlider.setShowTickMarks(true);
+        layerSlider.setBlockIncrement(1);
+        layerSlider.setMajorTickUnit(1);
+        layerSlider.setMinorTickCount(0);
+        layerSlider.setSnapToTicks(true);
+        layerSlider.setVisible(false);
+
+        topGrid.add(layerLabel, 0, 10);
+        topGrid.add(layerSlider, 0, 11);
+
+        layerSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldValue, Number newValue) {
+                // Fetch the value of the slider
+                valueSlider = newValue.intValue();
+
+                // Set all x and z values above the specified y value to 0 while coping the rest
+                updateTmpUIInput();
+
+                //TODO find better way to keep camera positioning and 2D UI
+                updateUI();
+            }
+        });
+    }
+
+    static void updateUIPreElements(Stage stage){
+        warningLabel.setVisible(visibleWarning);
+
+        //-1 will make it display an animated disk, set to 1 to show that it's done
+        //pin is the progress indicator
+        pin.setProgress(-1);
+    }
+
+    static void updateSetupSlider(Stage stage){
+        layerSlider.setVisible(true);
+    }
+
+    static void updateUIPostElements(Stage stage){
+        //TODO work on camera
+    }
+
+    static void updateUIElements(Stage stage){
+        //clear current 3D elements
+        threeDGroup = new SmartGroup();
+
+        //TODO check if I can assume the IDs to be either 1, 2 or 3 if filled in or 0 if not
+        int red = 0;
+        int green = 0;
+        int blue = 0;
+
+        //give every filled in field a box representation and keep color in mind
+        //create all the boxes
+        for(int x=0; x<tmpUIInput.length; x++){
+            for(int y=0; y<tmpUIInput[x].length; y++){
+                for(int z=0; z<tmpUIInput[x][y].length; z++){
+                    int currentValue = tmpUIInput[x][y][z];
+
+                    //if this field is filled
+                    if(currentValue!=0){
+                        //update color range
+                        if(currentValue==1){
+                            red = 50;
+                            green = 180;
+                            blue = 165;
+                        } else if (currentValue==2){
+                            red = 170;
+                            green = 220;
+                            blue = 40;
+                        } else {
+                            red = 220;
+                            green = 50;
+                            blue = 40;
+                        }
+
+                        UIParcel cellBox = new UIParcel(x*cellSize, y*cellSize, z*cellSize, cellSize, cellSize, cellSize, red, green, blue);
+                        parcels.add(cellBox);
+                    }
+                }
+            }
+        }
+
+        //show them
+        threeDGroup.getChildren().addAll(parcels);
+    }
+
 
     static void updateTmpUIInput(){
         // Set all x and z values above the specified y value (valueSlider) to 0 while coping the rest
