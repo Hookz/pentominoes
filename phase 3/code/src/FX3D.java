@@ -278,7 +278,7 @@ public class FX3D extends Application {
         camera.setTranslateZ(-Wrapper.CONTAINER_DEPTH/0.3);
 
         //Setup mouse rotation
-        initMouseControl(threeDGroup, mainScene, stage);
+        initMouseControl(threeDGroup, threeD, stage);
 
         //Set eventListener for mode selection
         modeSelection.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
@@ -533,7 +533,7 @@ public class FX3D extends Application {
     }
 
     //Needed for mouse rotation
-    private static void initMouseControl(SmartGroup contentGroup, Scene scene, Stage stage){
+    private static void initMouseControl(SmartGroup contentGroup, SubScene scene, Stage stage){
         Rotate xRotate;
         Rotate yRotate;
         //set the rotation origin to the center of the screen
