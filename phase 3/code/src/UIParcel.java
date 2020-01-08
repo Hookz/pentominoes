@@ -16,16 +16,18 @@ public class UIParcel extends Box{
     final double xStart;
     final double yStart;
     final double zStart;
-    final int colorStart;
-    final int colorEnd;
+    final int red;
+    final int green;
+    final int blue;
     PhongMaterial item_material = new PhongMaterial();
     Color item_color;
 
     public UIParcel(double xStart, double yStart, double zStart, double width, double height, double depth) {
         super(width, height, depth);
 
-        this.colorStart = 0;
-        this.colorEnd = 0;
+        this.red = (int) (Math.random()*255);
+        this.green = (int) (Math.random()*255);
+        this.blue = (int) (Math.random()*255);
 
         this.xStart = xStart;
         this.yStart = yStart;
@@ -51,11 +53,12 @@ public class UIParcel extends Box{
     }
 
     //Constructor for when color is important
-    public UIParcel(double xStart, double yStart, double zStart, double width, double height, double depth, int colorStart, int colorEnd) {
+    public UIParcel(double xStart, double yStart, double zStart, double width, double height, double depth, int red, int green, int blue) {
         super(width, height, depth);
 
-        this.colorStart = colorStart;
-        this.colorEnd = colorEnd;
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
 
         this.xStart = xStart;
         this.yStart = yStart;
@@ -71,11 +74,6 @@ public class UIParcel extends Box{
         this.setTranslateY(yCenter);
         this.setTranslateZ(zCenter);
         //FX3D.createBoxLines(width, height, depth, xStart, yStart, zStart);
-
-        //Generate a random color that is still within two values
-        int red = (int) (colorStart + Math.random()*(colorEnd-colorStart));
-        int blue = (int) (colorStart + Math.random()*(colorEnd-colorStart));
-        int green = (int) (colorStart + Math.random()*(colorEnd-colorStart));
 
         item_color = Color.rgb(red, green, blue, 1);
         item_material.setDiffuseColor(item_color);

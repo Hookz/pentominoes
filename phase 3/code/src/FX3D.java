@@ -161,7 +161,7 @@ public class FX3D extends Application {
         setupUIPostElements(mainStage);
     }
 
-    public static void setupUIPreElements(Stage stage){
+    public static void setupUIComponents(){
         //Setup grids, groups, scenes, camera and such so that the scene is made from scratch
         topGrid = new GridPane();
         twoDGroup = new Group();
@@ -180,6 +180,10 @@ public class FX3D extends Application {
         parcels = new ArrayList<UIParcel>();
         parcelTextFields = new ArrayList<>();
         pentominoTextFields = new ArrayList<>();
+    }
+
+    public static void setupUIPreElements(Stage stage){
+        setupUIComponents();
 
         //add subscenes to scene
         root.getChildren().addAll(twoD, threeD);
@@ -268,8 +272,9 @@ public class FX3D extends Application {
 
     public static void setupUIElements(Stage stage){
         //TODO check if I can assume the IDs to be either 1, 2 or 3 if filled in or 0 if not
-        int colorStart = 0;
-        int colorEnd = 0;
+        int red = 0;
+        int green = 0;
+        int blue = 0;
 
         //give every filled in field a box representation and keep color in mind
         //create all the boxes
@@ -282,17 +287,20 @@ public class FX3D extends Application {
                     if(currentValue!=0){
                         //update color range
                         if(currentValue==1){
-                            colorStart = 0;
-                            colorEnd = 70;
+                            red = 50;
+                            green = 180;
+                            blue = 165;
                         } else if (currentValue==2){
-                            colorStart = 85;
-                            colorEnd = 155;
+                            red = 170;
+                            green = 220;
+                            blue = 40;
                         } else {
-                            colorStart = 170;
-                            colorEnd = 255;
+                            red = 220;
+                            green = 50;
+                            blue = 40;
                         }
 
-                        UIParcel cellBox = new UIParcel(x*cellSize, y*cellSize, z*cellSize, cellSize, cellSize, cellSize, colorStart, colorEnd);
+                        UIParcel cellBox = new UIParcel(x*cellSize, y*cellSize, z*cellSize, cellSize, cellSize, cellSize, red, green, blue);
                         parcels.add(cellBox);
                     }
                 }
