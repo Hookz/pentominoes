@@ -152,7 +152,6 @@ public class FX3D extends Application {
 
     public static void updateUI(){
         updateUIPreElements(mainStage);
-        updateSetupSlider(mainStage);
         updateTmpUIInput();
         updateUIElements(mainStage);
         updateUIPostElements(mainStage);
@@ -238,6 +237,10 @@ public class FX3D extends Application {
         warningLabel.setTextFill(Color.rgb(255, 80, 80));
         warningLabel.setVisible(false);
 
+        //-1 will make it display an animated disk, set to 1 to show that it's done
+        //pin is the progress indicator
+        pin.setProgress(-1);
+
         parcelTextFields.add(ParcelAAmountTextField);
         parcelTextFields.add(ParcelBAmountTextField);
         parcelTextFields.add(ParcelCAmountTextField);
@@ -264,14 +267,7 @@ public class FX3D extends Application {
     }
 
     public static void setupUIElements(Stage stage){
-        //Create container (note: Has to be created after adding all the other objects in order to use transparency (I know, javaFX can be crappy))
-        int containerPadding = 20;
-        Box container = new Box(Wrapper.CONTAINER_WIDTH+containerPadding, Wrapper.CONTAINER_HEIGHT+containerPadding, Wrapper.CONTAINER_DEPTH+containerPadding);
-        container.setTranslateX(Wrapper.CONTAINER_WIDTH/2);
-        container.setTranslateY(Wrapper.CONTAINER_HEIGHT/2);
-        container.setTranslateZ(Wrapper.CONTAINER_DEPTH/2);
-        container.setMaterial(container_material);
-        threeDGroup.getChildren().add(container);
+        addContainer();
     }
 
     public static void setupUIPostElements(Stage stage){
@@ -339,6 +335,9 @@ public class FX3D extends Application {
 
         //Set evenListener for start button
         startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event-> {
+            //show loading icon
+            pin.setVisible(true);
+
             //Check if the input isn't empty
             textFieldsFilled = true;
 
@@ -386,6 +385,7 @@ public class FX3D extends Application {
                 Wrapper.inputDetails[1] = inputDetail2;
                 Wrapper.inputDetails[2] = inputDetail3;
 
+                //TODO check if this is needed
                 //Show loading circle (that was created at the start)
                 topGrid.add(pin, 0, 9);
 
@@ -443,24 +443,15 @@ public class FX3D extends Application {
 
     static void updateUIPreElements(Stage stage){
         warningLabel.setVisible(visibleWarning);
+        pin.setVisible(false);
 
-        //-1 will make it display an animated disk, set to 1 to show that it's done
-        //pin is the progress indicator
-        pin.setProgress(-1);
-    }
-
-    static void updateSetupSlider(Stage stage){
         layerLabel.setVisible(true);
         layerSlider.setVisible(true);
     }
 
-    static void updateUIPostElements(Stage stage){
-        //TODO work on camera
-    }
-
     static void updateUIElements(Stage stage){
         //clear current 3D elements
-        threeDGroup = new SmartGroup();
+        threeDGroup.getChildren().clear();
 
         //TODO check if I can assume the IDs to be either 1, 2 or 3 if filled in or 0 if not
         int red = 0;
@@ -500,8 +491,15 @@ public class FX3D extends Application {
 
         //show them
         threeDGroup.getChildren().addAll(parcels);
+
+        //MUST BE DONE AFTER ADDING THE BOXES, otherwise they'll be invisible (thanks javaFX)
+        addContainer();
+
     }
 
+    static void updateUIPostElements(Stage stage){
+        //TODO work on camera
+    }
 
     static void updateTmpUIInput(){
         // Set all x and z values above the specified y value (valueSlider) to 0 while coping the rest
@@ -521,6 +519,17 @@ public class FX3D extends Application {
             }
         }
 
+    }
+
+    static void addContainer(){
+        //Create container (note: Has to be created after adding all the other objects in order to use transparency (I know, javaFX can be crappy))
+        int containerPadding = 20;
+        Box container = new Box(Wrapper.CONTAINER_WIDTH+containerPadding, Wrapper.CONTAINER_HEIGHT+containerPadding, Wrapper.CONTAINER_DEPTH+containerPadding);
+        container.setTranslateX(Wrapper.CONTAINER_WIDTH/2);
+        container.setTranslateY(Wrapper.CONTAINER_HEIGHT/2);
+        container.setTranslateZ(Wrapper.CONTAINER_DEPTH/2);
+        container.setMaterial(container_material);
+        threeDGroup.getChildren().add(container);
     }
 
     static class SmartGroup extends Group {
