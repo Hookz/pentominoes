@@ -40,13 +40,15 @@ Object outline - https://stackoverflow.com/questions/42984225/javafx-shape3d-wit
  */
 
 public class FX3D extends Application {
-    final static int threeDOffsetLeft = 200;
     final static Color BACKGROUND_COLOR = Color.rgb(220, 220, 220);
     final static Color CONTAINER_COLOR = Color.rgb(0, 0, 0, 0.2);
     final static Color EDGE_COLOR = Color.rgb(0, 0, 0, 0.5);
     final static Rectangle2D screenInfo = Screen.getPrimary().getBounds();
     final static int SCREEN_WIDTH = (int) screenInfo.getWidth();
     final static int SCREEN_HEIGHT = (int) screenInfo.getHeight()-100;
+
+    final static double TWO_D_WIDTH = .25 * SCREEN_WIDTH;
+    final static double THREE_D_WIDTH = .75 * SCREEN_WIDTH;
 
     static Stage mainStage;
     static GridPane topGrid;
@@ -275,10 +277,9 @@ public class FX3D extends Application {
 
     public static void setupUIPostElements(Stage stage){
         //Setup camera (so that you can have the container at the origin and can still see it well
-        //The +threeDOffsetLeft comes from the compensation for the 2D subscene on the left
-        camera.setTranslateX(-SCREEN_WIDTH/2+Wrapper.CONTAINER_WIDTH/2+threeDOffsetLeft);
+        camera.setTranslateX((-SCREEN_WIDTH/2+Wrapper.CONTAINER_WIDTH/2) + TWO_D_WIDTH/2);
         camera.setTranslateY(-SCREEN_HEIGHT/2+Wrapper.CONTAINER_HEIGHT/2);
-        camera.setTranslateZ(-Wrapper.CONTAINER_DEPTH/0.3);
+        camera.setTranslateZ(-Wrapper.CONTAINER_DEPTH/0.22);
 
         //Setup mouse rotation
         initMouseControl(threeDGroup, threeD, stage);
@@ -537,14 +538,16 @@ public class FX3D extends Application {
 
     //Needed for mouse rotation
     private static void initMouseControl(SmartGroup contentGroup, SubScene scene, Stage stage){
+        //Prepare X and Y axis rotation transformation obejcts
         Rotate xRotate;
         Rotate yRotate;
-        //set the rotation origin to the center of the screen
+        //Add both transformation to the container
         contentGroup.getTransforms().addAll(
-            xRotate = new Rotate(0, SCREEN_WIDTH/2-threeDOffsetLeft, 50, 0, Rotate.X_AXIS),
-            yRotate = new Rotate(0, SCREEN_WIDTH/2-threeDOffsetLeft, SCREEN_HEIGHT/2, 0, Rotate.Y_AXIS)
+                xRotate = new Rotate(0, Wrapper.CONTAINER_WIDTH/2, Wrapper.CONTAINER_HEIGHT/2, Wrapper.CONTAINER_DEPTH/2, Rotate.X_AXIS),
+                yRotate = new Rotate(0, Wrapper.CONTAINER_WIDTH/2, Wrapper.CONTAINER_HEIGHT/2, Wrapper.CONTAINER_DEPTH/2, Rotate.Y_AXIS)
         );
-
+        /*Bind Double property angleX/angleY with corresponding transformation.
+        When we update angleX / angleY, the transform will also be auto updated.*/
         xRotate.angleProperty().bind(angleX);
         yRotate.angleProperty().bind(angleY);
 
