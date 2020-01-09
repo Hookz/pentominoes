@@ -46,7 +46,7 @@ public class FX3D extends Application {
     final static Color EDGE_COLOR = Color.rgb(0, 0, 0, 0.5);
     final static Rectangle2D screenInfo = Screen.getPrimary().getBounds();
     final static int SCREEN_WIDTH = (int) screenInfo.getWidth();
-    final static int SCREEN_HEIGHT = (int) screenInfo.getHeight();
+    final static int SCREEN_HEIGHT = (int) screenInfo.getHeight()-100;
 
     static Stage mainStage;
     static GridPane topGrid;
@@ -167,8 +167,8 @@ public class FX3D extends Application {
         threeDGroup = new SmartGroup();
         root = new HBox();
         mainScene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT, true);
-        twoD = new SubScene(twoDGroup, SCREEN_WIDTH*.2, SCREEN_HEIGHT);
-        threeD = new SubScene(threeDGroup, SCREEN_WIDTH*.8, SCREEN_HEIGHT, true, SceneAntialiasing.BALANCED);
+        twoD = new SubScene(twoDGroup, SCREEN_WIDTH*.25, SCREEN_HEIGHT, false, SceneAntialiasing.BALANCED);
+        threeD = new SubScene(threeDGroup, SCREEN_WIDTH*.75, SCREEN_HEIGHT, true, SceneAntialiasing.BALANCED);
         anchorAngleX = 0;
         anchorAngleY = 0;
         angleX = new SimpleDoubleProperty(0);
