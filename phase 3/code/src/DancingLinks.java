@@ -62,8 +62,8 @@ public class DancingLinks {
     }
 
     class ColumnObject extends DataObject {
-        //        DataObject left, right, up, down;
-//        ColumnObject C;
+        //DataObject left, right, up, down;
+        //ColumnObject C;
         String name;
         int size; // Number of 1s in the column
 
@@ -95,7 +95,6 @@ public class DancingLinks {
         }
 
     }
-
 
     private ColumnObject root; // Special CO, labeled "h" in the paper
     private List<DataObject> solutions;
@@ -149,12 +148,13 @@ public class DancingLinks {
 //        Uncover column c (see below) and return.
     }
 
-    private ColumnObject getSmallestColumnObject() {
+    private ColumnObject getSmallestColumnObject(ColumnObject root) {
         int min = Integer.MAX_VALUE;
         ColumnObject smallestCO = null;
 
         // Search for the min size CO by iterating through all COs by moving right until we end up back at the header
-        for (ColumnObject col = (ColumnObject) header.right; col != header; col = (ColumnObject) col.right) {
+        //every node in headers
+        for(ColumnObject col = (ColumnObject) root.right; col != root; col = (ColumnObject) col.right){
             if (col.size < min) {
                 min = col.size;
                 smallestCO = col;
