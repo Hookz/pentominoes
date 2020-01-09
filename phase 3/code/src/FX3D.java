@@ -44,8 +44,9 @@ public class FX3D extends Application {
     final static Color BACKGROUND_COLOR = Color.rgb(220, 220, 220);
     final static Color CONTAINER_COLOR = Color.rgb(0, 0, 0, 0.2);
     final static Color EDGE_COLOR = Color.rgb(0, 0, 0, 0.5);
-    final static int SCREEN_WIDTH = 1920;
-    final static int SCREEN_HEIGHT = 1000;
+    final static Rectangle2D screenInfo = Screen.getPrimary().getBounds();
+    final static int SCREEN_WIDTH = (int) screenInfo.getWidth();
+    final static int SCREEN_HEIGHT = (int) screenInfo.getHeight();
 
     static Stage mainStage;
     static GridPane topGrid;
@@ -145,10 +146,6 @@ public class FX3D extends Application {
     }
 
     public static void bootUI(){
-        Rectangle2D primaryScreenBounds = Screen.getPrimary().getBounds();
-
-
-
         setupUIPreElements(mainStage);
         setupSlider(mainStage);
         setupUIElements(mainStage);
