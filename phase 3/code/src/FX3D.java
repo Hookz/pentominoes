@@ -5,6 +5,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -18,6 +19,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -143,6 +145,10 @@ public class FX3D extends Application {
     }
 
     public static void bootUI(){
+        Rectangle2D primaryScreenBounds = Screen.getPrimary().getBounds();
+
+
+
         setupUIPreElements(mainStage);
         setupSlider(mainStage);
         setupUIElements(mainStage);
