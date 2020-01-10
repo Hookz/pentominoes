@@ -18,12 +18,11 @@ import java.util.List;
 
 public class DancingLinksProblem {
     boolean[][] inputMatrix;
-    DataObject[][] dataStructure;
+    DataObject root;
     String[] headerNames;
 
     public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames) {
         this.inputMatrix = inputMatrix;
-        this.dataStructure = new DataObject[inputMatrix.length][inputMatrix[0].length];
         this.headerNames = headerNames;
     }
 
@@ -74,7 +73,7 @@ public class DancingLinksProblem {
 
                 currentColumn = (ColumnObject) currentColumn.right;
             }
-            
+
             //Link all of the data objects in this row horizontally
             if(RowObjects.size()>0){
                 Iterator<DataObject> iterator = RowObjects.iterator();
@@ -91,44 +90,45 @@ public class DancingLinksProblem {
             }
         }
 
+        this.root = root;
+
     }
 
-    private ColumnObject root; // Special CO, labeled "h" in the paper
-    private List<DataObject> solutions;
-    private List<DataObject> answer;
-    private int numSolutionsFound = 0;
+    private void solve(int K) { // Deterministic algorithm to find all exact covers
+        List<DataObject> solution;
+        boolean foundSolution = false;
 
-    private void search(int K) { // Deterministic algorithm to find all exact covers
         //Stop when you found a solution
-        while(numSolutionsFound == 0){
+        while(!foundSolution){
             if (root.right == root) {
-                //numSolutionsFound++;
+                //SOLVED IT!
+                foundSolution = true;
 
                 System.out.println("FULLY COVERED");
 
                 return;
             }
 
-            ColumnObject c = getSmallestColumnObject();
-            c.cover();
+            ColumnObject nextColumnObject = getSmallestColumnObject();
+            nextColumnObject.cover();
 
-            for (DataObject r = c.down; r != c; r = r.down) {
-                solutions.add(r);
+            for (DataObject r = nextColumnObject.down; r != nextColumnObject; r = r.down) {
+                solution.add(r);
 
                 for (DataObject j = r.right; j != r; j = j.right) {
-                    j.C.cover();
+                    j.header.cover();
                 }
 
                 search(K + 1);
-                r = solutions.remove(solutions.size() - 1);
-                c = r.C;
+                r = solution.remove(solutions.size() - 1);
+                nextColumnObject = r.header;
 
                 for (DataObject j = r.left; j != r; j = j.left) {
-                    j.C.uncover();
+                    j.header.uncover();
                 }
             }
 
-            c.uncover();
+            nextColumnObject.uncover();
 
             return;
         }
