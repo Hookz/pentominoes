@@ -97,14 +97,13 @@ public class DancingLinksProblem {
     List<DataObject> solutions;
     boolean foundSolution = false;
 
-    private void solve(int K) { // Deterministic algorithm to find all exact covers
+    public void solve(int K) { // Deterministic algorithm to find all exact covers
         //Stop when you found a solution
         while(!foundSolution){
             if (root.right == root) {
                 //SOLVED IT!
-                foundSolution = true;
-
                 System.out.println("FULLY COVERED");
+                foundSolution = true;
 
                 return;
             }

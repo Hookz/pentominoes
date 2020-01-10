@@ -22,6 +22,7 @@ public class testX {
         DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames);
 
         dancingLinksProblem.createDataStructure();
+        dancingLinksProblem.solve(0);
 
     }
 }
