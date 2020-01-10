@@ -40,9 +40,9 @@ public class DancingLinksProblem {
             ColumnObject header = new ColumnObject();
             header.up = header;
             header.down = header;
-            header.right = header;
+            header.right = root;
             header.left = root.left;
-            root.left.right = root;
+            root.left.right = header;
             root.left = header;
             header.name = headerNames[x];
         }
