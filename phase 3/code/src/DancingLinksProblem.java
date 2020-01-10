@@ -12,6 +12,8 @@
 // Data Object = a dancing link. It has 2 circularly linked lists and a list header.
 // Column Object = a column (a set of 1s that we may want to have in our exact cover). It contains DOs and has a name and # of DOs.
 
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 public class DancingLinksProblem {
@@ -35,7 +37,7 @@ public class DancingLinksProblem {
         root.name = headerNames[0];
 
         //create the other headers
-        for(int x=1; x<=inputMatrix.length; x++){
+        for(int x=1; x<inputMatrix[0].length; x++){
             ColumnObject header = new ColumnObject();
             header.up = header;
             header.down = header;
@@ -46,7 +48,48 @@ public class DancingLinksProblem {
             header.name = headerNames[x];
         }
 
-        //TODO continue on line 72
+        //Create a list for the next row that gets added to the row above, repeat for all rows
+        List<DataObject> RowObjects = new LinkedList<DataObject>();
+        for(int y=1; y<inputMatrix.length; y++){
+            //remove data from last row
+            RowObjects.clear();
+
+            ColumnObject currentColumn = (ColumnObject) root.right;
+
+            for(int x=0; x<inputMatrix[0].length; x++){
+                //if there's a value to add, add it to the row
+                if(inputMatrix[y][x]){
+                    DataObject dataObject = new DataObject();
+                    dataObject.up = currentColumn.up;
+                    dataObject.down = currentColumn;
+                    dataObject.left = dataObject;
+                    dataObject.right = dataObject;
+                    dataObject.header = currentColumn;
+                    currentColumn.up.down = dataObject;
+                    currentColumn.up = dataObject;
+                    currentColumn.size++;
+
+                    RowObjects.add(dataObject);
+                }
+
+                currentColumn = (ColumnObject) currentColumn.right;
+            }
+            
+            //Link all of the data objects in this row horizontally
+            if(RowObjects.size()>0){
+                Iterator<DataObject> iterator = RowObjects.iterator();
+                DataObject first = iterator.next();
+
+                //while there are objects left in the row, keep going trough them
+                while (iterator.hasNext()){
+                    DataObject dataObject = iterator.next();
+                    dataObject.left = first.left;
+                    dataObject.right = first;
+                    first.left.right = dataObject;
+                    first.left = dataObject;
+                }
+            }
+        }
 
     }
 
