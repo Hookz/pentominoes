@@ -39,7 +39,6 @@ public class DancingLinksProblem {
         //create the headers
         for(int x=0; x<inputMatrix[0].length; x++){
             ColumnObject header = new ColumnObject();
-            header.name = headerNames[x];
 
             header.right = root;
             header.left = root.left;
@@ -51,6 +50,7 @@ public class DancingLinksProblem {
             header.left.right = header;
 
             header.size = 0;
+            header.name = headerNames[x];
         }
 
         //Create a list for the next row that gets added to the row above, repeat for all rows
