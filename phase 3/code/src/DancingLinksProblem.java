@@ -13,6 +13,7 @@
 // Data Object = a dancing link. It has 2 circularly linked lists and a list header.
 // Column Object = a column (a set of 1s that we may want to have in our exact cover). It contains DOs and has a name and # of DOs.
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,17 +29,18 @@ public class DancingLinksProblem {
     }
 
     public void createDataStructure(){
-        //Create first header (root)
+        //Create root
         ColumnObject root = new ColumnObject();
         root.left = root;
         root.right = root;
         root.up = root;
         root.down = root;
-        root.name = headerNames[0];
 
-        //create the other headers
-        for(int x=1; x<inputMatrix[0].length; x++){
+        //create the headers
+        for(int x=0; x<inputMatrix[0].length; x++){
             ColumnObject header = new ColumnObject();
+            header.name = headerNames[x];
+
             header.right = root;
             header.left = root.left;
 
@@ -49,18 +51,17 @@ public class DancingLinksProblem {
             header.left.right = header;
 
             header.size = 0;
-            header.name = headerNames[x];
         }
 
         //Create a list for the next row that gets added to the row above, repeat for all rows
         List<DataObject> RowObjects = new LinkedList<DataObject>();
-        for(int y=1; y<inputMatrix.length; y++){
+        for(int y=0; y<inputMatrix.length; y++){
             //remove data from last row
             RowObjects.clear();
 
             ColumnObject currentColumn = (ColumnObject) root.right;
 
-            for(int x=1; x<inputMatrix[0].length; x++){
+            for(int x=0; x<inputMatrix[0].length; x++){
                 //if there's a value to add, add it to the row
                 if(inputMatrix[y][x]){
                     //remove last one
@@ -85,7 +86,7 @@ public class DancingLinksProblem {
                 currentColumn = (ColumnObject) currentColumn.right;
             }
 
-            //Link all of the data objects in this row horizontally
+            //Link all of the data objects in this row horizontally (if there are any)
             if(RowObjects.size()>0){
                 Iterator<DataObject> iterator = RowObjects.iterator();
                 DataObject first = iterator.next();
@@ -105,7 +106,7 @@ public class DancingLinksProblem {
 
     }
 
-    List<DataObject> solutions;
+    List<DataObject> solutions = new ArrayList<DataObject>();
     boolean foundSolution = false;
 
     public void solve(int K) { // Deterministic algorithm to find all exact covers
