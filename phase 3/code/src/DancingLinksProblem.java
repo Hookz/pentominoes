@@ -135,6 +135,40 @@ public class DancingLinksProblem {
 
     }
 
+    void cover(ColumnObject header, ColumnObject columnObject){
+        columnObject.right.left = columnObject.left;
+        columnObject.left.right = columnObject.right;
+        DataObject i = columnObject.down;
+        while (i != columnObject) {
+            DataObject j = i.right;
+            while (j != i) {
+                j.down.up = j.up;
+                j.up.down = j.down;
+                ((ColumnObject)j.header).size--;
+                j = j.right;
+            }
+
+            i = i.down;
+        }
+    }
+
+    void uncover(ColumnObject header, ColumnObject columnObject) {
+        DataObject i = columnObject.up;
+        while (i != columnObject) {
+            DataObject j = i.left;
+            while (j != i) {
+                ((ColumnObject)j.header).size++;
+                j.down.up = j;
+                j.up.down = j;
+                j = j.left;
+            }
+
+            i = i.up;
+        }
+        columnObject.right.left = columnObject;
+        columnObject.left.right = columnObject;
+    }
+
     private ColumnObject getSmallestColumnObject() {
         int min = Integer.MAX_VALUE;
         ColumnObject smallestCO = null;
