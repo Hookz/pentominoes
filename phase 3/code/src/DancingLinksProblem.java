@@ -94,10 +94,10 @@ public class DancingLinksProblem {
 
     }
 
-    private void solve(int K) { // Deterministic algorithm to find all exact covers
-        List<DataObject> solution;
-        boolean foundSolution = false;
+    List<DataObject> solutions;
+    boolean foundSolution = false;
 
+    private void solve(int K) { // Deterministic algorithm to find all exact covers
         //Stop when you found a solution
         while(!foundSolution){
             if (root.right == root) {
@@ -113,14 +113,14 @@ public class DancingLinksProblem {
             nextColumnObject.cover();
 
             for (DataObject r = nextColumnObject.down; r != nextColumnObject; r = r.down) {
-                solution.add(r);
+                solutions.add(r);
 
                 for (DataObject j = r.right; j != r; j = j.right) {
                     j.header.cover();
                 }
 
-                search(K + 1);
-                r = solution.remove(solutions.size() - 1);
+                solve(K + 1);
+                r = solutions.remove(solutions.size() - 1);
                 nextColumnObject = r.header;
 
                 for (DataObject j = r.left; j != r; j = j.left) {
@@ -135,39 +135,39 @@ public class DancingLinksProblem {
 
     }
 
-    void cover(ColumnObject header, ColumnObject columnObject){
-        columnObject.right.left = columnObject.left;
-        columnObject.left.right = columnObject.right;
-        DataObject i = columnObject.down;
-        while (i != columnObject) {
-            DataObject j = i.right;
-            while (j != i) {
-                j.down.up = j.up;
-                j.up.down = j.down;
-                ((ColumnObject)j.header).size--;
-                j = j.right;
-            }
-
-            i = i.down;
-        }
-    }
-
-    void uncover(ColumnObject header, ColumnObject columnObject) {
-        DataObject i = columnObject.up;
-        while (i != columnObject) {
-            DataObject j = i.left;
-            while (j != i) {
-                ((ColumnObject)j.header).size++;
-                j.down.up = j;
-                j.up.down = j;
-                j = j.left;
-            }
-
-            i = i.up;
-        }
-        columnObject.right.left = columnObject;
-        columnObject.left.right = columnObject;
-    }
+//    void cover(ColumnObject header, ColumnObject columnObject){
+//        columnObject.right.left = columnObject.left;
+//        columnObject.left.right = columnObject.right;
+//        DataObject i = columnObject.down;
+//        while (i != columnObject) {
+//            DataObject j = i.right;
+//            while (j != i) {
+//                j.down.up = j.up;
+//                j.up.down = j.down;
+//                ((ColumnObject)j.header).size--;
+//                j = j.right;
+//            }
+//
+//            i = i.down;
+//        }
+//    }
+//
+//    void uncover(ColumnObject header, ColumnObject columnObject) {
+//        DataObject i = columnObject.up;
+//        while (i != columnObject) {
+//            DataObject j = i.left;
+//            while (j != i) {
+//                ((ColumnObject)j.header).size++;
+//                j.down.up = j;
+//                j.up.down = j;
+//                j = j.left;
+//            }
+//
+//            i = i.up;
+//        }
+//        columnObject.right.left = columnObject;
+//        columnObject.left.right = columnObject;
+//    }
 
     private ColumnObject getSmallestColumnObject() {
         int min = Integer.MAX_VALUE;
