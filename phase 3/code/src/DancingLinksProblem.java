@@ -4,6 +4,7 @@
 //https://github.com/Warren-Partridge/algorithm-x/blob/master/DancingLinks.java
 //https://www.ocf.berkeley.edu/~jchu/publicportal/sudoku/sudoku.paper.html
 //https://github.com/benfowler/dancing-links/blob/master/dlx/src/main/java/au/id/bjf/dlx/DLX.java
+//http://sudopedia.enjoysudoku.com/Dancing_Links.html
 
 
 // Data structures implemented from pg. 5 of Dancing Links paper
@@ -38,12 +39,16 @@ public class DancingLinksProblem {
         //create the other headers
         for(int x=1; x<inputMatrix[0].length; x++){
             ColumnObject header = new ColumnObject();
-            header.up = header;
-            header.down = header;
             header.right = root;
             header.left = root.left;
-            root.left.right = header;
-            root.left = header;
+
+            header.up = header;
+            header.down = header;
+
+            header.right.left = header;
+            header.left.right = header;
+
+            header.size = 0;
             header.name = headerNames[x];
         }
 
@@ -55,15 +60,21 @@ public class DancingLinksProblem {
 
             ColumnObject currentColumn = (ColumnObject) root.right;
 
-            for(int x=0; x<inputMatrix[0].length; x++){
+            for(int x=1; x<inputMatrix[0].length; x++){
                 //if there's a value to add, add it to the row
                 if(inputMatrix[y][x]){
-                    DataObject dataObject = new DataObject();
+                    //remove last one
+                    DataObject dataObject = null;
+                    dataObject = new DataObject();
+
+                    dataObject.right = dataObject;
+                    dataObject.left = dataObject;
+
                     dataObject.up = currentColumn.up;
                     dataObject.down = currentColumn;
-                    dataObject.left = dataObject;
-                    dataObject.right = dataObject;
+
                     dataObject.header = currentColumn;
+
                     currentColumn.up.down = dataObject;
                     currentColumn.up = dataObject;
                     currentColumn.size++;
