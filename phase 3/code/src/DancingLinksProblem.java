@@ -6,6 +6,8 @@
 //https://github.com/benfowler/dancing-links/blob/master/dlx/src/main/java/au/id/bjf/dlx/DLX.java
 //http://sudopedia.enjoysudoku.com/Dancing_Links.html
 
+//LOOK AT 4x4.dlx.64x64 (1) FOR AN SUDOKU EXAMPLE (phase 3 -> Research -> this)
+
 
 // Data structures implemented from pg. 5 of Dancing Links paper
 
