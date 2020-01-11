@@ -114,7 +114,18 @@ public class DancingLinksProblem {
         if(exactCover){
             solveExact(K);
         } else {
+            reduceInput();
             solvePartial(K);
+        }
+
+        System.out.println("DONE");
+    }
+
+    ColumnObject smallestColumn;
+    public void reduceInput(){
+        //remove/unlink columns that can't be filled
+        while((smallestColumn = getSmallestColumnObject()).size == 0){
+            smallestColumn.unlink();
         }
     }
 
@@ -126,27 +137,6 @@ public class DancingLinksProblem {
         //Stop when you found a solution
         while(run<maxTries){
             run++;
-
-            //Check if you have covered all
-            if (root.right == root) {
-                //SOLVED IT!
-                System.out.println("FULLY COVERED");
-                foundSolution = true;
-
-
-                //Check if the full cover also gives the highest score
-                int score = calculateScore(tmpSolution);
-                if(score > bestScore){
-                    //Assign new best solution
-                    bestSolution = new ArrayList<DataObject>(tmpSolution);
-                    bestScore = score;
-                }
-
-                System.out.println("d");
-                System.out.println(bestScore);
-
-                return;
-            }
 
             //Get the shape with the least filled cells
             ColumnObject nextColumnObject = getSmallestColumnObject();
@@ -209,9 +199,6 @@ public class DancingLinksProblem {
         //Remove covered elements
         for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down) {
             tmpSolution.add(row);
-
-            System.out.println("c");
-            System.out.println(tmpSolution.size());
 
             for (DataObject column = row.right; column != row; column = column.right) {
                 column.header.unlink();
