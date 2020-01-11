@@ -4,6 +4,8 @@ public class testX {
 
         //Use some simple input data
         String[] headerNames = {"A", "B", "C", "D", "E", "F", "G", "H"};
+        //partial cover
+        /*
         int[][] tmpInput = {{0, 0, 0, 0, 1, 1, 0, 0},
                             {0, 1, 0, 0, 0, 0, 0, 0},
                             {0, 0, 1, 0, 0, 0, 0, 0},
@@ -16,7 +18,28 @@ public class testX {
                             {0, 1, 0, 0, 0, 0, 0, 0},
                             {0, 0, 1, 0, 0, 0, 1, 0},
                             {0, 0, 0, 0, 0, 0, 0, 1},
+                            {0, 1, 1, 1, 0, 0, 0, 0}};*/
+
+        //exact cover (0, 1, 2, 4)
+        //TODO try to get the highest score
+        int[][] tmpInput = {{0, 0, 0, 0, 1, 1, 0, 0},
+                            {1, 0, 1, 0, 0, 0, 0, 0},
+                            {0, 0, 0, 0, 0, 0, 0, 1},
+                            {0, 1, 0, 0, 0, 0, 0, 0},
+                            {0, 1, 0, 1, 0, 0, 1, 0},
+                            {0, 1, 1, 1, 0, 0, 0, 0},
+                            {0, 1, 1, 1, 0, 0, 0, 0},
+                            {0, 0, 0, 0, 0, 0, 1, 0},
+                            {0, 1, 0, 0, 0, 0, 0, 0},
+                            {0, 0, 1, 0, 0, 0, 1, 0},
+                            {0, 0, 0, 0, 0, 0, 0, 1},
                             {0, 1, 1, 1, 0, 0, 0, 0}};
+        /*
+        {0, 0, 0, 0, 1, 1, 0, 0}
+        {1, 0, 1, 0, 0, 0, 0, 0}
+        {0, 0, 0, 0, 0, 0, 0, 1}
+        {0, 1, 0, 1, 0, 0, 1, 0}
+        */
 
         boolean[][] inputMatrix = new boolean[tmpInput.length][tmpInput[0].length];
 
@@ -32,6 +55,5 @@ public class testX {
 
         dancingLinksProblem.createDataStructure();
         dancingLinksProblem.solve(0);
-
     }
 }

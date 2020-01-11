@@ -1,27 +1,15 @@
 class DataObject {
     DataObject left, right, up, down;
     ColumnObject header;
+    int inputRow = -1;
 
     DataObject() {
         left = right = up = down = this;
     }
 
-    DataObject addToRow(DataObject newDataObject) { // Append new DataObject to the right and return it
-        this.right.left = newDataObject;
-        newDataObject.left = this;
-        newDataObject.right = this.right;
-        this.right = newDataObject;
-
-        return newDataObject;
-    }
-
-    DataObject addToColumn(DataObject newDataObject) { // Append new DataObject below and return it
-        this.down.up = newDataObject;
-        newDataObject.up = this;
-        newDataObject.down = this.down;
-        this.down = newDataObject;
-
-        return newDataObject;
+    DataObject(int inputRow) {
+        left = right = up = down = this;
+        this.inputRow = inputRow;
     }
 
     void unlinkFromRow() {

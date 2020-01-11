@@ -66,7 +66,7 @@ public class DancingLinksProblem {
                 if(inputMatrix[y][x]){
                     //remove last one
                     DataObject dataObject = null;
-                    dataObject = new DataObject();
+                    dataObject = new DataObject(y);
 
                     dataObject.right = dataObject;
                     dataObject.left = dataObject;
