@@ -106,32 +106,48 @@ public class DancingLinksProblem {
 
     }
 
-    List<DataObject> solutions = new ArrayList<DataObject>();
+    List<DataObject> tmpSolution = new ArrayList<DataObject>();
     boolean foundSolution = false;
+
+    List<DataObject> bestSolution = new ArrayList<DataObject>();
+    int bestScore = 0;
+
+    int maxRuns = 1000;
+    int run = 0;
 
     public void solve(int K) { // Deterministic algorithm to find all exact covers
         //Stop when you found a solution
-        while(!foundSolution){
+        while(!foundSolution && run<maxRuns){
+            run++;
+
             if (root.right == root) {
                 //SOLVED IT!
                 System.out.println("FULLY COVERED");
                 foundSolution = true;
 
                 return;
+            } else {
+                //There hasn't been a full cover, but check if it's the best cover so far
+                int score = calculateScore(tmpSolution);
+                if(score > bestScore){
+                    //Assign new best solution
+                    bestSolution = new ArrayList<DataObject>(tmpSolution);
+                    bestScore = score;
+                }
             }
 
             ColumnObject nextColumnObject = getSmallestColumnObject();
             nextColumnObject.cover();
 
             for (DataObject r = nextColumnObject.down; r != nextColumnObject; r = r.down) {
-                solutions.add(r);
+                tmpSolution.add(r);
 
                 for (DataObject j = r.right; j != r; j = j.right) {
                     j.header.cover();
                 }
 
                 solve(K + 1);
-                r = solutions.remove(solutions.size() - 1);
+                r = tmpSolution.remove(tmpSolution.size() - 1);
                 nextColumnObject = r.header;
 
                 for (DataObject j = r.left; j != r; j = j.left) {
@@ -141,44 +157,18 @@ public class DancingLinksProblem {
 
             nextColumnObject.uncover();
 
-            return;
+            System.out.println("a");
+            System.out.println(bestScore);
         }
 
     }
 
-//    void cover(ColumnObject header, ColumnObject columnObject){
-//        columnObject.right.left = columnObject.left;
-//        columnObject.left.right = columnObject.right;
-//        DataObject i = columnObject.down;
-//        while (i != columnObject) {
-//            DataObject j = i.right;
-//            while (j != i) {
-//                j.down.up = j.up;
-//                j.up.down = j.down;
-//                ((ColumnObject)j.header).size--;
-//                j = j.right;
-//            }
-//
-//            i = i.down;
-//        }
-//    }
-//
-//    void uncover(ColumnObject header, ColumnObject columnObject) {
-//        DataObject i = columnObject.up;
-//        while (i != columnObject) {
-//            DataObject j = i.left;
-//            while (j != i) {
-//                ((ColumnObject)j.header).size++;
-//                j.down.up = j;
-//                j.up.down = j;
-//                j = j.left;
-//            }
-//
-//            i = i.up;
-//        }
-//        columnObject.right.left = columnObject;
-//        columnObject.left.right = columnObject;
-//    }
+    private int calculateScore(List<DataObject> tmpSolution){
+        //TODO
+        tmpSolution.size();
+
+        return tmpSolution.size();
+    }
 
     private ColumnObject getSmallestColumnObject() {
         int min = Integer.MAX_VALUE;
