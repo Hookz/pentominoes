@@ -1,7 +1,7 @@
 public class testX {
     public static void main(String[] args){
         //TODO upgrade to actual data
-        boolean exactCover = true;
+        boolean exactCover = false;
         int[][] tmpInput;
 
         //Use some simple input data

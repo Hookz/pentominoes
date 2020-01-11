@@ -124,15 +124,19 @@ public class DancingLinksProblem {
                 System.out.println("FULLY COVERED");
                 foundSolution = true;
 
-                /*
-                //Check if the full cover also gives the highest score
 
+                //Check if the full cover also gives the highest score
                 int score = calculateScore(tmpSolution);
                 if(score > bestScore){
                     //Assign new best solution
                     bestSolution = new ArrayList<DataObject>(tmpSolution);
                     bestScore = score;
-                }*/
+                }
+
+                System.out.println("a");
+                System.out.println(bestScore);
+
+
 
                 return;
             }
@@ -145,7 +149,17 @@ public class DancingLinksProblem {
 
             //If this is a dead end
             if(nextColumnObject.size == 0){
+                //There hasn't been a full cover, but check if it's the best cover so far
+                //This will only be the case for a full-cover or dead end, since other options will have a subset of the items that these have
+                int score = calculateScore(tmpSolution);
+                if(score > bestScore){
+                    //Assign new best solution
+                    bestSolution = new ArrayList<DataObject>(tmpSolution);
+                    bestScore = score;
+                }
 
+                System.out.println("b");
+                System.out.println(tmpSolution.size());
             }
 
             nextColumnObject.unlink();
@@ -154,17 +168,8 @@ public class DancingLinksProblem {
             for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down) {
                 tmpSolution.add(row);
 
-                System.out.println("b");
+                System.out.println("c");
                 System.out.println(tmpSolution.size());
-
-                //There hasn't been a full cover, but check if it's the best cover so far
-                int score = calculateScore(tmpSolution);
-                if(score > bestScore){
-                    //Assign new best solution
-                    bestSolution = new ArrayList<DataObject>(tmpSolution);
-                    bestScore = score;
-                }
-
 
                 for (DataObject column = row.right; column != row; column = column.right) {
                     column.header.unlink();
