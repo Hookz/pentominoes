@@ -2,6 +2,7 @@ public class testX {
     public static void main(String[] args){
         //TODO upgrade to actual data
         boolean exactCover = false;
+        long maxTries = 10000;
         int[][] tmpInput;
 
         //Use some simple input data
@@ -11,6 +12,7 @@ public class testX {
         if(exactCover){
             //exact cover (0, 1, 2, 4)
 
+                                //   A1 B6 C5 D4 E1 F1 G3 H2
             tmpInput = new int[][]{ {0, 0, 0, 0, 1, 1, 0, 0},
                                     {1, 0, 1, 0, 0, 0, 0, 0},
                                     {0, 0, 0, 0, 0, 0, 0, 1},
@@ -55,9 +57,9 @@ public class testX {
             }
         }
 
-        DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames);
+        DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, exactCover, maxTries);
 
         dancingLinksProblem.createDataStructure();
-        dancingLinksProblem.solve(0);
+        dancingLinksProblem.solveDriver(0);
     }
 }

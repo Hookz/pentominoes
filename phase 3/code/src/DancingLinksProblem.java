@@ -17,10 +17,14 @@ public class DancingLinksProblem {
     boolean[][] inputMatrix;
     DataObject root;
     String[] headerNames;
+    boolean exactCover;
+    long maxTries;
 
-    public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames) {
+    public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames, boolean exactCover, long maxTries) {
         this.inputMatrix = inputMatrix;
         this.headerNames = headerNames;
+        this.exactCover = exactCover;
+        this.maxTries = maxTries;
     }
 
     public void createDataStructure(){
@@ -106,19 +110,24 @@ public class DancingLinksProblem {
     List<DataObject> tmpSolution = new ArrayList<DataObject>();
     boolean foundSolution = false;
 
+    public void solveDriver(int K) { // Deterministic algorithm to find all exact covers
+        if(exactCover){
+            solveExact(K);
+        } else {
+            solvePartial(K);
+        }
+    }
+
     List<DataObject> bestSolution = new ArrayList<DataObject>();
     int bestScore = 0;
-
-    int maxRuns = 1000;
     int run = 0;
 
-    public void solve(int K) { // Deterministic algorithm to find all exact covers
+    public void solvePartial(int K){
         //Stop when you found a solution
-        while(!foundSolution && run<maxRuns){
+        while(run<maxTries){
             run++;
 
             //Check if you have covered all
-            //TODO add partial and full-cover mode
             if (root.right == root) {
                 //SOLVED IT!
                 System.out.println("FULLY COVERED");
@@ -133,16 +142,11 @@ public class DancingLinksProblem {
                     bestScore = score;
                 }
 
-                System.out.println("a");
+                System.out.println("d");
                 System.out.println(bestScore);
-
-
 
                 return;
             }
-
-            System.out.println("a");
-            System.out.println(bestScore);
 
             //Get the shape with the least filled cells
             ColumnObject nextColumnObject = getSmallestColumnObject();
@@ -175,7 +179,7 @@ public class DancingLinksProblem {
                     column.header.unlink();
                 }
 
-                solve(K + 1);
+                solvePartial(K + 1);
                 row = tmpSolution.remove(tmpSolution.size() - 1);
                 nextColumnObject = row.header;
 
@@ -186,7 +190,43 @@ public class DancingLinksProblem {
 
             nextColumnObject.link();
         }
+    }
 
+    public void solveExact(int K){
+        //Check if you have covered all
+        if (root.right == root) {
+            //SOLVED IT!
+            System.out.println("FULLY COVERED");
+            foundSolution = true;
+
+            return;
+        }
+
+        //Get the shape with the least filled cells
+        ColumnObject nextColumnObject = getSmallestColumnObject();
+        nextColumnObject.unlink();
+
+        //Remove covered elements
+        for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down) {
+            tmpSolution.add(row);
+
+            System.out.println("c");
+            System.out.println(tmpSolution.size());
+
+            for (DataObject column = row.right; column != row; column = column.right) {
+                column.header.unlink();
+            }
+
+            solveExact(K + 1);
+            row = tmpSolution.remove(tmpSolution.size() - 1);
+            nextColumnObject = row.header;
+
+            for (DataObject column = row.left; column != row; column = column.left) {
+                column.header.link();
+            }
+        }
+
+        nextColumnObject.link();
     }
 
     private int calculateScore(List<DataObject> tmpSolution){
@@ -201,11 +241,15 @@ public class DancingLinksProblem {
         ColumnObject smallestCO = null;
 
         // Search for the min size ColumnObject by iterating through all ColumnObjects by moving right until we end up back at the header
-        //every node in headers
         for(ColumnObject col = (ColumnObject) root.right; col != root; col = (ColumnObject) col.right){
             if (col.size < min) {
                 min = col.size;
                 smallestCO = col;
+
+                //If you found a column of size 0, don't bother looking trough the rest (it can't have a negative size)
+                if(min==0){
+                    return smallestCO;
+                }
             }
         }
 
