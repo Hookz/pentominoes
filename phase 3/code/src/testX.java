@@ -1,7 +1,7 @@
 public class testX {
     public static void main(String[] args){
         //TODO upgrade to actual data
-        boolean exactCover = false;
+        boolean exactCover = true;
         int[][] tmpInput;
 
         //Use some simple input data
@@ -30,7 +30,7 @@ public class testX {
         {0, 1, 0, 1, 0, 0, 1, 0}
         */
         } else {
-            tmpInput = new int[][]{ {0, 0, 0, 0, 1, 1, 0, 0},
+            tmpInput = new int[][]{ {1, 0, 0, 0, 1, 1, 0, 0},
                                     {0, 1, 0, 0, 0, 0, 0, 0},
                                     {0, 0, 1, 0, 0, 0, 0, 0},
                                     {0, 0, 0, 1, 0, 0, 0, 0},
@@ -41,7 +41,7 @@ public class testX {
                                     {0, 0, 0, 0, 0, 0, 1, 0},
                                     {0, 1, 0, 0, 0, 0, 0, 0},
                                     {0, 0, 1, 0, 0, 0, 1, 0},
-                                    {0, 0, 0, 0, 0, 0, 0, 1},
+                                    {0, 0, 0, 0, 0, 0, 1, 0},
                                     {0, 1, 1, 1, 0, 0, 0, 0}};
         }
 

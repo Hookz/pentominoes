@@ -49,25 +49,27 @@ public class DancingLinksProblem {
         }
 
         //Create a list for the next row that gets added to the row above, repeat for all rows
-        List<DataObject> RowObjects = new LinkedList<DataObject>();
+        List<DataObject> rowObjects = new LinkedList<DataObject>();
         for(int y=0; y<inputMatrix.length; y++){
             //remove data from last row
-            RowObjects.clear();
+            rowObjects.clear();
 
+            //Go to the first column
             ColumnObject currentColumn = (ColumnObject) root.right;
 
             for(int x=0; x<inputMatrix[0].length; x++){
                 //if there's a value to add, add it to the row
                 if(inputMatrix[y][x]){
-                    //remove last one
+                    //start with new dataObject
                     DataObject dataObject = null;
+                    //create one with inputRowIdentifier
                     dataObject = new DataObject(y);
-
-                    dataObject.right = dataObject;
-                    dataObject.left = dataObject;
 
                     dataObject.up = currentColumn.up;
                     dataObject.down = currentColumn;
+
+                    dataObject.right = dataObject;
+                    dataObject.left = dataObject;
 
                     dataObject.header = currentColumn;
 
@@ -75,15 +77,16 @@ public class DancingLinksProblem {
                     currentColumn.up = dataObject;
                     currentColumn.size++;
 
-                    RowObjects.add(dataObject);
+                    rowObjects.add(dataObject);
                 }
 
+                //Go to next column
                 currentColumn = (ColumnObject) currentColumn.right;
             }
 
             //Link all of the data objects in this row horizontally (if there are any)
-            if(RowObjects.size()>0){
-                Iterator<DataObject> iterator = RowObjects.iterator();
+            if(rowObjects.size()>0){
+                Iterator<DataObject> iterator = rowObjects.iterator();
                 DataObject first = iterator.next();
 
                 //while there are objects left in the row, keep going trough them
