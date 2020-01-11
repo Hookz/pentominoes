@@ -8,13 +8,6 @@
 
 //LOOK AT 4x4.dlx.64x64 (1) FOR AN SUDOKU EXAMPLE (phase 3 -> Research -> this)
 
-
-// Data structures implemented from pg. 5 of Dancing Links paper
-
-// Ok, just so it makes sense to me:
-// Data Object = a dancing link. It has 2 circularly linked lists and a list header.
-// Column Object = a column (a set of 1s that we may want to have in our exact cover). It contains DOs and has a name and # of DOs.
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -42,14 +35,14 @@ public class DancingLinksProblem {
         for(int x=0; x<inputMatrix[0].length; x++){
             ColumnObject header = new ColumnObject();
 
-            header.right = root;
-            header.left = root.left;
-
             header.up = header;
             header.down = header;
 
-            header.right.left = header;
-            header.left.right = header;
+            header.right = root;
+            header.left = root.left;
+
+            root.left.right = header;
+            root.left = header;
 
             header.size = 0;
             header.name = headerNames[x];
@@ -105,7 +98,6 @@ public class DancingLinksProblem {
         }
 
         this.root = root;
-
     }
 
     List<DataObject> tmpSolution = new ArrayList<DataObject>();
@@ -123,20 +115,23 @@ public class DancingLinksProblem {
             run++;
 
             //Check if you have covered all
+            //TODO add partial and full-cover mode
             if (root.right == root) {
                 //SOLVED IT!
                 System.out.println("FULLY COVERED");
                 foundSolution = true;
 
-                return;
-            } else {
-                //There hasn't been a full cover, but check if it's the best cover so far
+                /*
+                //Check if the full cover also gives the highest score
+
                 int score = calculateScore(tmpSolution);
                 if(score > bestScore){
                     //Assign new best solution
                     bestSolution = new ArrayList<DataObject>(tmpSolution);
                     bestScore = score;
-                }
+                }*/
+
+                return;
             }
 
             System.out.println("a");
@@ -158,6 +153,15 @@ public class DancingLinksProblem {
 
                 System.out.println("b");
                 System.out.println(tmpSolution.size());
+
+                //There hasn't been a full cover, but check if it's the best cover so far
+                int score = calculateScore(tmpSolution);
+                if(score > bestScore){
+                    //Assign new best solution
+                    bestSolution = new ArrayList<DataObject>(tmpSolution);
+                    bestScore = score;
+                }
+
 
                 for (DataObject column = row.right; column != row; column = column.right) {
                     column.header.unlink();
