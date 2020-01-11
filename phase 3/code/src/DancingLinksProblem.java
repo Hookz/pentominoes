@@ -120,6 +120,7 @@ public class DancingLinksProblem {
         while(!foundSolution && run<maxRuns){
             run++;
 
+            //Check if you have covered all
             if (root.right == root) {
                 //SOLVED IT!
                 System.out.println("FULLY COVERED");
@@ -136,29 +137,40 @@ public class DancingLinksProblem {
                 }
             }
 
+            System.out.println("a");
+            System.out.println(bestScore);
+
+            //Get the shape with the least filled cells
             ColumnObject nextColumnObject = getSmallestColumnObject();
-            nextColumnObject.cover();
 
-            for (DataObject r = nextColumnObject.down; r != nextColumnObject; r = r.down) {
-                tmpSolution.add(r);
+            //If this is a dead end
+            if(nextColumnObject.size == 0){
 
-                for (DataObject j = r.right; j != r; j = j.right) {
-                    j.header.cover();
+            }
+
+            nextColumnObject.unlink();
+
+            //Remove covered elements
+            for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down) {
+                tmpSolution.add(row);
+
+                System.out.println("b");
+                System.out.println(tmpSolution.size());
+
+                for (DataObject column = row.right; column != row; column = column.right) {
+                    column.header.unlink();
                 }
 
                 solve(K + 1);
-                r = tmpSolution.remove(tmpSolution.size() - 1);
-                nextColumnObject = r.header;
+                row = tmpSolution.remove(tmpSolution.size() - 1);
+                nextColumnObject = row.header;
 
-                for (DataObject j = r.left; j != r; j = j.left) {
-                    j.header.uncover();
+                for (DataObject column = row.left; column != row; column = column.left) {
+                    column.header.link();
                 }
             }
 
-            nextColumnObject.uncover();
-
-            System.out.println("a");
-            System.out.println(bestScore);
+            nextColumnObject.link();
         }
 
     }

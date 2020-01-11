@@ -16,7 +16,7 @@ class ColumnObject extends DataObject {
         this.name = name;
     }
 
-    void cover() {
+    void unlink() {
         this.unlinkFromRow();
 
         for (DataObject i = this.down; i != this.header; i = i.down) {
@@ -26,7 +26,7 @@ class ColumnObject extends DataObject {
         }
     }
 
-    void uncover() {
+    void link() {
         for (DataObject i = this.up; i != this.header; i = i.up) {
             for (DataObject j = i.left; j != i; j = j.left) {
                 j.relinkToColumn();
