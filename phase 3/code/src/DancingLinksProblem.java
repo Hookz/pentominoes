@@ -134,6 +134,9 @@ public class DancingLinksProblem {
     int run = 0;
 
     public void solvePartial(int K){
+        //Won't always work
+        solveExact(K);
+        /*
         //Stop when you found a solution
         while(run<maxTries){
             run++;
@@ -179,41 +182,43 @@ public class DancingLinksProblem {
             }
 
             nextColumnObject.link();
-        }
+        }*/
     }
 
     public void solveExact(int K){
-        //Check if you have covered all
-        if (root.right == root) {
-            //SOLVED IT!
-            System.out.println("FULLY COVERED");
-            foundSolution = true;
+        while(!foundSolution){
+            //Check if you have covered all
+            if (root.right == root) {
+                //SOLVED IT!
+                System.out.println("FULLY COVERED");
+                foundSolution = true;
 
-            return;
-        }
-
-        //Get the shape with the least filled cells
-        ColumnObject nextColumnObject = getSmallestColumnObject();
-        nextColumnObject.unlink();
-
-        //Remove covered elements
-        for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down) {
-            tmpSolution.add(row);
-
-            for (DataObject column = row.right; column != row; column = column.right) {
-                column.header.unlink();
+                return;
             }
 
-            solveExact(K + 1);
-            row = tmpSolution.remove(tmpSolution.size() - 1);
-            nextColumnObject = row.header;
+            //Get the shape with the least filled cells
+            ColumnObject nextColumnObject = getSmallestColumnObject();
+            nextColumnObject.unlink();
 
-            for (DataObject column = row.left; column != row; column = column.left) {
-                column.header.link();
+            //Remove covered elements
+            for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down) {
+                tmpSolution.add(row);
+
+                for (DataObject column = row.right; column != row; column = column.right) {
+                    column.header.unlink();
+                }
+
+                solveExact(K + 1);
+                row = tmpSolution.remove(tmpSolution.size() - 1);
+                nextColumnObject = row.header;
+
+                for (DataObject column = row.left; column != row; column = column.left) {
+                    column.header.link();
+                }
             }
-        }
 
-        nextColumnObject.link();
+            nextColumnObject.link();
+        }
     }
 
     private int calculateScore(List<DataObject> tmpSolution){
