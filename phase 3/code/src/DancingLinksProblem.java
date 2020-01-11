@@ -114,6 +114,7 @@ public class DancingLinksProblem {
         if(exactCover){
             solveExact(K);
         } else {
+            //Remove unfillable positions (mainly useful for testing)
             reduceInput();
             solvePartial(K);
         }
@@ -131,12 +132,9 @@ public class DancingLinksProblem {
 
     List<DataObject> bestSolution = new ArrayList<DataObject>();
     int bestScore = 0;
-    int run = 0;
+    long run = 0;
 
     public void solvePartial(int K){
-        //Won't always work
-        solveExact(K);
-        /*
         //Stop when you found a solution
         while(run<maxTries){
             run++;
@@ -145,7 +143,7 @@ public class DancingLinksProblem {
             ColumnObject nextColumnObject = getSmallestColumnObject();
 
             //If this is a dead end
-            if(nextColumnObject.size == 0){
+            if(nextColumnObject == null){
                 //There hasn't been a full cover, but check if it's the best cover so far
                 //This will only be the case for a full-cover or dead end, since other options will have a subset of the items that these have
                 int score = calculateScore(tmpSolution);
@@ -156,7 +154,9 @@ public class DancingLinksProblem {
                 }
 
                 System.out.println("b");
-                System.out.println(tmpSolution.size());
+                System.out.println(bestScore);
+
+                return;
             }
 
             nextColumnObject.unlink();
@@ -166,7 +166,7 @@ public class DancingLinksProblem {
                 tmpSolution.add(row);
 
                 System.out.println("c");
-                System.out.println(tmpSolution.size());
+                System.out.println(bestScore);
 
                 for (DataObject column = row.right; column != row; column = column.right) {
                     column.header.unlink();
@@ -182,7 +182,7 @@ public class DancingLinksProblem {
             }
 
             nextColumnObject.link();
-        }*/
+        }
     }
 
     public void solveExact(int K){
