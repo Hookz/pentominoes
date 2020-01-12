@@ -148,6 +148,7 @@ public class DancingLinksProblem {
         }
     }
 
+    List<Object[]> solutions = new ArrayList<Object[]>();
     List<DataObject> bestSolution = new ArrayList<DataObject>();
     int bestScore = 0;
     long run = 0;
@@ -162,6 +163,9 @@ public class DancingLinksProblem {
 
             //If this is a dead end
             if(nextColumnObject == null){
+                //TODO chose path (fully calculate afterwards or during)
+                solutions.add(tmpSolution.toArray());
+
                 //There hasn't been a full cover, but check if it's the best cover so far
                 //This will only be the case for a full-cover or dead end, since other options will have a subset of the items that these have
                 int score = calculateScore(tmpSolution);

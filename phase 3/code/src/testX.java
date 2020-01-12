@@ -4,6 +4,7 @@ public class testX {
         boolean exactCover = false;
         long maxTries = 10000;
         int[][] tmpInput;
+        int[] rowValues = new int[0];
 
         //Use some simple input data
         String[] headerNames = {"A", "B", "C", "D", "E", "F", "G", "H"};
@@ -26,6 +27,8 @@ public class testX {
                                     {0, 0, 0, 0, 0, 0, 0, 1},
                                     {0, 1, 1, 1, 0, 0, 0, 0}};
 
+
+
         } else {
             tmpInput = new int[][]{ {1, 0, 0, 0, 1, 1, 0, 0},
                                     {0, 1, 0, 0, 0, 0, 0, 0},
@@ -41,10 +44,24 @@ public class testX {
                                     {0, 0, 0, 0, 0, 0, 1, 0},
                                     {0, 1, 1, 1, 0, 0, 0, 0}};
 
-            //{Type, Size, Score
-            String[][] rowDetails = new String[][]{
+            rowValues = new int[] {  1,
+                                    2,
+                                    1,
+                                    2,
+                                    4,
+                                    4,
+                                    1,
+                                    1,
+                                    1,
+                                    2,
+                                    2,
+                                    1,
+                                    2};
 
-            }
+            //{Type, Size, Score
+            /*String[][] rowDetails = new String[][]{
+
+            }*/
 
             /*
              tmpInput = new int[][]{ {1, 0, 0, 0, 1, 1, 0, 0},
@@ -60,7 +77,6 @@ public class testX {
                                     {0, 0, 1, 0, 0, 0, 1, 0},
                                     {0, 0, 0, 0, 0, 0, 1, 0},
                                     {0, 1, 1, 1, 0, 0, 0, 0}};
-
 
             0, 8, 3, 2, 1
             =
@@ -88,5 +104,29 @@ public class testX {
 
         dancingLinksProblem.createDataStructure();
         dancingLinksProblem.solveDriver(0);
+
+        if(!exactCover) {
+            //Chose best solution
+            int bestScore = 0;
+            Object bestSolution = null;
+
+            for (Object[] solution : dancingLinksProblem.solutions) {
+                int score = 0;
+
+                //For every chosen object in the solution
+                for (Object object : solution) {
+                    int rowNumber = ((DataObject) object).inputRow;
+                    int objectScore = rowValues[rowNumber];
+                    score += objectScore;
+                }
+
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestSolution = solution;
+                }
+            }
+
+            System.out.println(bestScore);
+        }
     }
 }
