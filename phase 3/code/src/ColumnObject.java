@@ -9,13 +9,6 @@ class ColumnObject extends DataObject {
         this.name = "";
     }
 
-    ColumnObject(String name) {
-        super(); // Inherit left,right,up,down,C from dataObject
-        this.header = this;
-        this.size = 0;
-        this.name = name;
-    }
-
     void unlink() {
         this.unlinkFromRow();
 

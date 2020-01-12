@@ -52,6 +52,24 @@ public class DancingLinksProblem {
             header.name = headerNames[x];
         }
 
+        /*
+        //create row detail nodes
+        for(int y=0; y<inputMatrix.length; y++){
+            ColumnObject header = new ColumnObject();
+
+            header.up = header;
+            header.down = header;
+
+            header.right = root;
+            header.left = root.left;
+
+            root.left.right = header;
+            root.left = header;
+
+            header.size = 0;
+            header.name = headerNames[x];
+        }*/
+
         //Create a list for the next row that gets added to the row above, repeat for all rows
         List<DataObject> rowObjects = new LinkedList<DataObject>();
         for(int y=0; y<inputMatrix.length; y++){

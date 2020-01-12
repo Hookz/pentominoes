@@ -41,6 +41,10 @@ public class testX {
                                     {0, 0, 0, 0, 0, 0, 1, 0},
                                     {0, 1, 1, 1, 0, 0, 0, 0}};
 
+            //{Type, Size, Score
+            String[][] rowDetails = new String[][]{
+
+            }
 
             /*
              tmpInput = new int[][]{ {1, 0, 0, 0, 1, 1, 0, 0},
