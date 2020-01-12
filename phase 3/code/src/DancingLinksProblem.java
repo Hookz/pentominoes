@@ -52,24 +52,6 @@ public class DancingLinksProblem {
             header.name = headerNames[x];
         }
 
-        /*
-        //create row detail nodes
-        for(int y=0; y<inputMatrix.length; y++){
-            ColumnObject header = new ColumnObject();
-
-            header.up = header;
-            header.down = header;
-
-            header.right = root;
-            header.left = root.left;
-
-            root.left.right = header;
-            root.left = header;
-
-            header.size = 0;
-            header.name = headerNames[x];
-        }*/
-
         //Create a list for the next row that gets added to the row above, repeat for all rows
         List<DataObject> rowObjects = new LinkedList<DataObject>();
         for(int y=0; y<inputMatrix.length; y++){
@@ -163,20 +145,8 @@ public class DancingLinksProblem {
 
             //If this is a dead end
             if(nextColumnObject == null){
-                //TODO chose path (fully calculate afterwards or during)
+                //Add the partial solution to the array of possible best solution (the best solution is determined by the scoring)
                 solutions.add(tmpSolution.toArray());
-
-                //There hasn't been a full cover, but check if it's the best cover so far
-                //This will only be the case for a full-cover or dead end, since other options will have a subset of the items that these have
-                int score = calculateScore(tmpSolution);
-                if(score > bestScore){
-                    //Assign new best solution
-                    bestSolution = new ArrayList<DataObject>(tmpSolution);
-                    bestScore = score;
-                }
-
-                System.out.println("b");
-                System.out.println(bestScore);
 
                 return;
             }
@@ -186,9 +156,6 @@ public class DancingLinksProblem {
             //Remove covered elements
             for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down) {
                 tmpSolution.add(row);
-
-                System.out.println("c");
-                System.out.println(bestScore);
 
                 for (DataObject column = row.right; column != row; column = column.right) {
                     column.header.unlink();
@@ -241,13 +208,6 @@ public class DancingLinksProblem {
 
             nextColumnObject.link();
         }
-    }
-
-    private int calculateScore(List<DataObject> tmpSolution){
-        //TODO
-        tmpSolution.size();
-
-        return tmpSolution.size();
     }
 
     private ColumnObject getSmallestColumnObject() {
