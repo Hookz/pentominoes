@@ -8,6 +8,8 @@
 
 //LOOK AT 4x4.dlx.64x64 (1) FOR AN SUDOKU EXAMPLE (phase 3 -> Research -> this)
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -18,13 +20,15 @@ public class DancingLinksProblem {
     DataObject root;
     String[] headerNames;
     boolean exactCover;
-    long maxTries;
+    int maxSeconds;
+    long timeElapsed = 0;
+    Instant start;
 
-    public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames, boolean exactCover, long maxTries) {
+    public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames, boolean exactCover, int maxSeconds) {
         this.inputMatrix = inputMatrix;
         this.headerNames = headerNames;
         this.exactCover = exactCover;
-        this.maxTries = maxTries;
+        this.maxSeconds = maxSeconds;
     }
 
     public void createDataStructure(){
@@ -111,6 +115,9 @@ public class DancingLinksProblem {
     boolean foundSolution = false;
 
     public void solveDriver(int K) { // Deterministic algorithm to find all exact covers
+        //start timer
+        start = Instant.now();
+
         if(exactCover){
             solveExact(K);
         } else {
@@ -137,11 +144,11 @@ public class DancingLinksProblem {
 
     public void solvePartial(int K){
         //Stop when you found a solution
-        while(run<maxTries){
+        while((timeElapsed = Duration.between(start, Instant.now()).toSeconds()) < maxSeconds){
             run++;
 
             //Get the shape with the least filled cells
-            ColumnObject nextColumnObject = getSmallestColumnObject();
+            ColumnObject nextColumnObject = getRandomColumnObject();
 
             //If this is a dead end
             if(nextColumnObject == null){
@@ -228,6 +235,24 @@ public class DancingLinksProblem {
         }
 
         return smallestCO;
+    }
+
+    private ColumnObject getRandomColumnObject(){
+        //TODO possibly optimize to keep track of the amountOfColumns more efficiently (global variable that gets updates during the dancing links process)
+        int amountOfColumns = 0;
+
+        for(ColumnObject col = (ColumnObject) root.right; col != root; col = (ColumnObject) col.right){
+            amountOfColumns++;
+        }
+
+        int index = (int) (Math.random() * amountOfColumns) + 1;
+
+        ColumnObject chosenColumn = (ColumnObject) root;
+        for(int i=0; i<index; i++){
+            chosenColumn = (ColumnObject) chosenColumn.right;
+        }
+
+        return chosenColumn;
     }
 
 }

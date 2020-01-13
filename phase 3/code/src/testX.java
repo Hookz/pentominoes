@@ -2,7 +2,7 @@ public class testX {
     public static void main(String[] args){
         //TODO upgrade to actual data
         boolean exactCover = false;
-        long maxTries = 10000;
+        int maxSeconds = 300;
         int[][] tmpInput;
         int[] rowValues = new int[0];
 
@@ -100,7 +100,7 @@ public class testX {
             }
         }
 
-        DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, exactCover, maxTries);
+        DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, exactCover, maxSeconds);
 
         dancingLinksProblem.createDataStructure();
         dancingLinksProblem.solveDriver(0);
