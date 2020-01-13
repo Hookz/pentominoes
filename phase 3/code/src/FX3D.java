@@ -98,6 +98,12 @@ public class FX3D extends Application {
     static ArrayList<TextField> pentominoTextValueFields;
     static ArrayList<TextField> pentominoTextAmountFields;
 
+    static ArrayList<Label> parcelTextValueLabels;
+    static ArrayList<Label> parcelTextAmountLabels;
+
+    static ArrayList<Label> pentominoTextValueLabels;
+    static ArrayList<Label> pentominoTextAmountLabels;
+
     static Label ParcelAAmountLabel;
     static Label ParcelBAmountLabel;
     static Label ParcelCAmountLabel;
@@ -112,6 +118,7 @@ public class FX3D extends Application {
     static TextField ParcelBValueTextField;
     static TextField ParcelCValueTextField;
 
+    //TODO check if this is still relevant
     // Input details
     static inputDetail inputDetail1;
     static inputDetail inputDetail2;
@@ -158,7 +165,6 @@ public class FX3D extends Application {
     }
 
     public static void updateUI(){
-        //TODO fix slider not working
         updateUIPreElements(mainStage);
         updateTmpUIInput();
         updateUIElements(mainStage);
@@ -188,6 +194,12 @@ public class FX3D extends Application {
 
         pentominoTextValueFields = new ArrayList<>();
         pentominoTextAmountFields = new ArrayList<>();
+
+        parcelTextValueLabels = new ArrayList<>();
+        parcelTextAmountLabels = new ArrayList<>();
+
+        pentominoTextValueLabels = new ArrayList<>();
+        pentominoTextAmountLabels = new ArrayList<>();
     }
 
     public static void setupUIPreElements(Stage stage){
@@ -275,6 +287,22 @@ public class FX3D extends Application {
         pentominoTextValueFields.add(PPentominoValueTextField);
         pentominoTextValueFields.add(TPentominoValueTextField);
 
+        parcelTextValueLabels.add(ParcelAValueLabel);
+        parcelTextValueLabels.add(ParcelBValueLabel);
+        parcelTextValueLabels.add(ParcelCValueLabel);
+
+        parcelTextAmountLabels.add(ParcelAAmountLabel);
+        parcelTextAmountLabels.add(ParcelBAmountLabel);
+        parcelTextAmountLabels.add(ParcelCAmountLabel);
+
+        pentominoTextValueLabels.add(LPentominoValueLabel);
+        pentominoTextValueLabels.add(PPentominoValueLabel);
+        pentominoTextValueLabels.add(TPentominoValueLabel);
+
+        pentominoTextAmountLabels.add(LPentominoAmountLabel);
+        pentominoTextAmountLabels.add(PPentominoAmountLabel);
+        pentominoTextAmountLabels.add(TPentominoAmountLabel);
+
         topGrid.add(scoringLabel, 2, 0);
         topGrid.add(typeSelection, 0, 0);
         topGrid.add(shapeSelection, 0, 1);
@@ -356,10 +384,10 @@ public class FX3D extends Application {
             }
         });
 
-        //TODO make type listener
         //Set eventListener for mode selection
         typeSelection.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
             if(newValue.equals("A")){
+
                 //Exact cover for parcels
                 
                 //Remove parcel and pentominoe options
@@ -377,12 +405,29 @@ public class FX3D extends Application {
                     topGrid.getChildren().remove(pentominoeValueField);
                 }
 
+                for (Label parcelAmountLabel : parcelTextAmountLabels){
+                    topGrid.getChildren().remove(parcelAmountLabel);
+                }
+                for (Label parcelValueLabel : parcelTextValueLabels){
+                    topGrid.getChildren().remove(parcelValueLabel);
+                }
+
+                for (Label pentominoeAmountLabel : pentominoTextAmountLabels){
+                    topGrid.getChildren().remove(pentominoeAmountLabel);
+                }
+                for (Label pentominoeValueLabel : pentominoTextValueLabels){
+                    topGrid.getChildren().remove(pentominoeValueLabel);
+                }
+
+
                 topGrid.getChildren().remove(shapeSelection);
 
 
             } else if(newValue.equals("B")){
                 //Optimization for parcels
-                shapeSelection.getSelectionModel().select("Parcel");
+                topGrid.getChildren().remove(shapeSelection);
+                topGrid.add(shapeSelection, 0, 1);
+                shapeSelection.getSelectionModel().select("Parcels");
                 shapeSelection.setDisable(true);
 
             } else if(newValue.equals("C")){
@@ -403,17 +448,34 @@ public class FX3D extends Application {
                     topGrid.getChildren().remove(pentominoeValueField);
                 }
 
+                for (Label parcelAmountLabel : parcelTextAmountLabels){
+                    topGrid.getChildren().remove(parcelAmountLabel);
+                }
+                for (Label parcelValueLabel : parcelTextValueLabels){
+                    topGrid.getChildren().remove(parcelValueLabel);
+                }
+
+                for (Label pentominoeAmountLabel : pentominoTextAmountLabels){
+                    topGrid.getChildren().remove(pentominoeAmountLabel);
+                }
+                for (Label pentominoeValueLabel : pentominoTextValueLabels){
+                    topGrid.getChildren().remove(pentominoeValueLabel);
+                }
+
                 topGrid.getChildren().remove(shapeSelection);
                 
             } else if(newValue.equals("D")){
                 //Optimization for pentominoes
-                shapeSelection.getSelectionModel().select("Pentominoe");
+                topGrid.getChildren().remove(shapeSelection);
+                topGrid.add(shapeSelection, 0, 1);
+                shapeSelection.getSelectionModel().select("Pentominoes");
                 shapeSelection.setDisable(true);
 
             } else if(newValue.equals("General")){
                 //Show all
                 topGrid.getChildren().remove(shapeSelection);
                 topGrid.add(shapeSelection, 0, 1);
+                shapeSelection.setDisable(false);
             }
         });
 
