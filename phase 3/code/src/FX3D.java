@@ -8,7 +8,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.*;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -85,15 +84,19 @@ public class FX3D extends Application {
     /*DEFAULT UI COMPONENTS*/
     static Label scoringLabel;
     static Button startButton;
-    static ChoiceBox modeSelection;
+    static ChoiceBox typeSelection;
+    static ChoiceBox shapeSelection;
     static ProgressIndicator[] pins;
     static ProgressIndicator pin;
     static Label layerLabel;
     static Slider layerSlider;
 
     //Parcel selection UI
-    static ArrayList<TextField> parcelTextFields;
-    static ArrayList<TextField> pentominoTextFields;
+    static ArrayList<TextField> parcelTextValueFields;
+    static ArrayList<TextField> parcelTextAmountFields;
+
+    static ArrayList<TextField> pentominoTextValueFields;
+    static ArrayList<TextField> pentominoTextAmountFields;
 
     static Label ParcelAAmountLabel;
     static Label ParcelBAmountLabel;
@@ -179,8 +182,12 @@ public class FX3D extends Application {
         pins = new ProgressIndicator[1];
         pin = pins[0] = new ProgressIndicator();
         parcels = new ArrayList<UIParcel>();
-        parcelTextFields = new ArrayList<>();
-        pentominoTextFields = new ArrayList<>();
+
+        parcelTextValueFields = new ArrayList<>();
+        parcelTextAmountFields = new ArrayList<>();
+
+        pentominoTextValueFields = new ArrayList<>();
+        pentominoTextAmountFields = new ArrayList<>();
     }
 
     public static void setupUIPreElements(Stage stage){
@@ -201,11 +208,17 @@ public class FX3D extends Application {
         scoringLabel = new Label("Score: " + Wrapper.score);
         startButton = new Button("Start");
 
-        modeSelection = new ChoiceBox(FXCollections.observableArrayList(
+        typeSelection = new ChoiceBox(FXCollections.observableArrayList(
+                "A", "B", "C", "D", "General"
+        ));
+
+        typeSelection.setValue("");
+
+        shapeSelection = new ChoiceBox(FXCollections.observableArrayList(
                 "Parcels", "Pentominoes"
         ));
 
-        modeSelection.setValue("");
+        shapeSelection.setValue("");
 
         //Parcel selection UI
         ParcelAAmountLabel = new Label("Amount of parcel A: ");
@@ -246,23 +259,27 @@ public class FX3D extends Application {
         //pin is the progress indicator
         pin.setProgress(-1);
 
-        parcelTextFields.add(ParcelAAmountTextField);
-        parcelTextFields.add(ParcelBAmountTextField);
-        parcelTextFields.add(ParcelCAmountTextField);
-        parcelTextFields.add(ParcelAValueTextField);
-        parcelTextFields.add(ParcelBValueTextField);
-        parcelTextFields.add(ParcelCValueTextField);
-        pentominoTextFields.add(LPentominoAmountTextField);
-        pentominoTextFields.add(PPentominoAmountTextField);
-        pentominoTextFields.add(TPentominoAmountTextField);
-        pentominoTextFields.add(LPentominoValueTextField);
-        pentominoTextFields.add(PPentominoValueTextField);
-        pentominoTextFields.add(TPentominoValueTextField);
+        parcelTextAmountFields.add(ParcelAAmountTextField);
+        parcelTextAmountFields.add(ParcelBAmountTextField);
+        parcelTextAmountFields.add(ParcelCAmountTextField);
 
-        topGrid.add(scoringLabel, 0, 0);
-        topGrid.add(modeSelection, 0, 1);
+        parcelTextValueFields.add(ParcelAValueTextField);
+        parcelTextValueFields.add(ParcelBValueTextField);
+        parcelTextValueFields.add(ParcelCValueTextField);
+
+        pentominoTextAmountFields.add(LPentominoAmountTextField);
+        pentominoTextAmountFields.add(PPentominoAmountTextField);
+        pentominoTextAmountFields.add(TPentominoAmountTextField);
+
+        pentominoTextValueFields.add(LPentominoValueTextField);
+        pentominoTextValueFields.add(PPentominoValueTextField);
+        pentominoTextValueFields.add(TPentominoValueTextField);
+
+        topGrid.add(scoringLabel, 2, 0);
+        topGrid.add(typeSelection, 0, 0);
+        topGrid.add(shapeSelection, 0, 1);
         topGrid.add(warningLabel, 1, 1);
-        topGrid.add(startButton, 0, 8);
+        topGrid.add(startButton, 0, 9);
         twoDGroup.getChildren().add(topGrid);
         /*END*/
 
@@ -285,7 +302,7 @@ public class FX3D extends Application {
         initMouseControl(threeDGroup, threeD, stage);
 
         //Set eventListener for mode selection
-        modeSelection.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
+        shapeSelection.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
             //check what mode was selected and show the corresponding options
             if(newValue.equals("Parcels")){
                 //remove other option
@@ -293,22 +310,23 @@ public class FX3D extends Application {
                     topGrid.getChildren().removeAll(LPentominoAmountLabel, PPentominoAmountLabel, TPentominoAmountLabel, LPentominoAmountTextField, PPentominoAmountTextField, TPentominoAmountTextField, LPentominoValueLabel, PPentominoValueLabel, TPentominoValueLabel, LPentominoValueTextField, PPentominoValueTextField, TPentominoValueTextField);
                 }
 
-                //add labels
+                //add labels and text fields
                 topGrid.add(ParcelAAmountLabel, 0, 2);
-                topGrid.add(ParcelBAmountLabel, 0, 4);
-                topGrid.add(ParcelCAmountLabel, 0, 6);
-
-                topGrid.add(ParcelAValueLabel, 0, 3);
-                topGrid.add(ParcelBValueLabel, 0, 5);
-                topGrid.add(ParcelCValueLabel, 0, 7);
-
-                //add text fields
                 topGrid.add(ParcelAAmountTextField, 1, 2);
+
+                topGrid.add(ParcelBAmountLabel, 0, 4);
                 topGrid.add(ParcelBAmountTextField, 1, 4);
+
+                topGrid.add(ParcelCAmountLabel, 0, 6);
                 topGrid.add(ParcelCAmountTextField, 1, 6);
 
+                topGrid.add(ParcelAValueLabel, 0, 3);
                 topGrid.add(ParcelAValueTextField, 1, 3);
+
+                topGrid.add(ParcelBValueLabel, 0, 5);
                 topGrid.add(ParcelBValueTextField, 1, 5);
+
+                topGrid.add(ParcelCValueLabel, 0, 7);
                 topGrid.add(ParcelCValueTextField, 1, 7);
 
             } else if (newValue.equals("Pentominoes")){
@@ -317,27 +335,91 @@ public class FX3D extends Application {
                     topGrid.getChildren().removeAll(ParcelAAmountLabel, ParcelBAmountLabel, ParcelCAmountLabel, ParcelAAmountTextField, ParcelBAmountTextField, ParcelCAmountTextField, ParcelAValueLabel, ParcelBValueLabel, ParcelCValueLabel, ParcelAValueTextField, ParcelBValueTextField, ParcelCValueTextField);
                 }
 
-                //add labels
+                //add labels and text fields
                 topGrid.add(LPentominoAmountLabel, 0, 2);
-                topGrid.add(PPentominoAmountLabel, 0, 4);
-                topGrid.add(TPentominoAmountLabel, 0, 6);
-
-                topGrid.add(LPentominoValueLabel, 0, 3);
-                topGrid.add(PPentominoValueLabel, 0, 5);
-                topGrid.add(TPentominoValueLabel, 0, 7);
-
-                //add text fields
                 topGrid.add(LPentominoAmountTextField, 1, 2);
+
+                topGrid.add(PPentominoAmountLabel, 0, 4);
                 topGrid.add(PPentominoAmountTextField, 1, 4);
+
+                topGrid.add(TPentominoAmountLabel, 0, 6);
                 topGrid.add(TPentominoAmountTextField, 1, 6);
 
+                topGrid.add(LPentominoValueLabel, 0, 3);
                 topGrid.add(LPentominoValueTextField, 1, 3);
+
+                topGrid.add(PPentominoValueLabel, 0, 5);
                 topGrid.add(PPentominoValueTextField, 1, 5);
+
+                topGrid.add(TPentominoValueLabel, 0, 7);
                 topGrid.add(TPentominoValueTextField, 1, 7);
             }
         });
 
+        //TODO make type listener
+        //Set eventListener for mode selection
+        typeSelection.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
+            if(newValue.equals("A")){
+                //Exact cover for parcels
+                
+                //Remove parcel and pentominoe options
+                for (TextField parcelAmountField : parcelTextAmountFields){
+                    topGrid.getChildren().remove(parcelAmountField);
+                }
+                for (TextField parcelValueField : parcelTextValueFields){
+                    topGrid.getChildren().remove(parcelValueField);
+                }
+
+                for (TextField pentominoeAmountField : pentominoTextAmountFields){
+                    topGrid.getChildren().remove(pentominoeAmountField);
+                }
+                for (TextField pentominoeValueField : pentominoTextValueFields){
+                    topGrid.getChildren().remove(pentominoeValueField);
+                }
+
+                topGrid.getChildren().remove(shapeSelection);
+
+
+            } else if(newValue.equals("B")){
+                //Optimization for parcels
+                shapeSelection.getSelectionModel().select("Parcel");
+                shapeSelection.setDisable(true);
+
+            } else if(newValue.equals("C")){
+                //Exact cover for pentominoes
+
+                //Remove parcel and pentominoe options
+                for (TextField parcelAmountField : parcelTextAmountFields){
+                    topGrid.getChildren().remove(parcelAmountField);
+                }
+                for (TextField parcelValueField : parcelTextValueFields){
+                    topGrid.getChildren().remove(parcelValueField);
+                }
+
+                for (TextField pentominoeAmountField : pentominoTextAmountFields){
+                    topGrid.getChildren().remove(pentominoeAmountField);
+                }
+                for (TextField pentominoeValueField : pentominoTextValueFields){
+                    topGrid.getChildren().remove(pentominoeValueField);
+                }
+
+                topGrid.getChildren().remove(shapeSelection);
+                
+            } else if(newValue.equals("D")){
+                //Optimization for pentominoes
+                shapeSelection.getSelectionModel().select("Pentominoe");
+                shapeSelection.setDisable(true);
+
+            } else if(newValue.equals("General")){
+                //Show all
+                topGrid.getChildren().remove(shapeSelection);
+                topGrid.add(shapeSelection, 0, 1);
+            }
+        });
+
         //Set evenListener for start button
+        //TODO
+        /*
         startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event-> {
             //show loading icon
             pin.setVisible(true);
@@ -346,7 +428,9 @@ public class FX3D extends Application {
             textFieldsFilled = true;
 
             // Retrieve selected option (Parcels or Pentominoes) and pass along value to Wrapper
-            Wrapper.inputType = modeSelection.getValue().toString();
+            Wrapper.inputType = shapeSelection.getValue().toString();
+
+            //TODO rewrite to use problem type
 
             // Depending on the selected option, instantiate the corresponding inputDetail objects
             if (Wrapper.inputType.equals("Parcels")) {
@@ -400,7 +484,7 @@ public class FX3D extends Application {
 
             //TODO remove after testing
             test.giveInput();
-        });
+        });*/
 
         threeD.setCamera(camera);
         stage.setTitle("Filling 3D objects");
