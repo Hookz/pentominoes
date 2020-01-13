@@ -381,6 +381,10 @@ public class FX3D extends Application {
 
                 topGrid.add(TPentominoValueLabel, 0, 7);
                 topGrid.add(TPentominoValueTextField, 1, 7);
+            } else if (newValue.equals("")){
+                //remove all
+                topGrid.getChildren().removeAll(ParcelAAmountLabel, ParcelBAmountLabel, ParcelCAmountLabel, ParcelAAmountTextField, ParcelBAmountTextField, ParcelCAmountTextField, ParcelAValueLabel, ParcelBValueLabel, ParcelCValueLabel, ParcelAValueTextField, ParcelBValueTextField, ParcelCValueTextField);
+                topGrid.getChildren().removeAll(LPentominoAmountLabel, PPentominoAmountLabel, TPentominoAmountLabel, LPentominoAmountTextField, PPentominoAmountTextField, TPentominoAmountTextField, LPentominoValueLabel, PPentominoValueLabel, TPentominoValueLabel, LPentominoValueTextField, PPentominoValueTextField, TPentominoValueTextField);
             }
         });
 
@@ -427,6 +431,8 @@ public class FX3D extends Application {
                 //Optimization for parcels
                 topGrid.getChildren().remove(shapeSelection);
                 topGrid.add(shapeSelection, 0, 1);
+                //set to empty first so there will always be a change
+                shapeSelection.getSelectionModel().select("");
                 shapeSelection.getSelectionModel().select("Parcels");
                 shapeSelection.setDisable(true);
 
@@ -468,6 +474,8 @@ public class FX3D extends Application {
                 //Optimization for pentominoes
                 topGrid.getChildren().remove(shapeSelection);
                 topGrid.add(shapeSelection, 0, 1);
+                //set to empty first so there will always be a change
+                shapeSelection.getSelectionModel().select("");
                 shapeSelection.getSelectionModel().select("Pentominoes");
                 shapeSelection.setDisable(true);
 
