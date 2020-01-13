@@ -8,6 +8,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.*;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -118,8 +119,6 @@ public class FX3D extends Application {
     static TextField ParcelBValueTextField;
     static TextField ParcelCValueTextField;
 
-    //TODO check if this is still relevant
-    // Input details
     static inputDetail inputDetail1;
     static inputDetail inputDetail2;
     static inputDetail inputDetail3;
@@ -488,73 +487,95 @@ public class FX3D extends Application {
         });
 
         //Set evenListener for start button
-        //TODO
-        /*
         startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event-> {
             //show loading icon
             pin.setVisible(true);
 
-            //Check if the input isn't empty
+            //Check if the input is valid
             textFieldsFilled = true;
+            boolean validInput = false;
 
             // Retrieve selected option (Parcels or Pentominoes) and pass along value to Wrapper
             Wrapper.inputType = shapeSelection.getValue().toString();
+            Wrapper.problemType = typeSelection.getValue().toString();
 
-            //TODO rewrite to use problem type
-
-            // Depending on the selected option, instantiate the corresponding inputDetail objects
-            if (Wrapper.inputType.equals("Parcels")) {
-                for(TextField field : parcelTextFields){
-                    //if a field is empty, don't accept the input
-                    if(field.getText().trim().isEmpty()){
-                        textFieldsFilled = false;
+            //If it's exact cover, there's no need to pass the values
+            if (Wrapper.problemType.equals("A") || Wrapper.problemType.equals("C")){
+                validInput = true;
+            } else {
+                // Depending on the selected option, instantiate the corresponding inputDetail objects
+                if (Wrapper.inputType.equals("Parcels")) {
+                    for(TextField field : parcelTextAmountFields){
+                        //if a field is empty, don't accept the input
+                        if(field.getText().trim().isEmpty()){
+                            textFieldsFilled = false;
+                        }
                     }
-                }
 
-                if(textFieldsFilled){
-                    // A
-                    inputDetail1 = new inputDetail("A", Integer.parseInt(ParcelAAmountTextField.getText()), Float.parseFloat(ParcelAValueTextField.getText()));
-                    // B
-                    inputDetail2 = new inputDetail("B", Integer.parseInt(ParcelBAmountTextField.getText()), Float.parseFloat(ParcelBValueTextField.getText()));
-                    // C
-                    inputDetail3 = new inputDetail("C", Integer.parseInt(ParcelCAmountTextField.getText()), Float.parseFloat(ParcelCValueTextField.getText()));
-                }
-            } else if (Wrapper.inputType.equals("Pentominoes")) {
-                for(TextField field : pentominoTextFields){
-                    //if a field is empty, don't accept the input
-                    if(field.getText().trim().isEmpty()){
-                        textFieldsFilled = false;
+                    for(TextField field : parcelTextValueFields){
+                        //if a field is empty, don't accept the input
+                        if(field.getText().trim().isEmpty()){
+                            textFieldsFilled = false;
+                        }
                     }
-                }
 
-                if(textFieldsFilled){
-                    // L
-                    inputDetail1 = new inputDetail("L", Integer.parseInt(LPentominoAmountTextField.getText()), Float.parseFloat(LPentominoValueTextField.getText()));
-                    // P
-                    inputDetail2 = new inputDetail("P", Integer.parseInt(PPentominoAmountTextField.getText()), Float.parseFloat(PPentominoValueTextField.getText()));
-                    // T
-                    inputDetail3 = new inputDetail("T", Integer.parseInt(TPentominoAmountTextField.getText()), Float.parseFloat(TPentominoValueTextField.getText()));
+                    if(textFieldsFilled){
+                        // A
+                        inputDetail1 = new inputDetail("A", Integer.parseInt(ParcelAAmountTextField.getText()), Float.parseFloat(ParcelAValueTextField.getText()));
+                        // B
+                        inputDetail2 = new inputDetail("B", Integer.parseInt(ParcelBAmountTextField.getText()), Float.parseFloat(ParcelBValueTextField.getText()));
+                        // C
+                        inputDetail3 = new inputDetail("C", Integer.parseInt(ParcelCAmountTextField.getText()), Float.parseFloat(ParcelCValueTextField.getText()));
+                    }
+                } else if (Wrapper.inputType.equals("Pentominoes")) {
+                    for(TextField field : pentominoTextAmountFields){
+                        //if a field is empty, don't accept the input
+                        if(field.getText().trim().isEmpty()){
+                            textFieldsFilled = false;
+                        }
+                    }
+
+                    for(TextField field : pentominoTextValueFields){
+                        //if a field is empty, don't accept the input
+                        if(field.getText().trim().isEmpty()){
+                            textFieldsFilled = false;
+                        }
+                    }
+
+                    if(textFieldsFilled){
+                        // L
+                        inputDetail1 = new inputDetail("L", Integer.parseInt(LPentominoAmountTextField.getText()), Float.parseFloat(LPentominoValueTextField.getText()));
+                        // P
+                        inputDetail2 = new inputDetail("P", Integer.parseInt(PPentominoAmountTextField.getText()), Float.parseFloat(PPentominoValueTextField.getText()));
+                        // T
+                        inputDetail3 = new inputDetail("T", Integer.parseInt(TPentominoAmountTextField.getText()), Float.parseFloat(TPentominoValueTextField.getText()));
+                    }
                 }
             }
 
             if(textFieldsFilled){
+                //Load input
+                validInput = true;
+
                 // Fill inputDetails[]
                 Wrapper.inputDetails[0] = inputDetail1;
                 Wrapper.inputDetails[1] = inputDetail2;
                 Wrapper.inputDetails[2] = inputDetail3;
-
-                // Hide warning
-                visibleWarning = false;
-
-                //TODO start calculations
             } else {
                 // Show warning
                 visibleWarning = true;
             }
 
+            if(validInput){
+                // Hide warning
+                visibleWarning = false;
+
+                //TODO start calculations
+            }
+
             //TODO remove after testing
             test.giveInput();
-        });*/
+        });
 
         threeD.setCamera(camera);
         stage.setTitle("Filling 3D objects");
@@ -607,7 +628,6 @@ public class FX3D extends Application {
         threeDGroup.getChildren().clear();
         parcels.clear();
 
-        //TODO check if I can assume the IDs to be either 1, 2 or 3 if filled in or 0 if not
         int red = 0;
         int green = 0;
         int blue = 0;
@@ -651,7 +671,7 @@ public class FX3D extends Application {
     }
 
     static void updateUIPostElements(Stage stage){
-        //TODO work on camera
+
     }
 
     static void updateTmpUIInput(){
