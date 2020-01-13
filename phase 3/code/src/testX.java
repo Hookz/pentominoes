@@ -100,7 +100,7 @@ public class testX {
             }
         }
 
-        DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, exactCover, maxSeconds);
+        DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, exactCover, maxSeconds, false);
 
         dancingLinksProblem.createDataStructure();
         dancingLinksProblem.solveDriver(0);

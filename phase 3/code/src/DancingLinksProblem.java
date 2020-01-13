@@ -23,12 +23,14 @@ public class DancingLinksProblem {
     int maxSeconds;
     long timeElapsed = 0;
     Instant start;
+    boolean precise;
 
-    public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames, boolean exactCover, int maxSeconds) {
+    public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames, boolean exactCover, int maxSeconds, boolean precise) {
         this.inputMatrix = inputMatrix;
         this.headerNames = headerNames;
         this.exactCover = exactCover;
         this.maxSeconds = maxSeconds;
+        this.precise = precise;
     }
 
     public void createDataStructure(){
@@ -138,47 +140,56 @@ public class DancingLinksProblem {
     }
 
     List<Object[]> solutions = new ArrayList<Object[]>();
-    List<DataObject> bestSolution = new ArrayList<DataObject>();
-    int bestScore = 0;
+//    List<DataObject> bestSolution = new ArrayList<DataObject>();
+//    int bestScore = 0;
     long run = 0;
 
     public void solvePartial(int K){
         //Stop when you found a solution
-        while((timeElapsed = Duration.between(start, Instant.now()).toSeconds()) < maxSeconds){
-            run++;
+        if(precise){
+            partialRun(K);
+        } else {
+            while((timeElapsed = Duration.between(start, Instant.now()).toSeconds()) < maxSeconds){
+                run++;
 
-            //Get the shape with the least filled cells
-            ColumnObject nextColumnObject = getRandomColumnObject();
-
-            //If this is a dead end
-            if(nextColumnObject == null){
-                //Add the partial solution to the array of possible best solution (the best solution is determined by the scoring)
-                solutions.add(tmpSolution.toArray());
-
-                return;
+                partialRun(K);
             }
-
-            nextColumnObject.unlink();
-
-            //Remove covered elements
-            for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down) {
-                tmpSolution.add(row);
-
-                for (DataObject column = row.right; column != row; column = column.right) {
-                    column.header.unlink();
-                }
-
-                solvePartial(K + 1);
-                row = tmpSolution.remove(tmpSolution.size() - 1);
-                nextColumnObject = row.header;
-
-                for (DataObject column = row.left; column != row; column = column.left) {
-                    column.header.link();
-                }
-            }
-
-            nextColumnObject.link();
         }
+
+    }
+
+    private void partialRun(int K){
+        //Get the shape with the least filled cells
+        ColumnObject nextColumnObject = getRandomColumnObject();
+
+        //If this is a dead end
+        if(nextColumnObject == null){
+            //Add the partial solution to the array of possible best solution (the best solution is determined by the scoring)
+            solutions.add(tmpSolution.toArray());
+
+            return;
+        }
+
+        nextColumnObject.unlink();
+
+        //Remove covered elements
+        for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down) {
+            tmpSolution.add(row);
+
+            for (DataObject column = row.right; column != row; column = column.right) {
+                column.header.unlink();
+            }
+
+            solvePartial(K + 1);
+            row = tmpSolution.remove(tmpSolution.size() - 1);
+            nextColumnObject = row.header;
+
+            for (DataObject column = row.left; column != row; column = column.left) {
+                column.header.link();
+            }
+        }
+
+        nextColumnObject.link();
     }
 
     public void solveExact(int K){
