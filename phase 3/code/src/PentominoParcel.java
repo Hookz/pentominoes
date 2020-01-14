@@ -21,13 +21,6 @@ public class PentominoParcel extends ParcelCore {
     }
 
 
-    private void calculateCubes() {
-        if (cubes==null) cubes = new Cube[relative_origin_points.size()];
-        for (int i=0; i < cubes.length; i++)
-            cubes[i] = new Cube(1, relative_origin_points.get(i));
-        cubes_calculated = true;
-    }
-
 
     public <T extends Parcel> T copy() {
         return (T) new PentominoParcel(length, width, height, relative_origin_points, getValue(), getOrigin());
@@ -37,11 +30,7 @@ public class PentominoParcel extends ParcelCore {
         return relative_origin_points.size();
     }
 
-    @Override
-    protected Cube[] toCubes() {
-        if (!cubes_calculated) calculateCubes();
-        return cubes;
-    }
+
     public int getLength() {
         return length;
     }
@@ -52,4 +41,8 @@ public class PentominoParcel extends ParcelCore {
         return height;
     }
 
+    @Override
+    protected Cube[] toCubes() {
+        return new Cube[0];
+    }
 }
