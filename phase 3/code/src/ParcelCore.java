@@ -40,8 +40,5 @@ public abstract class ParcelCore implements Parcel {
 
     protected abstract Cube[] toCubes();
 
-    public abstract void rotateLength();
-    public abstract void rotateWidth();
-    public abstract void rotateHeight();
 
 }

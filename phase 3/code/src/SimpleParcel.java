@@ -19,19 +19,18 @@ public class SimpleParcel extends ParcelCore {
         return shape.getVolume();
     }
 
-    @Override
     public void rotateLength() {
         if (shape.isCube()) return;
         // rotating axis stays the same, other two axis swap
         shape = new Cube(shape.getLength(), shape.getHeight(), shape.getWidth(), shape.getOrigin());
     }
-    @Override
+
     public void rotateWidth() {
         if (shape.isCube()) return;
         // rotating axis stays the same, other two axis swap
         shape = new Cube(shape.getHeight(), shape.getWidth(), shape.getLength(), shape.getOrigin());
     }
-    @Override
+
     public void rotateHeight() {
         if (shape.isCube()) return;
         // rotating axis stays the same, other two axis swap
