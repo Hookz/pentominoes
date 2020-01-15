@@ -1,0 +1,10 @@
+diff a/phase 3/code/src/FX3D.java b/phase 3/code/src/FX3D.java	(rejected hunks)
+@@ -48,7 +48,7 @@
+     final static Color CONTAINER_COLOR = Color.rgb(0, 0, 0, 0.2);
+     final static Color EDGE_COLOR = Color.rgb(0, 0, 0, 0.5);
+     final static int SCREEN_WIDTH = 1920;
+-    final static int SCREEN_HEIGHT = 1000;
++    final static int SCREEN_HEIGHT = 800;
+ 
+     static Stage mainStage;
+     static GridPane topGrid;
