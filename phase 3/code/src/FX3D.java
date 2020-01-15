@@ -433,6 +433,9 @@ public class FX3D extends Application {
                 //set to empty first so there will always be a change
                 shapeSelection.getSelectionModel().select("");
                 shapeSelection.getSelectionModel().select("Parcels");
+                //Remove amount options
+                topGrid.getChildren().removeAll(parcelTextAmountLabels);
+                topGrid.getChildren().removeAll(parcelTextAmountFields);
                 shapeSelection.setDisable(true);
 
             } else if(newValue.equals("C")){
@@ -476,12 +479,17 @@ public class FX3D extends Application {
                 //set to empty first so there will always be a change
                 shapeSelection.getSelectionModel().select("");
                 shapeSelection.getSelectionModel().select("Pentominoes");
+                //Remove amount options
+                topGrid.getChildren().removeAll(pentominoTextAmountLabels);
+                topGrid.getChildren().removeAll(pentominoTextAmountFields);
                 shapeSelection.setDisable(true);
 
             } else if(newValue.equals("General")){
                 //Show all
                 topGrid.getChildren().remove(shapeSelection);
                 topGrid.add(shapeSelection, 0, 1);
+                shapeSelection.getSelectionModel().select("");
+                shapeSelection.getSelectionModel().select("Parcels");
                 shapeSelection.setDisable(false);
             }
         });
