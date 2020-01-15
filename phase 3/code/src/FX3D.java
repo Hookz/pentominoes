@@ -106,17 +106,18 @@ public class FX3D extends Application {
     static ArrayList<Label> pentominoTextAmountLabels;
 
     static Label ParcelAAmountLabel;
-    static Label ParcelBAmountLabel;
-    static Label ParcelCAmountLabel;
     static TextField ParcelAAmountTextField;
-    static TextField ParcelBAmountTextField;
-    static TextField ParcelCAmountTextField;
-
     static Label ParcelAValueLabel;
-    static Label ParcelBValueLabel;
-    static Label ParcelCValueLabel;
     static TextField ParcelAValueTextField;
+
+    static Label ParcelBAmountLabel;
+    static TextField ParcelBAmountTextField;
+    static Label ParcelBValueLabel;
     static TextField ParcelBValueTextField;
+
+    static Label ParcelCAmountLabel;
+    static TextField ParcelCAmountTextField;
+    static Label ParcelCValueLabel;
     static TextField ParcelCValueTextField;
 
     static inputDetail inputDetail1;
@@ -125,17 +126,21 @@ public class FX3D extends Application {
 
     //Pentominoe selection UI
     static Label LPentominoAmountLabel;
-    static Label PPentominoAmountLabel;
-    static Label TPentominoAmountLabel;
     static TextField LPentominoAmountTextField;
+
+    static Label PPentominoAmountLabel;
     static TextField PPentominoAmountTextField;
+
+    static Label TPentominoAmountLabel;
     static TextField TPentominoAmountTextField;
 
     static Label LPentominoValueLabel;
-    static Label PPentominoValueLabel;
-    static Label TPentominoValueLabel;
     static TextField LPentominoValueTextField;
+
+    static Label PPentominoValueLabel;
     static TextField PPentominoValueTextField;
+
+    static Label TPentominoValueLabel;
     static TextField TPentominoValueTextField;
 
     static Label warningLabel;
@@ -207,12 +212,12 @@ public class FX3D extends Application {
         //add subscenes to scene
         root.getChildren().addAll(twoD, threeD);
         root.setSpacing(10);
-        root.setPadding(new Insets(20, 20, 20, 20));
 
         /*START Setup top menu*/
         //Setup grid
         topGrid.setHgap(10);
         topGrid.setVgap(10);
+        topGrid.setPadding(new Insets(20, 20, 20, 20));
 
         //Setup items
         //Add scoring label
@@ -233,32 +238,44 @@ public class FX3D extends Application {
 
         //Parcel selection UI
         ParcelAAmountLabel = new Label("Amount of parcel A: ");
-        ParcelBAmountLabel = new Label("Amount of parcel B: ");
-        ParcelCAmountLabel = new Label("Amount of parcel C: ");
         ParcelAAmountTextField = new TextField();
-        ParcelBAmountTextField = new TextField();
-        ParcelCAmountTextField = new TextField();
 
         ParcelAValueLabel = new Label("Value of parcel A: ");
-        ParcelBValueLabel = new Label("Value of parcel B: ");
-        ParcelCValueLabel = new Label("Value of parcel C: ");
         ParcelAValueTextField = new TextField();
+
+
+        ParcelBAmountLabel = new Label("Amount of parcel B: ");
+        ParcelBAmountTextField = new TextField();
+
+        ParcelBValueLabel = new Label("Value of parcel B: ");
         ParcelBValueTextField = new TextField();
+
+
+        ParcelCAmountLabel = new Label("Amount of parcel C: ");
+        ParcelCAmountTextField = new TextField();
+
+        ParcelCValueLabel = new Label("Value of parcel C: ");
         ParcelCValueTextField = new TextField();
 
         //Pentominoe selection UI
         LPentominoAmountLabel = new Label("Amount of L pentominoes: ");
-        PPentominoAmountLabel = new Label("Amount of P pentominoes: ");
-        TPentominoAmountLabel = new Label("Amount of T pentominoes: ");
         LPentominoAmountTextField = new TextField();
-        PPentominoAmountTextField = new TextField();
-        TPentominoAmountTextField = new TextField();
 
         LPentominoValueLabel = new Label("Value of L pentominoes: ");
-        PPentominoValueLabel = new Label("Value of P pentominoes: ");
-        TPentominoValueLabel = new Label("Value of T pentominoes: ");
         LPentominoValueTextField = new TextField();
+
+
+        PPentominoAmountLabel = new Label("Amount of P pentominoes: ");
+        PPentominoAmountTextField = new TextField();
+
+        PPentominoValueLabel = new Label("Value of P pentominoes: ");
         PPentominoValueTextField = new TextField();
+
+
+        TPentominoAmountLabel = new Label("Amount of T pentominoes: ");
+        TPentominoAmountTextField = new TextField();
+
+        TPentominoValueLabel = new Label("Value of T pentominoes: ");
         TPentominoValueTextField = new TextField();
 
         warningLabel = new Label("Fill in every field correctly!");
@@ -341,17 +358,19 @@ public class FX3D extends Application {
                 topGrid.add(ParcelAAmountLabel, 0, 2);
                 topGrid.add(ParcelAAmountTextField, 1, 2);
 
-                topGrid.add(ParcelBAmountLabel, 0, 4);
-                topGrid.add(ParcelBAmountTextField, 1, 4);
-
-                topGrid.add(ParcelCAmountLabel, 0, 6);
-                topGrid.add(ParcelCAmountTextField, 1, 6);
-
                 topGrid.add(ParcelAValueLabel, 0, 3);
                 topGrid.add(ParcelAValueTextField, 1, 3);
 
+
+                topGrid.add(ParcelBAmountLabel, 0, 4);
+                topGrid.add(ParcelBAmountTextField, 1, 4);
+
                 topGrid.add(ParcelBValueLabel, 0, 5);
                 topGrid.add(ParcelBValueTextField, 1, 5);
+
+
+                topGrid.add(ParcelCAmountLabel, 0, 6);
+                topGrid.add(ParcelCAmountTextField, 1, 6);
 
                 topGrid.add(ParcelCValueLabel, 0, 7);
                 topGrid.add(ParcelCValueTextField, 1, 7);
@@ -366,17 +385,19 @@ public class FX3D extends Application {
                 topGrid.add(LPentominoAmountLabel, 0, 2);
                 topGrid.add(LPentominoAmountTextField, 1, 2);
 
-                topGrid.add(PPentominoAmountLabel, 0, 4);
-                topGrid.add(PPentominoAmountTextField, 1, 4);
-
-                topGrid.add(TPentominoAmountLabel, 0, 6);
-                topGrid.add(TPentominoAmountTextField, 1, 6);
-
                 topGrid.add(LPentominoValueLabel, 0, 3);
                 topGrid.add(LPentominoValueTextField, 1, 3);
 
+
+                topGrid.add(PPentominoAmountLabel, 0, 4);
+                topGrid.add(PPentominoAmountTextField, 1, 4);
+
                 topGrid.add(PPentominoValueLabel, 0, 5);
                 topGrid.add(PPentominoValueTextField, 1, 5);
+
+
+                topGrid.add(TPentominoAmountLabel, 0, 6);
+                topGrid.add(TPentominoAmountTextField, 1, 6);
 
                 topGrid.add(TPentominoValueLabel, 0, 7);
                 topGrid.add(TPentominoValueTextField, 1, 7);
@@ -422,9 +443,7 @@ public class FX3D extends Application {
                     topGrid.getChildren().remove(pentominoeValueLabel);
                 }
 
-
                 topGrid.getChildren().remove(shapeSelection);
-
 
             } else if(newValue.equals("B")){
                 //Optimization for parcels
@@ -433,6 +452,9 @@ public class FX3D extends Application {
                 //set to empty first so there will always be a change
                 shapeSelection.getSelectionModel().select("");
                 shapeSelection.getSelectionModel().select("Parcels");
+                //Remove amount options
+                topGrid.getChildren().removeAll(parcelTextAmountLabels);
+                topGrid.getChildren().removeAll(parcelTextAmountFields);
                 shapeSelection.setDisable(true);
 
             } else if(newValue.equals("C")){
@@ -476,12 +498,17 @@ public class FX3D extends Application {
                 //set to empty first so there will always be a change
                 shapeSelection.getSelectionModel().select("");
                 shapeSelection.getSelectionModel().select("Pentominoes");
+                //Remove amount options
+                topGrid.getChildren().removeAll(pentominoTextAmountLabels);
+                topGrid.getChildren().removeAll(pentominoTextAmountFields);
                 shapeSelection.setDisable(true);
 
             } else if(newValue.equals("General")){
                 //Show all
                 topGrid.getChildren().remove(shapeSelection);
                 topGrid.add(shapeSelection, 0, 1);
+                shapeSelection.getSelectionModel().select("");
+                shapeSelection.getSelectionModel().select("Parcels");
                 shapeSelection.setDisable(false);
             }
         });
@@ -503,6 +530,18 @@ public class FX3D extends Application {
             if (Wrapper.problemType.equals("A") || Wrapper.problemType.equals("C")){
                 validInput = true;
             } else {
+                //Set amounts to 0 if it's B or D
+                if(Wrapper.problemType.equals("B")){
+                    ParcelAAmountTextField.setText("0");
+                    ParcelBAmountTextField.setText("0");
+                    ParcelCAmountTextField.setText("0");
+                } else if (Wrapper.problemType.equals("D")){
+                    LPentominoAmountTextField.setText("0");
+                    PPentominoAmountTextField.setText("0");
+                    TPentominoAmountTextField.setText("0");
+                }
+
+
                 // Depending on the selected option, instantiate the corresponding inputDetail objects
                 if (Wrapper.inputType.equals("Parcels")) {
                     for(TextField field : parcelTextAmountFields){

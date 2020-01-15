@@ -125,7 +125,7 @@ public class DancingLinksProblem {
         } else {
             //Remove unfillable positions (mainly useful for testing)
             reduceInput();
-            solvePartial(K);
+            solvePartial(K, 0);
         }
 
         System.out.println("DONE");
@@ -144,22 +144,24 @@ public class DancingLinksProblem {
 //    int bestScore = 0;
     long run = 0;
 
-    public void solvePartial(int K){
+    public void solvePartial(int K, int layer){
         //Stop when you found a solution
         if(precise){
-            partialRun(K);
+            partialRun(K, layer);
         } else {
             while((timeElapsed = Duration.between(start, Instant.now()).toSeconds()) < maxSeconds){
                 run++;
 
-                partialRun(K);
+                partialRun(K, layer);
             }
         }
 
     }
 
-    private void partialRun(int K){
-        //Get the shape with the least filled cells
+    private void partialRun(int K, int layer){
+        System.out.println(layer);
+
+        //Get the next column to try
         ColumnObject nextColumnObject = getRandomColumnObject();
 
         //If this is a dead end
@@ -180,16 +182,21 @@ public class DancingLinksProblem {
                 column.header.unlink();
             }
 
-            solvePartial(K + 1);
+            solvePartial(K + 1, ++layer);
+
+            --layer;
             row = tmpSolution.remove(tmpSolution.size() - 1);
             nextColumnObject = row.header;
 
             for (DataObject column = row.left; column != row; column = column.left) {
                 column.header.link();
             }
+
         }
 
         nextColumnObject.link();
+
+        return;
     }
 
     public void solveExact(int K){
