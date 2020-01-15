@@ -571,6 +571,7 @@ public class FX3D extends Application {
                 visibleWarning = false;
 
                 //TODO start calculations
+                //GreedyAlgorithm.runAlgorithm();
             }
 
             //TODO remove after testing
