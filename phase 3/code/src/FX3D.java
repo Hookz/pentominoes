@@ -207,12 +207,12 @@ public class FX3D extends Application {
         //add subscenes to scene
         root.getChildren().addAll(twoD, threeD);
         root.setSpacing(10);
-        root.setPadding(new Insets(20, 20, 20, 20));
 
         /*START Setup top menu*/
         //Setup grid
         topGrid.setHgap(10);
         topGrid.setVgap(10);
+        topGrid.setPadding(new Insets(20, 20, 20, 20));
 
         //Setup items
         //Add scoring label
