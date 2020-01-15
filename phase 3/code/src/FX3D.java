@@ -511,6 +511,18 @@ public class FX3D extends Application {
             if (Wrapper.problemType.equals("A") || Wrapper.problemType.equals("C")){
                 validInput = true;
             } else {
+                //Set amounts to 0 if it's B or D
+                if(Wrapper.problemType.equals("B")){
+                    ParcelAAmountTextField.setText("0");
+                    ParcelBAmountTextField.setText("0");
+                    ParcelCAmountTextField.setText("0");
+                } else if (Wrapper.problemType.equals("D")){
+                    LPentominoAmountTextField.setText("0");
+                    PPentominoAmountTextField.setText("0");
+                    TPentominoAmountTextField.setText("0");
+                }
+
+
                 // Depending on the selected option, instantiate the corresponding inputDetail objects
                 if (Wrapper.inputType.equals("Parcels")) {
                     for(TextField field : parcelTextAmountFields){
