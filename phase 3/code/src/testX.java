@@ -100,33 +100,16 @@ public class testX {
             }
         }
 
-        DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, exactCover, maxSeconds, false);
+        DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, exactCover, maxSeconds, false);
 
         dancingLinksProblem.createDataStructure();
         dancingLinksProblem.solveDriver(0);
 
         if(!exactCover) {
-            //Chose best solution
-            int bestScore = 0;
-            Object bestSolution = null;
-
-            for (Object[] solution : dancingLinksProblem.solutions) {
-                int score = 0;
-
-                //For every chosen object in the solution
-                for (Object object : solution) {
-                    int rowNumber = ((DataObject) object).inputRow;
-                    int objectScore = rowValues[rowNumber];
-                    score += objectScore;
-                }
-
-                if (score > bestScore) {
-                    bestScore = score;
-                    bestSolution = solution;
-                }
-            }
-
-            System.out.println(bestScore);
+            dancingLinksProblem.determineBestSolution();
+            System.out.println(dancingLinksProblem.bestScore);
         }
+
+
     }
 }

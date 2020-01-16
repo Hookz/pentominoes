@@ -17,16 +17,22 @@ import java.util.List;
 
 public class DancingLinksProblem {
     boolean[][] inputMatrix;
-    DataObject root;
+    int[] rowValues;
     String[] headerNames;
     boolean exactCover;
     int maxSeconds;
+
+    DataObject root;
+
     long timeElapsed = 0;
     Instant start;
     boolean precise;
+    int bestScore = 0;
+    Object bestSolution;
 
-    public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames, boolean exactCover, int maxSeconds, boolean precise) {
+    public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames, int[] rowValues, boolean exactCover, int maxSeconds, boolean precise) {
         this.inputMatrix = inputMatrix;
+        this.rowValues = rowValues;
         this.headerNames = headerNames;
         this.exactCover = exactCover;
         this.maxSeconds = maxSeconds;
@@ -271,6 +277,32 @@ public class DancingLinksProblem {
         }
 
         return chosenColumn;
+    }
+
+    public Object determineBestSolution(){
+        //Chose best solution
+        bestScore = 0;
+        Object bestSolution = null;
+
+        for (Object[] solution : solutions) {
+            int score = 0;
+
+            //For every chosen object in the solution
+            for (Object object : solution) {
+                int rowNumber = ((DataObject) object).inputRow;
+                int objectScore = rowValues[rowNumber];
+                score += objectScore;
+            }
+
+            if (score > bestScore) {
+                bestScore = score;
+                bestSolution = solution;
+            }
+        }
+
+        System.out.println(bestScore);
+
+        return bestSolution;
     }
 
 }
