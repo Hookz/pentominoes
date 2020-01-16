@@ -29,6 +29,7 @@ public class DancingLinksProblem {
     boolean precise;
     int bestScore = 0;
     Object bestSolution;
+    long run = 0;
 
     public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames, int[] rowValues, boolean exactCover, int maxSeconds, boolean precise) {
         this.inputMatrix = inputMatrix;
@@ -145,11 +146,6 @@ public class DancingLinksProblem {
         }
     }
 
-    List<Object[]> solutions = new ArrayList<Object[]>();
-//    List<DataObject> bestSolution = new ArrayList<DataObject>();
-//    int bestScore = 0;
-    long run = 0;
-
     public void solvePartial(int K){
         //Stop when you found a solution
         if(!precise){
@@ -172,8 +168,14 @@ public class DancingLinksProblem {
 
         //If this is a dead end
         if(nextColumnObject == null){
-            //Add the partial solution to the array of possible best solution (the best solution is determined by the scoring)
-            solutions.add(tmpSolution.toArray());
+            Object[] solutionArray = tmpSolution.toArray();
+            int solutionScore = getSolutionScore(solutionArray);
+
+            //Check if this is the best solution so far
+            if(solutionScore > bestScore){
+                bestSolution = tmpSolution;
+                bestScore = solutionScore;
+            }
 
             //TODO backtrack
 //            DataObject row = tmpSolution.remove(tmpSolution.size() - 1);
@@ -293,29 +295,17 @@ public class DancingLinksProblem {
 
     }
 
-    public Object determineBestSolution(){
-        //Chose best solution
-        bestScore = 0;
-        Object bestSolution = null;
-        for (Object[] solution : solutions) {
-            int score = 0;
+    public int getSolutionScore(Object[] solution){
+        int score = 0;
 
-            //For every chosen object in the solution
-            for (Object object : solution) {
-                int rowNumber = ((DataObject) object).inputRow;
-                int objectScore = rowValues[rowNumber];
-                score += objectScore;
-            }
-
-            if (score > bestScore) {
-                bestScore = score;
-                bestSolution = solution;
-            }
+        //For every chosen object in the solution
+        for (Object object : solution) {
+            int rowNumber = ((DataObject) object).inputRow;
+            int objectScore = rowValues[rowNumber];
+            score += objectScore;
         }
 
-        System.out.println(bestScore);
-
-        return bestSolution;
+        return score;
     }
 
 }

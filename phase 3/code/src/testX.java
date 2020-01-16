@@ -106,10 +106,8 @@ public class testX {
         dancingLinksProblem.solveDriver(0);
 
         if(!exactCover) {
-            dancingLinksProblem.determineBestSolution();
             System.out.println(dancingLinksProblem.bestScore);
         }
-
 
     }
 }
