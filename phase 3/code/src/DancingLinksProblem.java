@@ -131,7 +131,7 @@ public class DancingLinksProblem {
         } else {
             //Remove unfillable positions (mainly useful for testing)
             reduceInput();
-            solvePartial(K, 0);
+            solvePartial(K);
         }
 
         System.out.println("DONE");
@@ -150,24 +150,24 @@ public class DancingLinksProblem {
 //    int bestScore = 0;
     long run = 0;
 
-    public void solvePartial(int K, int layer){
+    public void solvePartial(int K){
         //Stop when you found a solution
         if(precise){
-            partialRun(K, layer);
+            partialRun(K);
         } else {
             while((timeElapsed = Duration.between(start, Instant.now()).toSeconds()) < maxSeconds){
                 run++;
 
-                partialRun(K, layer);
+                partialRun(K);
             }
         }
 
     }
 
-    private void partialRun(int K, int layer){
-        System.out.println(layer);
+    private void partialRun(int K){
+        System.out.println(K);
 
-        //Get the next column to try
+        //Get the shape with the least filled cells
         ColumnObject nextColumnObject = getRandomColumnObject();
 
         //If this is a dead end
@@ -175,34 +175,42 @@ public class DancingLinksProblem {
             //Add the partial solution to the array of possible best solution (the best solution is determined by the scoring)
             solutions.add(tmpSolution.toArray());
 
-            return;
-        }
-
-        nextColumnObject.unlink();
-
-        //Remove covered elements
-        for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down) {
-            tmpSolution.add(row);
-
-            for (DataObject column = row.right; column != row; column = column.right) {
-                column.header.unlink();
-            }
-
-            solvePartial(K + 1, ++layer);
-
-            --layer;
-            row = tmpSolution.remove(tmpSolution.size() - 1);
+            //TODO backtrack
+            DataObject row = tmpSolution.remove(tmpSolution.size() - 1);
             nextColumnObject = row.header;
 
-            for (DataObject column = row.left; column != row; column = column.left) {
-                column.header.link();
+            for (DataObject left = row.left; left != row; left = left.left) {
+                left.header.link();
             }
 
+            nextColumnObject.link();
+
+            solvePartial(--K);
+
+        } else {
+            nextColumnObject.unlink();
+
+            for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down) {
+                tmpSolution.add(row);
+
+                //Cover redundant elements
+                for (DataObject column = row.right; column != row; column = column.right) {
+                    column.header.unlink();
+                }
+
+                solvePartial(++K);
+
+                //Undo step (re-link)
+                row = tmpSolution.remove(tmpSolution.size() - 1);
+                nextColumnObject = row.header;
+
+                for (DataObject left = row.left; left != row; left = left.left) {
+                    left.header.link();
+                }
+            }
+
+            nextColumnObject.link();
         }
-
-        nextColumnObject.link();
-
-        return;
     }
 
     public void solveExact(int K){
@@ -212,6 +220,7 @@ public class DancingLinksProblem {
                 //SOLVED IT!
                 System.out.println("FULLY COVERED");
                 foundSolution = true;
+                bestSolution = tmpSolution;
 
                 return;
             }
@@ -228,7 +237,7 @@ public class DancingLinksProblem {
                     column.header.unlink();
                 }
 
-                solveExact(K + 1);
+                solveExact(++K);
                 row = tmpSolution.remove(tmpSolution.size() - 1);
                 nextColumnObject = row.header;
 
@@ -283,7 +292,6 @@ public class DancingLinksProblem {
         //Chose best solution
         bestScore = 0;
         Object bestSolution = null;
-
         for (Object[] solution : solutions) {
             int score = 0;
 

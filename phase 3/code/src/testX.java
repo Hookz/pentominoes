@@ -2,7 +2,7 @@ public class testX {
     public static void main(String[] args){
         //TODO upgrade to actual data
         boolean exactCover = false;
-        int maxSeconds = 300;
+        int maxSeconds = 10;
         int[][] tmpInput;
         int[] rowValues = new int[0];
 
