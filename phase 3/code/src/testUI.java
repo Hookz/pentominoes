@@ -1,5 +1,5 @@
 //This file is for testing only
-public class test {
+public class testUI {
 
     static int[][][] input = new int[Wrapper.CONTAINER_WIDTH/Wrapper.cellSize][Wrapper.CONTAINER_HEIGHT/Wrapper.cellSize][Wrapper.CONTAINER_DEPTH/Wrapper.cellSize];
 

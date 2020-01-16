@@ -614,7 +614,7 @@ public class FX3D extends Application {
             }
 
             //TODO remove after testing
-            test.giveInput();
+            testUI.giveInput();
         });
 
         threeD.setCamera(camera);

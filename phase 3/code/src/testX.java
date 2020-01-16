@@ -109,5 +109,7 @@ public class testX {
             System.out.println(dancingLinksProblem.bestScore);
         }
 
+        dancingLinksProblem.answerToArray();
+
     }
 }

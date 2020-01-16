@@ -15,6 +15,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import static sun.jvm.hotspot.oops.MethodData.cellSize;
+
 public class DancingLinksProblem {
     boolean[][] inputMatrix;
     int[] rowValues;
@@ -353,6 +355,52 @@ public class DancingLinksProblem {
         }
 
         //Start 1D to 3D conversion for UI
+        int[][][] finalUIOutput = new int[Wrapper.CONTAINER_WIDTH/cellSize][Wrapper.CONTAINER_HEIGHT/cellSize][Wrapper.CONTAINER_DEPTH/cellSize];
+
+        //Go trough each shape and add it to the 3D output
+        for(boolean[] shape : inputRows){
+            int outputHeight = Wrapper.CONTAINER_HEIGHT/Wrapper.cellSize;
+            int outputWidth = Wrapper.CONTAINER_WIDTH/Wrapper.cellSize;
+            int outputDepth = Wrapper.CONTAINER_DEPTH/Wrapper.cellSize;
+
+            int[][][] shapeOutput = new int[outputWidth][outputHeight][outputDepth];
+            boolean[][][] booleanShapeOutput = new boolean[outputWidth][outputHeight][outputDepth];
+
+            //boolean[][] twoD = new boolean[][];
+
+//            //Create the rows
+//            for(int i=0; i<outputHeight; i++){
+//                boolean[] row = new boolean[outputWidth];
+//
+//                for(int j=0; j<outputWidth; j++){
+//                    row[j] = inputRows.get(i*j + j);
+//                }
+//            }
+
+            //TODO convert to int according to type
+        }
+
+
+
+
+
+        /*
+        static int[][][] input = new int[Wrapper.CONTAINER_WIDTH/Wrapper.cellSize][Wrapper.CONTAINER_HEIGHT/Wrapper.cellSize][Wrapper.CONTAINER_DEPTH/Wrapper.cellSize];
+
+        public static void giveInput(){
+
+            for(int x=0; x<input.length; x++){
+                for(int y=0; y<input[x].length; y++){
+                    for(int z=0; z<input[x][y].length; z++){
+                        input[x][y][z] = (int) (Math.random()*4);
+                    }
+                }
+            }
+
+            Wrapper.UIInput = input;
+            FX3D.updateUI();
+        }
+         */
 
 
 
