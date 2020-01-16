@@ -15,8 +15,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import static sun.jvm.hotspot.oops.MethodData.cellSize;
-
 public class DancingLinksProblem {
     boolean[][] inputMatrix;
     int[] rowValues;
@@ -355,7 +353,7 @@ public class DancingLinksProblem {
         }
 
         //Start 1D to 3D conversion for UI
-        int[][][] finalUIOutput = new int[Wrapper.CONTAINER_WIDTH/cellSize][Wrapper.CONTAINER_HEIGHT/cellSize][Wrapper.CONTAINER_DEPTH/cellSize];
+        int[][][] finalUIOutput = new int[Wrapper.CONTAINER_WIDTH/Wrapper.cellSize][Wrapper.CONTAINER_HEIGHT/Wrapper.cellSize][Wrapper.CONTAINER_DEPTH/Wrapper.cellSize];
 
         //Go trough each shape and add it to the 3D output
         for(boolean[] shape : inputRows){
