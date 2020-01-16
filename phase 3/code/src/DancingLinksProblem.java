@@ -152,14 +152,14 @@ public class DancingLinksProblem {
 
     public void solvePartial(int K){
         //Stop when you found a solution
-        if(precise){
-            partialRun(K);
-        } else {
+        if(!precise){
             while((timeElapsed = Duration.between(start, Instant.now()).toSeconds()) < maxSeconds){
                 run++;
 
                 partialRun(K);
             }
+        } else {
+            partialRun(K);
         }
 
     }
@@ -176,16 +176,16 @@ public class DancingLinksProblem {
             solutions.add(tmpSolution.toArray());
 
             //TODO backtrack
-            DataObject row = tmpSolution.remove(tmpSolution.size() - 1);
-            nextColumnObject = row.header;
-
-            for (DataObject left = row.left; left != row; left = left.left) {
-                left.header.link();
-            }
-
-            nextColumnObject.link();
-
-            solvePartial(--K);
+//            DataObject row = tmpSolution.remove(tmpSolution.size() - 1);
+//            nextColumnObject = row.header;
+//
+//            for (DataObject left = row.left; left != row; left = left.left) {
+//                left.header.link();
+//            }
+//
+//            nextColumnObject.link();
+//
+//            solvePartial(--K);
 
         } else {
             nextColumnObject.unlink();
@@ -280,12 +280,17 @@ public class DancingLinksProblem {
 
         int index = (int) (Math.random() * amountOfColumns) + 1;
 
-        ColumnObject chosenColumn = (ColumnObject) root;
-        for(int i=0; i<index; i++){
-            chosenColumn = (ColumnObject) chosenColumn.right;
+        if(amountOfColumns>0){
+            ColumnObject chosenColumn = (ColumnObject) root;
+            for(int i=0; i<index; i++){
+                chosenColumn = (ColumnObject) chosenColumn.right;
+            }
+
+            return chosenColumn;
+        } else {
+            return null;
         }
 
-        return chosenColumn;
     }
 
     public Object determineBestSolution(){
