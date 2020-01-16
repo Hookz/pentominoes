@@ -30,6 +30,9 @@ public class DancingLinksProblem {
     int bestScore = 0;
     Object bestSolution;
     long run = 0;
+    List<Integer> maxValuePerLayer = new ArrayList<>();
+    int pruneWait = 5;
+    float pruneCutoff = .4F;
 
     public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames, int[] rowValues, boolean exactCover, int maxSeconds, boolean precise) {
         this.inputMatrix = inputMatrix;
@@ -162,6 +165,29 @@ public class DancingLinksProblem {
 
     private void partialRun(int K){
         System.out.println(K);
+
+        //TODO finish pruning
+        /*
+        //Prune every x layers
+        if(layer%pruneWait == 0){
+            if(layer<maxValuePerLayer.size()){
+                //first time this layer is reached
+                maxValuePerLayer.add(score);
+            } else {
+                //layer already exists
+                //check if the score is good enough
+                if(score > pruneCutoff * maxValuePerLayer.get(layer)){
+                    //continue branch
+                    if(score > maxValuePerLayer.get(layer)){
+                        //update highscore
+                        maxValuePerLayer.set(layer, score);
+                    }
+                } else {
+                    //abandon branch
+                }
+            }
+        }*/
+
 
         //Get the shape with the least filled cells
         //TODO could this be the cause of the stackOverFlow?
