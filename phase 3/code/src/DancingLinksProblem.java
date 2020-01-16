@@ -28,7 +28,7 @@ public class DancingLinksProblem {
     Instant start;
     boolean precise;
     int bestScore = 0;
-    Object bestSolution;
+    Object[] bestSolution;
     long run = 0;
     List<Integer> maxValuePerLayer = new ArrayList<>();
     int pruneWait = 5;
@@ -201,7 +201,7 @@ public class DancingLinksProblem {
 
             //Check if this is the best solution so far
             if(solutionScore > bestScore){
-                bestSolution = tmpSolution;
+                bestSolution = tmpSolution.toArray();
                 bestScore = solutionScore;
             }
 
@@ -250,7 +250,7 @@ public class DancingLinksProblem {
                 //SOLVED IT!
                 System.out.println("FULLY COVERED");
                 foundSolution = true;
-                bestSolution = tmpSolution;
+                bestSolution = tmpSolution.toArray();
 
                 return;
             }
@@ -334,6 +334,31 @@ public class DancingLinksProblem {
         }
 
         return score;
+    }
+
+    public int[][][] answerToArray(){
+        List<Integer> indexesOfUsedRows = new ArrayList<>();
+
+        for(Object row : bestSolution){
+            DataObject rowObject = (DataObject) row;
+            int usedRowIndex = rowObject.inputRow;
+            indexesOfUsedRows.add(usedRowIndex);
+        }
+
+        List<boolean[]> inputRows = new ArrayList<>();
+
+        for(int index : indexesOfUsedRows){
+            boolean[] inputRow = inputMatrix[index];
+            inputRows.add(inputRow);
+        }
+
+        //Start 1D to 3D conversion for UI
+
+
+
+
+        int[][][] stopJava = {{{}}};
+        return stopJava;
     }
 
 }
