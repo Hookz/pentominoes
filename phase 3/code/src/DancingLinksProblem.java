@@ -164,7 +164,9 @@ public class DancingLinksProblem {
         System.out.println(K);
 
         //Get the shape with the least filled cells
-        ColumnObject nextColumnObject = getRandomColumnObject();
+        //TODO could this be the cause of the stackOverFlow?
+        //ColumnObject nextColumnObject = getRandomColumnObject();
+        ColumnObject nextColumnObject = getSmallestColumnObject();
 
         //If this is a dead end
         if(nextColumnObject == null){
