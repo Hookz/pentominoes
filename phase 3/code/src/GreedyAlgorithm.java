@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -8,6 +9,20 @@ public class GreedyAlgorithm {
     static ParcelType typeC; // Object that represents parcel type C
     static ArrayList<ParcelType> parcelTypes; // ArrayList that stores all ParcelType objects
     static double[] volumes = {2.0, 3.0, 3.375}; // Array that stores the volumes of parcel types A(volumes[0]), B(volumes[1]) and C(volumes[2])
+    int[][][] container = new int[Wrapper.CONTAINER_WIDTH*2][Wrapper.CONTAINER_HEIGHT*2][Wrapper.CONTAINER_DEPTH*2];
+    static int[][][][] parcelARotations;
+    static int[][][][] parcelBRotations;
+    static int[][][][] parcelCRotations;
+
+    public static void initContainer(int [][][] container) {
+        for (int i = 0; i < container.length; i++) {
+            for (int j = 0; j < container[i].length; j++) {
+                for (int k = 0; k < container[i][j].length; k++) {
+                    container[i][j][k] = 0;
+                }
+            }
+        }
+    }
 
     public static void runAlgorithm() {
         // Initialize ParcelType objects
@@ -30,10 +45,28 @@ public class GreedyAlgorithm {
         deterOrder();
 
         // Debug
-        System.out.println("Most profitable parcel type: " + parcelTypes.get(0).getName());
-        System.out.println("Second most profitable parcel type: " + parcelTypes.get(1).getName());
-        System.out.println("Third most profitable parcel type: " + parcelTypes.get(2).getName());
-        System.out.println();
+        //System.out.println("Most profitable parcel type: " + parcelTypes.get(0).getName());
+        //System.out.println("Second most profitable parcel type: " + parcelTypes.get(1).getName());
+        //System.out.println("Third most profitable parcel type: " + parcelTypes.get(2).getName());
+        //System.out.println();
+
+        parcelARotations = new int[][][][] {
+                {{{1,1,1,1},{1,1,1,1},{1,1,1,1}},{{1,1,1,1},{1,1,1,1},{1,1,1,1}}},
+                {{{1,1,1},{1,1,1},{1,1,1},{1,1,1}},{{1,1,1},{1,1,1},{1,1,1},{1,1,1}}},
+                {{{1,1},{1,1},{1,1}},{{1,1},{1,1},{1,1}},{{1,1},{1,1},{1,1}},{{1,1},{1,1},{1,1}}},
+                {{{1,1,1,1},{1,1,1,1}},{{1,1,1,1},{1,1,1,1}},{{1,1,1,1},{1,1,1,1}}},
+                {{{1,1,1},{1,1,1}},{{1,1,1},{1,1,1}},{{1,1,1},{1,1,1}},{{1,1,1},{1,1,1}}},
+                {{{1,1},{1,1},{1,1},{1,1}},{{1,1},{1,1},{1,1},{1,1}},{{1,1},{1,1},{1,1},{1,1}}}
+        };
+        parcelBRotations = new int[][][][]{
+                {{{1,1,1,1},{1,1,1,1}},{{1,1,1,1},{1,1,1,1}}},
+                {{{1,1},{1,1},{1,1},{1,1}},{{1,1},{1,1},{1,1},{1,1}}},
+                {{{1,1},{1,1}},{{1,1},{1,1}},{{1,1},{1,1}},{{1,1},{1,1}}}
+        };
+        parcelCRotations = new int[][][][]
+                {
+                        {{{1,1,1},{1,1,1},{1,1,1}},{{1,1,1},{1,1,1},{1,1,1}},{{1,1,1},{1,1,1},{1,1,1}}}
+                };
     }
 
     public static void calcRatio() {
@@ -60,6 +93,45 @@ public class GreedyAlgorithm {
         @Override
         public int compare(ParcelType o1, ParcelType o2) {
             return Double.compare(o2.getRatio(), o1.getRatio());
+        }
+    }
+
+    public static boolean checkParcel(int[][][] solid, int[] coord){
+        if (coord[0] < 0 || coord[1] < 0 || coord[2] < 0) {
+            return true;
+        } else {
+            try {
+                for (int i = 0; i < solid.length; i++) { // loop over x position of pentomino
+                    for (int j = 0; j < solid[i].length; j++) { // loop over y position of pentomino
+                        for (int k = 0; k < solid[i][j].length; k++) {
+                            if (solid[i][j][k] == 1) {
+                                if (FX3D.UIInput[coord[0] + i][coord[1] + j][coord[2] + k] != 0) {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void addSolid(int[][][] solid, int[] coord, int color) { //add the solid to the container at the specified coordinates
+        if (!checkParcel(solid, coord)) {
+            for (int i = 0; i < solid.length; i++) {
+                for (int j = 0; j < solid[i].length; j++) {
+                    for (int k = 0; k < solid[i][j].length; k++) {
+                        if (solid[i][j][k] == 1) {
+                            FX3D.tmpUIInput[coord[0] + i][coord[1] + j][coord[2] + k] = color;
+                        }
+                    }
+                }
+            }
+        } else {
+            System.out.println("Can't place object");
         }
     }
 
