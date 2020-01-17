@@ -171,11 +171,12 @@ public class DancingLinksProblem {
         //Chose the next column (deterministically) (Step 2 of AlgX)
         ColumnObject nextColumnObject = getSmallestColumnObject();
 
+        //How valuable is the partial solution?
+        int solutionScore = getSolutionScore(tmp_branch_solution);
+
         if(nextColumnObject == null){
             //Found a leaf node
             System.out.println("LEAF" + tmp_branch_solution.toString());
-
-            int solutionScore = getSolutionScore(tmp_branch_solution);
 
             //Check if this is the best solution so far
             if(solutionScore > bestScore){
@@ -190,26 +191,28 @@ public class DancingLinksProblem {
 
             //Go down one layer in the search tree
             layer++;
-            
+
             //Prune every x layers
-//            if(layer%pruneWait == 0){
-//                if(layer<maxValuePerLayer.size()){
-//                    //first time this layer is reached
-//                    maxValuePerLayer.add(score);
-//                } else {
-//                    //layer already exists
-//                    //check if the score is good enough
-//                    if(score > pruneCutoff * maxValuePerLayer.get(layer)){
-//                        //continue branch
-//                        if(score > maxValuePerLayer.get(layer)){
-//                            //update highscore
-//                            maxValuePerLayer.set(layer, score);
-//                        }
-//                    } else {
-//                        //abandon branch
-//                    }
-//                }
-//            }
+            if(layer%pruneWait == 0){
+                if((layer%pruneWait)>=maxValuePerLayer.size()){
+                    //first time this layer is reached
+                    maxValuePerLayer.add(solutionScore);
+                } else {
+                    //layer already exists
+                    //check if the score is good enough for the given layer
+                    if(solutionScore > pruneCutoff * maxValuePerLayer.get(layer%pruneWait)){
+                        //continue branch
+                        if(solutionScore > maxValuePerLayer.get(layer%pruneWait)){
+                            //update highscore
+                            maxValuePerLayer.set(layer%pruneWait, solutionScore);
+                        }
+
+                    } else {
+                        //abandon branch
+                        return;
+                    }
+                }
+            }
 
             nextColumnObject.unlink();
 
@@ -219,8 +222,8 @@ public class DancingLinksProblem {
             }
 
             nextColumnObject.link();
-        }
 
+        }
     }
 
     private void partialCoverUpdated(DataObject focusRow, ArrayList<Integer> tmp_branch_solution, ColumnObject nextColumnObject, boolean pruning, int layer) {
