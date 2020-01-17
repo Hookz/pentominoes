@@ -37,28 +37,26 @@ public class CreateDancingInput {
                             Integer[][][] shapeInContainer = new Integer[depth][height][width];
 
                             //Place shape in container
-                            for(int zContainer=0; z < depth; z++){
+                            for(int zContainer=0; zContainer < depth; zContainer++){
                                 shapeY = 0;
+                                System.out.println("zContainer:" + zContainer);
 
                                 //If this is the layer that the shape needs to be placed in
-                                if(z>= zContainer && z<=(zContainer+shape.length)){
+                                if(z>= zContainer && z<(zContainer+shape.length)){
                                     shapeX = 0;
 
-                                    for(int yContainer=0; y < height; y++) {
+                                    for(int yContainer=0; yContainer < height; yContainer++) {
+                                        System.out.println("yContainer:" + yContainer);
 
                                         //If this is the height that the shape needs to be placed on
-                                        if(y>= yContainer && y<=(yContainer+shape[0].length)){
-                                            for (int xContainer = 0; x < width; x++) {
-
-//                                        System.out.println(x>= xContainer);
-//                                        System.out.println(x<=(xContainer+shape[0][0].length));
-//                                        System.out.println(y>= yContainer);
-//                                        System.out.println(yContainer+shape[0].length);
-//                                        System.out.println(z>= zContainer);
-//                                        System.out.println(z<=(zContainer+shape.length));
-
+                                        if(y>= yContainer && y<(yContainer+shape[0].length)){
+                                            for (int xContainer = 0; xContainer < width; xContainer++) {
+                                                System.out.println("xContainer:" + xContainer);
                                                 //If this is the x that the shape needs to be placed on
-                                                if(x>= xContainer && x<=(xContainer+shape[0][0].length)){
+                                                if(x>= xContainer && x<(xContainer+shape[0][0].length)){
+                                                    System.out.println("Z shape:" + shapeZ);
+                                                    System.out.println("Y shape:" + shapeY);
+                                                    System.out.println("X shape:" + shapeX);
                                                     if(shape[shapeZ][shapeY][shapeX] == 1){
                                                         shapeInContainer[zContainer][yContainer][xContainer] = 1;
                                                     } else {
@@ -71,10 +69,21 @@ public class CreateDancingInput {
                                                     shapeInContainer[zContainer][yContainer][xContainer] = 0;
                                                 }
                                             }
+                                        } else {
+                                            for(int xContainer = 0; x < xContainer; x++){
+                                                shapeInContainer[zContainer][yContainer][xContainer] = 0;
+                                            }
                                         }
                                     }
 
                                     ++shapeY;
+                                } else {
+                                    for(int yContainer = 0; yContainer < height; yContainer++){
+                                        for(int xContainer = 0; x < width; x++){
+                                            shapeInContainer[zContainer][yContainer][xContainer] = 0;
+                                        }
+                                    }
+
                                 }
 
                                 ++shapeZ;
