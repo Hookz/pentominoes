@@ -17,6 +17,10 @@ public class CreateDancingInput {
     public void createPlacements(){
         //For every shape
         for(int[][][] shape : shapes){
+            int shapeWidth = shape[0][0].length;
+            int shapeHeight = shape[0].length;
+            int shapeDepth = shape.length;
+
             //For every depth layer
             for(int z=0; z < depth; z++){
                 //For every y
@@ -25,10 +29,6 @@ public class CreateDancingInput {
                     for(int x=0; x < width; x++){
                         //Check if it fits
                         if(fits(x, y, z, shape)){
-                            int shapeWidth = shape[0][0].length;
-                            int shapeHeight = shape[0].length;
-                            int shapeDepth = shape.length;
-
                             int shapeX = 0;
                             int shapeY = 0;
                             int shapeZ = 0;
@@ -42,18 +42,20 @@ public class CreateDancingInput {
                                 System.out.println("zContainer:" + zContainer);
 
                                 //If this is the layer that the shape needs to be placed in
-                                if(z>= zContainer && z<(zContainer+shape.length)){
+                                if(z >= zContainer && (z+shapeDepth)<=zContainer){
+                                    System.out.println("Z: " + z);
+                                    System.out.println("zContainer+shape.length: " + zContainer+shape.length);
                                     shapeX = 0;
 
                                     for(int yContainer=0; yContainer < height; yContainer++) {
                                         System.out.println("yContainer:" + yContainer);
 
                                         //If this is the height that the shape needs to be placed on
-                                        if(y>= yContainer && y<(yContainer+shape[0].length)){
+                                        if(y >= yContainer && (y+shapeHeight)<=yContainer){
                                             for (int xContainer = 0; xContainer < width; xContainer++) {
                                                 System.out.println("xContainer:" + xContainer);
                                                 //If this is the x that the shape needs to be placed on
-                                                if(x>= xContainer && x<(xContainer+shape[0][0].length)){
+                                                if(x >= xContainer && (x+shapeWidth)<=xContainer){
                                                     System.out.println("Z shape:" + shapeZ);
                                                     System.out.println("Y shape:" + shapeY);
                                                     System.out.println("X shape:" + shapeX);
