@@ -1,7 +1,7 @@
 public class testX {
     public static void main(String[] args){
         //TODO upgrade to actual data
-        boolean exactCover = false;
+        boolean exactCover = true;
         int maxSeconds = 10;
         int[][] tmpInput;
         int[] rowValues = new int[0];
@@ -109,7 +109,7 @@ public class testX {
             System.out.println(dancingLinksProblem.bestScore);
         }
 
-        dancingLinksProblem.answerToArray();
+        //dancingLinksProblem.answerToArray();
 
     }
 }
