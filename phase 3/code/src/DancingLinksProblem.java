@@ -126,7 +126,6 @@ public class DancingLinksProblem {
 
     boolean foundSolution = false;
 
-    //TODO update
     public void solveDriver() {
         //start timer
         start = Instant.now();
@@ -138,33 +137,33 @@ public class DancingLinksProblem {
             reduceInput();
             if(precise){
                 //disable pruning and timer
-                partialCoverUpdated(new ArrayList<Integer>(), false);
+                partialCoverUpdated(new ArrayList<Integer>(), false, 0);
             } else {
                 //enable pruning and timer
-                partialCoverUpdated(new ArrayList<Integer>(), true);
+                partialCoverUpdated(new ArrayList<Integer>(), true, 0);
             }
         }
 
         System.out.println("DONE");
     }
 
-    public void partialCoverDriver(ArrayList<Integer> tmp_branch_solution) {
+    public void partialCoverDriver(ArrayList<Integer> tmp_branch_solution, int layer) {
         run++;
 
         //Stop when you found a solution
         if (!precise) {
             if ((timeElapsed = Duration.between(start, Instant.now()).toSeconds()) < maxSeconds) {
                 //enable pruning and timer
-                partialCoverUpdated(tmp_branch_solution, true);
+                partialCoverUpdated(tmp_branch_solution, true, layer);
             }
         } else {
             //disable pruning and timer
-            partialCoverUpdated(tmp_branch_solution, false);
+            partialCoverUpdated(tmp_branch_solution, false, layer);
         }
 
     }
 
-    private void partialCoverUpdated(ArrayList<Integer> tmp_branch_solution, boolean pruning) {
+    private void partialCoverUpdated(ArrayList<Integer> tmp_branch_solution, boolean pruning, int layer) {
         //System.out.println("TMP: " + Arrays.toString(tmp_branch_solution.toArray()));
 
         //Step one of AlgX isn't used for partialCover
@@ -186,11 +185,37 @@ public class DancingLinksProblem {
 
             bestSolution = tmp_branch_solution.toArray();
         } else {
+            //TODO prune
+            System.out.println(layer);
+
+            //Go down one layer in the search tree
+            layer++;
+            
+            //Prune every x layers
+//            if(layer%pruneWait == 0){
+//                if(layer<maxValuePerLayer.size()){
+//                    //first time this layer is reached
+//                    maxValuePerLayer.add(score);
+//                } else {
+//                    //layer already exists
+//                    //check if the score is good enough
+//                    if(score > pruneCutoff * maxValuePerLayer.get(layer)){
+//                        //continue branch
+//                        if(score > maxValuePerLayer.get(layer)){
+//                            //update highscore
+//                            maxValuePerLayer.set(layer, score);
+//                        }
+//                    } else {
+//                        //abandon branch
+//                    }
+//                }
+//            }
+
             nextColumnObject.unlink();
 
             //Choose a row r such that Ar,c=1 (Step 3 of AlgX)
             for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down){
-                partialCoverUpdated(row, tmp_branch_solution, nextColumnObject, pruning);
+                partialCoverUpdated(row, tmp_branch_solution, nextColumnObject, pruning, layer);
             }
 
             nextColumnObject.link();
@@ -198,7 +223,7 @@ public class DancingLinksProblem {
 
     }
 
-    private void partialCoverUpdated(DataObject focusRow, ArrayList<Integer> tmp_branch_solution, ColumnObject nextColumnObject, boolean pruning) {
+    private void partialCoverUpdated(DataObject focusRow, ArrayList<Integer> tmp_branch_solution, ColumnObject nextColumnObject, boolean pruning, int layer) {
         //Include row r in the partial solution (Step 4 of AlgX)
         tmp_branch_solution.add(focusRow.inputRow);
 
@@ -208,7 +233,7 @@ public class DancingLinksProblem {
         }
 
         //The driver will keep track of the timer and will call the other partialCover function
-        partialCoverDriver(tmp_branch_solution);
+        partialCoverDriver(tmp_branch_solution, layer);
 
         //Undo step (re-link)
         tmp_branch_solution.remove(tmp_branch_solution.size() - 1);
@@ -268,31 +293,6 @@ public class DancingLinksProblem {
             left.header.link();
         }
     }
-
-
-
-//        //TODO finish pruning
-//        /*
-//        //Prune every x layers
-//        if(layer%pruneWait == 0){
-//            if(layer<maxValuePerLayer.size()){
-//                //first time this layer is reached
-//                maxValuePerLayer.add(score);
-//            } else {
-//                //layer already exists
-//                //check if the score is good enough
-//                if(score > pruneCutoff * maxValuePerLayer.get(layer)){
-//                    //continue branch
-//                    if(score > maxValuePerLayer.get(layer)){
-//                        //update highscore
-//                        maxValuePerLayer.set(layer, score);
-//                    }
-//                } else {
-//                    //abandon branch
-//                }
-//            }
-//        }*/
-
 
     private ColumnObject getSmallestColumnObject() {
         int min = Integer.MAX_VALUE;
