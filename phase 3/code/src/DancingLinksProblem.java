@@ -170,15 +170,16 @@ public class DancingLinksProblem {
 //    }
 
     private void exactCoverUpdated(ArrayList<Integer> tmp_branch_solution) {
-        System.out.println("B");
         System.out.println(Arrays.toString(tmp_branch_solution.toArray()));
 
         //If you have a solution (Step 1 of algX)
         if (root.right == root) {
-            System.out.println("C");
             System.out.println(tmp_branch_solution.toString());
+
+            System.out.println("FULLY COVERED");
+            foundSolution = true;
+            bestSolution = tmp_branch_solution.toArray();
         } else {
-            System.out.println("D");
             //Chose the next column (deterministically) (Step 2 of AlgX)
             ColumnObject nextColumnObject = getSmallestColumnObject();
 
@@ -195,7 +196,6 @@ public class DancingLinksProblem {
     }
 
     private void exactCoverUpdated(DataObject focusRow, ArrayList<Integer> tmp_branch_solution, ColumnObject nextColumnObject) {
-        System.out.println("A");
         //Include row r in the partial solution (Step 4 of AlgX)
         tmp_branch_solution.add(focusRow.inputRow);
 
@@ -370,53 +370,29 @@ public class DancingLinksProblem {
 
     private ColumnObject getSmallestColumnObject() {
         int min = Integer.MAX_VALUE;
-        ColumnObject smallestCO = null;
+        ColumnObject smallestColumnObject = null;
 
         // Search for the min size ColumnObject by iterating through all ColumnObjects by moving right until we end up back at the header
         for (ColumnObject col = (ColumnObject) root.right; col != root; col = (ColumnObject) col.right) {
             if (col.size < min) {
                 min = col.size;
-                smallestCO = col;
+                smallestColumnObject = col;
 
                 //If you found a column of size 0, don't bother looking trough the rest (it can't have a negative size)
                 if (min == 0) {
-                    return smallestCO;
+                    return smallestColumnObject;
                 }
             }
         }
 
-        return smallestCO;
+        return smallestColumnObject;
     }
 
-    private ColumnObject getRandomColumnObject() {
-        //TODO possibly optimize to keep track of the amountOfColumns more efficiently (global variable that gets updates during the dancing links process)
-        int amountOfColumns = 0;
-
-        for (ColumnObject col = (ColumnObject) root.right; col != root; col = (ColumnObject) col.right) {
-            amountOfColumns++;
-        }
-
-        int index = (int) (Math.random() * amountOfColumns) + 1;
-
-        if (amountOfColumns > 0) {
-            ColumnObject chosenColumn = (ColumnObject) root;
-            for (int i = 0; i < index; i++) {
-                chosenColumn = (ColumnObject) chosenColumn.right;
-            }
-
-            return chosenColumn;
-        } else {
-            return null;
-        }
-
-    }
-
-    public int getSolutionScore(Object[] solution) {
+    public int getSolutionScore(int[] solution) {
         int score = 0;
 
         //For every chosen object in the solution
-        for (Object object : solution) {
-            int rowNumber = ((DataObject) object).inputRow;
+        for (int rowNumber : solution) {
             int objectScore = rowValues[rowNumber];
             score += objectScore;
         }
