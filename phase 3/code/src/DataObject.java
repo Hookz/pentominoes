@@ -1,10 +1,11 @@
 class DataObject {
     DataObject left, right, up, down;
     ColumnObject header;
-    int inputRow = -1;
+    int inputRow;
 
     DataObject() {
         left = right = up = down = this;
+        inputRow = -1;
     }
 
     DataObject(int inputRow) {

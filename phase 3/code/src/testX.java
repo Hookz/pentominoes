@@ -5,13 +5,13 @@ public class testX {
         int maxSeconds = 10;
         int[][] tmpInput;
         int[] rowValues = new int[0];
+        boolean precise = false;
 
         //Use some simple input data
         String[] headerNames = {"A", "B", "C", "D", "E", "F", "G", "H"};
         //partial cover
 
         if(exactCover){
-            //exact cover (0, 1, 2, 4)
 
                                 //   A1 B6 C5 D4 E1 F1 G3 H2
             tmpInput = new int[][]{ {0, 0, 0, 0, 1, 1, 0, 0},
@@ -27,6 +27,12 @@ public class testX {
                                     {0, 0, 0, 0, 0, 0, 0, 1},
                                     {0, 1, 1, 1, 0, 0, 0, 0}};
 
+            //[1, 4, 0, 10]
+            /*
+            {0, 0, 0, 0, 1, 1, 0, 0},
+            {1, 0, 1, 0, 0, 0, 0, 0},
+            {0, 1, 0, 1, 0, 0, 1, 0},
+            {0, 0, 0, 0, 0, 0, 0, 1}*/
 
 
         } else {
@@ -100,16 +106,16 @@ public class testX {
             }
         }
 
-        DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, exactCover, maxSeconds, false);
+        DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, exactCover, maxSeconds, precise);
 
         dancingLinksProblem.createDataStructure();
-        dancingLinksProblem.solveDriver(0);
+        dancingLinksProblem.solveDriver();
 
         if(!exactCover) {
             System.out.println(dancingLinksProblem.bestScore);
         }
 
-        dancingLinksProblem.answerToArray();
+        //dancingLinksProblem.answerToArray();
 
     }
 }
