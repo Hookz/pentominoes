@@ -5,6 +5,7 @@ public class testX {
         int maxSeconds = 10;
         int[][] tmpInput;
         int[] rowValues = new int[0];
+        boolean precise = false;
 
         //Use some simple input data
         String[] headerNames = {"A", "B", "C", "D", "E", "F", "G", "H"};
@@ -105,10 +106,10 @@ public class testX {
             }
         }
 
-        DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, exactCover, maxSeconds, false);
+        DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, exactCover, maxSeconds, precise);
 
         dancingLinksProblem.createDataStructure();
-        dancingLinksProblem.solveDriver(0);
+        dancingLinksProblem.solveDriver();
 
         if(!exactCover) {
             System.out.println(dancingLinksProblem.bestScore);

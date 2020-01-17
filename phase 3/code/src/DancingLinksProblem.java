@@ -8,6 +8,7 @@
 
 //LOOK AT 4x4.dlx.64x64 (1) FOR AN SUDOKU EXAMPLE (phase 3 -> Research -> this)
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 
@@ -126,7 +127,7 @@ public class DancingLinksProblem {
     boolean foundSolution = false;
 
     //TODO update
-    public void solveDriver(int K) { // Deterministic algorithm to find all exact covers
+    public void solveDriver() {
         //start timer
         start = Instant.now();
 
@@ -135,53 +136,35 @@ public class DancingLinksProblem {
         } else {
             //Remove unfillable positions (mainly useful for testing)
             reduceInput();
-            partialCoverUpdated(new ArrayList<Integer>());
+            if(precise){
+                //disable pruning and timer
+                partialCoverUpdated(new ArrayList<Integer>(), false);
+            } else {
+                //enable pruning and timer
+                partialCoverUpdated(new ArrayList<Integer>(), true);
+            }
         }
 
         System.out.println("DONE");
     }
 
-    ColumnObject smallestColumn;
+    public void partialCoverDriver(ArrayList<Integer> tmp_branch_solution) {
+        run++;
 
-    public void reduceInput() {
-        //remove/unlink columns that can't be filled
-        while ((smallestColumn = getSmallestColumnObject()).size == 0) {
-            smallestColumn.unlink();
+        //Stop when you found a solution
+        if (!precise) {
+            if ((timeElapsed = Duration.between(start, Instant.now()).toSeconds()) < maxSeconds) {
+                //enable pruning and timer
+                partialCoverUpdated(tmp_branch_solution, true);
+            }
+        } else {
+            //disable pruning and timer
+            partialCoverUpdated(tmp_branch_solution, false);
         }
+
     }
 
-    //TODO rewrite partial cover
-//    public void solvePartial(int K, ArrayList<Integer> sols) {
-//        //Stop when you found a solution
-//        if (!precise) {
-//            while ((timeElapsed = Duration.between(start, Instant.now()).toSeconds()) < maxSeconds) {
-//                run++;
-//
-//                partialRun(K, sols);
-//            }
-//        } else {
-//            partialRun(K, sols);
-//        }
-//
-//    }
-
-//    private void partialCoverUpdated(){
-//        if(nextColumnObject == null){
-//
-//            System.out.println(sols.toString());
-//
-//            Object[] solutionArray = tmpSolution.toArray();
-
-//            int solutionScore = getSolutionScore(solutionArray);
-//
-//            //Check if this is the best solution so far
-//            if(solutionScore > bestScore){
-//                bestSolution = tmpSolution.toArray();
-//                bestScore = solutionScore;
-//            }
-//    }
-
-    private void partialCoverUpdated(ArrayList<Integer> tmp_branch_solution) {
+    private void partialCoverUpdated(ArrayList<Integer> tmp_branch_solution, boolean pruning) {
         //System.out.println("TMP: " + Arrays.toString(tmp_branch_solution.toArray()));
 
         //Step one of AlgX isn't used for partialCover
@@ -207,7 +190,7 @@ public class DancingLinksProblem {
 
             //Choose a row r such that Ar,c=1 (Step 3 of AlgX)
             for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down){
-                partialCoverUpdated(row, tmp_branch_solution, nextColumnObject);
+                partialCoverUpdated(row, tmp_branch_solution, nextColumnObject, pruning);
             }
 
             nextColumnObject.link();
@@ -215,7 +198,7 @@ public class DancingLinksProblem {
 
     }
 
-    private void partialCoverUpdated(DataObject focusRow, ArrayList<Integer> tmp_branch_solution, ColumnObject nextColumnObject) {
+    private void partialCoverUpdated(DataObject focusRow, ArrayList<Integer> tmp_branch_solution, ColumnObject nextColumnObject, boolean pruning) {
         //Include row r in the partial solution (Step 4 of AlgX)
         tmp_branch_solution.add(focusRow.inputRow);
 
@@ -224,7 +207,8 @@ public class DancingLinksProblem {
             column.header.unlink();
         }
 
-        partialCoverUpdated(tmp_branch_solution);
+        //The driver will keep track of the timer and will call the other partialCover function
+        partialCoverDriver(tmp_branch_solution);
 
         //Undo step (re-link)
         tmp_branch_solution.remove(tmp_branch_solution.size() - 1);
@@ -235,19 +219,6 @@ public class DancingLinksProblem {
             left.header.link();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     private void exactCoverUpdated(ArrayList<Integer> tmp_branch_solution) {
         System.out.println(Arrays.toString(tmp_branch_solution.toArray()));
@@ -321,82 +292,7 @@ public class DancingLinksProblem {
 //                }
 //            }
 //        }*/
-//
-//
-//        //Get the shape with the least filled cells
-//        //TODO could this be the cause of the stackOverFlow?
-//        //ColumnObject nextColumnObject = getRandomColumnObject();
-//        ColumnObject nextColumnObject = getSmallestColumnObject();
-//
-//        //If this is a dead end
-//        if(nextColumnObject == null){
-//
-//            System.out.println(sols.toString());
-//
-//            Object[] solutionArray = tmpSolution.toArray();
-//
-//            //TODO remove after debugging
-//            solutions.add(tmpSolution.toArray());
-//
-//            for(Object solution : solutionArray){
-//                DataObject sol = (DataObject) solution;
-//                int colInputArray = sol.inputRow;
-//                //System.out.println(colInputArray);
-//            }
-//
-//
-//            int solutionScore = getSolutionScore(solutionArray);
-//
-//            //Check if this is the best solution so far
-//            if(solutionScore > bestScore){
-//                bestSolution = tmpSolution.toArray();
-//                bestScore = solutionScore;
-//            }
-//
-//            //TODO backtrack
-////            DataObject row = tmpSolution.remove(tmpSolution.size() - 1);
-////            nextColumnObject = row.header;
-////
-////            for (DataObject left = row.left; left != row; left = left.left) {
-////                left.header.link();
-////            }
-////
-////            nextColumnObject.link();
-////
-////            solvePartial(--K);
-//
-//            return;
-//
-//        } else {
-//
-//            nextColumnObject.unlink();
-//
-//            for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down) {
-//
-//                sols.add(row.inputRow);
-//                tmpSolution.add(row);
-//
-//                //Cover redundant elements
-//                for (DataObject column = row.right; column != row; column = column.right) {
-//
-//                    column.header.unlink();
-//                }
-//
-//                solvePartial(++K,sols);
-//
-//                //Undo step (re-link)
-//                row = tmpSolution.remove(tmpSolution.size() - 1);
-//                nextColumnObject = row.header;
-//
-//                for (DataObject left = row.left; left != row; left = left.left) {
-//                    left.header.link();
-//                }
-//            }
-//
-//            nextColumnObject.link();
-//        }
-//        return;
-//    }
+
 
     private ColumnObject getSmallestColumnObject() {
         int min = Integer.MAX_VALUE;
@@ -499,5 +395,15 @@ public class DancingLinksProblem {
 //        int[][][] stopJava = {{{}}};
 //        return stopJava;
 //    }
+
+
+    ColumnObject smallestColumn;
+
+    public void reduceInput() {
+        //remove/unlink columns that can't be filled
+        while ((smallestColumn = getSmallestColumnObject()).size == 0) {
+            smallestColumn.unlink();
+        }
+    }
 
 }
