@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -9,20 +8,9 @@ public class GreedyAlgorithm {
     static ParcelType typeC; // Object that represents parcel type C
     static ArrayList<ParcelType> parcelTypes; // ArrayList that stores all ParcelType objects
     static double[] volumes = {2.0, 3.0, 3.375}; // Array that stores the volumes of parcel types A(volumes[0]), B(volumes[1]) and C(volumes[2])
-    int[][][] container = new int[Wrapper.CONTAINER_WIDTH*2][Wrapper.CONTAINER_HEIGHT*2][Wrapper.CONTAINER_DEPTH*2];
-    static int[][][][] parcelARotations;
-    static int[][][][] parcelBRotations;
-    static int[][][][] parcelCRotations;
-
-    public static void initContainer(int [][][] container) {
-        for (int i = 0; i < container.length; i++) {
-            for (int j = 0; j < container[i].length; j++) {
-                for (int k = 0; k < container[i][j].length; k++) {
-                    container[i][j][k] = 0;
-                }
-            }
-        }
-    }
+    static int[][][][] parcelARotations; // Four-dimensional array that holds all possible rotations for parcel type A
+    static int[][][][] parcelBRotations; // Four-dimensional array that holds all possible rotations for parcel type B
+    static int[][][][] parcelCRotations; // Four-dimensional array that holds all possible rotations for parcel type C
 
     public static void runAlgorithm() {
         // Initialize ParcelType objects
@@ -32,6 +20,28 @@ public class GreedyAlgorithm {
 
         // Initialize parcelTypes ArrayList
         parcelTypes = new ArrayList<ParcelType>();
+
+        // Initialize parcelARotations
+        parcelARotations = new int[][][][] {
+                {{{1,1,1,1},{1,1,1,1},{1,1,1,1}},{{1,1,1,1},{1,1,1,1},{1,1,1,1}}},
+                {{{1,1,1},{1,1,1},{1,1,1},{1,1,1}},{{1,1,1},{1,1,1},{1,1,1},{1,1,1}}},
+                {{{1,1},{1,1},{1,1}},{{1,1},{1,1},{1,1}},{{1,1},{1,1},{1,1}},{{1,1},{1,1},{1,1}}},
+                {{{1,1,1,1},{1,1,1,1}},{{1,1,1,1},{1,1,1,1}},{{1,1,1,1},{1,1,1,1}}},
+                {{{1,1,1},{1,1,1}},{{1,1,1},{1,1,1}},{{1,1,1},{1,1,1}},{{1,1,1},{1,1,1}}},
+                {{{1,1},{1,1},{1,1},{1,1}},{{1,1},{1,1},{1,1},{1,1}},{{1,1},{1,1},{1,1},{1,1}}}
+        };
+
+        // Initialize parcelBRotations
+        parcelBRotations = new int[][][][] {
+                {{{1,1,1,1},{1,1,1,1}},{{1,1,1,1},{1,1,1,1}}},
+                {{{1,1},{1,1},{1,1},{1,1}},{{1,1},{1,1},{1,1},{1,1}}},
+                {{{1,1},{1,1}},{{1,1},{1,1}},{{1,1},{1,1}},{{1,1},{1,1}}}
+        };
+
+        // Initialize parcelCRotations
+        parcelCRotations = new int[][][][] {
+                        {{{1,1,1},{1,1,1},{1,1,1}},{{1,1,1},{1,1,1},{1,1,1}},{{1,1,1},{1,1,1},{1,1,1}}}
+        };
 
         // Add ParcelType objects to parcelTypes ArrayList
         parcelTypes.add(typeA);
@@ -44,29 +54,8 @@ public class GreedyAlgorithm {
         // Determine the proper order of the parcel types based on decreasing ratio
         deterOrder();
 
-        // Debug
-        //System.out.println("Most profitable parcel type: " + parcelTypes.get(0).getName());
-        //System.out.println("Second most profitable parcel type: " + parcelTypes.get(1).getName());
-        //System.out.println("Third most profitable parcel type: " + parcelTypes.get(2).getName());
-        //System.out.println();
-
-        parcelARotations = new int[][][][] {
-                {{{1,1,1,1},{1,1,1,1},{1,1,1,1}},{{1,1,1,1},{1,1,1,1},{1,1,1,1}}},
-                {{{1,1,1},{1,1,1},{1,1,1},{1,1,1}},{{1,1,1},{1,1,1},{1,1,1},{1,1,1}}},
-                {{{1,1},{1,1},{1,1}},{{1,1},{1,1},{1,1}},{{1,1},{1,1},{1,1}},{{1,1},{1,1},{1,1}}},
-                {{{1,1,1,1},{1,1,1,1}},{{1,1,1,1},{1,1,1,1}},{{1,1,1,1},{1,1,1,1}}},
-                {{{1,1,1},{1,1,1}},{{1,1,1},{1,1,1}},{{1,1,1},{1,1,1}},{{1,1,1},{1,1,1}}},
-                {{{1,1},{1,1},{1,1},{1,1}},{{1,1},{1,1},{1,1},{1,1}},{{1,1},{1,1},{1,1},{1,1}}}
-        };
-        parcelBRotations = new int[][][][]{
-                {{{1,1,1,1},{1,1,1,1}},{{1,1,1,1},{1,1,1,1}}},
-                {{{1,1},{1,1},{1,1},{1,1}},{{1,1},{1,1},{1,1},{1,1}}},
-                {{{1,1},{1,1}},{{1,1},{1,1}},{{1,1},{1,1}},{{1,1},{1,1}}}
-        };
-        parcelCRotations = new int[][][][]
-                {
-                        {{{1,1,1},{1,1,1},{1,1,1}},{{1,1,1},{1,1,1},{1,1,1}},{{1,1,1},{1,1,1},{1,1,1}}}
-                };
+        // Fill the container
+        fillContainer();
     }
 
     public static void calcRatio() {
@@ -96,7 +85,34 @@ public class GreedyAlgorithm {
         }
     }
 
-    public static boolean checkParcel(int[][][] solid, int[] coord){
+    public static void fillContainer() {
+        // For every parcel type
+        for(int p = 0; p < parcelTypes.size(); p++) {
+            // For every rotation of this parcel type
+            for(int r = 0; r < fetchAmountOfRotations(p); r++) {
+                // For every x-position
+                for(int x = 0; x < Wrapper.UIInput.length; x++) {
+                    // For every y-position
+                    for(int y = 0; y < Wrapper.UIInput[0].length; y++) {
+                        // For every z-position
+                        for(int z = 0; z < Wrapper.UIInput[0][0].length; z++) {
+                            // Fetch array that represents the current piece
+                            int[][][] solid = fetchArray(p, r);
+
+                            // Create array that holds the current coordinates
+                            int[] coord = {x, y, z};
+
+                            // Check whether or not the current piece can be placed and take the appropriate action
+                            addSolid(solid, coord, 1);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public static boolean checkParcel(int[][][] solid, int[] coord) {
+        //TODO Find out what is going wrong within this try-catch
         if (coord[0] < 0 || coord[1] < 0 || coord[2] < 0) {
             return true;
         } else {
@@ -113,26 +129,60 @@ public class GreedyAlgorithm {
                     }
                 }
             } catch (Exception e) {
+                System.out.println(e.fillInStackTrace());
                 return true;
             }
         }
         return false;
     }
 
+    static int amount = 0;
     public static void addSolid(int[][][] solid, int[] coord, int color) { //add the solid to the container at the specified coordinates
+        amount++;
         if (!checkParcel(solid, coord)) {
             for (int i = 0; i < solid.length; i++) {
                 for (int j = 0; j < solid[i].length; j++) {
                     for (int k = 0; k < solid[i][j].length; k++) {
                         if (solid[i][j][k] == 1) {
                             FX3D.tmpUIInput[coord[0] + i][coord[1] + j][coord[2] + k] = color;
+                            System.out.println("Item #" + amount + "placed");
                         }
                     }
                 }
             }
         } else {
-            System.out.println("Can't place object");
+            System.out.println("Can't place object #" + amount);
         }
+    }
+
+    public static int[][][] fetchArray(int p, int r) {
+        String name = parcelTypes.get(p).getName();
+
+        int[][][] solid = new int[0][0][0];
+
+        if (name.equals("A"))
+            solid = parcelARotations[r];
+        else if (name.equals("B"))
+            solid = parcelBRotations[r];
+        else if (name.equals("C"))
+            solid = parcelCRotations[r];
+
+        return solid;
+    }
+
+    public static int fetchAmountOfRotations(int p) {
+        String name = parcelTypes.get(p).getName();
+
+        int amount = 0;
+
+        if(name.equals("A"))
+            amount = parcelARotations.length;
+        else if (name.equals("B"))
+            amount = parcelBRotations.length;
+        else if (name.equals("C"))
+            amount = parcelCRotations.length;
+
+        return amount;
     }
 
 }
