@@ -10,10 +10,7 @@
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class DancingLinksProblem {
     boolean[][] inputMatrix;
@@ -34,6 +31,10 @@ public class DancingLinksProblem {
     int pruneWait = 5;
     float pruneCutoff = .4F;
 
+    //TODO remove after debugging
+    List<Object[]> solutions = new ArrayList<Object[]>();
+    int debug;
+
     public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames, int[] rowValues, boolean exactCover, int maxSeconds, boolean precise) {
         this.inputMatrix = inputMatrix;
         this.rowValues = rowValues;
@@ -43,7 +44,7 @@ public class DancingLinksProblem {
         this.precise = precise;
     }
 
-    public void createDataStructure(){
+    public void createDataStructure() {
         //Create root
         ColumnObject root = new ColumnObject();
         root.left = root;
@@ -52,7 +53,7 @@ public class DancingLinksProblem {
         root.down = root;
 
         //create the headers
-        for(int x=0; x<inputMatrix[0].length; x++){
+        for (int x = 0; x < inputMatrix[0].length; x++) {
             ColumnObject header = new ColumnObject();
 
             header.up = header;
@@ -70,16 +71,16 @@ public class DancingLinksProblem {
 
         //Create a list for the next row that gets added to the row above, repeat for all rows
         List<DataObject> rowObjects = new LinkedList<DataObject>();
-        for(int y=0; y<inputMatrix.length; y++){
+        for (int y = 0; y < inputMatrix.length; y++) {
             //remove data from last row
             rowObjects.clear();
 
             //Go to the first column
             ColumnObject currentColumn = (ColumnObject) root.right;
 
-            for(int x=0; x<inputMatrix[0].length; x++){
+            for (int x = 0; x < inputMatrix[0].length; x++) {
                 //if there's a value to add, add it to the row
-                if(inputMatrix[y][x]){
+                if (inputMatrix[y][x]) {
                     //start with new dataObject
                     DataObject dataObject = null;
                     //create one with inputRowIdentifier
@@ -105,12 +106,12 @@ public class DancingLinksProblem {
             }
 
             //Link all of the data objects in this row horizontally (if there are any)
-            if(rowObjects.size()>0){
+            if (rowObjects.size() > 0) {
                 Iterator<DataObject> iterator = rowObjects.iterator();
                 DataObject first = iterator.next();
 
                 //while there are objects left in the row, keep going trough them
-                while (iterator.hasNext()){
+                while (iterator.hasNext()) {
                     DataObject dataObject = iterator.next();
                     dataObject.left = first.left;
                     dataObject.right = first;
@@ -123,212 +124,204 @@ public class DancingLinksProblem {
         this.root = root;
     }
 
-    List<DataObject> tmpSolution = new ArrayList<DataObject>();
     boolean foundSolution = false;
 
-    public void solveDriver(int K) { // Deterministic algorithm to find all exact covers
+    public void solveDriver() {
         //start timer
         start = Instant.now();
 
-        if(exactCover){
-            solveExact(K);
+        if (exactCover) {
+            exactCoverUpdated(new ArrayList<Integer>());
         } else {
             //Remove unfillable positions (mainly useful for testing)
             reduceInput();
-            solvePartial(K);
+            if(precise){
+                //disable pruning and timer
+                partialCoverUpdated(new ArrayList<Integer>(), false, 0);
+            } else {
+                //enable pruning and timer
+                partialCoverUpdated(new ArrayList<Integer>(), true, 0);
+            }
         }
 
         System.out.println("DONE");
     }
 
-    ColumnObject smallestColumn;
-    public void reduceInput(){
-        //remove/unlink columns that can't be filled
-        while((smallestColumn = getSmallestColumnObject()).size == 0){
-            smallestColumn.unlink();
-        }
-    }
+    public void partialCoverDriver(ArrayList<Integer> tmp_branch_solution, int layer) {
+        run++;
 
-    public void solvePartial(int K){
         //Stop when you found a solution
-        if(!precise){
-            while((timeElapsed = Duration.between(start, Instant.now()).toSeconds()) < maxSeconds){
-                run++;
-
-                partialRun(K);
+        if (!precise) {
+            if ((timeElapsed = Duration.between(start, Instant.now()).toSeconds()) < maxSeconds) {
+                //enable pruning and timer
+                partialCoverUpdated(tmp_branch_solution, true, layer);
             }
         } else {
-            partialRun(K);
+            //disable pruning and timer
+            partialCoverUpdated(tmp_branch_solution, false, layer);
         }
 
     }
 
-    private void partialRun(int K){
-        System.out.println(K);
+    private void partialCoverUpdated(ArrayList<Integer> tmp_branch_solution, boolean pruning, int layer) {
+        //System.out.println("TMP: " + Arrays.toString(tmp_branch_solution.toArray()));
 
-        //TODO finish pruning
-        /*
-        //Prune every x layers
-        if(layer%pruneWait == 0){
-            if(layer<maxValuePerLayer.size()){
-                //first time this layer is reached
-                maxValuePerLayer.add(score);
-            } else {
-                //layer already exists
-                //check if the score is good enough
-                if(score > pruneCutoff * maxValuePerLayer.get(layer)){
-                    //continue branch
-                    if(score > maxValuePerLayer.get(layer)){
-                        //update highscore
-                        maxValuePerLayer.set(layer, score);
-                    }
-                } else {
-                    //abandon branch
-                }
-            }
-        }*/
+        //Step one of AlgX isn't used for partialCover
 
-
-        //Get the shape with the least filled cells
-        //TODO could this be the cause of the stackOverFlow?
-        //ColumnObject nextColumnObject = getRandomColumnObject();
+        //Chose the next column (deterministically) (Step 2 of AlgX)
         ColumnObject nextColumnObject = getSmallestColumnObject();
 
-        //If this is a dead end
+        //How valuable is the partial solution?
+        int solutionScore = getSolutionScore(tmp_branch_solution);
+
         if(nextColumnObject == null){
-            Object[] solutionArray = tmpSolution.toArray();
-            int solutionScore = getSolutionScore(solutionArray);
+            //Found a leaf node
+            System.out.println("LEAF" + tmp_branch_solution.toString());
 
             //Check if this is the best solution so far
             if(solutionScore > bestScore){
-                bestSolution = tmpSolution.toArray();
+                bestSolution = tmp_branch_solution.toArray();
                 bestScore = solutionScore;
             }
 
-            //TODO backtrack
-//            DataObject row = tmpSolution.remove(tmpSolution.size() - 1);
-//            nextColumnObject = row.header;
-//
-//            for (DataObject left = row.left; left != row; left = left.left) {
-//                left.header.link();
-//            }
-//
-//            nextColumnObject.link();
-//
-//            solvePartial(--K);
-
+            bestSolution = tmp_branch_solution.toArray();
         } else {
-            nextColumnObject.unlink();
+            System.out.println(layer);
 
-            for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down) {
-                tmpSolution.add(row);
+            //Go down one layer in the search tree
+            layer++;
 
-                //Cover redundant elements
-                for (DataObject column = row.right; column != row; column = column.right) {
-                    column.header.unlink();
-                }
+            //Prune every x layers
+            if(layer%pruneWait == 0){
+                if((layer%pruneWait)>=maxValuePerLayer.size()){
+                    //first time this layer is reached
+                    maxValuePerLayer.add(solutionScore);
+                } else {
+                    //layer already exists
+                    //check if the score is good enough for the given layer
+                    if(solutionScore > pruneCutoff * maxValuePerLayer.get(layer%pruneWait)){
+                        //continue branch
+                        if(solutionScore > maxValuePerLayer.get(layer%pruneWait)){
+                            //update highscore
+                            maxValuePerLayer.set(layer%pruneWait, solutionScore);
+                        }
 
-                solvePartial(++K);
-
-                //Undo step (re-link)
-                row = tmpSolution.remove(tmpSolution.size() - 1);
-                nextColumnObject = row.header;
-
-                for (DataObject left = row.left; left != row; left = left.left) {
-                    left.header.link();
+                    } else {
+                        System.out.println("Abandon branch");
+                        //abandon branch
+                        return;
+                    }
                 }
             }
 
+            nextColumnObject.unlink();
+
+            //Choose a row r such that Ar,c=1 (Step 3 of AlgX)
+            for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down){
+                partialCoverUpdated(row, tmp_branch_solution, nextColumnObject, pruning, layer);
+            }
+
             nextColumnObject.link();
+
         }
     }
 
-    public void solveExact(int K){
-        while(!foundSolution){
-            //Check if you have covered all
+    private void partialCoverUpdated(DataObject focusRow, ArrayList<Integer> tmp_branch_solution, ColumnObject nextColumnObject, boolean pruning, int layer) {
+        //Include row r in the partial solution (Step 4 of AlgX)
+        tmp_branch_solution.add(focusRow.inputRow);
+
+        //Unlink row and column (Step 5 of AlgX)
+        for (DataObject column = focusRow.right; column != focusRow; column = column.right) {
+            column.header.unlink();
+        }
+
+        //The driver will keep track of the timer and will call the other partialCover function
+        partialCoverDriver(tmp_branch_solution, layer);
+
+        //Undo step (re-link)
+        tmp_branch_solution.remove(tmp_branch_solution.size() - 1);
+
+        nextColumnObject = focusRow.header;
+
+        for (DataObject left = focusRow.left; left != focusRow; left = left.left) {
+            left.header.link();
+        }
+    }
+
+    private void exactCoverUpdated(ArrayList<Integer> tmp_branch_solution) {
+        System.out.println(Arrays.toString(tmp_branch_solution.toArray()));
+
+        if(!foundSolution){
+            //If you have a solution (Step 1 of algX)
             if (root.right == root) {
-                //SOLVED IT!
+                System.out.println(tmp_branch_solution.toString());
+
                 System.out.println("FULLY COVERED");
                 foundSolution = true;
-                bestSolution = tmpSolution.toArray();
+                bestSolution = tmp_branch_solution.toArray();
+            } else {
+                //Chose the next column (deterministically) (Step 2 of AlgX)
+                ColumnObject nextColumnObject = getSmallestColumnObject();
 
-                return;
-            }
+                nextColumnObject.unlink();
 
-            //Get the shape with the least filled cells
-            ColumnObject nextColumnObject = getSmallestColumnObject();
-            nextColumnObject.unlink();
-
-            //Remove covered elements
-            for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down) {
-                tmpSolution.add(row);
-
-                for (DataObject column = row.right; column != row; column = column.right) {
-                    column.header.unlink();
+                //Choose a row r such that Ar,c=1 (Step 3 of AlgX)
+                for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down){
+                    System.out.println("E");
+                    exactCoverUpdated(row, tmp_branch_solution, nextColumnObject);
                 }
 
-                solveExact(++K);
-                row = tmpSolution.remove(tmpSolution.size() - 1);
-                nextColumnObject = row.header;
-
-                for (DataObject column = row.left; column != row; column = column.left) {
-                    column.header.link();
-                }
+                nextColumnObject.link();
             }
+        }
+    }
 
-            nextColumnObject.link();
+    private void exactCoverUpdated(DataObject focusRow, ArrayList<Integer> tmp_branch_solution, ColumnObject nextColumnObject) {
+        //Include row r in the partial solution (Step 4 of AlgX)
+        tmp_branch_solution.add(focusRow.inputRow);
+
+        //Unlink row and column (Step 5 of AlgX)
+        for (DataObject column = focusRow.right; column != focusRow; column = column.right) {
+            column.header.unlink();
+        }
+
+        exactCoverUpdated(tmp_branch_solution);
+
+        //Undo step (re-link)
+        tmp_branch_solution.remove(tmp_branch_solution.size() - 1);
+
+        nextColumnObject = focusRow.header;
+
+        for (DataObject left = focusRow.left; left != focusRow; left = left.left) {
+            left.header.link();
         }
     }
 
     private ColumnObject getSmallestColumnObject() {
         int min = Integer.MAX_VALUE;
-        ColumnObject smallestCO = null;
+        ColumnObject smallestColumnObject = null;
 
         // Search for the min size ColumnObject by iterating through all ColumnObjects by moving right until we end up back at the header
-        for(ColumnObject col = (ColumnObject) root.right; col != root; col = (ColumnObject) col.right){
+        for (ColumnObject col = (ColumnObject) root.right; col != root; col = (ColumnObject) col.right) {
             if (col.size < min) {
                 min = col.size;
-                smallestCO = col;
+                smallestColumnObject = col;
 
                 //If you found a column of size 0, don't bother looking trough the rest (it can't have a negative size)
-                if(min==0){
-                    return smallestCO;
+                if (min == 0) {
+                    return smallestColumnObject;
                 }
             }
         }
 
-        return smallestCO;
+        return smallestColumnObject;
     }
 
-    private ColumnObject getRandomColumnObject(){
-        //TODO possibly optimize to keep track of the amountOfColumns more efficiently (global variable that gets updates during the dancing links process)
-        int amountOfColumns = 0;
-
-        for(ColumnObject col = (ColumnObject) root.right; col != root; col = (ColumnObject) col.right){
-            amountOfColumns++;
-        }
-
-        int index = (int) (Math.random() * amountOfColumns) + 1;
-
-        if(amountOfColumns>0){
-            ColumnObject chosenColumn = (ColumnObject) root;
-            for(int i=0; i<index; i++){
-                chosenColumn = (ColumnObject) chosenColumn.right;
-            }
-
-            return chosenColumn;
-        } else {
-            return null;
-        }
-
-    }
-
-    public int getSolutionScore(Object[] solution){
+    public int getSolutionScore(ArrayList<Integer> solution) {
         int score = 0;
 
         //For every chosen object in the solution
-        for (Object object : solution) {
-            int rowNumber = ((DataObject) object).inputRow;
+        for (int rowNumber : solution) {
             int objectScore = rowValues[rowNumber];
             score += objectScore;
         }
@@ -336,33 +329,34 @@ public class DancingLinksProblem {
         return score;
     }
 
-    public int[][][] answerToArray(){
-        List<Integer> indexesOfUsedRows = new ArrayList<>();
-
-        for(Object row : bestSolution){
-            DataObject rowObject = (DataObject) row;
-            int usedRowIndex = rowObject.inputRow;
-            indexesOfUsedRows.add(usedRowIndex);
-        }
-
-        List<boolean[]> inputRows = new ArrayList<>();
-
-        for(int index : indexesOfUsedRows){
-            boolean[] inputRow = inputMatrix[index];
-            inputRows.add(inputRow);
-        }
-
-        //Start 1D to 3D conversion for UI
-        int[][][] finalUIOutput = new int[Wrapper.CONTAINER_WIDTH/Wrapper.cellSize][Wrapper.CONTAINER_HEIGHT/Wrapper.cellSize][Wrapper.CONTAINER_DEPTH/Wrapper.cellSize];
-
-        //Go trough each shape and add it to the 3D output
-        for(boolean[] shape : inputRows){
-            int outputHeight = Wrapper.CONTAINER_HEIGHT/Wrapper.cellSize;
-            int outputWidth = Wrapper.CONTAINER_WIDTH/Wrapper.cellSize;
-            int outputDepth = Wrapper.CONTAINER_DEPTH/Wrapper.cellSize;
-
-            int[][][] shapeOutput = new int[outputWidth][outputHeight][outputDepth];
-            boolean[][][] booleanShapeOutput = new boolean[outputWidth][outputHeight][outputDepth];
+    //TODO rewrite
+//    public int[][][] answerToArray() {
+//        List<Integer> indexesOfUsedRows = new ArrayList<>();
+//
+//        for (Object row : bestSolution) {
+//            DataObject rowObject = (DataObject) row;
+//            int usedRowIndex = rowObject.inputRow;
+//            indexesOfUsedRows.add(usedRowIndex);
+//        }
+//
+//        List<boolean[]> inputRows = new ArrayList<>();
+//
+//        for (int index : indexesOfUsedRows) {
+//            boolean[] inputRow = inputMatrix[index];
+//            inputRows.add(inputRow);
+//        }
+//
+//        //Start 1D to 3D conversion for UI
+//        int[][][] finalUIOutput = new int[Wrapper.CONTAINER_WIDTH / Wrapper.cellSize][Wrapper.CONTAINER_HEIGHT / Wrapper.cellSize][Wrapper.CONTAINER_DEPTH / Wrapper.cellSize];
+//
+//        //Go trough each shape and add it to the 3D output
+//        for (boolean[] shape : inputRows) {
+//            int outputHeight = Wrapper.CONTAINER_HEIGHT / Wrapper.cellSize;
+//            int outputWidth = Wrapper.CONTAINER_WIDTH / Wrapper.cellSize;
+//            int outputDepth = Wrapper.CONTAINER_DEPTH / Wrapper.cellSize;
+//
+//            int[][][] shapeOutput = new int[outputWidth][outputHeight][outputDepth];
+//            boolean[][][] booleanShapeOutput = new boolean[outputWidth][outputHeight][outputDepth];
 
             //boolean[][] twoD = new boolean[][];
 
@@ -376,7 +370,7 @@ public class DancingLinksProblem {
 //            }
 
             //TODO convert to int according to type
-        }
+        //}
 
 
 
@@ -401,10 +395,18 @@ public class DancingLinksProblem {
          */
 
 
+//        int[][][] stopJava = {{{}}};
+//        return stopJava;
+//    }
 
 
-        int[][][] stopJava = {{{}}};
-        return stopJava;
+    ColumnObject smallestColumn;
+
+    public void reduceInput() {
+        //remove/unlink columns that can't be filled
+        while ((smallestColumn = getSmallestColumnObject()).size == 0) {
+            smallestColumn.unlink();
+        }
     }
 
 }
