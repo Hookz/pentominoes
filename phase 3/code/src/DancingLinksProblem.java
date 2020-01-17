@@ -182,7 +182,7 @@ public class DancingLinksProblem {
 //    }
 
     private void partialCoverUpdated(ArrayList<Integer> tmp_branch_solution) {
-        System.out.println("TMP: " + Arrays.toString(tmp_branch_solution.toArray()));
+        //System.out.println("TMP: " + Arrays.toString(tmp_branch_solution.toArray()));
 
         //Step one of AlgX isn't used for partialCover
 
@@ -190,8 +190,16 @@ public class DancingLinksProblem {
         ColumnObject nextColumnObject = getSmallestColumnObject();
 
         if(nextColumnObject == null){
-            System.out.println("LEAF");
-            System.out.println(tmp_branch_solution.toString());
+            //Found a leaf node
+            System.out.println("LEAF" + tmp_branch_solution.toString());
+
+            int solutionScore = getSolutionScore(tmp_branch_solution);
+
+            //Check if this is the best solution so far
+            if(solutionScore > bestScore){
+                bestSolution = tmp_branch_solution.toArray();
+                bestScore = solutionScore;
+            }
 
             bestSolution = tmp_branch_solution.toArray();
         } else {
@@ -410,7 +418,7 @@ public class DancingLinksProblem {
         return smallestColumnObject;
     }
 
-    public int getSolutionScore(int[] solution) {
+    public int getSolutionScore(ArrayList<Integer> solution) {
         int score = 0;
 
         //For every chosen object in the solution
