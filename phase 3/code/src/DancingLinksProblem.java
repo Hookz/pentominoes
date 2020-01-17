@@ -169,29 +169,53 @@ public class DancingLinksProblem {
 //
 //    }
 
-    private void exactCoverUpdated(ArrayList<Integer> sols) {
-        System.out.println(Arrays.toString(sols.toArray()));
+    private void exactCoverUpdated(ArrayList<Integer> tmp_branch_solution) {
+        System.out.println("B");
+        System.out.println(Arrays.toString(tmp_branch_solution.toArray()));
+
+        //If you have a solution (Step 1 of algX)
         if (root.right == root) {
-            System.out.println(sols.toString());
+            System.out.println("C");
+            System.out.println(tmp_branch_solution.toString());
         } else {
+            System.out.println("D");
+            //Chose the next column (deterministically) (Step 2 of AlgX)
             ColumnObject nextColumnObject = getSmallestColumnObject();
+
+            nextColumnObject.unlink();
+
+            //Choose a row r such that Ar,c=1 (Step 3 of AlgX)
             for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down){
-
-                exactCoverUpdated(row,sols);
+                System.out.println("E");
+                exactCoverUpdated(row, tmp_branch_solution, nextColumnObject);
             }
+
+            nextColumnObject.link();
         }
     }
 
-    private void exactCoverUpdated(DataObject focusRow, ArrayList<Integer> sols) {
+    private void exactCoverUpdated(DataObject focusRow, ArrayList<Integer> tmp_branch_solution, ColumnObject nextColumnObject) {
+        System.out.println("A");
+        //Include row r in the partial solution (Step 4 of AlgX)
+        tmp_branch_solution.add(focusRow.inputRow);
 
-        sols.add(focusRow.inputRow);
-        //Cover redundant elements
+        //Unlink row and column (Step 5 of AlgX)
         for (DataObject column = focusRow.right; column != focusRow; column = column.right) {
-            for (DataObject row = column.down; row != column; row = row.down)
-                column.header.unlink();
+            column.header.unlink();
         }
-        exactCoverUpdated(sols);
+
+        exactCoverUpdated(tmp_branch_solution);
+
+        //Undo step (re-link)
+        tmp_branch_solution.remove(tmp_branch_solution.size() - 1);
+
+        nextColumnObject = focusRow.header;
+
+        for (DataObject left = focusRow.left; left != focusRow; left = left.left) {
+            left.header.link();
+        }
     }
+
 
 //        solvePartial(++K,sols);
 //
@@ -400,33 +424,34 @@ public class DancingLinksProblem {
         return score;
     }
 
-    public int[][][] answerToArray() {
-        List<Integer> indexesOfUsedRows = new ArrayList<>();
-
-        for (Object row : bestSolution) {
-            DataObject rowObject = (DataObject) row;
-            int usedRowIndex = rowObject.inputRow;
-            indexesOfUsedRows.add(usedRowIndex);
-        }
-
-        List<boolean[]> inputRows = new ArrayList<>();
-
-        for (int index : indexesOfUsedRows) {
-            boolean[] inputRow = inputMatrix[index];
-            inputRows.add(inputRow);
-        }
-
-        //Start 1D to 3D conversion for UI
-        int[][][] finalUIOutput = new int[Wrapper.CONTAINER_WIDTH / Wrapper.cellSize][Wrapper.CONTAINER_HEIGHT / Wrapper.cellSize][Wrapper.CONTAINER_DEPTH / Wrapper.cellSize];
-
-        //Go trough each shape and add it to the 3D output
-        for (boolean[] shape : inputRows) {
-            int outputHeight = Wrapper.CONTAINER_HEIGHT / Wrapper.cellSize;
-            int outputWidth = Wrapper.CONTAINER_WIDTH / Wrapper.cellSize;
-            int outputDepth = Wrapper.CONTAINER_DEPTH / Wrapper.cellSize;
-
-            int[][][] shapeOutput = new int[outputWidth][outputHeight][outputDepth];
-            boolean[][][] booleanShapeOutput = new boolean[outputWidth][outputHeight][outputDepth];
+    //TODO rewrite
+//    public int[][][] answerToArray() {
+//        List<Integer> indexesOfUsedRows = new ArrayList<>();
+//
+//        for (Object row : bestSolution) {
+//            DataObject rowObject = (DataObject) row;
+//            int usedRowIndex = rowObject.inputRow;
+//            indexesOfUsedRows.add(usedRowIndex);
+//        }
+//
+//        List<boolean[]> inputRows = new ArrayList<>();
+//
+//        for (int index : indexesOfUsedRows) {
+//            boolean[] inputRow = inputMatrix[index];
+//            inputRows.add(inputRow);
+//        }
+//
+//        //Start 1D to 3D conversion for UI
+//        int[][][] finalUIOutput = new int[Wrapper.CONTAINER_WIDTH / Wrapper.cellSize][Wrapper.CONTAINER_HEIGHT / Wrapper.cellSize][Wrapper.CONTAINER_DEPTH / Wrapper.cellSize];
+//
+//        //Go trough each shape and add it to the 3D output
+//        for (boolean[] shape : inputRows) {
+//            int outputHeight = Wrapper.CONTAINER_HEIGHT / Wrapper.cellSize;
+//            int outputWidth = Wrapper.CONTAINER_WIDTH / Wrapper.cellSize;
+//            int outputDepth = Wrapper.CONTAINER_DEPTH / Wrapper.cellSize;
+//
+//            int[][][] shapeOutput = new int[outputWidth][outputHeight][outputDepth];
+//            boolean[][][] booleanShapeOutput = new boolean[outputWidth][outputHeight][outputDepth];
 
             //boolean[][] twoD = new boolean[][];
 
@@ -440,7 +465,7 @@ public class DancingLinksProblem {
 //            }
 
             //TODO convert to int according to type
-        }
+        //}
 
 
 
@@ -465,8 +490,8 @@ public class DancingLinksProblem {
          */
 
 
-        int[][][] stopJava = {{{}}};
-        return stopJava;
-    }
+//        int[][][] stopJava = {{{}}};
+//        return stopJava;
+//    }
 
 }
