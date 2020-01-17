@@ -1,7 +1,7 @@
 public class testX {
     public static void main(String[] args){
         //TODO upgrade to actual data
-        boolean exactCover = true;
+        boolean exactCover = false;
         int maxSeconds = 10;
         int[][] tmpInput;
         int[] rowValues = new int[0];
@@ -11,7 +11,6 @@ public class testX {
         //partial cover
 
         if(exactCover){
-            //exact cover (0, 1, 2, 4)
 
                                 //   A1 B6 C5 D4 E1 F1 G3 H2
             tmpInput = new int[][]{ {0, 0, 0, 0, 1, 1, 0, 0},

@@ -8,7 +8,6 @@
 
 //LOOK AT 4x4.dlx.64x64 (1) FOR AN SUDOKU EXAMPLE (phase 3 -> Research -> this)
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 
@@ -124,8 +123,6 @@ public class DancingLinksProblem {
         this.root = root;
     }
 
-    List<DataObject> tmpSolution = new ArrayList<DataObject>();
-    ArrayList<Integer> tmpSol = new ArrayList<Integer>();
     boolean foundSolution = false;
 
     //TODO update
@@ -137,9 +134,8 @@ public class DancingLinksProblem {
             exactCoverUpdated(new ArrayList<Integer>());
         } else {
             //Remove unfillable positions (mainly useful for testing)
-            //TODO
-//            reduceInput();
-//            solvePartial(K, new ArrayList<Integer>());
+            reduceInput();
+            partialCoverUpdated(new ArrayList<Integer>());
         }
 
         System.out.println("DONE");
@@ -169,29 +165,107 @@ public class DancingLinksProblem {
 //
 //    }
 
-    private void exactCoverUpdated(ArrayList<Integer> tmp_branch_solution) {
-        System.out.println(Arrays.toString(tmp_branch_solution.toArray()));
+//    private void partialCoverUpdated(){
+//        if(nextColumnObject == null){
+//
+//            System.out.println(sols.toString());
+//
+//            Object[] solutionArray = tmpSolution.toArray();
 
-        //If you have a solution (Step 1 of algX)
-        if (root.right == root) {
+//            int solutionScore = getSolutionScore(solutionArray);
+//
+//            //Check if this is the best solution so far
+//            if(solutionScore > bestScore){
+//                bestSolution = tmpSolution.toArray();
+//                bestScore = solutionScore;
+//            }
+//    }
+
+    private void partialCoverUpdated(ArrayList<Integer> tmp_branch_solution) {
+        System.out.println("TMP: " + Arrays.toString(tmp_branch_solution.toArray()));
+
+        //Step one of AlgX isn't used for partialCover
+
+        //Chose the next column (deterministically) (Step 2 of AlgX)
+        ColumnObject nextColumnObject = getSmallestColumnObject();
+
+        if(nextColumnObject == null){
+            System.out.println("LEAF");
             System.out.println(tmp_branch_solution.toString());
 
-            System.out.println("FULLY COVERED");
-            foundSolution = true;
             bestSolution = tmp_branch_solution.toArray();
         } else {
-            //Chose the next column (deterministically) (Step 2 of AlgX)
-            ColumnObject nextColumnObject = getSmallestColumnObject();
-
             nextColumnObject.unlink();
 
             //Choose a row r such that Ar,c=1 (Step 3 of AlgX)
             for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down){
-                System.out.println("E");
-                exactCoverUpdated(row, tmp_branch_solution, nextColumnObject);
+                partialCoverUpdated(row, tmp_branch_solution, nextColumnObject);
             }
 
             nextColumnObject.link();
+        }
+
+    }
+
+    private void partialCoverUpdated(DataObject focusRow, ArrayList<Integer> tmp_branch_solution, ColumnObject nextColumnObject) {
+        //Include row r in the partial solution (Step 4 of AlgX)
+        tmp_branch_solution.add(focusRow.inputRow);
+
+        //Unlink row and column (Step 5 of AlgX)
+        for (DataObject column = focusRow.right; column != focusRow; column = column.right) {
+            column.header.unlink();
+        }
+
+        partialCoverUpdated(tmp_branch_solution);
+
+        //Undo step (re-link)
+        tmp_branch_solution.remove(tmp_branch_solution.size() - 1);
+
+        nextColumnObject = focusRow.header;
+
+        for (DataObject left = focusRow.left; left != focusRow; left = left.left) {
+            left.header.link();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private void exactCoverUpdated(ArrayList<Integer> tmp_branch_solution) {
+        System.out.println(Arrays.toString(tmp_branch_solution.toArray()));
+
+        if(!foundSolution){
+            //If you have a solution (Step 1 of algX)
+            if (root.right == root) {
+                System.out.println(tmp_branch_solution.toString());
+
+                System.out.println("FULLY COVERED");
+                foundSolution = true;
+                bestSolution = tmp_branch_solution.toArray();
+            } else {
+                //Chose the next column (deterministically) (Step 2 of AlgX)
+                ColumnObject nextColumnObject = getSmallestColumnObject();
+
+                nextColumnObject.unlink();
+
+                //Choose a row r such that Ar,c=1 (Step 3 of AlgX)
+                for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down){
+                    System.out.println("E");
+                    exactCoverUpdated(row, tmp_branch_solution, nextColumnObject);
+                }
+
+                nextColumnObject.link();
+            }
         }
     }
 
@@ -217,22 +291,7 @@ public class DancingLinksProblem {
     }
 
 
-//        solvePartial(++K,sols);
-//
-//        //Undo step (re-link)
-//        row = tmpSolution.remove(tmpSolution.size() - 1);
-//        nextColumnObject = row.header;
-//
-//        for (DataObject left = row.left; left != row; left = left.left) {
-//            left.header.link();
-//        }
-//    }
-//
-//    }
 
-//    private void partialRun(int K, ArrayList<Integer> sols){
-//        //System.out.println(K);
-//
 //        //TODO finish pruning
 //        /*
 //        //Prune every x layers
@@ -330,43 +389,6 @@ public class DancingLinksProblem {
 //        }
 //        return;
 //    }
-
-    public void solveExact(int K) {
-        while (!foundSolution) {
-            //Check if you have covered all
-            if (root.right == root) {
-                //SOLVED IT!
-                System.out.println("FULLY COVERED");
-                foundSolution = true;
-                bestSolution = tmpSolution.toArray();
-
-                return;
-            }
-
-            //Get the shape with the least filled cells
-            ColumnObject nextColumnObject = getSmallestColumnObject();
-            nextColumnObject.unlink();
-
-            //Remove covered elements
-            for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down) {
-                tmpSolution.add(row);
-
-                for (DataObject column = row.right; column != row; column = column.right) {
-                    column.header.unlink();
-                }
-
-                solveExact(++K);
-                row = tmpSolution.remove(tmpSolution.size() - 1);
-                nextColumnObject = row.header;
-
-                for (DataObject column = row.left; column != row; column = column.left) {
-                    column.header.link();
-                }
-            }
-
-            nextColumnObject.link();
-        }
-    }
 
     private ColumnObject getSmallestColumnObject() {
         int min = Integer.MAX_VALUE;
