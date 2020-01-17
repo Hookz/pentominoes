@@ -186,7 +186,6 @@ public class DancingLinksProblem {
 
             bestSolution = tmp_branch_solution.toArray();
         } else {
-            //TODO prune
             System.out.println(layer);
 
             //Go down one layer in the search tree
@@ -208,6 +207,7 @@ public class DancingLinksProblem {
                         }
 
                     } else {
+                        System.out.println("Abandon branch");
                         //abandon branch
                         return;
                     }
