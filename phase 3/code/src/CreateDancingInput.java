@@ -105,8 +105,11 @@ public class CreateDancingInput {
 
                     //Stitch the row together
                     for(int x=0; x<width; x++){
+                        System.out.println("z*height+y: " + z*height+y);
+                        System.out.println("z: " + z);
+                        System.out.println("y: " + y);
                         System.out.println("X: " + x);
-                        twoD[z*height+height][x] = placement[z][y][x];
+                        twoD[z*height+y][x] = placement[z][y][x];
                     }
                 }
             }
