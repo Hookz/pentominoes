@@ -73,6 +73,9 @@ public class GreedyAlgorithm {
 
         // Print info
         printInfo();
+
+        // Update the UI
+        FX3D.updateUI();
     }
 
     public static void calcRatio() {
@@ -113,11 +116,19 @@ public class GreedyAlgorithm {
                     for(int y = 0; y < Wrapper.UIInput[0].length; y++) {
                         // For every z-position
                         for(int z = 0; z < Wrapper.UIInput[0][0].length; z++) {
-                            // Create array that holds the current coordinates
-                            int[] coord = {x, y, z};
+                            // Check whether or not the maximum amount of parcels has been reached
+                            if (checkAmount(p)) {
+                                if (p < 2) {
+                                    p++;
+                                }
+                            }
+                            else {
+                                // Create array that holds the current coordinates
+                                int[] coord = {x, y, z};
 
-                            // Check whether or not the current piece can be placed and take the appropriate action
-                            addSolid(fetchArray(p, r), coord, fetchColor(p));
+                                // Check whether or not the current piece can be placed and take the appropriate action
+                                addSolid(fetchArray(p, r), coord, fetchColor(p));
+                            }
                         }
                     }
                 }
@@ -241,6 +252,28 @@ public class GreedyAlgorithm {
 
         DecimalFormat df = new DecimalFormat("#.##");
         System.out.println("- Value of all placed parcels: " + df.format(value));
+    }
+
+    public static boolean checkAmount(int p) {
+        String name = parcelTypes.get(p).getName();
+
+        int placed = 0;
+        int maximum = 0;
+
+        if (name.equals("A")) {
+            placed = placedA;
+            maximum = Wrapper.inputDetails[0].amount;
+        }
+        else if (name.equals("B")) {
+            placed = placedB;
+            maximum = Wrapper.inputDetails[1].amount;
+        }
+        else if (name.equals("C")) {
+            placed = placedC;
+            maximum = Wrapper.inputDetails[2].amount;
+        }
+
+        return placed >= maximum;
     }
 
 }
