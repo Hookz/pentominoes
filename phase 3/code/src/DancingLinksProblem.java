@@ -329,8 +329,6 @@ public class DancingLinksProblem {
         List<boolean[]> inputRows = new ArrayList<>();
         List<Integer> indexesOfUsedRows = new ArrayList<>();
 
-//        bestSolution = Integers 0, 11, 12
-
         for(Object row : bestSolution){
             int rowNumber = (Integer) row;
             indexesOfUsedRows.add(rowNumber);
@@ -341,35 +339,97 @@ public class DancingLinksProblem {
             inputRows.add(inputRow);
         }
 
-
-        //TODO update
-        /*
-
         //Start 1D to 3D conversion for UI
         int[][][] finalUIOutput = new int[Wrapper.CONTAINER_WIDTH / Wrapper.cellSize][Wrapper.CONTAINER_HEIGHT / Wrapper.cellSize][Wrapper.CONTAINER_DEPTH / Wrapper.cellSize];
+        int width = (Wrapper.CONTAINER_DEPTH/Wrapper.cellSize);
+        int height = (Wrapper.CONTAINER_HEIGHT/Wrapper.cellSize);
+        int depth = (Wrapper.CONTAINER_WIDTH/Wrapper.cellSize);
 
         //Go trough each shape and add it to the 3D output
+        //TODO test
         for (boolean[] shape : inputRows) {
-            int outputHeight = Wrapper.CONTAINER_HEIGHT / Wrapper.cellSize;
-            int outputWidth = Wrapper.CONTAINER_WIDTH / Wrapper.cellSize;
-            int outputDepth = Wrapper.CONTAINER_DEPTH / Wrapper.cellSize;
+            int[][][] shapeOutput = new int[depth][height][width];
+            boolean[][][] booleanShapeOutput = new boolean[depth][height][width];
 
-            int[][][] shapeOutput = new int[outputWidth][outputHeight][outputDepth];
-            boolean[][][] booleanShapeOutput = new boolean[outputWidth][outputHeight][outputDepth];
+            boolean[][] twoD = new boolean[height*depth][width];
 
-            boolean[][] twoD = new boolean[][];
+            //Go from 1D to 2D by adding height
+            int xTwoD = 0;
+            int yTwoD = 0;
+            for(int x=0; x<depth*height*width; x++){
+                twoD[yTwoD][xTwoD] = shape[x];
+                xTwoD++;
 
-            //Create the rows
-            for(int i=0; i<outputHeight; i++){
-                boolean[] row = new boolean[outputWidth];
+                if(xTwoD%width==0){
+                    xTwoD = 0;
+                    yTwoD++;
+                }
 
-                for(int j=0; j<outputWidth; j++){
-                    row[j] = inputRows.get(i*j + j);
+            }
+
+            //Go from 2D to 3D by adding depth
+            int xThreeD = 0;
+            int yThreeD = 0;
+            int zThreeD = 0;
+            for(int y=0; y<height*depth; y++){
+
+                if(yThreeD%height==0){
+                    yThreeD = 0;
+                    zThreeD++;
+                }
+
+                for(int x=0; x<width; x++){
+                    booleanShapeOutput[zThreeD][yThreeD][xThreeD] = twoD[y][x];
                 }
             }
 
-            TODO convert to int according to type
-        }*/
+            //Convert to the integer representing the type and add all the shapes to one container
+            //TODO get type
+            int type;
+            for(int z=0; z<depth; z++){
+                for(int y=0; y<height; y++){
+                    for(int x=0; x<width; x++){
+                        if(booleanShapeOutput[z][y][x]){
+                            shapeOutput[z][y][x] = type;
+                        }
+                    }
+                }
+            }
+        }
+
+
+        /*
+        for(int[][][] placement : placements){
+            int[] oneD = new int[width*height*depth];
+            int[][] twoD = new int[height*depth][width];
+
+            //Go from 3D to 2D by removing depth
+            for(int z=0; z<depth; z++){
+                int[][] layer = placement[z];
+
+                //Stitch the rows to the end of the 2D array
+                for(int y=0; y<height; y++){
+
+                    //Stitch the row together
+                    for(int x=0; x<width; x++){
+                        twoD[z*height+y][x] = placement[z][y][x];
+                    }
+                }
+            }
+
+            //Go from 2D to 1D by removing height
+            for(int y=0; y<height*depth; y++){
+                for(int x=0; x<width; x++){
+                    oneD[y*width+x] = twoD[y][x];
+                }
+            }
+
+            //Add this shape to the array of 1D shapes
+            result[placementNumber] = oneD;
+
+            placementNumber++;
+        }
+         */
 
 
 
