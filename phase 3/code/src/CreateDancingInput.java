@@ -57,9 +57,9 @@ public class CreateDancingInput {
                                                 //System.out.println("xContainer:" + xContainer);
                                                 //If this is the x that the shape needs to be placed on
                                                 if(xContainer>=xPlacementStart && xContainer<xPlacementStart+shapeWidth){
-                                                    System.out.println("Z shape:" + shapeZ);
-                                                    System.out.println("Y shape:" + shapeY);
-                                                    System.out.println("X shape:" + shapeX);
+//                                                    System.out.println("Z shape:" + shapeZ);
+//                                                    System.out.println("Y shape:" + shapeY);
+//                                                    System.out.println("X shape:" + shapeX);
                                                     if(shape[shapeZ][shapeY][shapeX] == 1){
                                                         shapeInContainer[zContainer][yContainer][xContainer] = 1;
                                                     }
@@ -86,9 +86,43 @@ public class CreateDancingInput {
     }
 
     public void threeDToOneD(){
-        //TODO
-        int[] oneD = new int[1];
-        int[][] twoD = new int[1][1];
+        //The array that contains all the 1D arrays
+        int[][] result = new int[placements.size()][width*height*depth];
+
+        //For every placement
+        for(int[][][] placement : placements){
+            int[] oneD = new int[width*height*depth];
+            int[][] twoD = new int[height*depth][width];
+
+            //Go from 3D to 2D by removing depth
+            for(int z=0; z<depth; z++){
+                int[][] layer = placement[z];
+                System.out.println("Depth: " + z);
+
+                //Stitch the rows to the end of the 2D array
+                for(int y=0; y<height; y++){
+                    System.out.println("Height: " + y);
+
+                    //Stitch the row together
+                    for(int x=0; x<width; x++){
+                        System.out.println("X: " + x);
+                        twoD[z*height+height][x] = placement[z][y][x];
+                    }
+                }
+            }
+
+            //Go from 2D to 1D by removing height
+            for(int y=0; y<height*depth; y++){
+                for(int x=0; x<width; x++){
+
+                }
+            }
+
+
+        }
+
+
+
 
     }
 
