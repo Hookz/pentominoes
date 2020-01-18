@@ -3,7 +3,8 @@ import java.util.ArrayList;
 public class CreateDancingInput {
     int[][][][] shapes;
     String type; //Parcels or Pentominoes
-    ArrayList<Integer[][][]> placements = new ArrayList<Integer[][][]>();
+    ArrayList<int[][][]> placements = new ArrayList<>();
+    ArrayList<Integer> placementsOneD;
 
     int width = (Wrapper.CONTAINER_DEPTH/Wrapper.cellSize);
     int height = (Wrapper.CONTAINER_HEIGHT/Wrapper.cellSize);
@@ -22,72 +23,53 @@ public class CreateDancingInput {
             int shapeDepth = shape.length;
 
             //For every depth layer
-            for(int z=0; z < depth; z++){
+            for(int zPlacementStart=0; zPlacementStart < depth; zPlacementStart++){
                 //For every y
-                for(int y=0; y < height; y++){
+                for(int yPlacementStart=0; yPlacementStart < height; yPlacementStart++){
                     //For every x
-                    for(int x=0; x < width; x++){
+                    for(int xPlacementStart=0; xPlacementStart < width; xPlacementStart++){
                         //Check if it fits
-                        if(fits(x, y, z, shape)){
+                        if(fits(xPlacementStart, yPlacementStart, zPlacementStart, shape)){
                             int shapeX = 0;
                             int shapeY = 0;
                             int shapeZ = 0;
 
                             //Get shape inside container
-                            Integer[][][] shapeInContainer = new Integer[depth][height][width];
+                            int[][][] shapeInContainer = new int[depth][height][width];
 
                             //Place shape in container
                             for(int zContainer=0; zContainer < depth; zContainer++){
                                 shapeY = 0;
-                                System.out.println("zContainer:" + zContainer);
+                                //System.out.println("zContainer:" + zContainer);
 
                                 //If this is the layer that the shape needs to be placed in
-                                if(z >= zContainer && (z+shapeDepth)<=zContainer){
-                                    System.out.println("Z: " + z);
-                                    System.out.println("zContainer+shape.length: " + zContainer+shape.length);
+                                if(zContainer>=zPlacementStart && zContainer<zPlacementStart+shapeDepth){
+                                    //System.out.println("Z: " + z);
                                     shapeX = 0;
 
                                     for(int yContainer=0; yContainer < height; yContainer++) {
-                                        System.out.println("yContainer:" + yContainer);
+                                        //System.out.println("yContainer:" + yContainer);
 
                                         //If this is the height that the shape needs to be placed on
-                                        if(y >= yContainer && (y+shapeHeight)<=yContainer){
+                                        if(yContainer>=yPlacementStart && yContainer<yPlacementStart+shapeHeight){
                                             for (int xContainer = 0; xContainer < width; xContainer++) {
-                                                System.out.println("xContainer:" + xContainer);
+                                                //System.out.println("xContainer:" + xContainer);
                                                 //If this is the x that the shape needs to be placed on
-                                                if(x >= xContainer && (x+shapeWidth)<=xContainer){
+                                                if(xContainer>=xPlacementStart && xContainer<xPlacementStart+shapeWidth){
                                                     System.out.println("Z shape:" + shapeZ);
                                                     System.out.println("Y shape:" + shapeY);
                                                     System.out.println("X shape:" + shapeX);
                                                     if(shape[shapeZ][shapeY][shapeX] == 1){
                                                         shapeInContainer[zContainer][yContainer][xContainer] = 1;
-                                                    } else {
-                                                        shapeInContainer[zContainer][yContainer][xContainer] = 0;
                                                     }
 
                                                     ++shapeX;
-
-                                                } else {
-                                                    shapeInContainer[zContainer][yContainer][xContainer] = 0;
                                                 }
                                             }
-                                        } else {
-                                            for(int xContainer = 0; x < xContainer; x++){
-                                                shapeInContainer[zContainer][yContainer][xContainer] = 0;
-                                            }
                                         }
+                                        ++shapeY;
                                     }
-
-                                    ++shapeY;
-                                } else {
-                                    for(int yContainer = 0; yContainer < height; yContainer++){
-                                        for(int xContainer = 0; x < width; x++){
-                                            shapeInContainer[zContainer][yContainer][xContainer] = 0;
-                                        }
-                                    }
-
                                 }
-
                                 ++shapeZ;
                             }
 
@@ -98,6 +80,13 @@ public class CreateDancingInput {
                 }
             }
         }
+    }
+
+    public void threeDToOneD(){
+        //TODO
+        int[] oneD = new int[1];
+        int[][] twoD = new int[1][1];
+
     }
 
     public boolean fits(int startX, int startY, int startZ, int[][][] shape){

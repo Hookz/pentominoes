@@ -8,6 +8,7 @@ public class testInput {
 
         CreateDancingInput createDancingInput = new CreateDancingInput("Parcels", input);
         createDancingInput.createPlacements();
+        createDancingInput.threeDToOneD();
 
     }
 }
