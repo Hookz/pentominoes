@@ -31,10 +31,6 @@ public class DancingLinksProblem {
     int pruneWait = 5;
     float pruneCutoff = .4F;
 
-    //TODO remove after debugging
-    List<Object[]> solutions = new ArrayList<Object[]>();
-    int debug;
-
     public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames, int[] rowValues, boolean exactCover, int maxSeconds, boolean precise) {
         this.inputMatrix = inputMatrix;
         this.rowValues = rowValues;
@@ -186,7 +182,7 @@ public class DancingLinksProblem {
 
             bestSolution = tmp_branch_solution.toArray();
         } else {
-            System.out.println(layer);
+            //System.out.println(layer);
 
             //Go down one layer in the search tree
             layer++;
@@ -267,7 +263,6 @@ public class DancingLinksProblem {
 
                 //Choose a row r such that Ar,c=1 (Step 3 of AlgX)
                 for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down){
-                    System.out.println("E");
                     exactCoverUpdated(row, tmp_branch_solution, nextColumnObject);
                 }
 
@@ -330,47 +325,51 @@ public class DancingLinksProblem {
     }
 
     //TODO rewrite
-//    public int[][][] answerToArray() {
-//        List<Integer> indexesOfUsedRows = new ArrayList<>();
-//
-//        for (Object row : bestSolution) {
-//            DataObject rowObject = (DataObject) row;
-//            int usedRowIndex = rowObject.inputRow;
-//            indexesOfUsedRows.add(usedRowIndex);
-//        }
-//
-//        List<boolean[]> inputRows = new ArrayList<>();
-//
-//        for (int index : indexesOfUsedRows) {
-//            boolean[] inputRow = inputMatrix[index];
-//            inputRows.add(inputRow);
-//        }
-//
-//        //Start 1D to 3D conversion for UI
-//        int[][][] finalUIOutput = new int[Wrapper.CONTAINER_WIDTH / Wrapper.cellSize][Wrapper.CONTAINER_HEIGHT / Wrapper.cellSize][Wrapper.CONTAINER_DEPTH / Wrapper.cellSize];
-//
-//        //Go trough each shape and add it to the 3D output
-//        for (boolean[] shape : inputRows) {
-//            int outputHeight = Wrapper.CONTAINER_HEIGHT / Wrapper.cellSize;
-//            int outputWidth = Wrapper.CONTAINER_WIDTH / Wrapper.cellSize;
-//            int outputDepth = Wrapper.CONTAINER_DEPTH / Wrapper.cellSize;
-//
-//            int[][][] shapeOutput = new int[outputWidth][outputHeight][outputDepth];
-//            boolean[][][] booleanShapeOutput = new boolean[outputWidth][outputHeight][outputDepth];
+    public int[][][] answerToArray() {
+        List<boolean[]> inputRows = new ArrayList<>();
+        List<Integer> indexesOfUsedRows = new ArrayList<>();
 
-            //boolean[][] twoD = new boolean[][];
+//        bestSolution = Integers 0, 11, 12
 
-//            //Create the rows
-//            for(int i=0; i<outputHeight; i++){
-//                boolean[] row = new boolean[outputWidth];
-//
-//                for(int j=0; j<outputWidth; j++){
-//                    row[j] = inputRows.get(i*j + j);
-//                }
-//            }
+        for(Object row : bestSolution){
+            int rowNumber = (Integer) row;
+            indexesOfUsedRows.add(rowNumber);
+        }
 
-            //TODO convert to int according to type
-        //}
+        for (int index : indexesOfUsedRows) {
+            boolean[] inputRow = inputMatrix[index];
+            inputRows.add(inputRow);
+        }
+
+
+        //TODO update
+        /*
+
+        //Start 1D to 3D conversion for UI
+        int[][][] finalUIOutput = new int[Wrapper.CONTAINER_WIDTH / Wrapper.cellSize][Wrapper.CONTAINER_HEIGHT / Wrapper.cellSize][Wrapper.CONTAINER_DEPTH / Wrapper.cellSize];
+
+        //Go trough each shape and add it to the 3D output
+        for (boolean[] shape : inputRows) {
+            int outputHeight = Wrapper.CONTAINER_HEIGHT / Wrapper.cellSize;
+            int outputWidth = Wrapper.CONTAINER_WIDTH / Wrapper.cellSize;
+            int outputDepth = Wrapper.CONTAINER_DEPTH / Wrapper.cellSize;
+
+            int[][][] shapeOutput = new int[outputWidth][outputHeight][outputDepth];
+            boolean[][][] booleanShapeOutput = new boolean[outputWidth][outputHeight][outputDepth];
+
+            boolean[][] twoD = new boolean[][];
+
+            //Create the rows
+            for(int i=0; i<outputHeight; i++){
+                boolean[] row = new boolean[outputWidth];
+
+                for(int j=0; j<outputWidth; j++){
+                    row[j] = inputRows.get(i*j + j);
+                }
+            }
+
+            TODO convert to int according to type
+        }*/
 
 
 
@@ -379,25 +378,15 @@ public class DancingLinksProblem {
         /*
         static int[][][] input = new int[Wrapper.CONTAINER_WIDTH/Wrapper.cellSize][Wrapper.CONTAINER_HEIGHT/Wrapper.cellSize][Wrapper.CONTAINER_DEPTH/Wrapper.cellSize];
 
-        public static void giveInput(){
-
-            for(int x=0; x<input.length; x++){
-                for(int y=0; y<input[x].length; y++){
-                    for(int z=0; z<input[x][y].length; z++){
-                        input[x][y][z] = (int) (Math.random()*4);
-                    }
-                }
-            }
-
             Wrapper.UIInput = input;
             FX3D.updateUI();
         }
          */
 
 
-//        int[][][] stopJava = {{{}}};
-//        return stopJava;
-//    }
+        int[][][] stopJava = {{{}}};
+        return stopJava;
+    }
 
 
     ColumnObject smallestColumn;

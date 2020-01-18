@@ -63,37 +63,6 @@ public class testX {
                                     2,
                                     1,
                                     2};
-
-            //{Type, Size, Score
-            /*String[][] rowDetails = new String[][]{
-
-            }*/
-
-            /*
-             tmpInput = new int[][]{ {1, 0, 0, 0, 1, 1, 0, 0},
-                                    {0, 1, 0, 0, 0, 0, 0, 0},
-                                    {0, 0, 1, 0, 0, 0, 0, 0},
-                                    {0, 0, 0, 1, 0, 0, 0, 0},
-                                    {0, 1, 0, 0, 0, 0, 0, 0},
-                                    {0, 0, 1, 0, 0, 0, 0, 0},
-                                    {0, 1, 1, 1, 0, 0, 0, 0},
-                                    {0, 1, 1, 1, 0, 0, 0, 0},
-                                    {0, 0, 0, 0, 0, 0, 1, 0},
-                                    {0, 1, 0, 0, 0, 0, 0, 0},
-                                    {0, 0, 1, 0, 0, 0, 1, 0},
-                                    {0, 0, 0, 0, 0, 0, 1, 0},
-                                    {0, 1, 1, 1, 0, 0, 0, 0}};
-
-            0, 8, 3, 2, 1
-            =
-            0 1 2 3 8
-
-            {1, 0, 0, 0, 1, 1, 0, 0}
-            {0, 1, 0, 0, 0, 0, 0, 0},
-            {0, 0, 1, 0, 0, 0, 0, 0},
-            {0, 0, 0, 1, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 1, 0},
-             */
         }
 
         boolean[][] inputMatrix = new boolean[tmpInput.length][tmpInput[0].length];
@@ -115,7 +84,7 @@ public class testX {
             System.out.println(dancingLinksProblem.bestScore);
         }
 
-        //dancingLinksProblem.answerToArray();
+        dancingLinksProblem.answerToArray();
 
     }
 }
