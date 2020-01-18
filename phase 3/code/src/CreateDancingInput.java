@@ -39,16 +39,17 @@ public class CreateDancingInput {
 
                             //Place shape in container
                             for(int zContainer=0; zContainer < depth; zContainer++){
-                                shapeY = 0;
                                 //System.out.println("zContainer:" + zContainer);
 
                                 //If this is the layer that the shape needs to be placed in
                                 if(zContainer>=zPlacementStart && zContainer<zPlacementStart+shapeDepth){
                                     //System.out.println("Z: " + z);
-                                    shapeX = 0;
+                                    shapeY = 0;
+
 
                                     for(int yContainer=0; yContainer < height; yContainer++) {
                                         //System.out.println("yContainer:" + yContainer);
+                                        shapeX = 0;
 
                                         //If this is the height that the shape needs to be placed on
                                         if(yContainer>=yPlacementStart && yContainer<yPlacementStart+shapeHeight){
@@ -66,11 +67,13 @@ public class CreateDancingInput {
                                                     ++shapeX;
                                                 }
                                             }
+                                            ++shapeY;
                                         }
-                                        ++shapeY;
+
                                     }
+                                    ++shapeZ;
                                 }
-                                ++shapeZ;
+
                             }
 
                             //Save it
