@@ -90,6 +90,7 @@ public class CreateDancingInput {
         int[][] result = new int[placements.size()][width*height*depth];
 
         //For every placement
+        int placementNumber = 0;
         for(int[][][] placement : placements){
             int[] oneD = new int[width*height*depth];
             int[][] twoD = new int[height*depth][width];
@@ -97,18 +98,12 @@ public class CreateDancingInput {
             //Go from 3D to 2D by removing depth
             for(int z=0; z<depth; z++){
                 int[][] layer = placement[z];
-                System.out.println("Depth: " + z);
 
                 //Stitch the rows to the end of the 2D array
                 for(int y=0; y<height; y++){
-                    System.out.println("Height: " + y);
 
                     //Stitch the row together
                     for(int x=0; x<width; x++){
-                        System.out.println("z*height+y: " + z*height+y);
-                        System.out.println("z: " + z);
-                        System.out.println("y: " + y);
-                        System.out.println("X: " + x);
                         twoD[z*height+y][x] = placement[z][y][x];
                     }
                 }
@@ -117,16 +112,15 @@ public class CreateDancingInput {
             //Go from 2D to 1D by removing height
             for(int y=0; y<height*depth; y++){
                 for(int x=0; x<width; x++){
-
+                    oneD[y*width+x] = twoD[y][x];
                 }
             }
 
+            //Add this shape to the array of 1D shapes
+            result[placementNumber] = oneD;
 
+            placementNumber++;
         }
-
-
-
-
     }
 
     public boolean fits(int startX, int startY, int startZ, int[][][] shape){
