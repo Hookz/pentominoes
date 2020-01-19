@@ -9,11 +9,6 @@ public class Algorithm {
     public static void startAlgorithm(){
         System.out.println("Starting algorithm");
 
-        runAlgorithm();
-    }
-
-    public static void runAlgorithm(){
-
         //Check type of problem
         if(Wrapper.problemType.equals("A")){
             //Use dancing links exact cover with parcels
@@ -38,7 +33,7 @@ public class Algorithm {
             dancingLinksProblem.createDataStructure();
             dancingLinksProblem.solveDriver();
 
-            dancingLinksProblem.answerToArray();
+            dancingLinksProblem.answerToUI();
 
         } else if (Wrapper.problemType.equals("B")){
             //Use dancing links with parcels and scores 3, 4, 5
@@ -63,7 +58,7 @@ public class Algorithm {
             dancingLinksProblem.createDataStructure();
             dancingLinksProblem.solveDriver();
 
-            dancingLinksProblem.answerToArray();
+            dancingLinksProblem.answerToUI();
 
         } else if (Wrapper.problemType.equals("C")){
             //Use dancing links exact cover with pentominoes
@@ -88,7 +83,7 @@ public class Algorithm {
             dancingLinksProblem.createDataStructure();
             dancingLinksProblem.solveDriver();
 
-            dancingLinksProblem.answerToArray();
+            dancingLinksProblem.answerToUI();
 
         } else if (Wrapper.problemType.equals("D")){
             //Use dancing links with pentominoes and scores 3, 4, 5
@@ -113,19 +108,11 @@ public class Algorithm {
             dancingLinksProblem.createDataStructure();
             dancingLinksProblem.solveDriver();
 
-            dancingLinksProblem.answerToArray();
+            dancingLinksProblem.answerToUI();
 
         } else if (Wrapper.problemType.equals("General")){
             //Use greedy
 
         }
-
-        updateUI();
-
     }
-
-    public static void updateUI(){
-        //TODO update UI
-    }
-
 }

@@ -326,10 +326,11 @@ public class DancingLinksProblem {
         return score;
     }
 
-    //TODO rewrite
-    public int[][][] answerToArray() {
-        List<boolean[]> inputRows = new ArrayList<>();
+    public void answerToUI() {
         List<Integer> indexesOfUsedRows = new ArrayList<>();
+
+        List<boolean[]> inputRows = new ArrayList<>();
+        List<Integer> inputTypes = new ArrayList<>();
 
         for(Object row : bestSolution){
             int rowNumber = (Integer) row;
@@ -338,7 +339,10 @@ public class DancingLinksProblem {
 
         for (int index : indexesOfUsedRows) {
             boolean[] inputRow = inputMatrix[index];
+            int inputType = rowTypes[index];
+
             inputRows.add(inputRow);
+            inputTypes.add(inputType);
         }
 
         //Start 1D to 3D conversion for UI
@@ -348,7 +352,7 @@ public class DancingLinksProblem {
         int depth = (Wrapper.CONTAINER_WIDTH/Wrapper.cellSize);
 
         //Go trough each shape and add it to the 3D output
-        //TODO test
+        int shapeNumber = 0;
         for (boolean[] shape : inputRows) {
             int[][][] shapeOutput = new int[depth][height][width];
             boolean[][][] booleanShapeOutput = new boolean[depth][height][width];
@@ -366,7 +370,6 @@ public class DancingLinksProblem {
                     xTwoD = 0;
                     yTwoD++;
                 }
-
             }
 
             //Go from 2D to 3D by adding depth
@@ -386,68 +389,23 @@ public class DancingLinksProblem {
             }
 
             //Convert to the integer representing the type and add all the shapes to one container
-            //TODO get type
-            int type;
+            int type = inputTypes.get(shapeNumber);
             for(int z=0; z<depth; z++){
                 for(int y=0; y<height; y++){
                     for(int x=0; x<width; x++){
                         if(booleanShapeOutput[z][y][x]){
-                            //shapeOutput[z][y][x] = type;
+                            finalUIOutput[z][y][x] = type;
                         }
                     }
                 }
             }
+            shapeNumber++;
+
         }
 
+        Wrapper.UIInput = finalUIOutput;
 
-        /*
-        for(int[][][] placement : placements){
-            int[] oneD = new int[width*height*depth];
-            int[][] twoD = new int[height*depth][width];
-
-            //Go from 3D to 2D by removing depth
-            for(int z=0; z<depth; z++){
-                int[][] layer = placement[z];
-
-                //Stitch the rows to the end of the 2D array
-                for(int y=0; y<height; y++){
-
-                    //Stitch the row together
-                    for(int x=0; x<width; x++){
-                        twoD[z*height+y][x] = placement[z][y][x];
-                    }
-                }
-            }
-
-            //Go from 2D to 1D by removing height
-            for(int y=0; y<height*depth; y++){
-                for(int x=0; x<width; x++){
-                    oneD[y*width+x] = twoD[y][x];
-                }
-            }
-
-            //Add this shape to the array of 1D shapes
-            result[placementNumber] = oneD;
-
-            placementNumber++;
-        }
-         */
-
-
-
-
-
-        /*
-        static int[][][] input = new int[Wrapper.CONTAINER_WIDTH/Wrapper.cellSize][Wrapper.CONTAINER_HEIGHT/Wrapper.cellSize][Wrapper.CONTAINER_DEPTH/Wrapper.cellSize];
-
-            Wrapper.UIInput = input;
-            FX3D.updateUI();
-        }
-         */
-
-
-        int[][][] stopJava = {{{}}};
-        return stopJava;
+        FX3D.updateUI();
     }
 
 
