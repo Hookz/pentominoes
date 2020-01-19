@@ -49,7 +49,6 @@ public class FX3D extends Application {
 
     final static double TWO_D_WIDTH = .25 * SCREEN_WIDTH;
     final static double THREE_D_WIDTH = .75 * SCREEN_WIDTH;
-    public static double[][][] UIInput;
 
     static Stage mainStage;
     static GridPane topGrid;
@@ -630,8 +629,6 @@ public class FX3D extends Application {
                 Algorithm.startAlgorithm();
             }
 
-            //TODO remove after testing
-            //testUI.giveInput();
         });
 
         threeD.setCamera(camera);

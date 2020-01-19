@@ -216,11 +216,7 @@ public class CreateDancingInput {
         }
 
         //check z
-        if(startZ+shapeDepth > depth){
-            return false;
-        }
-
-        return true;
+        return startZ + shapeDepth <= depth;
     }
 
 }

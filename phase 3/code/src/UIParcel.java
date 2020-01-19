@@ -2,10 +2,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 
-/* TODO
-Should there be separate subclasses for parcelA, parcelB and parcelC or should it stay the way it's now?
- */
-
 public class UIParcel extends Box{
     final double xCenter;
     final double yCenter;

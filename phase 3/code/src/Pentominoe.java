@@ -37,7 +37,7 @@ public class Pentominoe{
     }
     
 
-    static int[][] rotateMatrix(int mat[][]) {
+    static int[][] rotateMatrix(int[][] mat) {
         int N = mat.length;
         int[][] s = new int[mat.length][];
         // Consider all squares one by one
