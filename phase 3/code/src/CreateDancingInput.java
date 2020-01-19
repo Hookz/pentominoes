@@ -4,7 +4,8 @@ public class CreateDancingInput {
     boolean[][][][][] shapes;
     String type; //Parcels or Pentominoes
 
-    ArrayList<int[][][]> placements = new ArrayList<>();
+    ArrayList<boolean[][][]> placements = new ArrayList<>();
+    boolean[][] inputMatrix;
     float[] rowValues;
     int[] rowType;
 
@@ -101,7 +102,7 @@ public class CreateDancingInput {
                                 int shapeZ = 0;
 
                                 //Get shape inside container
-                                int[][][] shapeInContainer = new int[depth][height][width];
+                                boolean[][][] shapeInContainer = new boolean[depth][height][width];
 
                                 //Place shape in container
                                 for(int zContainer=0; zContainer < depth; zContainer++){
@@ -127,7 +128,7 @@ public class CreateDancingInput {
 //                                                    System.out.println("Y shape:" + shapeY);
 //                                                    System.out.println("X shape:" + shapeX);
                                                         if(shape[shapeZ][shapeY][shapeX]){
-                                                            shapeInContainer[zContainer][yContainer][xContainer] = 1;
+                                                            shapeInContainer[zContainer][yContainer][xContainer] = true;
                                                         }
 
                                                         ++shapeX;
@@ -154,17 +155,17 @@ public class CreateDancingInput {
 
     public void threeDToOneD(){
         //The array that contains all the 1D arrays
-        int[][] result = new int[placements.size()][width*height*depth];
+        boolean[][] result = new boolean[placements.size()][width*height*depth];
 
         //For every placement
         int placementNumber = 0;
-        for(int[][][] placement : placements){
-            int[] oneD = new int[width*height*depth];
-            int[][] twoD = new int[height*depth][width];
+        for(boolean[][][] placement : placements){
+            boolean[] oneD = new boolean[width*height*depth];
+            boolean[][] twoD = new boolean[height*depth][width];
 
             //Go from 3D to 2D by removing depth
             for(int z=0; z<depth; z++){
-                int[][] layer = placement[z];
+                boolean[][] layer = placement[z];
 
                 //Stitch the rows to the end of the 2D array
                 for(int y=0; y<height; y++){
@@ -188,6 +189,8 @@ public class CreateDancingInput {
 
             placementNumber++;
         }
+
+        inputMatrix = result;
     }
 
     public boolean fits(int startX, int startY, int startZ, boolean[][][] shape){

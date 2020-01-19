@@ -22,7 +22,7 @@ public class Algorithm {
             createDancingInput.createPlacements();
             createDancingInput.threeDToOneD();
 
-            boolean[][] inputMatrix = createDancingInput.placements;
+            boolean[][] inputMatrix = createDancingInput.inputMatrix;
 
             String[] headerNames = new String[inputMatrix.length];
             for(int i=0; i<inputMatrix.length; i++){
