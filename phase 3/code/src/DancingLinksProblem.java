@@ -182,7 +182,6 @@ public class DancingLinksProblem {
                 bestScore = solutionScore;
             }
 
-            bestSolution = tmp_branch_solution.toArray();
         } else {
             //System.out.println(layer);
 
@@ -201,8 +200,10 @@ public class DancingLinksProblem {
                         if(solutionScore > pruneCutoff * maxValuePerLayer.get(layer%pruneWait)){
                             //continue branch
                             if(solutionScore > maxValuePerLayer.get(layer%pruneWait)){
-                                //update highscore
+                                //update highscore and bestSolution
                                 maxValuePerLayer.set(layer%pruneWait, solutionScore);
+                                bestSolution = tmp_branch_solution.toArray();
+                                bestScore = solutionScore;
                             }
 
                         } else {

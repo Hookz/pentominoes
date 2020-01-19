@@ -675,6 +675,9 @@ public class FX3D extends Application {
 
         layerLabel.setVisible(true);
         layerSlider.setVisible(true);
+
+        //Update score
+        scoringLabel.setText(String.valueOf(Wrapper.score));
     }
 
     static void updateUIElements(Stage stage){

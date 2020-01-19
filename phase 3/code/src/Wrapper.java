@@ -13,5 +13,6 @@ public class Wrapper {
 
     static int[][][] UIInput = new int[CONTAINER_WIDTH/cellSize][CONTAINER_HEIGHT/cellSize][CONTAINER_DEPTH/cellSize];
 
-    static boolean precise = true;
+    static boolean precise = false;
+    static int maxTime = 60;
 }
