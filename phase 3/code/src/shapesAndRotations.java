@@ -1,159 +1,115 @@
 public class ShapesAndRotations {
 
-    public static int[][][][] getL(){
-        int[][][][] LInt =
+    public static boolean[][][][] getL(){
+        boolean[][][][] LInt =
 
-                {{{{1}, {1}, {1}, {1}}, {{1}, {0}, {0}, {0}}},
-                {{{1, 1, 1, 1}}, {{1, 0, 0, 0}}},
-                {{{1}, {1}, {1}, {1}}, {{0}, {0}, {0}, {1}}},
-                {{{1, 1, 1, 1}}, {{0, 0, 0, 1}}},
-                {{{1}, {0}, {0}, {0}}, {{1}, {1}, {1}, {1}}},
-                {{{1, 0, 0, 0}}, {{1, 1, 1, 1}}},
-                {{{0}, {0}, {0}, {1}}, {{1}, {1}, {1}, {1}}},
-                {{{0, 0, 0, 1}}, {{1, 1, 1, 1}}},
-                {{{1, 1}, {1, 0}, {1, 0}, {1, 0}}},
-                {{{1, 0, 0, 0}, {1, 1, 1, 1}}},
-                {{{0, 1}, {0, 1}, {0, 1}, {1, 1}}},
-                {{{1, 1, 1, 1}, {0, 0, 0, 1}}},
-                {{{1, 1}, {0, 1}, {0, 1}, {0, 1}}},
-                {{{1, 1, 1, 1}, {1, 0, 0, 0}}},
-                {{{1, 0}, {1, 0}, {1, 0}, {1, 1}}},
-                {{{0, 0, 0, 1}, {1, 1, 1, 1}}},
-                {{{1}, {0}}, {{1}, {0}}, {{1}, {0}}, {{1}, {1}}},
-                {{{1, 0}}, {{1, 0}}, {{1, 0}}, {{1, 1}}},
-                {{{0}, {1}}, {{0}, {1}}, {{0}, {1}}, {{1}, {1}}},
-                {{{0, 1}}, {{0, 1}}, {{0, 1}}, {{1, 1}}},
-                {{{1}, {1}}, {{1}, {0}}, {{1}, {0}}, {{1}, {0}}},
-                {{{1, 1}}, {{1, 0}}, {{1, 0}}, {{1, 0}}},
-                {{{1}, {1}}, {{0}, {1}}, {{0}, {1}}, {{0}, {1}}},
-                {{{1, 1}}, {{0, 1}}, {{0, 1}}, {{0, 1}}}};
+                {{{{true}, {true}, {true}, {true}}, {{true}, {false}, {false}, {false}}},
+                {{{true, true, true, true}}, {{true, false, false, false}}},
+                {{{true}, {true}, {true}, {true}}, {{false}, {false}, {false}, {true}}},
+                {{{true, true, true, true}}, {{false, false, false, true}}},
+                {{{true}, {false}, {false}, {false}}, {{true}, {true}, {true}, {true}}},
+                {{{true, false, false, false}}, {{true, true, true, true}}},
+                {{{false}, {false}, {false}, {true}}, {{true}, {true}, {true}, {true}}},
+                {{{false, false, false, true}}, {{true, true, true, true}}},
+                {{{true, true}, {true, false}, {true, false}, {true, false}}},
+                {{{true, false, false, false}, {true, true, true, true}}},
+                {{{false, true}, {false, true}, {false, true}, {true, true}}},
+                {{{true, true, true, true}, {false, false, false, true}}},
+                {{{true, true}, {false, true}, {false, true}, {false, true}}},
+                {{{true, true, true, true}, {true, false, false, false}}},
+                {{{true, false}, {true, false}, {true, false}, {true, true}}},
+                {{{false, false, false, true}, {true, true, true, true}}},
+                {{{true}, {false}}, {{true}, {false}}, {{true}, {false}}, {{true}, {true}}},
+                {{{true, false}}, {{true, false}}, {{true, false}}, {{true, true}}},
+                {{{false}, {true}}, {{false}, {true}}, {{false}, {true}}, {{true}, {true}}},
+                {{{false, true}}, {{false, true}}, {{false, true}}, {{true, true}}},
+                {{{true}, {true}}, {{true}, {false}}, {{true}, {false}}, {{true}, {false}}},
+                {{{true, true}}, {{true, false}}, {{true, false}}, {{true, false}}},
+                {{{true}, {true}}, {{false}, {true}}, {{false}, {true}}, {{false}, {true}}},
+                {{{true, true}}, {{false, true}}, {{false, true}}, {{false, true}}}};
 
         return LInt;
     }
 
-    public static int[][][][] getP(){
-        int[][][][] PInt =
+    public static boolean[][][][] getP(){
+        boolean[][][][] PInt =
 
-                {{{{2, 2}, {2, 2}, {2, 0}}},
-                {{{2, 2, 0}, {2, 2, 2}}},
-                {{{0, 2}, {2, 2}, {2, 2}}},
-                {{{2, 2, 2}, {0, 2, 2}}},
-                {{{2, 2}, {2, 2}, {0, 2}}},
-                {{{2, 2, 2}, {2, 2, 0}}},
-                {{{2, 0}, {2, 2}, {2, 2}}},
-                {{{0, 2, 2}, {2, 2, 2}}},
-                {{{2}, {2}, {0}}, {{2}, {2}, {2}}},
-                {{{2, 2, 0}}, {{2, 2, 2}}},
-                {{{0}, {2}, {2}}, {{2}, {2}, {2}}},
-                {{{0, 2, 2}}, {{2, 2, 2}}},
-                {{{2}, {2}, {2}}, {{2}, {2}, {0}}},
-                {{{2, 2, 2}}, {{2, 2, 0}}},
-                {{{2}, {2}, {2}}, {{0}, {2}, {2}}},
-                {{{2, 2, 2}}, {{0, 2, 2}}},
-                {{{2}, {0}}, {{2}, {2}}, {{2}, {2}}},
-                {{{2, 0}}, {{2, 2}}, {{2, 2}}},
-                {{{0}, {2}}, {{2}, {2}}, {{2}, {2}}},
-                {{{0, 2}}, {{2, 2}}, {{2, 2}}},
-                {{{2}, {2}}, {{2}, {2}}, {{0}, {2}}},
-                {{{2, 2}}, {{2, 2}}, {{0, 2}}},
-                {{{2}, {2}}, {{2}, {2}}, {{2}, {0}}},
-                {{{2, 2}}, {{2, 2}}, {{2, 0}}}};
+                {{{{true, true}, {true, true}, {true, false}}},
+                {{{true, true, false}, {true, true, true}}},
+                {{{false, true}, {true, true}, {true, true}}},
+                {{{true, true, true}, {false, true, true}}},
+                {{{true, true}, {true, true}, {false, true}}},
+                {{{true, true, true}, {true, true, false}}},
+                {{{true, false}, {true, true}, {true, true}}},
+                {{{false, true, true}, {true, true, true}}},
+                {{{true}, {true}, {false}}, {{true}, {true}, {true}}},
+                {{{true, true, false}}, {{true, true, true}}},
+                {{{false}, {true}, {true}}, {{true}, {true}, {true}}},
+                {{{false, true, true}}, {{true, true, true}}},
+                {{{true}, {true}, {true}}, {{true}, {true}, {false}}},
+                {{{true, true, true}}, {{true, true, false}}},
+                {{{true}, {true}, {true}}, {{false}, {true}, {true}}},
+                {{{true, true, true}}, {{false, true, true}}},
+                {{{true}, {false}}, {{true}, {true}}, {{true}, {true}}},
+                {{{true, false}}, {{true, true}}, {{true, true}}},
+                {{{false}, {true}}, {{true}, {true}}, {{true}, {true}}},
+                {{{false, true}}, {{true, true}}, {{true, true}}},
+                {{{true}, {true}}, {{true}, {true}}, {{false}, {true}}},
+                {{{true, true}}, {{true, true}}, {{false, true}}},
+                {{{true}, {true}}, {{true}, {true}}, {{true}, {false}}},
+                {{{true, true}}, {{true, true}}, {{true, false}}}};
 
         return PInt;
     }
 
-    public static int[][][][] getT(){
-        int[][][][] TInt =
+    public static boolean[][][][] getT(){
+        boolean[][][][] TInt =
 
-            {{{{3, 3, 3}, {0, 3, 0}, {0, 3, 0}}},
-            {{{3, 0, 0}, {3, 3, 3}, {3, 0, 0}}},
-            {{{0, 3, 0}, {0, 3, 0}, {3, 3, 3}}},
-            {{{0, 0, 3}, {3, 3, 3}, {0, 0, 3}}},
-            {{{3}, {0}, {0}}, {{3}, {3}, {3}}, {{3}, {0}, {0}}},
-            {{{3, 0, 0}}, {{3, 3, 3}}, {{3, 0, 0}}},
-            {{{0}, {0}, {3}}, {{3}, {3}, {3}}, {{0}, {0}, {3}}},
-            {{{0, 0, 3}}, {{3, 3, 3}}, {{0, 0, 3}}},
-            {{{0}, {3}, {0}}, {{0}, {3}, {0}}, {{3}, {3}, {3}}},
-            {{{0, 3, 0}}, {{0, 3, 0}}, {{3, 3, 3}}},
-            {{{3}, {3}, {3}}, {{0}, {3}, {0}}, {{0}, {3}, {0}}},
-            {{{3, 3, 3}}, {{0, 3, 0}}, {{0, 3, 0}}}};
+            {{{{true, true, true}, {false, true, false}, {false, true, false}}},
+            {{{true, false, false}, {true, true, true}, {true, false, false}}},
+            {{{false, true, false}, {false, true, false}, {true, true, true}}},
+            {{{false, false, true}, {true, true, true}, {false, false, true}}},
+            {{{true}, {false}, {false}}, {{true}, {true}, {true}}, {{true}, {false}, {false}}},
+            {{{true, false, false}}, {{true, true, true}}, {{true, false, false}}},
+            {{{false}, {false}, {true}}, {{true}, {true}, {true}}, {{false}, {false}, {true}}},
+            {{{false, false, true}}, {{true, true, true}}, {{false, false, true}}},
+            {{{false}, {true}, {false}}, {{false}, {true}, {false}}, {{true}, {true}, {true}}},
+            {{{false, true, false}}, {{false, true, false}}, {{true, true, true}}},
+            {{{true}, {true}, {true}}, {{false}, {true}, {false}}, {{false}, {true}, {false}}},
+            {{{true, true, true}}, {{false, true, false}}, {{false, true, false}}}};
 
         return TInt;
     }
 
-    public static int[][][][] getA(){
-        int[][][][] AInt =
+    public static boolean[][][][] getA(){
+        boolean[][][][] AInt =
 
-                {{{{1,1,1,1},{1,1,1,1}},{{1,1,1,1},{1,1,1,1}}},
-                {{{1,1},{1,1},{1,1},{1,1}},{{1,1},{1,1},{1,1},{1,1}}},
-                {{{1,1},{1,1}},{{1,1},{1,1}},{{1,1},{1,1}},{{1,1},{1,1}}}};
+                {{{{true,true,true,true},{true,true,true,true}},{{true,true,true,true},{true,true,true,true}}},
+                {{{true,true},{true,true},{true,true},{true,true}},{{true,true},{true,true},{true,true},{true,true}}},
+                {{{true,true},{true,true}},{{true,true},{true,true}},{{true,true},{true,true}},{{true,true},{true,true}}}};
 
         return AInt;
     }
 
-    public static int[][][][] getB(){
-        int[][][][] BInt =
+    public static boolean[][][][] getB(){
+        boolean[][][][] BInt =
 
-                {{{{2,2,2,2},{2,2,2,2},{2,2,2,2}},{{2,2,2,2},{2,2,2,2},{2,2,2,2}}},
-                {{{2,2,2},{2,2,2},{2,2,2},{2,2,2}},{{2,2,2},{2,2,2},{2,2,2},{2,2,2}}},
-                {{{2,2},{2,2},{2,2}},{{2,2},{2,2},{2,2}},{{2,2},{2,2},{2,2}},{{2,2},{2,2},{2,2}}},
-                {{{2,2,2,2},{2,2,2,2}},{{2,2,2,2},{2,2,2,2}},{{2,2,2,2},{2,2,2,2}}},
-                {{{2,2,2},{2,2,2}},{{2,2,2},{2,2,2}},{{2,2,2},{2,2,2}},{{2,2,2},{2,2,2}}},
-                {{{2,2},{2,2},{2,2},{2,2}},{{2,2},{2,2},{2,2},{2,2}},{{2,2},{2,2},{2,2},{2,2}}}};
+                {{{{true,true,true,true},{true,true,true,true},{true,true,true,true}},{{true,true,true,true},{true,true,true,true},{true,true,true,true}}},
+                {{{true,true,true},{true,true,true},{true,true,true},{true,true,true}},{{true,true,true},{true,true,true},{true,true,true},{true,true,true}}},
+                {{{true,true},{true,true},{true,true}},{{true,true},{true,true},{true,true}},{{true,true},{true,true},{true,true}},{{true,true},{true,true},{true,true}}},
+                {{{true,true,true,true},{true,true,true,true}},{{true,true,true,true},{true,true,true,true}},{{true,true,true,true},{true,true,true,true}}},
+                {{{true,true,true},{true,true,true}},{{true,true,true},{true,true,true}},{{true,true,true},{true,true,true}},{{true,true,true},{true,true,true}}},
+                {{{true,true},{true,true},{true,true},{true,true}},{{true,true},{true,true},{true,true},{true,true}},{{true,true},{true,true},{true,true},{true,true}}}};
 
         return BInt;
     }
 
-    public static int[][][][] getC(){
-        int[][][][] CInt =
+    public static boolean[][][][] getC(){
+        boolean[][][][] CInt =
 
-                {{{{3,3,3},{3,3,3},{3,3,3}},{{3,3,3},{3,3,3},{3,3,3}},{{3,3,3},{3,3,3},{3,3,3}}}};
+                {{{{true,true,true},{true,true,true},{true,true,true}},{{true,true,true},{true,true,true},{true,true,true}},{{true,true,true},{true,true,true},{true,true,true}}}};
 
         return CInt;
-    }
-
-    public static boolean[][][][] getTBoolean(){
-        return getBoolean(getT());
-    }
-
-    public static boolean[][][][] getPBoolean(){
-        return getBoolean(getP());
-    }
-
-    public static boolean[][][][] getLBoolean(){
-        return getBoolean(getL());
-    }
-
-    public static boolean[][][][] getABoolean(){
-        return getBoolean(getA());
-    }
-
-    public static boolean[][][][] getBBoolean(){
-        return getBoolean(getB());
-    }
-
-    public static boolean[][][][] getCBoolean(){
-        return getBoolean(getC());
-    }
-
-    public static boolean[][][][] getBoolean(int[][][][] type){
-        boolean[][][][] Boolean = new boolean[type.length][type[0].length][type[0][0].length][type[0][0][0].length];
-
-        for(int shape=0; shape<type.length; shape++){
-            for(int z=0; z<type[0].length; z++){
-                for(int y=0; y<type[0][0].length; y++){
-                    for(int x=0; x<type[0][0][0].length; x++){
-                        if(type[shape][z][y][x] > 0){
-                            Boolean[shape][z][y][x] = true;
-                        } else {
-                            Boolean[shape][z][y][x] = false;
-                        }
-                    }
-                }
-            }
-        }
-
-        return Boolean;
     }
 
 }

@@ -19,9 +19,9 @@ public class CreateDancingInput {
     public void selectInput(){
         if(type.equals("Parcels")){
 
-            boolean[][][][] A = ShapesAndRotations.getABoolean();
-            boolean[][][][] B = ShapesAndRotations.getBBoolean();
-            boolean[][][][] C = ShapesAndRotations.getCBoolean();
+            boolean[][][][] A = ShapesAndRotations.getA();
+            boolean[][][][] B = ShapesAndRotations.getB();
+            boolean[][][][] C = ShapesAndRotations.getC();
 
             shapes = new boolean[][][][][]{A, B, C};
             rowValues = new float[A.length+B.length+C.length];
@@ -49,9 +49,9 @@ public class CreateDancingInput {
 
         } else if (type.equals("Pentominoes")){
 
-            boolean[][][][] L = ShapesAndRotations.getLBoolean();
-            boolean[][][][] P = ShapesAndRotations.getPBoolean();
-            boolean[][][][] T = ShapesAndRotations.getTBoolean();
+            boolean[][][][] L = ShapesAndRotations.getL();
+            boolean[][][][] P = ShapesAndRotations.getP();
+            boolean[][][][] T = ShapesAndRotations.getT();
 
             shapes = new boolean[][][][][]{L, P, T};
             rowValues = new float[L.length+P.length+T.length];
