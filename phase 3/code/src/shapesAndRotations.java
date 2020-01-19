@@ -1,6 +1,6 @@
-public class shapesAndRotations {
+public class ShapesAndRotations {
 
-    public int[][][][] getL(){
+    public static int[][][][] getL(){
         int[][][][] LInt =
 
                 {{{{1}, {1}, {1}, {1}}, {{1}, {0}, {0}, {0}}},
@@ -31,7 +31,7 @@ public class shapesAndRotations {
         return LInt;
     }
 
-    public int[][][][] getP(){
+    public static int[][][][] getP(){
         int[][][][] PInt =
 
                 {{{{2, 2}, {2, 2}, {2, 0}}},
@@ -62,7 +62,7 @@ public class shapesAndRotations {
         return PInt;
     }
 
-    public int[][][][] getT(){
+    public static int[][][][] getT(){
         int[][][][] TInt =
 
             {{{{3, 3, 3}, {0, 3, 0}, {0, 3, 0}}},
@@ -81,7 +81,7 @@ public class shapesAndRotations {
         return TInt;
     }
 
-    public int[][][][] getA(){
+    public static int[][][][] getA(){
         int[][][][] AInt =
 
                 {{{{1,1,1,1},{1,1,1,1}},{{1,1,1,1},{1,1,1,1}}},
@@ -91,7 +91,7 @@ public class shapesAndRotations {
         return AInt;
     }
 
-    public int[][][][] getB(){
+    public static int[][][][] getB(){
         int[][][][] BInt =
 
                 {{{{2,2,2,2},{2,2,2,2},{2,2,2,2}},{{2,2,2,2},{2,2,2,2},{2,2,2,2}}},
@@ -104,7 +104,7 @@ public class shapesAndRotations {
         return BInt;
     }
 
-    public int[][][][] getC(){
+    public static int[][][][] getC(){
         int[][][][] CInt =
 
                 {{{{3,3,3},{3,3,3},{3,3,3}},{{3,3,3},{3,3,3},{3,3,3}},{{3,3,3},{3,3,3},{3,3,3}}}};
@@ -112,31 +112,31 @@ public class shapesAndRotations {
         return CInt;
     }
 
-    public boolean[][][][] getTBoolean(){
+    public static boolean[][][][] getTBoolean(){
         return getBoolean(getT());
     }
 
-    public boolean[][][][] getPBoolean(){
+    public static boolean[][][][] getPBoolean(){
         return getBoolean(getP());
     }
 
-    public boolean[][][][] getLBoolean(){
+    public static boolean[][][][] getLBoolean(){
         return getBoolean(getL());
     }
 
-    public boolean[][][][] getABoolean(){
+    public static boolean[][][][] getABoolean(){
         return getBoolean(getA());
     }
 
-    public boolean[][][][] getBBoolean(){
+    public static boolean[][][][] getBBoolean(){
         return getBoolean(getB());
     }
 
-    public boolean[][][][] getCBoolean(){
+    public static boolean[][][][] getCBoolean(){
         return getBoolean(getC());
     }
 
-    public boolean[][][][] getBoolean(int[][][][] type){
+    public static boolean[][][][] getBoolean(int[][][][] type){
         boolean[][][][] Boolean = new boolean[type.length][type[0].length][type[0][0].length][type[0][0][0].length];
 
         for(int shape=0; shape<type.length; shape++){

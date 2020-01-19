@@ -13,9 +13,27 @@ public class Algorithm {
     }
 
     public static void runAlgorithm(){
+
+
+        DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, exactCover, maxSeconds, precise);
+
+        dancingLinksProblem.createDataStructure();
+        dancingLinksProblem.solveDriver();
+
+        dancingLinksProblem.answerToArray();
+
+
         //Check type of problem
         if(Wrapper.problemType.equals("A")){
             //Use dancing links exact cover with parcels
+
+
+            DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, true, 0, false);
+
+            dancingLinksProblem.createDataStructure();
+            dancingLinksProblem.solveDriver();
+
+            dancingLinksProblem.answerToArray();
 
         } else if (Wrapper.problemType.equals("B")){
             //Use dancing links with parcels and scores 3, 4, 5

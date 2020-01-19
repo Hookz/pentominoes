@@ -12,5 +12,4 @@ public class Wrapper {
     static inputDetail[] inputDetails = new inputDetail[3]; //It will have the format [inputDetail1, inputDetail2, inputDetail3] with inputDetail having type, amount and value as fields. To be used for the algorithm
 
     static int[][][] UIInput = new int[CONTAINER_WIDTH/cellSize][CONTAINER_HEIGHT/cellSize][CONTAINER_DEPTH/cellSize];
-
 }
