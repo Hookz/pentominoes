@@ -16,7 +16,7 @@ public class DancingLinksProblem {
     boolean[][] inputMatrix;
     float[] rowValues;
     String[] headerNames;
-    int[] rowTypes;
+    List<Integer> rowTypes;
     boolean exactCover;
     int maxSeconds;
 
@@ -32,7 +32,7 @@ public class DancingLinksProblem {
     int pruneWait = 5;
     float pruneCutoff = .4F;
 
-    public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames, float[] rowValues, int[] rowTypes, boolean exactCover, int maxSeconds, boolean precise) {
+    public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames, float[] rowValues, List<Integer> rowTypes, boolean exactCover, int maxSeconds, boolean precise) {
         this.inputMatrix = inputMatrix;
         this.rowValues = rowValues;
         this.headerNames = headerNames;
@@ -339,7 +339,7 @@ public class DancingLinksProblem {
 
         for (int index : indexesOfUsedRows) {
             boolean[] inputRow = inputMatrix[index];
-            int inputType = rowTypes[index];
+            int inputType = rowTypes.get(index);
 
             inputRows.add(inputRow);
             inputTypes.add(inputType);
@@ -373,9 +373,9 @@ public class DancingLinksProblem {
             }
 
             //Go from 2D to 3D by adding depth
-            int xThreeD = 0;
             int yThreeD = 0;
-            int zThreeD = 0;
+            //Starts at -1 to compensate 0%height being 0 and thus increasing zThreeD by 1 during the if
+            int zThreeD = -1;
             for(int y=0; y<height*depth; y++){
 
                 if(yThreeD%height==0){
@@ -384,8 +384,14 @@ public class DancingLinksProblem {
                 }
 
                 for(int x=0; x<width; x++){
-                    booleanShapeOutput[zThreeD][yThreeD][xThreeD] = twoD[y][x];
+//                    System.out.println("zThreeD: " + zThreeD);
+//                    System.out.println("yThreeD: " + yThreeD);
+//                    System.out.println("x: " + x);
+//                    System.out.println("y: " + y);
+                    booleanShapeOutput[zThreeD][yThreeD][x] = twoD[y][x];
                 }
+
+                yThreeD++;
             }
 
             //Convert to the integer representing the type and add all the shapes to one container
