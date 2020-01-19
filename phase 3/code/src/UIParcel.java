@@ -69,7 +69,6 @@ public class UIParcel extends Box{
         this.setTranslateX(xCenter);
         this.setTranslateY(yCenter);
         this.setTranslateZ(zCenter);
-        //FX3D.createBoxLines(width, height, depth, xStart, yStart, zStart);
 
         item_color = Color.rgb(red, green, blue, 1);
         item_material.setDiffuseColor(item_color);

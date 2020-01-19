@@ -14,8 +14,8 @@ import java.util.*;
 
 public class DancingLinksProblem {
     boolean[][] inputMatrix;
-    float[] rowValues;
     String[] headerNames;
+    List<Float> rowValues;
     List<Integer> rowTypes;
     boolean exactCover;
     int maxSeconds;
@@ -32,10 +32,10 @@ public class DancingLinksProblem {
     int pruneWait = 5;
     float pruneCutoff = .4F;
 
-    public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames, float[] rowValues, List<Integer> rowTypes, boolean exactCover, int maxSeconds, boolean precise) {
+    public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames, List<Float> rowValues, List<Integer> rowTypes, boolean exactCover, int maxSeconds, boolean precise) {
         this.inputMatrix = inputMatrix;
-        this.rowValues = rowValues;
         this.headerNames = headerNames;
+        this.rowValues = rowValues;
         this.rowTypes = rowTypes;
         this.exactCover = exactCover;
         this.maxSeconds = maxSeconds;
@@ -162,7 +162,7 @@ public class DancingLinksProblem {
     }
 
     private void partialCoverUpdated(ArrayList<Integer> tmp_branch_solution, boolean pruning, int layer) {
-        //System.out.println("TMP: " + Arrays.toString(tmp_branch_solution.toArray()));
+        System.out.println("TMP: " + Arrays.toString(tmp_branch_solution.toArray()));
 
         //Step one of AlgX isn't used for partialCover
 
@@ -189,25 +189,27 @@ public class DancingLinksProblem {
             //Go down one layer in the search tree
             layer++;
 
-            //Prune every x layers
-            if(layer%pruneWait == 0){
-                if((layer%pruneWait)>=maxValuePerLayer.size()){
-                    //first time this layer is reached
-                    maxValuePerLayer.add(solutionScore);
-                } else {
-                    //layer already exists
-                    //check if the score is good enough for the given layer
-                    if(solutionScore > pruneCutoff * maxValuePerLayer.get(layer%pruneWait)){
-                        //continue branch
-                        if(solutionScore > maxValuePerLayer.get(layer%pruneWait)){
-                            //update highscore
-                            maxValuePerLayer.set(layer%pruneWait, solutionScore);
-                        }
-
+            if(pruning){
+                //Prune every x layers
+                if(layer%pruneWait == 0){
+                    if((layer%pruneWait)>=maxValuePerLayer.size()){
+                        //first time this layer is reached
+                        maxValuePerLayer.add(solutionScore);
                     } else {
-                        System.out.println("Abandon branch");
-                        //abandon branch
-                        return;
+                        //layer already exists
+                        //check if the score is good enough for the given layer
+                        if(solutionScore > pruneCutoff * maxValuePerLayer.get(layer%pruneWait)){
+                            //continue branch
+                            if(solutionScore > maxValuePerLayer.get(layer%pruneWait)){
+                                //update highscore
+                                maxValuePerLayer.set(layer%pruneWait, solutionScore);
+                            }
+
+                        } else {
+                            System.out.println("Abandon branch");
+                            //abandon branch
+                            return;
+                        }
                     }
                 }
             }
@@ -220,7 +222,6 @@ public class DancingLinksProblem {
             }
 
             nextColumnObject.link();
-
         }
     }
 
@@ -319,7 +320,7 @@ public class DancingLinksProblem {
 
         //For every chosen object in the solution
         for (int rowNumber : solution) {
-            float objectScore = rowValues[rowNumber];
+            float objectScore = rowValues.get(rowNumber);
             score += objectScore;
         }
 

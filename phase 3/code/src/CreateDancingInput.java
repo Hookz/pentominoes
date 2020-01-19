@@ -6,8 +6,9 @@ public class CreateDancingInput {
 
     ArrayList<boolean[][][]> placements = new ArrayList<>();
     ArrayList<Integer> rowTypes = new ArrayList<>();
+    ArrayList<Float> rowValues = new ArrayList<>();
     boolean[][] inputMatrix;
-    float[] rowValues;
+    float[] rowValueHelper;
     int[] rowTypeHelper;
 
     int width = (Wrapper.CONTAINER_DEPTH/Wrapper.cellSize);
@@ -26,16 +27,16 @@ public class CreateDancingInput {
             boolean[][][][] C = ShapesAndRotations.getC();
 
             shapes = new boolean[][][][][]{A, B, C};
-            rowValues = new float[A.length+B.length+C.length];
+            rowValueHelper = new float[A.length+B.length+C.length];
             rowTypeHelper = new int[A.length+B.length+C.length];
 
-            for(int i=0; i<rowValues.length; i++){
+            for(int i=0; i<rowValueHelper.length; i++){
                 if(i<A.length){
-                    rowValues[i] = Wrapper.inputDetails[0].value;
+                    rowValueHelper[i] = Wrapper.inputDetails[0].value;
                 } else if(i<B.length){
-                    rowValues[i] = Wrapper.inputDetails[1].value;
+                    rowValueHelper[i] = Wrapper.inputDetails[1].value;
                 } else if(i<C.length){
-                    rowValues[i] = Wrapper.inputDetails[2].value;
+                    rowValueHelper[i] = Wrapper.inputDetails[2].value;
                 }
             }
 
@@ -56,16 +57,16 @@ public class CreateDancingInput {
             boolean[][][][] T = ShapesAndRotations.getT();
 
             shapes = new boolean[][][][][]{L, P, T};
-            rowValues = new float[L.length+P.length+T.length];
+            rowValueHelper = new float[L.length+P.length+T.length];
             rowTypeHelper = new int[L.length+P.length+T.length];
 
-            for(int i=0; i<rowValues.length; i++){
+            for(int i=0; i<rowValueHelper.length; i++){
                 if(i<L.length){
-                    rowValues[i] = Wrapper.inputDetails[0].value;
+                    rowValueHelper[i] = Wrapper.inputDetails[0].value;
                 } else if(i<P.length){
-                    rowValues[i] = Wrapper.inputDetails[1].value;
+                    rowValueHelper[i] = Wrapper.inputDetails[1].value;
                 } else if(i<T.length){
-                    rowValues[i] = Wrapper.inputDetails[2].value;
+                    rowValueHelper[i] = Wrapper.inputDetails[2].value;
                 }
             }
 
@@ -147,10 +148,12 @@ public class CreateDancingInput {
 
                                 //check the type
                                 int rowType =  rowTypeHelper[shapeNumber];
+                                float rowValue = rowValueHelper[shapeNumber];
 
                                 //Save it
                                 placements.add(shapeInContainer);
                                 rowTypes.add(rowType);
+                                rowValues.add(rowValue);
                             }
                         }
                     }

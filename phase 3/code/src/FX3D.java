@@ -697,14 +697,17 @@ public class FX3D extends Application {
                     if(currentValue!=0){
                         //update color range
                         if(currentValue==1){
+                            //Blue
                             red = 50;
                             green = 180;
                             blue = 165;
                         } else if (currentValue==2){
+                            //Green
                             red = 170;
                             green = 220;
                             blue = 40;
                         } else {
+                            //Red
                             red = 220;
                             green = 50;
                             blue = 40;
