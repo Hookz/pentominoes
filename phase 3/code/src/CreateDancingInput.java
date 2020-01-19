@@ -6,6 +6,7 @@ public class CreateDancingInput {
 
     ArrayList<int[][][]> placements = new ArrayList<>();
     float[] rowValues;
+    int[] rowType;
 
     int width = (Wrapper.CONTAINER_DEPTH/Wrapper.cellSize);
     int height = (Wrapper.CONTAINER_HEIGHT/Wrapper.cellSize);
@@ -24,6 +25,7 @@ public class CreateDancingInput {
 
             shapes = new boolean[][][][][]{A, B, C};
             rowValues = new float[A.length+B.length+C.length];
+            rowType = new int[A.length+B.length+C.length];
 
             for(int i=0; i<rowValues.length; i++){
                 if(i<A.length){
@@ -35,6 +37,16 @@ public class CreateDancingInput {
                 }
             }
 
+            for(int i=0; i<rowType.length; i++){
+                if(i<A.length){
+                    rowType[i] = 1;
+                } else if(i<B.length){
+                    rowType[i] = 2;
+                } else if(i<C.length){
+                    rowType[i] = 3;
+                }
+            }
+
         } else if (type.equals("Pentominoes")){
 
             boolean[][][][] L = ShapesAndRotations.getLBoolean();
@@ -43,6 +55,7 @@ public class CreateDancingInput {
 
             shapes = new boolean[][][][][]{L, P, T};
             rowValues = new float[L.length+P.length+T.length];
+            rowType = new int[A.length+B.length+C.length];
 
             for(int i=0; i<rowValues.length; i++){
                 if(i<L.length){
@@ -51,6 +64,16 @@ public class CreateDancingInput {
                     rowValues[i] = Wrapper.inputDetails[1].value;
                 } else if(i<T.length){
                     rowValues[i] = Wrapper.inputDetails[2].value;
+                }
+            }
+
+            for(int i=0; i<rowType.length; i++){
+                if(i<L.length){
+                    rowType[i] = 1;
+                } else if(i<P.length){
+                    rowType[i] = 2;
+                } else if(i<T.length){
+                    rowType[i] = 3;
                 }
             }
         }

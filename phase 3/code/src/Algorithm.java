@@ -31,7 +31,9 @@ public class Algorithm {
 
             float[] rowValues = createDancingInput.rowValues;
 
-            DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, true, 0, Wrapper.precise);
+            int[] rowTypes = createDancingInput.rowType;
+
+            DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, rowTypes ,true, 0, Wrapper.precise);
 
             dancingLinksProblem.createDataStructure();
             dancingLinksProblem.solveDriver();
@@ -54,7 +56,9 @@ public class Algorithm {
 
             float[] rowValues = createDancingInput.rowValues;
 
-            DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, false, 0, Wrapper.precise);
+            int[] rowTypes = createDancingInput.rowType;
+
+            DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, rowTypes,false, 0, Wrapper.precise);
 
             dancingLinksProblem.createDataStructure();
             dancingLinksProblem.solveDriver();
@@ -77,7 +81,9 @@ public class Algorithm {
 
             float[] rowValues = createDancingInput.rowValues;
 
-            DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, true, 0, Wrapper.precise);
+            int[] rowTypes = createDancingInput.rowType;
+
+            DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, rowTypes, true, 0, Wrapper.precise);
 
             dancingLinksProblem.createDataStructure();
             dancingLinksProblem.solveDriver();
@@ -100,7 +106,9 @@ public class Algorithm {
 
             float[] rowValues = createDancingInput.rowValues;
 
-            DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, false, 0, Wrapper.precise);
+            int[] rowTypes = createDancingInput.rowType;
+
+            DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, rowTypes,false, 0, Wrapper.precise);
 
             dancingLinksProblem.createDataStructure();
             dancingLinksProblem.solveDriver();

@@ -16,6 +16,7 @@ public class DancingLinksProblem {
     boolean[][] inputMatrix;
     float[] rowValues;
     String[] headerNames;
+    int[] rowTypes;
     boolean exactCover;
     int maxSeconds;
 
@@ -31,10 +32,11 @@ public class DancingLinksProblem {
     int pruneWait = 5;
     float pruneCutoff = .4F;
 
-    public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames, float[] rowValues, boolean exactCover, int maxSeconds, boolean precise) {
+    public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames, float[] rowValues, int[] rowTypes, boolean exactCover, int maxSeconds, boolean precise) {
         this.inputMatrix = inputMatrix;
         this.rowValues = rowValues;
         this.headerNames = headerNames;
+        this.rowTypes = rowTypes;
         this.exactCover = exactCover;
         this.maxSeconds = maxSeconds;
         this.precise = precise;
