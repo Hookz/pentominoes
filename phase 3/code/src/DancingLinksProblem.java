@@ -162,7 +162,9 @@ public class DancingLinksProblem {
     }
 
     private void partialCoverUpdated(ArrayList<Integer> tmp_branch_solution, boolean pruning, int layer) {
-        System.out.println("TMP: " + Arrays.toString(tmp_branch_solution.toArray()));
+        if(Wrapper.printState){
+            System.out.println("TMP: " + Arrays.toString(tmp_branch_solution.toArray()));
+        }
 
         //Step one of AlgX isn't used for partialCover
 
@@ -174,7 +176,9 @@ public class DancingLinksProblem {
 
         if(nextColumnObject == null){
             //Found a leaf node
-            System.out.println("LEAF" + tmp_branch_solution.toString());
+            if(Wrapper.printState){
+                System.out.println("LEAF" + tmp_branch_solution.toString());
+            }
 
             //Check if this is the best solution so far
             if(solutionScore > bestScore){
@@ -207,7 +211,10 @@ public class DancingLinksProblem {
                             }
 
                         } else {
-                            System.out.println("Abandon branch");
+                            if(Wrapper.printState){
+                                System.out.println("Abandon branch");
+                            }
+
                             //abandon branch
                             return;
                         }
@@ -249,12 +256,16 @@ public class DancingLinksProblem {
     }
 
     private void exactCoverUpdated(ArrayList<Integer> tmp_branch_solution) {
-        System.out.println(Arrays.toString(tmp_branch_solution.toArray()));
+        if(Wrapper.printState){
+            System.out.println(Arrays.toString(tmp_branch_solution.toArray()));
+        }
 
         if(!foundSolution){
             //If you have a solution (Step 1 of algX)
             if (root.right == root) {
-                System.out.println(tmp_branch_solution.toString());
+                if(Wrapper.printState){
+                    System.out.println(Arrays.toString(tmp_branch_solution.toArray()));
+                }
 
                 System.out.println("FULLY COVERED");
                 foundSolution = true;

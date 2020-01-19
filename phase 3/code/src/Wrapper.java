@@ -15,4 +15,6 @@ public class Wrapper {
 
     static boolean precise = false;
     static int maxTime = 60;
+
+    static boolean printState = true;
 }
