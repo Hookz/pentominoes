@@ -55,7 +55,7 @@ public class CreateDancingInput {
 
             shapes = new boolean[][][][][]{L, P, T};
             rowValues = new float[L.length+P.length+T.length];
-            rowType = new int[A.length+B.length+C.length];
+            rowType = new int[L.length+P.length+T.length];
 
             for(int i=0; i<rowValues.length; i++){
                 if(i<L.length){
