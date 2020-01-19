@@ -452,9 +452,11 @@ public class FX3D extends Application {
                 //set to empty first so there will always be a change
                 shapeSelection.getSelectionModel().select("");
                 shapeSelection.getSelectionModel().select("Parcels");
-                //Remove amount options
+                //Remove options
                 topGrid.getChildren().removeAll(parcelTextAmountLabels);
                 topGrid.getChildren().removeAll(parcelTextAmountFields);
+                topGrid.getChildren().removeAll(parcelTextValueLabels);
+                topGrid.getChildren().removeAll(parcelTextValueFields);
                 shapeSelection.setDisable(true);
 
             } else if(newValue.equals("C")){
@@ -498,9 +500,11 @@ public class FX3D extends Application {
                 //set to empty first so there will always be a change
                 shapeSelection.getSelectionModel().select("");
                 shapeSelection.getSelectionModel().select("Pentominoes");
-                //Remove amount options
+                //Remove options
                 topGrid.getChildren().removeAll(pentominoTextAmountLabels);
                 topGrid.getChildren().removeAll(pentominoTextAmountFields);
+                topGrid.getChildren().removeAll(pentominoTextValueLabels);
+                topGrid.getChildren().removeAll(pentominoTextValueFields);
                 shapeSelection.setDisable(true);
 
             } else if(newValue.equals("General")){
@@ -527,38 +531,29 @@ public class FX3D extends Application {
             Wrapper.problemType = typeSelection.getValue().toString();
 
             //If it's exact cover, there's no need to pass the values
-            if (Wrapper.problemType.equals("A") || Wrapper.problemType.equals("C")){
+            if (Wrapper.problemType.equals("A") || Wrapper.problemType.equals("C") || Wrapper.problemType.equals("B") || Wrapper.problemType.equals("D")){
                 validInput = true;
 
                 if(Wrapper.problemType.equals("A")){
-                    // A
                     inputDetail1 = new InputDetail("A", 0, 1);
-                    // B
                     inputDetail2 = new InputDetail("B", 0, 1);
-                    // C
                     inputDetail3 = new InputDetail("C", 0, 1);
                 } else if(Wrapper.problemType.equals("C")){
-                    // L
                     inputDetail1 = new InputDetail("L", 0, 1);
-                    // P
                     inputDetail2 = new InputDetail("P", 0, 1);
-                    // T
                     inputDetail3 = new InputDetail("T", 0, 1);
+                } else if(Wrapper.problemType.equals("B")) {
+                    inputDetail1 = new InputDetail("A", 0, 3);
+                    inputDetail2 = new InputDetail("B", 0, 4);
+                    inputDetail3 = new InputDetail("C", 0, 5);
+                } else if(Wrapper.problemType.equals("D")) {
+                    inputDetail1 = new InputDetail("L", 0, 3);
+                    inputDetail2 = new InputDetail("P", 0, 4);
+                    inputDetail3 = new InputDetail("T", 0, 5);
                 }
+
 
             } else {
-                //Set amounts to 0 if it's B or D
-                if(Wrapper.problemType.equals("B")){
-                    ParcelAAmountTextField.setText("3");
-                    ParcelBAmountTextField.setText("4");
-                    ParcelCAmountTextField.setText("5");
-                } else if (Wrapper.problemType.equals("D")){
-                    LPentominoAmountTextField.setText("3");
-                    PPentominoAmountTextField.setText("4");
-                    TPentominoAmountTextField.setText("5");
-                }
-
-
                 // Depending on the selected option, instantiate the corresponding inputDetail objects
                 if (Wrapper.inputType.equals("Parcels")) {
                     for(TextField field : parcelTextAmountFields){
@@ -607,6 +602,7 @@ public class FX3D extends Application {
                         inputDetail3 = new InputDetail("T", Integer.parseInt(TPentominoAmountTextField.getText()), Float.parseFloat(TPentominoValueTextField.getText()));
                     }
                 }
+
             }
 
             if(textFieldsFilled){
