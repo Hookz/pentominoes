@@ -390,7 +390,7 @@ public class DancingLinksProblem {
                 for(int y=0; y<height; y++){
                     for(int x=0; x<width; x++){
                         if(booleanShapeOutput[z][y][x]){
-                            shapeOutput[z][y][x] = type;
+                            //shapeOutput[z][y][x] = type;
                         }
                     }
                 }
