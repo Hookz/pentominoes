@@ -155,5 +155,5 @@ public class shapesAndRotations {
 
         return Boolean;
     }
-    
+
 }

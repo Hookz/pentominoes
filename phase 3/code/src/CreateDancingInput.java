@@ -4,7 +4,6 @@ public class CreateDancingInput {
     int[][][][] shapes;
     String type; //Parcels or Pentominoes
     ArrayList<int[][][]> placements = new ArrayList<>();
-    ArrayList<Integer> placementsOneD;
 
     int width = (Wrapper.CONTAINER_DEPTH/Wrapper.cellSize);
     int height = (Wrapper.CONTAINER_HEIGHT/Wrapper.cellSize);

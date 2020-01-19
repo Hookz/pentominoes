@@ -6,19 +6,31 @@ public class Algorithm {
     //times 2 so we can use the .5 values as well, this will be scaled later on
     int[][][] container = new int[Wrapper.CONTAINER_WIDTH*2][Wrapper.CONTAINER_HEIGHT*2][Wrapper.CONTAINER_DEPTH*2];
 
-    public void startAlgorithm(){
+    public static void startAlgorithm(){
         System.out.println("Starting algorithm");
-        //TODO setup algorithm
+
         runAlgorithm();
     }
 
-    public void runAlgorithm(){
-        //TODO run algorithm
+    public static void runAlgorithm(){
+        //Check type of problem
+        if(Wrapper.problemType.equals("A")){
+            //Use dancing links exact cover with parcels
+
+        } else if (Wrapper.problemType.equals("B")){
+            //Use dancing links with parcels and scores 3, 4, 5
+
+        } else if (Wrapper.problemType.equals("C")){
+            //Use dancing links exact cover with pentominoes
+
+        } else if (Wrapper.problemType.equals("D")){
+            //Use dancing links with pentominoes and scores 3, 4, 5
+
+        } else if (Wrapper.problemType.equals("General")){
+            //Use greedy
+
+        }
 
     }
 
-    public void updateUI(){
-        System.out.println("The algorithm is done, the UI will be updated");
-        //TODO update UI
-    }
 }
