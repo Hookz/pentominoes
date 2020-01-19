@@ -121,9 +121,9 @@ public class FX3D extends Application {
     static Label ParcelCValueLabel;
     static TextField ParcelCValueTextField;
 
-    static inputDetail inputDetail1;
-    static inputDetail inputDetail2;
-    static inputDetail inputDetail3;
+    static InputDetail inputDetail1;
+    static InputDetail inputDetail2;
+    static InputDetail inputDetail3;
 
     //Pentominoe selection UI
     static Label LPentominoAmountLabel;
@@ -533,13 +533,13 @@ public class FX3D extends Application {
             } else {
                 //Set amounts to 0 if it's B or D
                 if(Wrapper.problemType.equals("B")){
-                    ParcelAAmountTextField.setText("0");
-                    ParcelBAmountTextField.setText("0");
-                    ParcelCAmountTextField.setText("0");
+                    ParcelAAmountTextField.setText("3");
+                    ParcelBAmountTextField.setText("4");
+                    ParcelCAmountTextField.setText("5");
                 } else if (Wrapper.problemType.equals("D")){
-                    LPentominoAmountTextField.setText("0");
-                    PPentominoAmountTextField.setText("0");
-                    TPentominoAmountTextField.setText("0");
+                    LPentominoAmountTextField.setText("3");
+                    PPentominoAmountTextField.setText("4");
+                    TPentominoAmountTextField.setText("5");
                 }
 
 
@@ -561,11 +561,11 @@ public class FX3D extends Application {
 
                     if(textFieldsFilled){
                         // A
-                        inputDetail1 = new inputDetail("A", Integer.parseInt(ParcelAAmountTextField.getText()), Float.parseFloat(ParcelAValueTextField.getText()));
+                        inputDetail1 = new InputDetail("A", Integer.parseInt(ParcelAAmountTextField.getText()), Float.parseFloat(ParcelAValueTextField.getText()));
                         // B
-                        inputDetail2 = new inputDetail("B", Integer.parseInt(ParcelBAmountTextField.getText()), Float.parseFloat(ParcelBValueTextField.getText()));
+                        inputDetail2 = new InputDetail("B", Integer.parseInt(ParcelBAmountTextField.getText()), Float.parseFloat(ParcelBValueTextField.getText()));
                         // C
-                        inputDetail3 = new inputDetail("C", Integer.parseInt(ParcelCAmountTextField.getText()), Float.parseFloat(ParcelCValueTextField.getText()));
+                        inputDetail3 = new InputDetail("C", Integer.parseInt(ParcelCAmountTextField.getText()), Float.parseFloat(ParcelCValueTextField.getText()));
                     }
                 } else if (Wrapper.inputType.equals("Pentominoes")) {
                     for(TextField field : pentominoTextAmountFields){
@@ -584,11 +584,11 @@ public class FX3D extends Application {
 
                     if(textFieldsFilled){
                         // L
-                        inputDetail1 = new inputDetail("L", Integer.parseInt(LPentominoAmountTextField.getText()), Float.parseFloat(LPentominoValueTextField.getText()));
+                        inputDetail1 = new InputDetail("L", Integer.parseInt(LPentominoAmountTextField.getText()), Float.parseFloat(LPentominoValueTextField.getText()));
                         // P
-                        inputDetail2 = new inputDetail("P", Integer.parseInt(PPentominoAmountTextField.getText()), Float.parseFloat(PPentominoValueTextField.getText()));
+                        inputDetail2 = new InputDetail("P", Integer.parseInt(PPentominoAmountTextField.getText()), Float.parseFloat(PPentominoValueTextField.getText()));
                         // T
-                        inputDetail3 = new inputDetail("T", Integer.parseInt(TPentominoAmountTextField.getText()), Float.parseFloat(TPentominoValueTextField.getText()));
+                        inputDetail3 = new InputDetail("T", Integer.parseInt(TPentominoAmountTextField.getText()), Float.parseFloat(TPentominoValueTextField.getText()));
                     }
                 }
             }

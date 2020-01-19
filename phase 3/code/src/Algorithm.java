@@ -14,21 +14,24 @@ public class Algorithm {
 
     public static void runAlgorithm(){
 
-
-        DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, exactCover, maxSeconds, precise);
-
-        dancingLinksProblem.createDataStructure();
-        dancingLinksProblem.solveDriver();
-
-        dancingLinksProblem.answerToArray();
-
-
         //Check type of problem
         if(Wrapper.problemType.equals("A")){
             //Use dancing links exact cover with parcels
+            CreateDancingInput createDancingInput = new CreateDancingInput("Parcels");
+            createDancingInput.selectInput();
+            createDancingInput.createPlacements();
+            createDancingInput.threeDToOneD();
 
+            boolean[][] inputMatrix = (boolean[][]) createDancingInput.placements.toArray();
 
-            DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, true, 0, false);
+            String[] headerNames = new String[inputMatrix.length];
+            for(int i=0; i<inputMatrix.length; i++){
+                headerNames[i] = Integer.toString(i);
+            }
+
+            float[] rowValues = createDancingInput.rowValues;
+
+            DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, true, 0, Wrapper.precise);
 
             dancingLinksProblem.createDataStructure();
             dancingLinksProblem.solveDriver();
@@ -37,18 +40,84 @@ public class Algorithm {
 
         } else if (Wrapper.problemType.equals("B")){
             //Use dancing links with parcels and scores 3, 4, 5
+            CreateDancingInput createDancingInput = new CreateDancingInput("Parcels");
+            createDancingInput.selectInput();
+            createDancingInput.createPlacements();
+            createDancingInput.threeDToOneD();
+
+            boolean[][] inputMatrix = (boolean[][]) createDancingInput.placements.toArray();
+
+            String[] headerNames = new String[inputMatrix.length];
+            for(int i=0; i<inputMatrix.length; i++){
+                headerNames[i] = Integer.toString(i);
+            }
+
+            float[] rowValues = createDancingInput.rowValues;
+
+            DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, false, 0, Wrapper.precise);
+
+            dancingLinksProblem.createDataStructure();
+            dancingLinksProblem.solveDriver();
+
+            dancingLinksProblem.answerToArray();
 
         } else if (Wrapper.problemType.equals("C")){
             //Use dancing links exact cover with pentominoes
+            CreateDancingInput createDancingInput = new CreateDancingInput("Pentominoes");
+            createDancingInput.selectInput();
+            createDancingInput.createPlacements();
+            createDancingInput.threeDToOneD();
+
+            boolean[][] inputMatrix = (boolean[][]) createDancingInput.placements.toArray();
+
+            String[] headerNames = new String[inputMatrix.length];
+            for(int i=0; i<inputMatrix.length; i++){
+                headerNames[i] = Integer.toString(i);
+            }
+
+            float[] rowValues = createDancingInput.rowValues;
+
+            DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, true, 0, Wrapper.precise);
+
+            dancingLinksProblem.createDataStructure();
+            dancingLinksProblem.solveDriver();
+
+            dancingLinksProblem.answerToArray();
 
         } else if (Wrapper.problemType.equals("D")){
             //Use dancing links with pentominoes and scores 3, 4, 5
+            CreateDancingInput createDancingInput = new CreateDancingInput("Pentominoes");
+            createDancingInput.selectInput();
+            createDancingInput.createPlacements();
+            createDancingInput.threeDToOneD();
+
+            boolean[][] inputMatrix = (boolean[][]) createDancingInput.placements.toArray();
+
+            String[] headerNames = new String[inputMatrix.length];
+            for(int i=0; i<inputMatrix.length; i++){
+                headerNames[i] = Integer.toString(i);
+            }
+
+            float[] rowValues = createDancingInput.rowValues;
+
+            DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, false, 0, Wrapper.precise);
+
+            dancingLinksProblem.createDataStructure();
+            dancingLinksProblem.solveDriver();
+
+            dancingLinksProblem.answerToArray();
 
         } else if (Wrapper.problemType.equals("General")){
             //Use greedy
 
         }
 
+        updateUI();
+
+    }
+
+    public static void updateUI(){
+        //TODO update UI
     }
 
 }

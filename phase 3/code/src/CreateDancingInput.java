@@ -1,42 +1,66 @@
 import java.util.ArrayList;
 
 public class CreateDancingInput {
-    int[][][][][] shapes;
+    boolean[][][][][] shapes;
     String type; //Parcels or Pentominoes
+
     ArrayList<int[][][]> placements = new ArrayList<>();
+    float[] rowValues;
 
     int width = (Wrapper.CONTAINER_DEPTH/Wrapper.cellSize);
     int height = (Wrapper.CONTAINER_HEIGHT/Wrapper.cellSize);
     int depth = (Wrapper.CONTAINER_WIDTH/Wrapper.cellSize);
 
-    public CreateDancingInput(String type, int[][][][] shapes) {
+    public CreateDancingInput(String type) {
         this.type = type;
     }
 
     public void selectInput(){
         if(type.equals("Parcels")){
 
-            int[][][][] A = ShapesAndRotations.getA();
-            int[][][][] B = ShapesAndRotations.getB();
-            int[][][][] C = ShapesAndRotations.getC();
+            boolean[][][][] A = ShapesAndRotations.getABoolean();
+            boolean[][][][] B = ShapesAndRotations.getBBoolean();
+            boolean[][][][] C = ShapesAndRotations.getCBoolean();
 
-            shapes = new int[][][][][]{A, B, C};
+            shapes = new boolean[][][][][]{A, B, C};
+            rowValues = new float[A.length+B.length+C.length];
+
+            for(int i=0; i<rowValues.length; i++){
+                if(i<A.length){
+                    rowValues[i] = Wrapper.inputDetails[0].value;
+                } else if(i<B.length){
+                    rowValues[i] = Wrapper.inputDetails[1].value;
+                } else if(i<C.length){
+                    rowValues[i] = Wrapper.inputDetails[2].value;
+                }
+            }
 
         } else if (type.equals("Pentominoes")){
 
-            int[][][][] L = ShapesAndRotations.getL();
-            int[][][][] P = ShapesAndRotations.getP();
-            int[][][][] T = ShapesAndRotations.getT();
+            boolean[][][][] L = ShapesAndRotations.getLBoolean();
+            boolean[][][][] P = ShapesAndRotations.getPBoolean();
+            boolean[][][][] T = ShapesAndRotations.getTBoolean();
 
-            shapes = new int[][][][][]{L, P, T};
+            shapes = new boolean[][][][][]{L, P, T};
+            rowValues = new float[L.length+P.length+T.length];
+
+            for(int i=0; i<rowValues.length; i++){
+                if(i<L.length){
+                    rowValues[i] = Wrapper.inputDetails[0].value;
+                } else if(i<P.length){
+                    rowValues[i] = Wrapper.inputDetails[1].value;
+                } else if(i<T.length){
+                    rowValues[i] = Wrapper.inputDetails[2].value;
+                }
+            }
         }
     }
 
     public void createPlacements(){
         //For every type of shape
-        for(int[][][][] typeOfShape : shapes){
+        for(boolean[][][][] typeOfShape : shapes){
             //For every shape
-            for(int[][][] shape : typeOfShape){
+            for(boolean[][][] shape : typeOfShape){
                 int shapeWidth = shape[0][0].length;
                 int shapeHeight = shape[0].length;
                 int shapeDepth = shape.length;
@@ -79,7 +103,7 @@ public class CreateDancingInput {
 //                                                    System.out.println("Z shape:" + shapeZ);
 //                                                    System.out.println("Y shape:" + shapeY);
 //                                                    System.out.println("X shape:" + shapeX);
-                                                        if(shape[shapeZ][shapeY][shapeX] == 1){
+                                                        if(shape[shapeZ][shapeY][shapeX]){
                                                             shapeInContainer[zContainer][yContainer][xContainer] = 1;
                                                         }
 
@@ -143,7 +167,7 @@ public class CreateDancingInput {
         }
     }
 
-    public boolean fits(int startX, int startY, int startZ, int[][][] shape){
+    public boolean fits(int startX, int startY, int startZ, boolean[][][] shape){
         int shapeWidth = shape[0][0].length;
         int shapeHeight = shape[0].length;
         int shapeDepth = shape.length;

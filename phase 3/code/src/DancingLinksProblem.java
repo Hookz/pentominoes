@@ -14,7 +14,7 @@ import java.util.*;
 
 public class DancingLinksProblem {
     boolean[][] inputMatrix;
-    int[] rowValues;
+    float[] rowValues;
     String[] headerNames;
     boolean exactCover;
     int maxSeconds;
@@ -31,7 +31,7 @@ public class DancingLinksProblem {
     int pruneWait = 5;
     float pruneCutoff = .4F;
 
-    public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames, int[] rowValues, boolean exactCover, int maxSeconds, boolean precise) {
+    public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames, float[] rowValues, boolean exactCover, int maxSeconds, boolean precise) {
         this.inputMatrix = inputMatrix;
         this.rowValues = rowValues;
         this.headerNames = headerNames;
@@ -317,7 +317,7 @@ public class DancingLinksProblem {
 
         //For every chosen object in the solution
         for (int rowNumber : solution) {
-            int objectScore = rowValues[rowNumber];
+            float objectScore = rowValues[rowNumber];
             score += objectScore;
         }
 
