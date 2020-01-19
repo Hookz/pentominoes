@@ -404,6 +404,7 @@ public class DancingLinksProblem {
         }
 
         Wrapper.UIInput = finalUIOutput;
+        Wrapper.score = bestScore;
 
         FX3D.updateUI();
     }

@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class Algorithm {
     //TODO create the algorithm that actually solves the problem, make a pentomino and parcel option
 
@@ -26,7 +28,7 @@ public class Algorithm {
 
             float[] rowValues = createDancingInput.rowValues;
 
-            int[] rowTypes = createDancingInput.rowType;
+            List<Integer> rowTypes = createDancingInput.rowTypes;
 
             DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, rowTypes ,true, 0, Wrapper.precise);
 
@@ -51,7 +53,7 @@ public class Algorithm {
 
             float[] rowValues = createDancingInput.rowValues;
 
-            int[] rowTypes = createDancingInput.rowType;
+            List<Integer> rowTypes = createDancingInput.rowTypes;
 
             DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, rowTypes,false, 0, Wrapper.precise);
 
@@ -76,7 +78,7 @@ public class Algorithm {
 
             float[] rowValues = createDancingInput.rowValues;
 
-            int[] rowTypes = createDancingInput.rowType;
+            List<Integer> rowTypes = createDancingInput.rowTypes;
 
             DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, rowTypes, true, 0, Wrapper.precise);
 
@@ -101,7 +103,7 @@ public class Algorithm {
 
             float[] rowValues = createDancingInput.rowValues;
 
-            int[] rowTypes = createDancingInput.rowType;
+            List<Integer> rowTypes = createDancingInput.rowTypes;
 
             DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, rowTypes,false, 0, Wrapper.precise);
 
