@@ -47,7 +47,7 @@ public class Algorithm {
             createDancingInput.createPlacements();
             createDancingInput.threeDToOneD();
 
-            boolean[][] inputMatrix = (boolean[][]) createDancingInput.placements.toArray();
+            boolean[][] inputMatrix = createDancingInput.inputMatrix;
 
             String[] headerNames = new String[inputMatrix.length];
             for(int i=0; i<inputMatrix.length; i++){
@@ -72,7 +72,7 @@ public class Algorithm {
             createDancingInput.createPlacements();
             createDancingInput.threeDToOneD();
 
-            boolean[][] inputMatrix = (boolean[][]) createDancingInput.placements.toArray();
+            boolean[][] inputMatrix = createDancingInput.inputMatrix;
 
             String[] headerNames = new String[inputMatrix.length];
             for(int i=0; i<inputMatrix.length; i++){
@@ -97,7 +97,7 @@ public class Algorithm {
             createDancingInput.createPlacements();
             createDancingInput.threeDToOneD();
 
-            boolean[][] inputMatrix = (boolean[][]) createDancingInput.placements.toArray();
+            boolean[][] inputMatrix = createDancingInput.inputMatrix;
 
             String[] headerNames = new String[inputMatrix.length];
             for(int i=0; i<inputMatrix.length; i++){

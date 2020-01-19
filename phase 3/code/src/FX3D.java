@@ -538,7 +538,7 @@ public class FX3D extends Application {
                     inputDetail2 = new InputDetail("B", 0, 1);
                     // C
                     inputDetail3 = new InputDetail("C", 0, 1);
-                } else if(Wrapper.problemType.equals("B")){
+                } else if(Wrapper.problemType.equals("C")){
                     // L
                     inputDetail1 = new InputDetail("L", 0, 1);
                     // P
