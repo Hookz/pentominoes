@@ -530,6 +530,23 @@ public class FX3D extends Application {
             //If it's exact cover, there's no need to pass the values
             if (Wrapper.problemType.equals("A") || Wrapper.problemType.equals("C")){
                 validInput = true;
+
+                if(Wrapper.problemType.equals("A")){
+                    // A
+                    inputDetail1 = new InputDetail("A", 0, 1);
+                    // B
+                    inputDetail2 = new InputDetail("B", 0, 1);
+                    // C
+                    inputDetail3 = new InputDetail("C", 0, 1);
+                } else if(Wrapper.problemType.equals("B")){
+                    // L
+                    inputDetail1 = new InputDetail("L", 0, 1);
+                    // P
+                    inputDetail2 = new InputDetail("P", 0, 1);
+                    // T
+                    inputDetail3 = new InputDetail("T", 0, 1);
+                }
+
             } else {
                 //Set amounts to 0 if it's B or D
                 if(Wrapper.problemType.equals("B")){
@@ -610,13 +627,11 @@ public class FX3D extends Application {
                 // Hide warning
                 visibleWarning = false;
 
-                //TODO start calculations
                 Algorithm.startAlgorithm();
-                //GreedyAlgorithm.runAlgorithm();
             }
 
             //TODO remove after testing
-            testUI.giveInput();
+            //testUI.giveInput();
         });
 
         threeD.setCamera(camera);

@@ -75,16 +75,16 @@ public class testX {
             }
         }
 
-        DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, exactCover, maxSeconds, precise);
-
-        dancingLinksProblem.createDataStructure();
-        dancingLinksProblem.solveDriver();
-
-        if(!exactCover) {
-            System.out.println(dancingLinksProblem.bestScore);
-        }
-
-        dancingLinksProblem.answerToArray();
+//        DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, exactCover, maxSeconds, precise);
+//
+//        dancingLinksProblem.createDataStructure();
+//        dancingLinksProblem.solveDriver();
+//
+//        if(!exactCover) {
+//            System.out.println(dancingLinksProblem.bestScore);
+//        }
+//
+//        dancingLinksProblem.answerToArray();
 
     }
 }

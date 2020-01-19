@@ -6,9 +6,9 @@ public class testInput {
         int[][][] testShape = {{{1, 1, 1}, {0, 1, 0}, {0, 1, 0}}};
         input[0] = testShape;
 
-        CreateDancingInput createDancingInput = new CreateDancingInput("Parcels", input);
-        createDancingInput.createPlacements();
-        createDancingInput.threeDToOneD();
+//        CreateDancingInput createDancingInput = new CreateDancingInput("Parcels", input);
+//        createDancingInput.createPlacements();
+//        createDancingInput.threeDToOneD();
 
     }
 }
