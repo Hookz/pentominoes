@@ -319,7 +319,7 @@ public class FX3D extends Application {
         pentominoTextAmountLabels.add(PPentominoAmountLabel);
         pentominoTextAmountLabels.add(TPentominoAmountLabel);
 
-        topGrid.add(scoringLabel, 2, 0);
+        topGrid.add(scoringLabel, 1, 0);
         topGrid.add(typeSelection, 0, 0);
         topGrid.add(shapeSelection, 0, 1);
         topGrid.add(warningLabel, 1, 1);
