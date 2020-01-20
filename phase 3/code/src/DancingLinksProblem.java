@@ -163,8 +163,10 @@ public class DancingLinksProblem {
     }
 
     private void partialCoverUpdated(ArrayList<Integer> tmp_branch_solution, boolean pruning, int layer) {
+        Object[] tmp_branch_solution_array = tmp_branch_solution.toArray();
+
         if(Wrapper.printState){
-            System.out.println("TMP: " + Arrays.toString(tmp_branch_solution.toArray()));
+            System.out.println("TMP: " + Arrays.toString(tmp_branch_solution_array));
         }
 
         //Step one of AlgX isn't used for partialCover
@@ -172,69 +174,55 @@ public class DancingLinksProblem {
         //Chose the next column (deterministically) (Step 2 of AlgX)
         ColumnObject nextColumnObject = getSmallestColumnObject();
 
-        //How valuable is the partial solution?
+        //How valuable is this solution?
         int solutionScore = getSolutionScore(tmp_branch_solution);
 
-        if(nextColumnObject == null){
-            //Found a leaf node
-            if(Wrapper.printState){
-                System.out.println("LEAF" + tmp_branch_solution.toString());
-            }
+        //If this is the best answer so far, keep better track of it
+        if(solutionScore > bestScore){
+            //update highscore and bestSolution
+            bestSolution = tmp_branch_solution_array;
+            bestScore = solutionScore;
+        }
 
-            //Check if this is the best solution so far
-            if(solutionScore > bestScore){
-                bestSolution = tmp_branch_solution.toArray();
-                bestScore = solutionScore;
-            }
+        //Go down one layer in the search tree
+        layer++;
 
-        } else {
-            //System.out.println(layer);
-
-            //Go down one layer in the search tree
-            layer++;
-
-            if(pruning){
-                //Prune every x layers
-                if(layer%pruneWait == 0 && layer>layerCutoff){
-                    if((layer%pruneWait)>=maxValuePerLayer.size()){
-                        //first time this layer is reached
-                        maxValuePerLayer.add(solutionScore);
-                    } else {
-                        //layer already exists
-                        //check if the score is good enough for the given layer
-                        if(solutionScore > pruneCutoff * maxValuePerLayer.get(layer%pruneWait)){
-                            //continue branch
-                            if(solutionScore > maxValuePerLayer.get(layer%pruneWait)){
-                                //update highscore and bestSolution
-                                maxValuePerLayer.set(layer%pruneWait, solutionScore);
-                                bestSolution = tmp_branch_solution.toArray();
-                                bestScore = solutionScore;
-
-                                //TODO remove
-                                answerToUI();
-                            }
-
-                        } else {
-                            if(Wrapper.printState){
-                                System.out.println("Abandon branch");
-                            }
-
-                            //abandon branch
-                            return;
+        if(pruning){
+            //Prune every x layers
+            if(layer%pruneWait == 0 && layer>layerCutoff){
+                //How valuable is the partial solution?
+                if((layer%pruneWait)>=maxValuePerLayer.size()){
+                    //first time this layer is reached
+                    maxValuePerLayer.add(solutionScore);
+                } else {
+                    //layer already exists
+                    //check if the score is good enough for the given layer
+                    if(solutionScore > pruneCutoff * maxValuePerLayer.get(layer%pruneWait)){
+                        //continue branch
+                        if(solutionScore > maxValuePerLayer.get(layer%pruneWait)){
+                            //update max value of this layer
+                            maxValuePerLayer.set(layer%pruneWait, solutionScore);
                         }
+                    } else {
+                        if(Wrapper.printState){
+                            System.out.println("Abandon branch");
+                        }
+
+                        //abandon branch
+                        return;
                     }
                 }
             }
-
-            nextColumnObject.unlink();
-
-            //Choose a row r such that Ar,c=1 (Step 3 of AlgX)
-            for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down){
-                partialCoverUpdated(row, tmp_branch_solution, nextColumnObject, pruning, layer);
-            }
-
-            nextColumnObject.link();
         }
+
+        nextColumnObject.unlink();
+
+        //Choose a row r such that Ar,c=1 (Step 3 of AlgX)
+        for (DataObject row = nextColumnObject.down; row != nextColumnObject; row = row.down){
+            partialCoverUpdated(row, tmp_branch_solution, nextColumnObject, pruning, layer);
+        }
+
+        nextColumnObject.link();
     }
 
     private void partialCoverUpdated(DataObject focusRow, ArrayList<Integer> tmp_branch_solution, ColumnObject nextColumnObject, boolean pruning, int layer) {
