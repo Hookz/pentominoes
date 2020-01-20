@@ -29,8 +29,9 @@ public class DancingLinksProblem {
     Object[] bestSolution;
     long run = 0;
     List<Integer> maxValuePerLayer = new ArrayList<>();
-    int pruneWait = 5;
-    float pruneCutoff = .4F;
+    int pruneWait = 3;
+    float pruneCutoff = .85F;
+    int layerCutoff = 15;
 
     public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames, List<Float> rowValues, List<Integer> rowTypes, boolean exactCover, int maxSeconds, boolean precise) {
         this.inputMatrix = inputMatrix;
@@ -194,7 +195,7 @@ public class DancingLinksProblem {
 
             if(pruning){
                 //Prune every x layers
-                if(layer%pruneWait == 0){
+                if(layer%pruneWait == 0 && layer>layerCutoff){
                     if((layer%pruneWait)>=maxValuePerLayer.size()){
                         //first time this layer is reached
                         maxValuePerLayer.add(solutionScore);
@@ -208,6 +209,9 @@ public class DancingLinksProblem {
                                 maxValuePerLayer.set(layer%pruneWait, solutionScore);
                                 bestSolution = tmp_branch_solution.toArray();
                                 bestScore = solutionScore;
+
+                                //TODO remove
+                                answerToUI();
                             }
 
                         } else {

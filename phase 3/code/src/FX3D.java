@@ -324,6 +324,8 @@ public class FX3D extends Application {
         topGrid.add(shapeSelection, 0, 1);
         topGrid.add(warningLabel, 1, 1);
         topGrid.add(startButton, 0, 9);
+        topGrid.add(pin, 0, 10);
+        pin.setVisible(false);
         twoDGroup.getChildren().add(topGrid);
         /*END*/
 
