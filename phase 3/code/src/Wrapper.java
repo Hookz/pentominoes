@@ -3,7 +3,9 @@ public class Wrapper {
     final static int CONTAINER_WIDTH = 1650;
     final static int CONTAINER_HEIGHT = 250;
     final static int CONTAINER_DEPTH = 400;
-    
+    final static double ACTUAL_CONTAINER_WIDTH = 16.5;
+    final static double ACTUAL_CONTAINER_HEIGHT = 2.5;
+    final static double ACTUAL_CONTAINER_DEPTH = 4;
     final static int cellSize = 50;
 
     static float score = 0;

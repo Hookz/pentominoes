@@ -149,6 +149,7 @@ public class FX3D extends Application {
     
     //keep track of UIInput during 'layering'
     static int[][][] tmpUIInput = new int[Wrapper.CONTAINER_WIDTH/Wrapper.cellSize][Wrapper.CONTAINER_HEIGHT/Wrapper.cellSize][Wrapper.CONTAINER_DEPTH/Wrapper.cellSize];
+    static int[][][] UIInput = new int[Wrapper.CONTAINER_WIDTH/Wrapper.cellSize][Wrapper.CONTAINER_HEIGHT/Wrapper.cellSize][Wrapper.CONTAINER_DEPTH/Wrapper.cellSize];
 
     public static void main(String[] args){
         launch(args);
@@ -322,6 +323,16 @@ public class FX3D extends Application {
         //Set materials
         container_material.setDiffuseColor(CONTAINER_COLOR);
         edge_material.setDiffuseColor(EDGE_COLOR);
+    }
+
+    public static void clearInput(int[][][]input){
+        for(int x=0; x<input.length; x++) {
+            for (int y = 0; y < input[x].length; y++) {
+                for (int z = 0; z < input[x][y].length; z++) {
+                    input[x][y][z]=0;
+                }
+            }
+        }
     }
 
     public static void setupUIElements(Stage stage){
