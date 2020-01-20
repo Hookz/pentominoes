@@ -12,17 +12,8 @@ public class GreedyAlgorithm {
     static int[][][][] parcelARotations; // Four-dimensional array that holds all possible rotations for parcel type A
     static int[][][][] parcelBRotations; // Four-dimensional array that holds all possible rotations for parcel type B
     static int[][][][] parcelCRotations; // Four-dimensional array that holds all possible rotations for parcel type C
-    static int pieceID;
-    static int placedA;
-    static int placedB;
-    static int placedC;
 
     public static void runAlgorithm() {
-        // Initialize ParcelType objects
-        typeA = new ParcelType("A", 0.0);
-        typeB = new ParcelType("B", 0.0);
-        typeC = new ParcelType("C", 0.0);
-
         // Initialize parcelTypes ArrayList
         parcelTypes = new ArrayList<ParcelType>();
 
@@ -48,11 +39,10 @@ public class GreedyAlgorithm {
                         {{{1,1,1},{1,1,1},{1,1,1}},{{1,1,1},{1,1,1},{1,1,1}},{{1,1,1},{1,1,1},{1,1,1}}}
         };
 
-        // Initialize counters
-        pieceID = 0;
-        placedA = 0;
-        placedB = 0;
-        placedC = 0;
+        // Initialize ParcelType objects
+        typeA = new ParcelType("A", 0.0, 0.0, parcelARotations.length, 1, 0, Integer.parseInt(FX3D.ParcelAAmountTextField.getText()));
+        typeB = new ParcelType("B", 0.0, 0.0, parcelBRotations.length, 2, 0, Integer.parseInt(FX3D.ParcelBAmountTextField.getText()));
+        typeC = new ParcelType("C", 0.0, 0.0, parcelCRotations.length, 3, 0, Integer.parseInt(FX3D.ParcelCAmountTextField.getText()));
 
         // Empty container
         emptyContainer();
@@ -62,11 +52,25 @@ public class GreedyAlgorithm {
         parcelTypes.add(typeB);
         parcelTypes.add(typeC);
 
-        // Calculate the ratios
-        calcRatio();
+        // Check which version to use
+        if (Wrapper.algorithmType.equals("Greedy Algorithm (Value)")) {
+            // Set values
+            typeA.setValue(Wrapper.inputDetails[0].value);
+            typeB.setValue(Wrapper.inputDetails[1].value);
+            typeC.setValue(Wrapper.inputDetails[2].value);
 
-        // Determine the proper order of the parcel types based on decreasing ratio
-        deterOrder();
+            // Determine the proper order of the parcel types based on decreasing value
+            parcelTypes.sort(new ValueSorter());
+        }
+        else if (Wrapper.algorithmType.equals("Greedy Algorithm (Value/Volume)")) {
+            // Set ratios
+            typeA.setRatio(Wrapper.inputDetails[0].value / volumes[0]);
+            typeB.setRatio(Wrapper.inputDetails[1].value / volumes[1]);
+            typeC.setRatio(Wrapper.inputDetails[2].value / volumes[2]);
+
+            // Determine the proper order of the parcel types based on decreasing ratio
+            parcelTypes.sort(new RatioSorter());
+        }
 
         // Fill the container
         fillContainer();
@@ -78,26 +82,15 @@ public class GreedyAlgorithm {
         FX3D.updateUI();
     }
 
-    public static void calcRatio() {
-        // Parcel type A
-        double valueA = Wrapper.inputDetails[0].value;
-        typeA.setRatio(valueA / volumes[0]);
-
-        // Parcel type B
-        double valueB = Wrapper.inputDetails[1].value;
-        typeB.setRatio(valueB / volumes[1]);
-
-        // Parcel type C
-        double valueC = Wrapper.inputDetails[2].value;
-        typeC.setRatio(valueC / volumes[2]);
+    // Comparator for values
+    static class ValueSorter implements Comparator<ParcelType> {
+        @Override
+        public int compare(ParcelType o1, ParcelType o2) {
+            return Double.compare(o2.getValue(), o1.getValue());
+        }
     }
 
-    public static void deterOrder() {
-        // Sort the ParcelType objects based on decreasing ratio
-        parcelTypes.sort(new RatioSorter());
-    }
-
-    // A nested class which acts as a comparator
+    // Comparator for ratios
     static class RatioSorter implements Comparator<ParcelType> {
         @Override
         public int compare(ParcelType o1, ParcelType o2) {
@@ -109,7 +102,7 @@ public class GreedyAlgorithm {
         // For every parcel type
         for(int p = 0; p < parcelTypes.size(); p++) {
             // For every rotation of this parcel type
-            for(int r = 0; r < fetchAmountOfRotations(p); r++) {
+            for(int r = 0; r < parcelTypes.get(p).getRotations(); r++) {
                 // For every x-position
                 for(int x = 0; x < Wrapper.UIInput.length; x++) {
                     // For every y-position
@@ -117,7 +110,7 @@ public class GreedyAlgorithm {
                         // For every z-position
                         for(int z = 0; z < Wrapper.UIInput[0][0].length; z++) {
                             // Check whether or not the maximum amount of parcels has been reached
-                            if (checkAmount(p)) {
+                            if (parcelTypes.get(p).getPlaced() >= parcelTypes.get(p).getMaximum()) {
                                 if (p < 2) {
                                     p++;
                                 }
@@ -126,8 +119,11 @@ public class GreedyAlgorithm {
                                 // Create array that holds the current coordinates
                                 int[] coord = {x, y, z};
 
+                                // Create array that holds current piece index and current rotation index
+                                int[] indexes = {p, r};
+
                                 // Check whether or not the current piece can be placed and take the appropriate action
-                                addSolid(fetchArray(p, r), coord, fetchColor(p));
+                                addSolid(fetchArray(p, r), coord, parcelTypes.get(p).getColor(), indexes);
                             }
                         }
                     }
@@ -159,8 +155,7 @@ public class GreedyAlgorithm {
         return false;
     }
 
-    public static void addSolid(int[][][] solid, int[] coord, int color) { //add the solid to the container at the specified coordinates
-        pieceID++;
+    public static void addSolid(int[][][] solid, int[] coord, int color, int[] indexes) { //add the solid to the container at the specified coordinates
         if (!checkParcel(solid, coord)) {
             for (int i = 0; i < solid.length; i++) {
                 for (int j = 0; j < solid[i].length; j++) {
@@ -171,10 +166,8 @@ public class GreedyAlgorithm {
                     }
                 }
             }
-            addToCounter(color);
-            System.out.println("Item #" + pieceID + " placed");
-        } else {
-            System.out.println("Can't place object #" + pieceID);
+            parcelTypes.get(indexes[0]).setPlaced(parcelTypes.get(indexes[0]).getPlaced() + 1);
+            System.out.println("Parcel #" + (typeA.getPlaced() + typeB.getPlaced() + typeC.getPlaced()) + ": [" + indexes[0] + ", " + indexes[1] + "] placed at (" + coord[0] + ", " + coord[1] + ", " + coord[2] + ")");
         }
     }
 
@@ -193,36 +186,6 @@ public class GreedyAlgorithm {
         return solid;
     }
 
-    public static int fetchAmountOfRotations(int p) {
-        String name = parcelTypes.get(p).getName();
-
-        int amount = 0;
-
-        if (name.equals("A"))
-            amount = parcelARotations.length;
-        else if (name.equals("B"))
-            amount = parcelBRotations.length;
-        else if (name.equals("C"))
-            amount = parcelCRotations.length;
-
-        return amount;
-    }
-
-    public static int fetchColor(int p) {
-        String name = parcelTypes.get(p).getName();
-
-        int color = 0;
-
-        if (name.equals("A"))
-            color = 1;
-        else if (name.equals("B"))
-            color = 2;
-        else if (name.equals("C"))
-            color = 3;
-
-        return color;
-    }
-
     public static void emptyContainer() {
         for(int x = 0; x < Wrapper.UIInput.length; x++) {
             for(int y = 0; y < Wrapper.UIInput[0].length; y++) {
@@ -233,47 +196,18 @@ public class GreedyAlgorithm {
         }
     }
 
-    public static void addToCounter(int c) {
-        if (c == 1)
-            placedA++;
-        else if (c == 2)
-            placedB++;
-        else if (c == 3)
-            placedC++;
-    }
-
     public static void printInfo() {
         System.out.println("---------- Statistics ----------");
-        System.out.println("- Amount of parcels of type A placed: " + placedA);
-        System.out.println("- Amount of parcels of type B placed: " + placedB);
-        System.out.println("- Amount of parcels of type C placed: " + placedC);
+        System.out.println("- Amount of parcels of type A placed: " + typeA.getPlaced());
+        System.out.println("- Amount of parcels of type B placed: " + typeB.getPlaced());
+        System.out.println("- Amount of parcels of type C placed: " + typeC.getPlaced());
 
-        double value = (placedA * Wrapper.inputDetails[0].value) + (placedB * Wrapper.inputDetails[1].value) + (placedC * Wrapper.inputDetails[2].value);
+        float value = (typeA.getPlaced() * Wrapper.inputDetails[0].value) + (typeB.getPlaced() * Wrapper.inputDetails[1].value) + (typeC.getPlaced() * Wrapper.inputDetails[2].value);
+
+        Wrapper.score = value;
 
         DecimalFormat df = new DecimalFormat("#.##");
         System.out.println("- Value of all placed parcels: " + df.format(value));
-    }
-
-    public static boolean checkAmount(int p) {
-        String name = parcelTypes.get(p).getName();
-
-        int placed = 0;
-        int maximum = 0;
-
-        if (name.equals("A")) {
-            placed = placedA;
-            maximum = Wrapper.inputDetails[0].amount;
-        }
-        else if (name.equals("B")) {
-            placed = placedB;
-            maximum = Wrapper.inputDetails[1].amount;
-        }
-        else if (name.equals("C")) {
-            placed = placedC;
-            maximum = Wrapper.inputDetails[2].amount;
-        }
-
-        return placed >= maximum;
     }
 
 }

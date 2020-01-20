@@ -87,6 +87,7 @@ public class FX3D extends Application {
     static Button startButton;
     static ChoiceBox typeSelection;
     static ChoiceBox shapeSelection;
+    static ChoiceBox algorithmSelection;
     static Label layerLabel;
     static Slider layerSlider;
 
@@ -232,6 +233,12 @@ public class FX3D extends Application {
 
         shapeSelection.setValue("");
 
+        algorithmSelection = new ChoiceBox(FXCollections.observableArrayList(
+                "Algorithm X+ (Exact cover)", "Algorithm X+ (Partial cover)", "Genetic Algorithm", "Greedy Algorithm (Value)", "Greedy Algorithm (Value/Volume)"
+        ));
+
+        algorithmSelection.setValue("");
+
         //Parcel selection UI
         ParcelAAmountLabel = new Label("Amount of parcel A: ");
         ParcelAAmountTextField = new TextField();
@@ -314,8 +321,9 @@ public class FX3D extends Application {
         topGrid.add(scoringLabel, 1, 0);
         topGrid.add(typeSelection, 0, 0);
         topGrid.add(shapeSelection, 0, 1);
+        topGrid.add(algorithmSelection, 0, 2);
         topGrid.add(warningLabel, 1, 1);
-        topGrid.add(startButton, 0, 9);
+        topGrid.add(startButton, 0, 10);
         twoDGroup.getChildren().add(topGrid);
         /*END*/
 
@@ -347,25 +355,35 @@ public class FX3D extends Application {
                 }
 
                 //add labels and text fields
-                topGrid.add(ParcelAAmountLabel, 0, 2);
-                topGrid.add(ParcelAAmountTextField, 1, 2);
+                topGrid.add(ParcelAAmountLabel, 0, 3);
+                topGrid.add(ParcelAAmountTextField, 1, 3);
 
-                topGrid.add(ParcelAValueLabel, 0, 3);
-                topGrid.add(ParcelAValueTextField, 1, 3);
-
-
-                topGrid.add(ParcelBAmountLabel, 0, 4);
-                topGrid.add(ParcelBAmountTextField, 1, 4);
-
-                topGrid.add(ParcelBValueLabel, 0, 5);
-                topGrid.add(ParcelBValueTextField, 1, 5);
+                topGrid.add(ParcelAValueLabel, 0, 4);
+                topGrid.add(ParcelAValueTextField, 1, 4);
 
 
-                topGrid.add(ParcelCAmountLabel, 0, 6);
-                topGrid.add(ParcelCAmountTextField, 1, 6);
+                topGrid.add(ParcelBAmountLabel, 0, 5);
+                topGrid.add(ParcelBAmountTextField, 1, 5);
 
-                topGrid.add(ParcelCValueLabel, 0, 7);
-                topGrid.add(ParcelCValueTextField, 1, 7);
+                topGrid.add(ParcelBValueLabel, 0, 6);
+                topGrid.add(ParcelBValueTextField, 1, 6);
+
+
+                topGrid.add(ParcelCAmountLabel, 0, 7);
+                topGrid.add(ParcelCAmountTextField, 1, 7);
+
+                topGrid.add(ParcelCValueLabel, 0, 8);
+                topGrid.add(ParcelCValueTextField, 1, 8);
+
+                topGrid.getChildren().remove(algorithmSelection);
+                topGrid.add(algorithmSelection, 0, 2);
+
+                algorithmSelection.setItems(FXCollections.observableArrayList(
+                        "Genetic Algorithm", "Greedy Algorithm (Value)", "Greedy Algorithm (Value/Volume)"
+                ));
+                algorithmSelection.getSelectionModel().select("Genetic Algorithm");
+                algorithmSelection.setDisable(false);
+
 
             } else if (newValue.equals("Pentominoes")){
                 //remove other option
@@ -374,25 +392,35 @@ public class FX3D extends Application {
                 }
 
                 //add labels and text fields
-                topGrid.add(LPentominoAmountLabel, 0, 2);
-                topGrid.add(LPentominoAmountTextField, 1, 2);
+                topGrid.add(LPentominoAmountLabel, 0, 3);
+                topGrid.add(LPentominoAmountTextField, 1, 3);
 
-                topGrid.add(LPentominoValueLabel, 0, 3);
-                topGrid.add(LPentominoValueTextField, 1, 3);
-
-
-                topGrid.add(PPentominoAmountLabel, 0, 4);
-                topGrid.add(PPentominoAmountTextField, 1, 4);
-
-                topGrid.add(PPentominoValueLabel, 0, 5);
-                topGrid.add(PPentominoValueTextField, 1, 5);
+                topGrid.add(LPentominoValueLabel, 0, 4);
+                topGrid.add(LPentominoValueTextField, 1, 4);
 
 
-                topGrid.add(TPentominoAmountLabel, 0, 6);
-                topGrid.add(TPentominoAmountTextField, 1, 6);
+                topGrid.add(PPentominoAmountLabel, 0, 5);
+                topGrid.add(PPentominoAmountTextField, 1, 5);
 
-                topGrid.add(TPentominoValueLabel, 0, 7);
-                topGrid.add(TPentominoValueTextField, 1, 7);
+                topGrid.add(PPentominoValueLabel, 0, 6);
+                topGrid.add(PPentominoValueTextField, 1, 6);
+
+
+                topGrid.add(TPentominoAmountLabel, 0, 7);
+                topGrid.add(TPentominoAmountTextField, 1, 7);
+
+                topGrid.add(TPentominoValueLabel, 0, 8);
+                topGrid.add(TPentominoValueTextField, 1, 8);
+
+                topGrid.getChildren().remove(algorithmSelection);
+                topGrid.add(algorithmSelection, 0, 2);
+
+                algorithmSelection.setItems(FXCollections.observableArrayList(
+                        "Genetic Algorithm"
+                ));
+                algorithmSelection.getSelectionModel().select("Genetic Algorithm");
+                algorithmSelection.setDisable(true);
+
             } else if (newValue.equals("")){
                 //remove all
                 topGrid.getChildren().removeAll(ParcelAAmountLabel, ParcelBAmountLabel, ParcelCAmountLabel, ParcelAAmountTextField, ParcelBAmountTextField, ParcelCAmountTextField, ParcelAValueLabel, ParcelBValueLabel, ParcelCValueLabel, ParcelAValueTextField, ParcelBValueTextField, ParcelCValueTextField);
@@ -403,109 +431,101 @@ public class FX3D extends Application {
         //Set eventListener for mode selection
         typeSelection.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
             if(newValue.equals("A")){
-
                 //Exact cover for parcels
-                
-                //Remove parcel and pentominoe options
-                for (TextField parcelAmountField : parcelTextAmountFields){
-                    topGrid.getChildren().remove(parcelAmountField);
-                }
-                for (TextField parcelValueField : parcelTextValueFields){
-                    topGrid.getChildren().remove(parcelValueField);
-                }
-
-                for (TextField pentominoeAmountField : pentominoTextAmountFields){
-                    topGrid.getChildren().remove(pentominoeAmountField);
-                }
-                for (TextField pentominoeValueField : pentominoTextValueFields){
-                    topGrid.getChildren().remove(pentominoeValueField);
-                }
-
-                for (Label parcelAmountLabel : parcelTextAmountLabels){
-                    topGrid.getChildren().remove(parcelAmountLabel);
-                }
-                for (Label parcelValueLabel : parcelTextValueLabels){
-                    topGrid.getChildren().remove(parcelValueLabel);
-                }
-
-                for (Label pentominoeAmountLabel : pentominoTextAmountLabels){
-                    topGrid.getChildren().remove(pentominoeAmountLabel);
-                }
-                for (Label pentominoeValueLabel : pentominoTextValueLabels){
-                    topGrid.getChildren().remove(pentominoeValueLabel);
-                }
-
-                topGrid.getChildren().remove(shapeSelection);
-
-            } else if(newValue.equals("B")){
-                //Optimization for parcels
                 topGrid.getChildren().remove(shapeSelection);
                 topGrid.add(shapeSelection, 0, 1);
+                topGrid.getChildren().remove(algorithmSelection);
+                topGrid.add(algorithmSelection, 0, 2);
                 //set to empty first so there will always be a change
                 shapeSelection.getSelectionModel().select("");
                 shapeSelection.getSelectionModel().select("Parcels");
+                algorithmSelection.setItems(FXCollections.observableArrayList(
+                        "Algorithm X+ (Exact cover)"
+                ));
+                algorithmSelection.getSelectionModel().select("Algorithm X+ (Exact cover)");
                 //Remove options
                 topGrid.getChildren().removeAll(parcelTextAmountLabels);
                 topGrid.getChildren().removeAll(parcelTextAmountFields);
                 topGrid.getChildren().removeAll(parcelTextValueLabels);
                 topGrid.getChildren().removeAll(parcelTextValueFields);
                 shapeSelection.setDisable(true);
+                algorithmSelection.setDisable(true);
+
+            } else if(newValue.equals("B")){
+                //Optimization for parcels
+                topGrid.getChildren().remove(shapeSelection);
+                topGrid.add(shapeSelection, 0, 1);
+                topGrid.getChildren().remove(algorithmSelection);
+                topGrid.add(algorithmSelection, 0, 2);
+                //set to empty first so there will always be a change
+                shapeSelection.getSelectionModel().select("");
+                shapeSelection.getSelectionModel().select("Parcels");
+                algorithmSelection.setItems(FXCollections.observableArrayList(
+                        "Algorithm X+ (Partial cover)", "Genetic Algorithm", "Greedy Algorithm (Value)", "Greedy Algorithm (Value/Volume)"
+                ));
+                algorithmSelection.getSelectionModel().select("");
+                algorithmSelection.getSelectionModel().select("Algorithm X+ (Partial cover)");
+                //Remove options
+                topGrid.getChildren().removeAll(parcelTextAmountLabels);
+                topGrid.getChildren().removeAll(parcelTextAmountFields);
+                topGrid.getChildren().removeAll(parcelTextValueLabels);
+                topGrid.getChildren().removeAll(parcelTextValueFields);
+                shapeSelection.setDisable(true);
+                algorithmSelection.setDisable(false);
 
             } else if(newValue.equals("C")){
                 //Exact cover for pentominoes
-
-                //Remove parcel and pentominoe options
-                for (TextField parcelAmountField : parcelTextAmountFields){
-                    topGrid.getChildren().remove(parcelAmountField);
-                }
-                for (TextField parcelValueField : parcelTextValueFields){
-                    topGrid.getChildren().remove(parcelValueField);
-                }
-
-                for (TextField pentominoeAmountField : pentominoTextAmountFields){
-                    topGrid.getChildren().remove(pentominoeAmountField);
-                }
-                for (TextField pentominoeValueField : pentominoTextValueFields){
-                    topGrid.getChildren().remove(pentominoeValueField);
-                }
-
-                for (Label parcelAmountLabel : parcelTextAmountLabels){
-                    topGrid.getChildren().remove(parcelAmountLabel);
-                }
-                for (Label parcelValueLabel : parcelTextValueLabels){
-                    topGrid.getChildren().remove(parcelValueLabel);
-                }
-
-                for (Label pentominoeAmountLabel : pentominoTextAmountLabels){
-                    topGrid.getChildren().remove(pentominoeAmountLabel);
-                }
-                for (Label pentominoeValueLabel : pentominoTextValueLabels){
-                    topGrid.getChildren().remove(pentominoeValueLabel);
-                }
-
-                topGrid.getChildren().remove(shapeSelection);
-                
-            } else if(newValue.equals("D")){
-                //Optimization for pentominoes
                 topGrid.getChildren().remove(shapeSelection);
                 topGrid.add(shapeSelection, 0, 1);
+                topGrid.getChildren().remove(algorithmSelection);
+                topGrid.add(algorithmSelection, 0, 2);
                 //set to empty first so there will always be a change
                 shapeSelection.getSelectionModel().select("");
                 shapeSelection.getSelectionModel().select("Pentominoes");
+                algorithmSelection.setItems(FXCollections.observableArrayList(
+                        "Algorithm X+ (Exact cover)"
+                ));
+                algorithmSelection.getSelectionModel().select("Algorithm X+ (Exact cover)");
                 //Remove options
                 topGrid.getChildren().removeAll(pentominoTextAmountLabels);
                 topGrid.getChildren().removeAll(pentominoTextAmountFields);
                 topGrid.getChildren().removeAll(pentominoTextValueLabels);
                 topGrid.getChildren().removeAll(pentominoTextValueFields);
                 shapeSelection.setDisable(true);
+                algorithmSelection.setDisable(true);
+
+            } else if(newValue.equals("D")){
+                //Optimization for pentominoes
+                topGrid.getChildren().remove(shapeSelection);
+                topGrid.add(shapeSelection, 0, 1);
+                topGrid.getChildren().remove(algorithmSelection);
+                topGrid.add(algorithmSelection, 0, 2);
+                //set to empty first so there will always be a change
+                shapeSelection.getSelectionModel().select("");
+                shapeSelection.getSelectionModel().select("Pentominoes");
+                algorithmSelection.setItems(FXCollections.observableArrayList(
+                        "Algorithm X+ (Partial cover)", "Genetic Algorithm"
+                ));
+                algorithmSelection.getSelectionModel().select("");
+                algorithmSelection.getSelectionModel().select("Algorithm X+ (Partial cover)");
+                //Remove options
+                topGrid.getChildren().removeAll(pentominoTextAmountLabels);
+                topGrid.getChildren().removeAll(pentominoTextAmountFields);
+                topGrid.getChildren().removeAll(pentominoTextValueLabels);
+                topGrid.getChildren().removeAll(pentominoTextValueFields);
+                shapeSelection.setDisable(true);
+                algorithmSelection.setDisable(false);
 
             } else if(newValue.equals("General")){
                 //Show all
                 topGrid.getChildren().remove(shapeSelection);
                 topGrid.add(shapeSelection, 0, 1);
+                topGrid.getChildren().remove(algorithmSelection);
+                topGrid.add(algorithmSelection, 0, 2);
                 shapeSelection.getSelectionModel().select("");
                 shapeSelection.getSelectionModel().select("Parcels");
                 shapeSelection.setDisable(false);
+                algorithmSelection.setDisable(false);
             }
         });
 
@@ -518,6 +538,7 @@ public class FX3D extends Application {
             // Retrieve selected option (Parcels or Pentominoes) and pass along value to Wrapper
             Wrapper.inputType = shapeSelection.getValue().toString();
             Wrapper.problemType = typeSelection.getValue().toString();
+            Wrapper.algorithmType = algorithmSelection.getValue().toString();
 
             //If it's exact cover, there's no need to pass the values
             if (Wrapper.problemType.equals("A") || Wrapper.problemType.equals("C") || Wrapper.problemType.equals("B") || Wrapper.problemType.equals("D")){
@@ -637,8 +658,8 @@ public class FX3D extends Application {
         layerLabel.setVisible(false);
         layerSlider.setVisible(false);
 
-        topGrid.add(layerLabel, 0, 10);
-        topGrid.add(layerSlider, 0, 11);
+        topGrid.add(layerLabel, 0, 11);
+        topGrid.add(layerSlider, 0, 12);
 
         layerSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
@@ -661,7 +682,7 @@ public class FX3D extends Application {
         layerSlider.setVisible(true);
 
         //Update score
-        scoringLabel.setText(String.valueOf(Wrapper.score));
+        scoringLabel.setText("Score: " + String.valueOf(Wrapper.score));
     }
 
     static void updateUIElements(Stage stage){
