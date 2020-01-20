@@ -87,8 +87,6 @@ public class FX3D extends Application {
     static Button startButton;
     static ChoiceBox typeSelection;
     static ChoiceBox shapeSelection;
-    static ProgressIndicator[] pins;
-    static ProgressIndicator pin;
     static Label layerLabel;
     static Slider layerSlider;
 
@@ -189,8 +187,6 @@ public class FX3D extends Application {
         angleX = new SimpleDoubleProperty(0);
         angleY = new SimpleDoubleProperty(0);
         camera = new PerspectiveCamera();
-        pins = new ProgressIndicator[1];
-        pin = pins[0] = new ProgressIndicator();
         parcels = new ArrayList<UIParcel>();
 
         parcelTextValueFields = new ArrayList<>();
@@ -283,10 +279,6 @@ public class FX3D extends Application {
         warningLabel.setTextFill(Color.rgb(255, 80, 80));
         warningLabel.setVisible(false);
 
-        //-1 will make it display an animated disk, set to 1 to show that it's done
-        //pin is the progress indicator
-        pin.setProgress(-1);
-
         parcelTextAmountFields.add(ParcelAAmountTextField);
         parcelTextAmountFields.add(ParcelBAmountTextField);
         parcelTextAmountFields.add(ParcelCAmountTextField);
@@ -324,8 +316,6 @@ public class FX3D extends Application {
         topGrid.add(shapeSelection, 0, 1);
         topGrid.add(warningLabel, 1, 1);
         topGrid.add(startButton, 0, 9);
-        topGrid.add(pin, 0, 10);
-        pin.setVisible(false);
         twoDGroup.getChildren().add(topGrid);
         /*END*/
 
@@ -521,9 +511,6 @@ public class FX3D extends Application {
 
         //Set evenListener for start button
         startButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event-> {
-            //show loading icon
-            pin.setVisible(true);
-
             //Check if the input is valid
             textFieldsFilled = true;
             boolean validInput = false;
@@ -669,7 +656,6 @@ public class FX3D extends Application {
 
     static void updateUIPreElements(Stage stage){
         warningLabel.setVisible(visibleWarning);
-        pin.setVisible(false);
 
         layerLabel.setVisible(true);
         layerSlider.setVisible(true);
