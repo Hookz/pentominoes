@@ -27,28 +27,7 @@ public class CreateDancingInput {
             boolean[][][][] C = ShapesAndRotations.getC();
 
             shapes = new boolean[][][][][]{A, B, C};
-            rowValueHelper = new float[A.length+B.length+C.length];
-            rowTypeHelper = new int[A.length+B.length+C.length];
-
-            for(int i=0; i<rowValueHelper.length; i++){
-                if(i<A.length){
-                    rowValueHelper[i] = Wrapper.inputDetails[0].value;
-                } else if(i<B.length){
-                    rowValueHelper[i] = Wrapper.inputDetails[1].value;
-                } else if(i<C.length){
-                    rowValueHelper[i] = Wrapper.inputDetails[2].value;
-                }
-            }
-
-            for(int i=0; i<rowTypeHelper.length; i++){
-                if(i<A.length){
-                    rowTypeHelper[i] = 1;
-                } else if(i<A.length+B.length){
-                    rowTypeHelper[i] = 2;
-                } else {
-                    rowTypeHelper[i] = 3;
-                }
-            }
+            rowValueHelper = new float[]{Wrapper.inputDetails[0].value, Wrapper.inputDetails[1].value, Wrapper.inputDetails[2].value};
 
         } else if (type.equals("Pentominoes")){
 
@@ -57,36 +36,16 @@ public class CreateDancingInput {
             boolean[][][][] T = ShapesAndRotations.getT();
 
             shapes = new boolean[][][][][]{L, P, T};
-            rowValueHelper = new float[L.length+P.length+T.length];
-            rowTypeHelper = new int[L.length+P.length+T.length];
-
-            for(int i=0; i<rowValueHelper.length; i++){
-                if(i<L.length){
-                    rowValueHelper[i] = Wrapper.inputDetails[0].value;
-                } else if(i<P.length){
-                    rowValueHelper[i] = Wrapper.inputDetails[1].value;
-                } else if(i<T.length){
-                    rowValueHelper[i] = Wrapper.inputDetails[2].value;
-                }
-            }
-
-            for(int i=0; i<rowTypeHelper.length; i++){
-                if(i<L.length){
-                    rowTypeHelper[i] = 1;
-                } else if(i<P.length){
-                    rowTypeHelper[i] = 2;
-                } else if(i<T.length){
-                    rowTypeHelper[i] = 3;
-                }
-            }
+            rowValueHelper = new float[]{Wrapper.inputDetails[0].value, Wrapper.inputDetails[1].value, Wrapper.inputDetails[2].value};
         }
     }
 
     public void createPlacements(){
         //For every type of shape
+        int shapeNumber = 0;
+        int typeNumber = 0;
         for(boolean[][][][] typeOfShape : shapes){
             //For every shape
-            int shapeNumber = 0;
             for(boolean[][][] shape : typeOfShape){
                 int shapeWidth = shape[0][0].length;
                 int shapeHeight = shape[0].length;
@@ -147,8 +106,8 @@ public class CreateDancingInput {
                                 }
 
                                 //check the type
-                                int rowType =  rowTypeHelper[shapeNumber];
-                                float rowValue = rowValueHelper[shapeNumber];
+                                int rowType =  typeNumber+1;
+                                float rowValue = rowValueHelper[typeNumber];
 
                                 //Save it
                                 placements.add(shapeInContainer);
@@ -158,8 +117,8 @@ public class CreateDancingInput {
                         }
                     }
                 }
-                shapeNumber++;
             }
+            typeNumber++;
         }
     }
 
