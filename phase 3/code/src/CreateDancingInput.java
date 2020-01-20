@@ -108,8 +108,6 @@ public class CreateDancingInput {
                                 //check the type
                                 int rowType =  typeNumber+1;
                                 float rowValue = rowValueHelper[typeNumber];
-                                System.out.println("rowType: " + rowType);
-                                System.out.println("rowValue: " + rowValue);
 
                                 //Save it
                                 placements.add(shapeInContainer);

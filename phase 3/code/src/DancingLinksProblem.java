@@ -179,20 +179,18 @@ public class DancingLinksProblem {
 //        System.out.println("TMP: " + Arrays.toString(tmp_branch_solution_array));
 //        System.out.println("solutionScore: " + solutionScore);
 
-        //Check if a leaf node has been reached and test if it's the best solution
+        //Check if this is the best solution so far
+        if(solutionScore > bestScore){
+            bestSolution = tmp_branch_solution.toArray();
+            bestScore = solutionScore;
+            System.out.println(solutionScore);
+        }
+
+        //Check if a leaf node has been reached and if so stop
         if(nextColumnObject == null){
             //Found a leaf node
             if(Wrapper.printState){
                 System.out.println("LEAF" + tmp_branch_solution.toString());
-            }
-
-            System.out.println("BestScore: " + bestScore);
-
-            //Check if this is the best solution so far
-            if(solutionScore > bestScore){
-                bestSolution = tmp_branch_solution.toArray();
-                bestScore = solutionScore;
-
             }
 
             return;
