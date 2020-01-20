@@ -1,8 +1,8 @@
 public class Wrapper {
     //sizes are in cm
     final static int CONTAINER_WIDTH = 1650;
-    final static int CONTAINER_HEIGHT = 400;
-    final static int CONTAINER_DEPTH = 250;
+    final static int CONTAINER_HEIGHT = 250;
+    final static int CONTAINER_DEPTH = 400;
     
     final static int cellSize = 50;
 
