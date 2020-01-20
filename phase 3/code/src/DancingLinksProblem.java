@@ -177,6 +177,22 @@ public class DancingLinksProblem {
         //How valuable is this solution?
         int solutionScore = getSolutionScore(tmp_branch_solution);
 
+        //Check if a leaf node has been reached and test if it's the best solution
+        if(nextColumnObject == null){
+            //Found a leaf node
+            if(Wrapper.printState){
+                System.out.println("LEAF" + tmp_branch_solution.toString());
+            }
+
+            //Check if this is the best solution so far
+            if(solutionScore > bestScore){
+                bestSolution = tmp_branch_solution.toArray();
+                bestScore = solutionScore;
+            }
+
+            return;
+        }
+
         //If this is the best answer so far, keep better track of it
         if(solutionScore > bestScore){
             //update highscore and bestSolution
