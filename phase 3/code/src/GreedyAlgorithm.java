@@ -40,9 +40,9 @@ public class GreedyAlgorithm {
         };
 
         // Initialize ParcelType objects
-        typeA = new ParcelType("A", 0.0, 0.0, parcelARotations.length, 1, 0, Integer.parseInt(FX3D.ParcelAAmountTextField.getText()));
-        typeB = new ParcelType("B", 0.0, 0.0, parcelBRotations.length, 2, 0, Integer.parseInt(FX3D.ParcelBAmountTextField.getText()));
-        typeC = new ParcelType("C", 0.0, 0.0, parcelCRotations.length, 3, 0, Integer.parseInt(FX3D.ParcelCAmountTextField.getText()));
+        typeA = new ParcelType("A", 0.0, 0.0, parcelARotations.length, 1, 0, Wrapper.inputDetails[0].amount);
+        typeB = new ParcelType("B", 0.0, 0.0, parcelBRotations.length, 2, 0, Wrapper.inputDetails[1].amount);
+        typeC = new ParcelType("C", 0.0, 0.0, parcelCRotations.length, 3, 0, Wrapper.inputDetails[2].amount);
 
         // Empty container
         emptyContainer();

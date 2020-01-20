@@ -22,6 +22,7 @@ import javafx.scene.transform.Transform;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /*
@@ -219,7 +220,8 @@ public class FX3D extends Application {
 
         //Setup items
         //Add scoring label
-        scoringLabel = new Label("Score: " + Wrapper.score);
+        DecimalFormat df = new DecimalFormat("#.##");
+        scoringLabel = new Label("Score: " + df.format(Wrapper.score));
         startButton = new Button("Start");
 
         typeSelection = new ChoiceBox(FXCollections.observableArrayList(
@@ -693,7 +695,8 @@ public class FX3D extends Application {
         layerSlider.setVisible(true);
 
         //Update score
-        scoringLabel.setText("Score: " + String.valueOf(Wrapper.score));
+        DecimalFormat df = new DecimalFormat("#.##");
+        scoringLabel.setText("Score: " + String.valueOf(df.format(Wrapper.score)));
     }
 
     static void updateUIElements(Stage stage){

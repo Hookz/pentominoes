@@ -60,11 +60,12 @@ public class Algorithm {
             else if (Wrapper.algorithmType.equals("Genetic Algorithm")) {
                 //TODO Sam
             }
-            else if (Wrapper.algorithmType.equals("Greedy Algorithm (Value)")) {
-                //TODO Max
-            }
-            else if (Wrapper.algorithmType.equals("Greedy Algorithm (Value/Volume)")) {
-                //TODO Max
+            else if (Wrapper.algorithmType.equals("Greedy Algorithm (Value)") || Wrapper.algorithmType.equals("Greedy Algorithm (Value/Volume)")) {
+                FX3D.inputDetail1.amount = 1000;
+                FX3D.inputDetail2.amount = 1000;
+                FX3D.inputDetail3.amount = 1000;
+
+                GreedyAlgorithm.runAlgorithm();
             }
         } else if (Wrapper.problemType.equals("C")){
             //Use dancing links exact cover with pentominoes
@@ -125,11 +126,8 @@ public class Algorithm {
                 if (Wrapper.algorithmType.equals("Genetic Algorithm")) {
                     //TODO Sam
                 }
-                else if (Wrapper.algorithmType.equals("Greedy Algorithm (Value)")) {
-                    //TODO Max
-                }
-                else if (Wrapper.algorithmType.equals("Greedy Algorithm (Value/Volume)")) {
-                    //TODO Max
+                else if (Wrapper.algorithmType.equals("Greedy Algorithm (Value)") || Wrapper.algorithmType.equals("Greedy Algorithm (Value/Volume)")) {
+                    GreedyAlgorithm.runAlgorithm();
                 }
             }
             else if (Wrapper.inputType.equals("Pentominoes")) {
