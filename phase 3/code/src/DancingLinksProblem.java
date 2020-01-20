@@ -176,6 +176,8 @@ public class DancingLinksProblem {
 
         //How valuable is this solution?
         int solutionScore = getSolutionScore(tmp_branch_solution);
+//        System.out.println("TMP: " + Arrays.toString(tmp_branch_solution_array));
+//        System.out.println("solutionScore: " + solutionScore);
 
         //Check if a leaf node has been reached and test if it's the best solution
         if(nextColumnObject == null){
@@ -184,20 +186,16 @@ public class DancingLinksProblem {
                 System.out.println("LEAF" + tmp_branch_solution.toString());
             }
 
+            System.out.println("BestScore: " + bestScore);
+
             //Check if this is the best solution so far
             if(solutionScore > bestScore){
                 bestSolution = tmp_branch_solution.toArray();
                 bestScore = solutionScore;
+
             }
 
             return;
-        }
-
-        //If this is the best answer so far, keep better track of it
-        if(solutionScore > bestScore){
-            //update highscore and bestSolution
-            bestSolution = tmp_branch_solution_array;
-            bestScore = solutionScore;
         }
 
         //Go down one layer in the search tree

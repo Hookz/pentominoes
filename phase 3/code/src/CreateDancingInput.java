@@ -33,9 +33,9 @@ public class CreateDancingInput {
             for(int i=0; i<rowValueHelper.length; i++){
                 if(i<A.length){
                     rowValueHelper[i] = Wrapper.inputDetails[0].value;
-                } else if(i<B.length){
+                } else if(i<A.length+B.length){
                     rowValueHelper[i] = Wrapper.inputDetails[1].value;
-                } else if(i<C.length){
+                } else {
                     rowValueHelper[i] = Wrapper.inputDetails[2].value;
                 }
             }
@@ -62,23 +62,25 @@ public class CreateDancingInput {
 
             for(int i=0; i<rowValueHelper.length; i++){
                 if(i<L.length){
-                    rowValueHelper[i] = Wrapper.inputDetails[0].value;
-                } else if(i<P.length){
-                    rowValueHelper[i] = Wrapper.inputDetails[1].value;
-                } else if(i<T.length){
-                    rowValueHelper[i] = Wrapper.inputDetails[2].value;
+                    rowValues.add(Wrapper.inputDetails[0].value);
+                } else if(i<L.length+P.length){
+                    rowValues.add(Wrapper.inputDetails[1].value);
+                } else {
+                    rowValues.add(Wrapper.inputDetails[2].value);
                 }
             }
 
             for(int i=0; i<rowTypeHelper.length; i++){
                 if(i<L.length){
                     rowTypeHelper[i] = 1;
-                } else if(i<P.length){
+                } else if(i<L.length+P.length){
                     rowTypeHelper[i] = 2;
-                } else if(i<T.length){
+                } else {
                     rowTypeHelper[i] = 3;
                 }
             }
+
+            System.out.println("");
         }
     }
 
