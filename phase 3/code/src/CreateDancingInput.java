@@ -9,7 +9,6 @@ public class CreateDancingInput {
     ArrayList<Float> rowValues = new ArrayList<>();
     boolean[][] inputMatrix;
     float[] rowValueHelper;
-    int[] rowTypeHelper;
 
     //Keeps track of the order in which the input will be given with the index being the order of the booklet
     int[] order;

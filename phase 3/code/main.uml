@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="552.783627136752" y="667.0">Gbot</node>
+    <node x="397.20833333333337" y="102.0">UIParcel</node>
+    <node x="5.540411324785964" y="854.0">DancingLinksProblem</node>
+    <node x="0.0" y="1492.0">Element</node>
+    <node x="100.85053418803409" y="79.0">ColumnObject</node>
+    <node x="1434.2836271367519" y="0.0">Pentominoe</node>
+    <node x="833.9502938034186" y="0.0">InputDetail</node>
+    <node x="863.783627136752" y="898.0">GreedyAlgorithm</node>
+    <node x="905.721127136752" y="236.0">ParcelType</node>
+    <node x="883.6987446581194" y="102.0">Wrapper</node>
+    <node x="324.62500000000006" y="214.0">FX3D</node>
+    <node x="1126.7836271367519" y="931.0">CreateDancingInput</node>
+    <node x="1110.1660256410255" y="324.0">ShapesAndRotations</node>
+    <node x="567.4567841880341" y="1394.0">Algorithm</node>
+    <node x="0.0" y="346.0">DataObject</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="GreedyAlgorithm" target="ParcelType">
+      <point x="20.25" y="-92.5" />
+      <point x="1005.533627136752" y="647.0" />
+      <point x="1010.096127136752" y="647.0" />
+      <point x="20.875" y="169.5" />
+    </edge>
+    <edge source="DancingLinksProblem" target="ColumnObject">
+      <point x="31.8125" y="-136.5" />
+      <point x="291.85291132478596" y="637.0" />
+      <point x="208.50000000000006" y="637.0" />
+      <point x="208.50000000000006" y="184.0" />
+      <point x="193.25053418803407" y="184.0" />
+      <point x="26.399999999999977" y="37.5" />
+    </edge>
+    <edge source="GreedyAlgorithm" target="FX3D">
+      <point x="-101.25" y="-92.5" />
+      <point x="884.033627136752" y="627.0" />
+      <point x="623.4250000000001" y="627.0" />
+      <point x="132.8" y="191.5" />
+    </edge>
+    <edge source="FX3D" target="Wrapper">
+      <point x="138.33333333333337" y="-191.5" />
+      <point x="628.9583333333335" y="174.0" />
+      <point x="891.7820779914528" y="174.0" />
+      <point x="-40.416666666666686" y="14.5" />
+    </edge>
+    <edge source="GreedyAlgorithm" target="Wrapper">
+      <point x="101.25" y="-92.5" />
+      <point x="1086.5336271367519" y="647.0" />
+      <point x="1083.2211271367519" y="647.0" />
+      <point x="1083.2211271367519" y="194.0" />
+      <point x="940.2820779914528" y="194.0" />
+      <point x="8.083333333333314" y="14.5" />
+    </edge>
+    <edge source="FX3D" target="UIParcel">
+      <point x="-27.666666666666686" y="-191.5" />
+      <point x="462.95833333333337" y="194.0" />
+      <point x="449.20833333333337" y="194.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="DancingLinksProblem" target="DataObject">
+      <point x="-95.4375" y="-136.5" />
+      <point x="164.60291132478596" y="647.0" />
+      <point x="155.83333333333337" y="647.0" />
+      <point x="62.33333333333337" y="59.5" />
+    </edge>
+    <edge source="Algorithm" target="Gbot">
+      <point x="0.0" y="-26.5" />
+      <point x="647.4567841880341" y="1334.0" />
+      <point x="698.283627136752" y="1334.0" />
+      <point x="0.0" y="323.5" />
+    </edge>
+    <edge source="CreateDancingInput" target="ShapesAndRotations">
+      <point x="-61.5" y="-59.5" />
+      <point x="1188.2836271367519" y="647.0" />
+      <point x="1197.1660256410255" y="647.0" />
+      <point x="0.0" y="81.5" />
+    </edge>
+    <edge source="Algorithm" target="CreateDancingInput">
+      <point x="35.55555555555554" y="-26.5" />
+      <point x="683.0123397435897" y="1354.0" />
+      <point x="1188.2836271367519" y="1354.0" />
+      <point x="-61.5" y="59.5" />
+    </edge>
+    <edge source="FX3D" target="Algorithm">
+      <point x="-66.40000000000003" y="191.5" />
+      <point x="424.225" y="637.0" />
+      <point x="525.040411324786" y="637.0" />
+      <point x="525.040411324786" y="1354.0" />
+      <point x="611.9012286324786" y="1354.0" />
+      <point x="-35.55555555555554" y="-26.5" />
+    </edge>
+    <edge source="Algorithm" target="GreedyAlgorithm">
+      <point x="17.77777777777783" y="-26.5" />
+      <point x="665.234561965812" y="1344.0" />
+      <point x="985.283627136752" y="1344.0" />
+      <point x="0.0" y="92.5" />
+    </edge>
+    <edge source="Algorithm" target="FX3D">
+      <point x="-17.777777777777715" y="-26.5" />
+      <point x="629.6790064102564" y="1344.0" />
+      <point x="536.040411324786" y="1344.0" />
+      <point x="536.040411324786" y="627.0" />
+      <point x="490.62500000000006" y="627.0" />
+      <point x="0.0" y="191.5" />
+    </edge>
+    <edge source="Algorithm" target="Wrapper">
+      <point x="71.11111111111109" y="-26.5" />
+      <point x="718.5678952991452" y="1374.0" />
+      <point x="1383.2836271367519" y="1374.0" />
+      <point x="1383.2836271367519" y="174.0" />
+      <point x="972.6154113247861" y="174.0" />
+      <point x="40.416666666666714" y="14.5" />
+    </edge>
+    <edge source="Algorithm" target="DancingLinksProblem">
+      <point x="-53.33333333333337" y="-26.5" />
+      <point x="594.1234508547008" y="1364.0" />
+      <point x="387.29041132478596" y="1364.0" />
+      <point x="127.25" y="136.5" />
+    </edge>
+    <edge source="DancingLinksProblem" target="Wrapper">
+      <point x="222.6875" y="-136.5" />
+      <point x="482.72791132478596" y="647.0" />
+      <point x="687.75" y="647.0" />
+      <point x="687.75" y="184.0" />
+      <point x="907.9487446581194" y="184.0" />
+      <point x="-24.25" y="14.5" />
+    </edge>
+    <edge source="DancingLinksProblem" target="FX3D">
+      <point x="159.0625" y="-136.5" />
+      <point x="419.10291132478596" y="617.0" />
+      <point x="357.82500000000005" y="617.0" />
+      <point x="-132.8" y="191.5" />
+    </edge>
+    <edge source="Gbot" target="FX3D">
+      <point x="-72.75" y="-323.5" />
+      <point x="625.533627136752" y="637.0" />
+      <point x="557.0250000000001" y="637.0" />
+      <point x="66.39999999999998" y="191.5" />
+    </edge>
+    <edge source="CreateDancingInput" target="Wrapper">
+      <point x="61.5" y="-59.5" />
+      <point x="1311.2836271367519" y="647.0" />
+      <point x="1294.6660256410255" y="647.0" />
+      <point x="1294.6660256410255" y="184.0" />
+      <point x="956.4487446581194" y="184.0" />
+      <point x="24.24999999999997" y="14.5" />
+    </edge>
+    <edge source="Wrapper" target="InputDetail">
+      <point x="0.0" y="-14.5" />
+      <point x="932.1987446581194" y="59.0" />
+      <point x="921.4502938034186" y="59.0" />
+      <point x="25.0" y="14.5" />
+    </edge>
+    <edge source="Gbot" target="Wrapper">
+      <point x="72.75" y="-323.5" />
+      <point x="771.033627136752" y="194.0" />
+      <point x="924.1154113247861" y="194.0" />
+      <point x="-8.083333333333314" y="14.5" />
+    </edge>
+    <edge source="ColumnObject" target="DataObject">
+      <point x="-26.399999999999977" y="37.5" />
+      <point x="46.75" y="-59.5" />
+    </edge>
+    <edge source="FX3D" target="InputDetail">
+      <point x="83.0" y="-191.5" />
+      <point x="573.625" y="194.0" />
+      <point x="582.5410256410255" y="194.0" />
+      <point x="582.5410256410255" y="59.0" />
+      <point x="871.4502938034186" y="59.0" />
+      <point x="-25.0" y="14.5" />
+    </edge>
+    <edge source="DataObject" target="ColumnObject">
+      <point x="-46.75" y="-59.5" />
+      <point x="46.75" y="194.0" />
+      <point x="114.05053418803413" y="194.0" />
+      <point x="-52.799999999999955" y="37.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.7000000000000001" x="703.5714285714284" y="681.8571428571428" />
+  <SelectedNodes>
+    <node>FX3D</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
