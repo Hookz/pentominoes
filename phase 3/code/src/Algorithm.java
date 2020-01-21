@@ -58,7 +58,7 @@ public class Algorithm {
                 dancingLinksProblem.answerToUI();
             }
             else if (Wrapper.algorithmType.equals("Genetic Algorithm")) {
-                Gbot.train();
+                Gbot.Play();
             }
             else if (Wrapper.algorithmType.equals("Greedy Algorithm (Value)") || Wrapper.algorithmType.equals("Greedy Algorithm (Value/Volume)")) {
                 FX3D.inputDetail1.amount = 1000;
