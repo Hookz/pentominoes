@@ -46,7 +46,6 @@ public class Gbot {
     public static boolean slow = false;
     public static double[] gen1 = new double[8];
 
-
     public static int[][][][][] pentominoes = new int[][][][][]{ //{ T , P , L }
             //L
             {
@@ -295,7 +294,7 @@ public class Gbot {
         } else {
             //TODO train for pentomino general
             gen1 = new double[]{0.25889549831304826, -0.44049829919118355, -0.8359454055376402, -0.012412378382019704, 0.2414328743542116, 0.3378703975584336, -0.46182521987384706, 1192.0}; //best individual
-
+            if (general) gen1 = new double[]{0.25889549831304826, -0.44049829919118355, -0.8307141709975095, -0.011123246697450843, 0.2414328743542116, 0.3378703975584336, -0.46182521987384706, 792.0};
             aShape = pentominoes;
         }
     }
@@ -337,7 +336,7 @@ public class Gbot {
         while (true) {
             boardScore=0;
             for (int i = 0; i < aShapeVal.length; i++) {
-                assignValue(i, 1 + ((int) (Math.random() * 3)));
+                assignValue(i, 1 + ((int) (Math.random() * 100)));
             }
             System.out.println(Arrays.toString(aShapeVal));
             evalPopulation();
@@ -376,7 +375,7 @@ public class Gbot {
             FX3D.clearInput(FX3D.UIInput);
             currentGenome = i;
             boardScore=0;
-            aShape = parcels;
+            aShape = pentominoes;
             //aShapeVal = new int[]{3, 4, 5};
             makePlay(false);
         }
