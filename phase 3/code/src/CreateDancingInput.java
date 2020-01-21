@@ -11,6 +11,9 @@ public class CreateDancingInput {
     float[] rowValueHelper;
     int[] rowTypeHelper;
 
+    //Keeps track of the order in which the input will be given with the index being the order of the booklet
+    int[] order;
+
     int width = (Wrapper.CONTAINER_DEPTH/Wrapper.cellSize);
     int height = (Wrapper.CONTAINER_HEIGHT/Wrapper.cellSize);
     int depth = (Wrapper.CONTAINER_WIDTH/Wrapper.cellSize);
@@ -21,22 +24,36 @@ public class CreateDancingInput {
 
     public void selectInput(){
         if(type.equals("Parcels")){
-
             boolean[][][][] A = ShapesAndRotations.getA();
             boolean[][][][] B = ShapesAndRotations.getB();
             boolean[][][][] C = ShapesAndRotations.getC();
 
-            shapes = new boolean[][][][][]{A, B, C};
-            rowValueHelper = new float[]{Wrapper.inputDetails[0].value, Wrapper.inputDetails[1].value, Wrapper.inputDetails[2].value};
+            if(Wrapper.problemType.equals("B")){
+                //Go greedy and use the order: A -> C -> B
+                shapes = new boolean[][][][][]{A, C, B};
+                order = new int[]{0, 2, 1};
+                rowValueHelper = new float[]{Wrapper.inputDetails[0].value, Wrapper.inputDetails[2].value, Wrapper.inputDetails[1].value};
+            } else {
+                shapes = new boolean[][][][][]{A, B, C};
+                order = new int[]{0, 1, 2};
+                rowValueHelper = new float[]{Wrapper.inputDetails[0].value, Wrapper.inputDetails[1].value, Wrapper.inputDetails[2].value};
+            }
 
         } else if (type.equals("Pentominoes")){
-
             boolean[][][][] L = ShapesAndRotations.getL();
             boolean[][][][] P = ShapesAndRotations.getP();
             boolean[][][][] T = ShapesAndRotations.getT();
 
-            shapes = new boolean[][][][][]{L, P, T};
-            rowValueHelper = new float[]{Wrapper.inputDetails[0].value, Wrapper.inputDetails[1].value, Wrapper.inputDetails[2].value};
+            if(Wrapper.problemType.equals("D")){
+                //Go greedy and use order: T -> P -> L
+                shapes = new boolean[][][][][]{T, P, L};
+                order = new int[]{2, 1, 0};
+                rowValueHelper = new float[]{Wrapper.inputDetails[2].value, Wrapper.inputDetails[1].value, Wrapper.inputDetails[0].value};
+            } else {
+                shapes = new boolean[][][][][]{L, P, T};
+                order = new int[]{0, 1, 2};
+                rowValueHelper = new float[]{Wrapper.inputDetails[0].value, Wrapper.inputDetails[1].value, Wrapper.inputDetails[2].value};
+            }
         }
     }
 
@@ -106,8 +123,8 @@ public class CreateDancingInput {
                                 }
 
                                 //check the type
-                                int rowType =  typeNumber+1;
-                                float rowValue = rowValueHelper[typeNumber];
+                                int rowType =  order[typeNumber];
+                                float rowValue = rowValueHelper[order[typeNumber]];
 
                                 //Save it
                                 placements.add(shapeInContainer);
