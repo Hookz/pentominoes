@@ -19,11 +19,9 @@ public class Algorithm {
                 headerNames[i] = Integer.toString(i);
             }
 
-            List<Float> rowValues = createDancingInput.rowValues;
-
             List<Integer> rowTypes = createDancingInput.rowTypes;
 
-            DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, rowTypes ,true, Wrapper.maxTime, Wrapper.precise);
+            DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowTypes ,true, Wrapper.maxTime, Wrapper.precise);
 
             dancingLinksProblem.createDataStructure();
             dancingLinksProblem.solveDriver();
@@ -45,11 +43,9 @@ public class Algorithm {
                     headerNames[i] = Integer.toString(i);
                 }
 
-                List<Float> rowValues = createDancingInput.rowValues;
-
                 List<Integer> rowTypes = createDancingInput.rowTypes;
 
-                DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, rowTypes, false, Wrapper.maxTime, Wrapper.precise);
+                DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowTypes, false, Wrapper.maxTime, Wrapper.precise);
 
                 dancingLinksProblem.createDataStructure();
                 dancingLinksProblem.solveDriver();
@@ -80,11 +76,9 @@ public class Algorithm {
                 headerNames[i] = Integer.toString(i);
             }
 
-            List<Float> rowValues = createDancingInput.rowValues;
-
             List<Integer> rowTypes = createDancingInput.rowTypes;
 
-            DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, rowTypes, true, Wrapper.maxTime, Wrapper.precise);
+            DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowTypes, true, Wrapper.maxTime, Wrapper.precise);
 
             dancingLinksProblem.createDataStructure();
             dancingLinksProblem.solveDriver();
@@ -106,11 +100,9 @@ public class Algorithm {
                     headerNames[i] = Integer.toString(i);
                 }
 
-                List<Float> rowValues = createDancingInput.rowValues;
-
                 List<Integer> rowTypes = createDancingInput.rowTypes;
 
-                DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, rowTypes, false, Wrapper.maxTime, Wrapper.precise);
+                DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowTypes, false, Wrapper.maxTime, Wrapper.precise);
 
                 dancingLinksProblem.createDataStructure();
                 dancingLinksProblem.solveDriver();

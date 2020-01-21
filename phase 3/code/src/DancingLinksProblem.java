@@ -15,7 +15,6 @@ import java.util.*;
 public class DancingLinksProblem {
     boolean[][] inputMatrix;
     String[] headerNames;
-    List<Float> rowValues;
     List<Integer> rowTypes;
     boolean exactCover;
     int maxSeconds;
@@ -33,10 +32,9 @@ public class DancingLinksProblem {
     float pruneCutoff = .85F;
     int layerCutoff = 15;
 
-    public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames, List<Float> rowValues, List<Integer> rowTypes, boolean exactCover, int maxSeconds, boolean precise) {
+    public DancingLinksProblem(boolean[][] inputMatrix, String[] headerNames, List<Integer> rowTypes, boolean exactCover, int maxSeconds, boolean precise) {
         this.inputMatrix = inputMatrix;
         this.headerNames = headerNames;
-        this.rowValues = rowValues;
         this.rowTypes = rowTypes;
         this.exactCover = exactCover;
         this.maxSeconds = maxSeconds;
@@ -176,8 +174,6 @@ public class DancingLinksProblem {
 
         //How valuable is this solution?
         float solutionScore = getSolutionScore(tmp_branch_solution);
-//        System.out.println("TMP: " + Arrays.toString(tmp_branch_solution_array));
-//        System.out.println("solutionScore: " + solutionScore);
 
         //Check if this is the best solution so far
         if(solutionScore > bestScore){
@@ -345,6 +341,13 @@ public class DancingLinksProblem {
         int ones = Collections.frequency(types, 1);
         int twos = Collections.frequency(types, 2);
         int threes = Collections.frequency(types, 3);
+
+        if(Wrapper.printState){
+            System.out.println("Ones: " + ones);
+            System.out.println("Twos: " + twos);
+            System.out.println("Threes: " + threes);
+
+        }
 
         score = (ones*Wrapper.inputDetails[0].value+twos*Wrapper.inputDetails[1].value+threes*Wrapper.inputDetails[2].value);
 

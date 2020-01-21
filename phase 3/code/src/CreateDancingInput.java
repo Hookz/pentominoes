@@ -6,7 +6,6 @@ public class CreateDancingInput {
 
     ArrayList<boolean[][][]> placements = new ArrayList<>();
     ArrayList<Integer> rowTypes = new ArrayList<>();
-    ArrayList<Float> rowValues = new ArrayList<>();
     boolean[][] inputMatrix;
     float[] rowValueHelper;
 
@@ -128,7 +127,6 @@ public class CreateDancingInput {
                                 //Save it
                                 placements.add(shapeInContainer);
                                 rowTypes.add(rowType);
-                                rowValues.add(rowValue);
                             }
                         }
                     }
