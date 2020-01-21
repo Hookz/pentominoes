@@ -1,7 +1,6 @@
 import java.util.List;
 
 public class Algorithm {
-
     public static void startAlgorithm() {
         System.out.println("Starting algorithm");
 
