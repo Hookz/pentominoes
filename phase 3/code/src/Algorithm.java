@@ -58,7 +58,7 @@ public class Algorithm {
                 dancingLinksProblem.answerToUI();
             }
             else if (Wrapper.algorithmType.equals("Genetic Algorithm")) {
-                //TODO Sam
+                Gbot.train();
             }
             else if (Wrapper.algorithmType.equals("Greedy Algorithm (Value)") || Wrapper.algorithmType.equals("Greedy Algorithm (Value/Volume)")) {
                 FX3D.inputDetail1.amount = 1000;
@@ -119,19 +119,19 @@ public class Algorithm {
                 dancingLinksProblem.answerToUI();
             }
             else if (Wrapper.algorithmType.equals("Genetic Algorithm")) {
-                //TODO Sam
+                Gbot.Play();
             }
         } else if (Wrapper.problemType.equals("General")){
             if (Wrapper.inputType.equals("Parcels")) {
                 if (Wrapper.algorithmType.equals("Genetic Algorithm")) {
-                    //TODO Sam
+                    Gbot.Play();
                 }
                 else if (Wrapper.algorithmType.equals("Greedy Algorithm (Value)") || Wrapper.algorithmType.equals("Greedy Algorithm (Value/Volume)")) {
                     GreedyAlgorithm.runAlgorithm();
                 }
             }
             else if (Wrapper.inputType.equals("Pentominoes")) {
-                //TODO Sam
+                Gbot.Play();
             }
         }
     }

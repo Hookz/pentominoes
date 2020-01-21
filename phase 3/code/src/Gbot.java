@@ -8,6 +8,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,32 +32,48 @@ public class Gbot {
     private static File file;
     private static ArrayList<Integer> scores = new ArrayList<Integer>();
     public static int curHeight;
-    public static int contX = (int)Math.round(Wrapper.ACTUAL_CONTAINER_WIDTH * 2);
+    public static int contX = (int) Math.round(Wrapper.ACTUAL_CONTAINER_WIDTH * 2);
     public static int contY = (int) Math.round(Wrapper.ACTUAL_CONTAINER_HEIGHT * 2);
     public static int contZ = (int) Math.round(Wrapper.ACTUAL_CONTAINER_DEPTH * 2);
-    public static int [][][] lastSolid;
+    public static int[][][] lastSolid;
     public static int[] lastCoord;
-    public static int maxScore=0;
-    public static int boardScore=0;
-    public static boolean con=true;
-
+    public static int maxScore = 0;
+    public static int boardScore = 0;
+    public static boolean con = true;
+    public static boolean general = false;
+    public static int[] leftToPlace = new int[3];
+    public static int[] placed = new int[3];
+    public static boolean slow = false;
+    public static double[] gen1 = new double[8];
 
 
     public static int[][][][][] pentominoes = new int[][][][][]{ //{ T , P , L }
-            //T
+            //L
             {
-                    {{{1, 1, 1}, {0, 1, 0}, {0, 1, 0}}},
-                    {{{1, 0, 0}, {1, 1, 1}, {1, 0, 0}}},
-                    {{{0, 1, 0}, {0, 1, 0}, {1, 1, 1}}},
-                    {{{0, 0, 1}, {1, 1, 1}, {0, 0, 1}}},
-                    {{{1}, {0}, {0}}, {{1}, {1}, {1}}, {{1}, {0}, {0}}},
-                    {{{1, 0, 0}}, {{1, 1, 1}}, {{1, 0, 0}}},
-                    {{{0}, {0}, {1}}, {{1}, {1}, {1}}, {{0}, {0}, {1}}},
-                    {{{0, 0, 1}}, {{1, 1, 1}}, {{0, 0, 1}}},
-                    {{{0}, {1}, {0}}, {{0}, {1}, {0}}, {{1}, {1}, {1}}},
-                    {{{0, 1, 0}}, {{0, 1, 0}}, {{1, 1, 1}}},
-                    {{{1}, {1}, {1}}, {{0}, {1}, {0}}, {{0}, {1}, {0}}},
-                    {{{1, 1, 1}}, {{0, 1, 0}}, {{0, 1, 0}}}
+                    {{{1}, {1}, {1}, {1}}, {{1}, {0}, {0}, {0}}},
+                    {{{1, 1, 1, 1}}, {{1, 0, 0, 0}}},
+                    {{{1}, {1}, {1}, {1}}, {{0}, {0}, {0}, {1}}},
+                    {{{1, 1, 1, 1}}, {{0, 0, 0, 1}}},
+                    {{{1}, {0}, {0}, {0}}, {{1}, {1}, {1}, {1}}},
+                    {{{1, 0, 0, 0}}, {{1, 1, 1, 1}}},
+                    {{{0}, {0}, {0}, {1}}, {{1}, {1}, {1}, {1}}},
+                    {{{0, 0, 0, 1}}, {{1, 1, 1, 1}}},
+                    {{{1, 1}, {1, 0}, {1, 0}, {1, 0}}},
+                    {{{1, 0, 0, 0}, {1, 1, 1, 1}}},
+                    {{{0, 1}, {0, 1}, {0, 1}, {1, 1}}},
+                    {{{1, 1, 1, 1}, {0, 0, 0, 1}}},
+                    {{{1, 1}, {0, 1}, {0, 1}, {0, 1}}},
+                    {{{1, 1, 1, 1}, {1, 0, 0, 0}}},
+                    {{{1, 0}, {1, 0}, {1, 0}, {1, 1}}},
+                    {{{0, 0, 0, 1}, {1, 1, 1, 1}}},
+                    {{{1}, {0}}, {{1}, {0}}, {{1}, {0}}, {{1}, {1}}},
+                    {{{1, 0}}, {{1, 0}}, {{1, 0}}, {{1, 1}}},
+                    {{{0}, {1}}, {{0}, {1}}, {{0}, {1}}, {{1}, {1}}},
+                    {{{0, 1}}, {{0, 1}}, {{0, 1}}, {{1, 1}}},
+                    {{{1}, {1}}, {{1}, {0}}, {{1}, {0}}, {{1}, {0}}},
+                    {{{1, 1}}, {{1, 0}}, {{1, 0}}, {{1, 0}}},
+                    {{{1}, {1}}, {{0}, {1}}, {{0}, {1}}, {{0}, {1}}},
+                    {{{1, 1}}, {{0, 1}}, {{0, 1}}, {{0, 1}}}
             },
             //P
             {
@@ -85,36 +102,30 @@ public class Gbot {
                     {{{1}, {1}}, {{1}, {1}}, {{1}, {0}}},
                     {{{1, 1}}, {{1, 1}}, {{1, 0}}}
             },
-            //L
+            //T
             {
-                    {{{1}, {1}, {1}, {1}}, {{1}, {0}, {0}, {0}}},
-                    {{{1, 1, 1, 1}}, {{1, 0, 0, 0}}},
-                    {{{1}, {1}, {1}, {1}}, {{0}, {0}, {0}, {1}}},
-                    {{{1, 1, 1, 1}}, {{0, 0, 0, 1}}},
-                    {{{1}, {0}, {0}, {0}}, {{1}, {1}, {1}, {1}}},
-                    {{{1, 0, 0, 0}}, {{1, 1, 1, 1}}},
-                    {{{0}, {0}, {0}, {1}}, {{1}, {1}, {1}, {1}}},
-                    {{{0, 0, 0, 1}}, {{1, 1, 1, 1}}},
-                    {{{1, 1}, {1, 0}, {1, 0}, {1, 0}}},
-                    {{{1, 0, 0, 0}, {1, 1, 1, 1}}},
-                    {{{0, 1}, {0, 1}, {0, 1}, {1, 1}}},
-                    {{{1, 1, 1, 1}, {0, 0, 0, 1}}},
-                    {{{1, 1}, {0, 1}, {0, 1}, {0, 1}}},
-                    {{{1, 1, 1, 1}, {1, 0, 0, 0}}},
-                    {{{1, 0}, {1, 0}, {1, 0}, {1, 1}}},
-                    {{{0, 0, 0, 1}, {1, 1, 1, 1}}},
-                    {{{1}, {0}}, {{1}, {0}}, {{1}, {0}}, {{1}, {1}}},
-                    {{{1, 0}}, {{1, 0}}, {{1, 0}}, {{1, 1}}},
-                    {{{0}, {1}}, {{0}, {1}}, {{0}, {1}}, {{1}, {1}}},
-                    {{{0, 1}}, {{0, 1}}, {{0, 1}}, {{1, 1}}},
-                    {{{1}, {1}}, {{1}, {0}}, {{1}, {0}}, {{1}, {0}}},
-                    {{{1, 1}}, {{1, 0}}, {{1, 0}}, {{1, 0}}},
-                    {{{1}, {1}}, {{0}, {1}}, {{0}, {1}}, {{0}, {1}}},
-                    {{{1, 1}}, {{0, 1}}, {{0, 1}}, {{0, 1}}}
+                    {{{1, 1, 1}, {0, 1, 0}, {0, 1, 0}}},
+                    {{{1, 0, 0}, {1, 1, 1}, {1, 0, 0}}},
+                    {{{0, 1, 0}, {0, 1, 0}, {1, 1, 1}}},
+                    {{{0, 0, 1}, {1, 1, 1}, {0, 0, 1}}},
+                    {{{1}, {0}, {0}}, {{1}, {1}, {1}}, {{1}, {0}, {0}}},
+                    {{{1, 0, 0}}, {{1, 1, 1}}, {{1, 0, 0}}},
+                    {{{0}, {0}, {1}}, {{1}, {1}, {1}}, {{0}, {0}, {1}}},
+                    {{{0, 0, 1}}, {{1, 1, 1}}, {{0, 0, 1}}},
+                    {{{0}, {1}, {0}}, {{0}, {1}, {0}}, {{1}, {1}, {1}}},
+                    {{{0, 1, 0}}, {{0, 1, 0}}, {{1, 1, 1}}},
+                    {{{1}, {1}, {1}}, {{0}, {1}, {0}}, {{0}, {1}, {0}}},
+                    {{{1, 1, 1}}, {{0, 1, 0}}, {{0, 1, 0}}}
             },
     };
 
     public static int[][][][][] parcels = new int[][][][][]{ //{ 1x1.5x2 , 1x1x2 , 1.5x1.5x1.5 }
+            //1x1x2
+            {
+                    {{{1, 1, 1, 1}, {1, 1, 1, 1}}, {{1, 1, 1, 1}, {1, 1, 1, 1}}},
+                    {{{1, 1}, {1, 1}, {1, 1}, {1, 1}}, {{1, 1}, {1, 1}, {1, 1}, {1, 1}}},
+                    {{{1, 1}, {1, 1}}, {{1, 1}, {1, 1}}, {{1, 1}, {1, 1}}, {{1, 1}, {1, 1}}}
+            },
             //1x1.5x2
             {
                     {{{1, 1, 1, 1}, {1, 1, 1, 1}, {1, 1, 1, 1}}, {{1, 1, 1, 1}, {1, 1, 1, 1}, {1, 1, 1, 1}}},
@@ -124,29 +135,22 @@ public class Gbot {
                     {{{1, 1, 1}, {1, 1, 1}}, {{1, 1, 1}, {1, 1, 1}}, {{1, 1, 1}, {1, 1, 1}}, {{1, 1, 1}, {1, 1, 1}}},
                     {{{1, 1}, {1, 1}, {1, 1}, {1, 1}}, {{1, 1}, {1, 1}, {1, 1}, {1, 1}}, {{1, 1}, {1, 1}, {1, 1}, {1, 1}}}
             },
-            //1x1x2
-            {
-                    {{{1, 1, 1, 1}, {1, 1, 1, 1}}, {{1, 1, 1, 1}, {1, 1, 1, 1}}},
-                    {{{1, 1}, {1, 1}, {1, 1}, {1, 1}}, {{1, 1}, {1, 1}, {1, 1}, {1, 1}}},
-                    {{{1, 1}, {1, 1}}, {{1, 1}, {1, 1}}, {{1, 1}, {1, 1}}, {{1, 1}, {1, 1}}}
-            },
             //1.5x1.5x1.5
             {
                     {{{1, 1, 1}, {1, 1, 1}, {1, 1, 1}}, {{1, 1, 1}, {1, 1, 1}, {1, 1, 1}}, {{1, 1, 1}, {1, 1, 1}, {1, 1, 1}}}
             }
     };
 
-    public static int [] aShapeVal={3,4,5};
-    public static int [][][][][] aShape=parcels;
+    public static int[] aShapeVal = {3, 4, 5};
+    public static int[][][][][] aShape = parcels;
 
-    public static void assignValue(int solidIndex, int value){
-        aShapeVal[solidIndex]=value;
+    public static void assignValue(int solidIndex, int value) {
+        aShapeVal[solidIndex] = value;
     }
 
 
-
-    public static boolean removeLastSolid(int[][][]field){
-        if(lastSolid!=null){
+    public static boolean removeLastSolid(int[][][] field) {
+        if (lastSolid != null) {
             for (int i = 0; i < lastSolid.length; i++) {
                 for (int j = 0; j < lastSolid[i].length; j++) {
                     for (int k = 0; k < lastSolid[i][j].length; k++) {
@@ -162,7 +166,7 @@ public class Gbot {
         }
     }
 
-    public static void addSolid(int[][][] solid, int[] coord, int color,int [][][]field) { //add the solid to the container at the specified coordinates
+    public static void addSolid(int[][][] solid, int[] coord, int color, int[][][] field) { //add the solid to the container at the specified coordinates
         if (!checkCollision(solid, coord)) {
             for (int i = 0; i < solid.length; i++) {
                 for (int j = 0; j < solid[i].length; j++) {
@@ -173,8 +177,6 @@ public class Gbot {
                     }
                 }
             }
-        } else {
-            System.out.println("yo");
         }
     }
 
@@ -203,20 +205,20 @@ public class Gbot {
 
     public static boolean dropPiece(int[][][] solid, int[] coord, int color, boolean tentative) {
         int[] coord1 = coord.clone();
-        int h=33-curHeight;
-        int z=0;
-        if(h-4>=0) z=h-4;
-        coord1[0]+=z;
-        if(checkCollision(solid, coord1)) return false;
+        int h = 33 - curHeight;
+        int z = 0;
+        if (h - 4 >= 0) z = h - 4;
+        coord1[0] += z;
+        if (checkCollision(solid, coord1)) return false;
         while (!checkCollision(solid, coord1)) {
             coord1[0]++;
         }
         coord1[0]--;
-        if(tentative) addSolid(solid, coord1, color,FX3D.tmpUIInput);
-        else addSolid(solid, coord1, color,FX3D.UIInput);
+        if (tentative) addSolid(solid, coord1, color, FX3D.tmpUIInput);
+        else addSolid(solid, coord1, color, FX3D.UIInput);
 
-        lastSolid=solid;
-        lastCoord=coord1;
+        lastSolid = solid;
+        lastCoord = coord1;
         return true;
     }
 
@@ -271,21 +273,50 @@ public class Gbot {
         //genomes[0]=new double[]{3.6974782858162163, 0.020477199087742037, -0.23918114942987156, -0.11603246371208442, -1.6252129706895644, -0.6811390204242889, 1.044093597983097, 4160.0};
     }
 
+    public static void setup() {
+        for (int i = 0; i < 3; i++) {
+            placed[i]=0;
+        }
+        if (Wrapper.problemType.equals("General")) {
+            general = true;
+            for (int i = 0; i < 3; i++) {
+                aShapeVal[i] = (int) Wrapper.inputDetails[i].value;
+                leftToPlace[i] = Wrapper.inputDetails[i].amount;
+            }
+        } else {
+            general = false;
+        }
+
+        if (Wrapper.inputType.equals("Parcels")) {
+            aShape = parcels;
+            gen1 = new double[]{0.18096287888426765, 0.00618439891207434, -0.31849350106234864, -0.10701358860879029, 0.1586015231404712, 0.238364609241272, 0.1505493689152868, 231.0}; //best individual
+            if (general) gen1 = new double[]{3.64414098285567, -1.2286989694623847, -2.287482242582422, -3.0061077506949183, 0.5379527402479262, -1.4939799418391704, -5.017954274133195, 192.0}; //best individual
+            //3.64414098285567, -1.2286989694623847, -2.287482242582422, -3.0061077506949183, 0.5379527402479262, -1.4939799418391704, -5.017954274133195, 192.0 //for general
+        } else {
+            //TODO train for pentomino general
+            gen1 = new double[]{0.25889549831304826, -0.44049829919118355, -0.8359454055376402, -0.012412378382019704, 0.2414328743542116, 0.3378703975584336, -0.46182521987384706, 1192.0}; //best individual
+
+            aShape = pentominoes;
+        }
+    }
+
     /**
      * Plays the game by making the next move (makePlay)
      */
     public static void Play() {
+        setup();
+        boardScore=0;
         //Tetris.training = false;
-        double []gen1={2.796026695058601, -0.05473314237034203, -0.5768628536011002, -0.6259425237147203, -3.6210341564976343, -1.1834202233570934, 1.8783308546683928, 90.0}; //best individual
-        //double []gen1={2.883322384854915, 0.48480348209139357, -2.7311401426486226, 0.7769037846237963, -4.525753498240361, -4.223996415025829, 1.088329351302793, 3803.3333333333335}; //best individual
+
         FX3D.clearInput(FX3D.tmpUIInput);
         FX3D.clearInput(FX3D.UIInput);
+        FX3D.clearInput(Wrapper.UIInput);
 //        for(int i=0;i<aShapeVal.length;i++){
 //            assignValue(i,1+((int)(Math.random()*100)));
 //        }
-        System.out.println(Arrays.toString(aShapeVal));
+        //System.out.println(Arrays.toString(aShapeVal));
         genomes[0] = gen1;
-        currentGenome=0;
+        currentGenome = 0;
         makePlay(true);
     }
 
@@ -293,14 +324,22 @@ public class Gbot {
      * Trains the neural network
      */
     public static void train() {
+        setup();
+        boardScore=0;
+        FX3D.clearInput(FX3D.tmpUIInput);
+        FX3D.clearInput(FX3D.UIInput);
+        FX3D.clearInput(Wrapper.UIInput);
         /*LocalDate myObj = LocalDate.now();
         file = new File("src/resources/topIndividuals"+myObj.toString()+".txt");*/
         initPopulation();
-        while(true){
-            for(int i=0;i<aShapeVal.length;i++){
-                assignValue(i,1+((int)(Math.random()*3)));
+        double[] gen1 = {0.25889549831304826, -0.44049829919118355, -0.8359454055376402, -0.012412378382019704, 0.2414328743542116, 0.3378703975584336, -0.46182521987384706, 1192.0}; //best individual
+        genomes[0]=gen1;
+        while (true) {
+            boardScore=0;
+            for (int i = 0; i < aShapeVal.length; i++) {
+                assignValue(i, 1 + ((int) (Math.random() * 3)));
             }
-
+            System.out.println(Arrays.toString(aShapeVal));
             evalPopulation();
             getNextGen();
         }
@@ -330,11 +369,15 @@ public class Gbot {
      * Evaluates the next individual in the population. If there is none, evolves the population
      */
     private static void evalPopulation() {
-        for(int i=0;i<populationSize;i++){
+        setup();
+        for (int i = 0; i < populationSize; i++) {
             System.out.print("-");
             FX3D.clearInput(FX3D.tmpUIInput);
             FX3D.clearInput(FX3D.UIInput);
-            currentGenome=i;
+            currentGenome = i;
+            boardScore=0;
+            aShape = parcels;
+            //aShapeVal = new int[]{3, 4, 5};
             makePlay(false);
         }
         /*for(int i=0;i<populationSize;i++)
@@ -357,7 +400,7 @@ public class Gbot {
         } catch (IOException e) {
             e.printStackTrace();
         }*/
-        for(int i=0;i<5;i++)
+        for (int i = 0; i < 5; i++)
             System.out.println(Arrays.toString(genomes[i]));
         /*for(int i=0;i<genomes.length;i++){
             System.out.println(Arrays.toString(genomes[i]));
@@ -453,18 +496,21 @@ public class Gbot {
         FX3D.tmpUIInput = copyField(FX3D.UIInput);
         double[] algorithm = new double[6];
         int[] move = new int[4]; //rotation,translation,rating
-        curHeight=getHeight();
-        double bestRating=-10000;
-        int[] bestMove = new int[4]; //rotation,translation,rating
+        curHeight = getHeight();
+        double bestRating = -10000;
+        int[] bestMove = new int[]{-1, -1, -1, -1}; //rotation,translation,rating
         for (int a = 0; a < aShape.length; a++) {
+            outerloop:
             for (int b = 0; b < aShape[a].length; b++) {
                 for (int i = 0; i < Wrapper.ACTUAL_CONTAINER_HEIGHT * 2; i++) {
                     for (int j = 0; j < Wrapper.ACTUAL_CONTAINER_DEPTH * 2; j++) {
-                        if (dropPiece(aShape[a][b], new int[]{0, i, j}, 1,true)) {
+                        if (dropPiece(aShape[a][b], new int[]{0, i, j}, 1, true)) {
+                            if (general && leftToPlace[a] == 0) break outerloop;
                             double rating = 0;
                             rating += aShapeVal[a] * genomes[currentGenome][0];
                             rating += getHeight(curHeight) * genomes[currentGenome][1];
                             rating += getCompactness() * genomes[currentGenome][2];
+                            rating += getHoles() * genomes[currentGenome][3];
                             move[0] = a;
                             move[1] = b;
                             move[2] = i;
@@ -483,58 +529,98 @@ public class Gbot {
             }
         }
         FX3D.tmpUIInput = copyField(FX3D.UIInput);
-        boardScore+=aShapeVal[bestMove[0]];
+        if (bestMove[0] != -1){
+            if (general) leftToPlace[bestMove[0]]--;
+            placed[bestMove[0]]++;
+            boardScore += aShapeVal[bestMove[0]];
+        }
+
         return bestMove;
     }
 
     /**
      * Makes next move based on the genome
+     *
      * @param play: true if supposed to make next move, false otherwise
      */
     public static void makePlay(boolean play) {
-        if(play){
+        if (play) {
+            if (slow) {
+                Timeline fiveSecondsWonder = new Timeline(new KeyFrame(Duration.seconds(0.1), new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        boolean con = true;
+                        if (con) {
+                            int[] bm = getBestMove();
+                            if (bm[0] != -1) {
+                                curHeight = getHeight();
+                                con = dropPiece(aShape[bm[0]][bm[1]], new int[]{0, bm[2], bm[3]}, bm[0] + 1, false);
+                                if (!con){
+                                    boardScore -= aShapeVal[bm[0]];
 
-//            Timeline fiveSecondsWonder = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
-//                @Override
-//                public void handle(ActionEvent event) {
-//                    if(con){
-//                        int[] bm = getBestMove();
-//                        curHeight=getHeight();
-//                        con=dropPiece(aShape[bm[0]][bm[1]], new int[]{0, bm[2], bm[3]}, bm[0]+1,false);
-//                        System.out.println(Arrays.toString(bm));
-//                        FX3D.updateUI();
-//                        System.out.println(boardScore);
-//                    }
+                                    System.out.println("---------- Statistics ----------");
+                                    System.out.println("- Amount of parcels of type A placed: " + placed[0]);
+                                    System.out.println("- Amount of parcels of type B placed: " + placed[1]);
+                                    System.out.println("- Amount of parcels of type C placed: " + placed[2]);
+                                }
+                                //System.out.println(Arrays.toString(bm));
+                            }
+                        }
+                        Wrapper.score = boardScore;
+                        Wrapper.UIInput = FX3D.tmpUIInput;
+                        System.out.println(getHoles());
+                        FX3D.updateUI();
+                    }
+                }));
+                fiveSecondsWonder.setCycleCount(Timeline.INDEFINITE);
+                fiveSecondsWonder.play();
+            } else {
+                boolean con = true;
+                while (con) {
+//                if(!con){
+//                    FX3D.clearInput(FX3D.tmpUIInput);
+//                    FX3D.clearInput(FX3D.UIInput);
 //                }
-//            }));
-//            fiveSecondsWonder.setCycleCount(Timeline.INDEFINITE);
-//            fiveSecondsWonder.play();
-
-            boolean con=true;
-            while(con){
+                    int[] bm = getBestMove();
+                    if (bm[0] == -1) break;
+                    curHeight = getHeight();
+                    con = dropPiece(aShape[bm[0]][bm[1]], new int[]{0, bm[2], bm[3]}, bm[0] + 1, false);
+                    if (!con) boardScore -= aShapeVal[bm[0]];
+                    //System.out.println(Arrays.toString(bm));
+                }
+                Wrapper.score = boardScore;
+                Wrapper.UIInput = FX3D.UIInput;
+                System.out.println("---------- Statistics ----------");
+                System.out.println("- Amount of parcels of type A placed: " + placed[0]);
+                System.out.println("- Amount of parcels of type B placed: " + placed[1]);
+                System.out.println("- Amount of parcels of type C placed: " + placed[2]);
+                FX3D.updateUI();
+            }
+        } else {
+            for (int i = 0; i < 3; i++) {
+                placed[i]=0;
+            }
+            boolean con = true;
+            while (con) {
 //                if(!con){
 //                    FX3D.clearInput(FX3D.tmpUIInput);
 //                    FX3D.clearInput(FX3D.UIInput);
 //                }
                 int[] bm = getBestMove();
-                curHeight=getHeight();
-                con=dropPiece(aShape[bm[0]][bm[1]], new int[]{0, bm[2], bm[3]}, bm[0]+1,false);
-                if(!con)boardScore-=aShapeVal[bm[0]];
+                if (bm[0] == -1) break;
+                curHeight = getHeight();
+                con = dropPiece(aShape[bm[0]][bm[1]], new int[]{0, bm[2], bm[3]}, bm[0] + 1, false);
+                if (!con) boardScore -= aShapeVal[bm[0]];
                 //System.out.println(Arrays.toString(bm));
             }
-            System.out.println(boardScore);
-            FX3D.tmpUIInput=FX3D.UIInput;
-        } else {
-            boolean con=true;
-            while(con){
-                int[] bm = getBestMove();
-                curHeight=getHeight();
-                con=dropPiece(aShape[bm[0]][bm[1]], new int[]{0, bm[2], bm[3]}, bm[0]+1,false);
-                //System.out.println(Arrays.toString(bm));
-            }
-            double score=boardScore;
-            boardScore=0;
-            genomes[currentGenome][7]=score;
+            Wrapper.score = boardScore;
+            Wrapper.UIInput = FX3D.UIInput;
+            /*System.out.println("---------- Statistics ----------");
+            System.out.println("- Amount of parcels of type A placed: " + placed[0]);
+            System.out.println("- Amount of parcels of type B placed: " + placed[1]);
+            System.out.println("- Amount of parcels of type C placed: " + placed[2]);*/
+            //FX3D.updateUI();
+            genomes[currentGenome][7] = boardScore;
         }
     }
 
@@ -568,22 +654,33 @@ public class Gbot {
      * @return: number of holes in game field
      */
     private static double getHoles() {
-        int holes = 0;/*
-        int [] l = new int [Tetris.fieldWidth];
-        for (int i = 0; i < l.length; i++) l[i]=20;
-        for (int i = 0; i < Tetris.fieldWidth; i++) {
-            for (int j = 0; j < Tetris.fieldHeight; j++) {
-                if(Tetris.field[i][j]!=-1){
-                    l[i]=j;
-                    break;
+        int x = (int) Math.round(Wrapper.ACTUAL_CONTAINER_WIDTH * 2);
+        int y = (int) Math.round(Wrapper.ACTUAL_CONTAINER_HEIGHT * 2);
+        int z = (int) Math.round(Wrapper.ACTUAL_CONTAINER_DEPTH * 2);
+
+        int holes = 0;
+        int [][] l = new int [y][z];
+        for (int i = 0; i < l.length; i++)
+            for (int j = 0; j < l[i].length; j++) l[i][j]=x;
+
+        for (int i = 0; i < y; i++) {
+            for (int j = 0; j < z; j++) {
+                for (int k = 0; k < x; k++) {
+                    if (FX3D.tmpUIInput[k][i][j] != 0) {
+                        l[i][j] = k;
+                        break;
+                    }
                 }
             }
         }
-        for(int i=0;i<Tetris.fieldWidth;i++){
-            for(int j=l[i];j<Tetris.fieldHeight;j++){
-                if(Tetris.field[i][j]==-1) holes++;
+
+        for (int i = 0; i < y; i++) {
+            for (int j = 0; j < z; j++) {
+                for (int k = l[i][j]; k < x; k++) {
+                    if(FX3D.tmpUIInput[k][i][j]==0) holes++;
+                }
             }
-        }*/
+        }
         return holes;
     }
 
@@ -668,9 +765,9 @@ public class Gbot {
     }
 
     private static int getHeight(int start) {
-        start=33-start;
-        if(start-4>0)start-=4;
-        else start=0;
+        start = 33 - start;
+        if (start - 4 > 0) start -= 4;
+        else start = 0;
         int x = (int) Math.round(Wrapper.ACTUAL_CONTAINER_WIDTH * 2);
         int y = (int) Math.round(Wrapper.ACTUAL_CONTAINER_HEIGHT * 2);
         int z = (int) Math.round(Wrapper.ACTUAL_CONTAINER_DEPTH * 2);
@@ -692,20 +789,20 @@ public class Gbot {
 
     // Method initally suppied by Sam, could be developed further
     private static double getCompactness() {
-        double compactness=0;
+        double compactness = 0;
         double cumDist = 0;
-        int voxN=0;
+        int voxN = 0;
         for (int i = 0; i < contX; i++) {
             for (int j = 0; j < contY; j++) {
                 for (int k = 0; k < contZ; k++) {
                     if (FX3D.tmpUIInput[i][j][k] != 0) {
-                        cumDist+=Math.sqrt((i-contX)*(i-contX)+(j-contY)*(j-contY)+(k-contZ)*(k-contZ));
+                        cumDist += Math.sqrt((i - contX) * (i - contX) + (j - contY) * (j - contY) + (k - contZ) * (k - contZ));
                         voxN++;
                     }
                 }
             }
         }
-        compactness=cumDist/voxN;
+        compactness = cumDist / voxN;
         return compactness;
     }
 
