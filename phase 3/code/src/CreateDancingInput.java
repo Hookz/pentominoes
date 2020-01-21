@@ -122,7 +122,7 @@ public class CreateDancingInput {
                                 }
 
                                 //check the type
-                                int rowType =  order[typeNumber];
+                                int rowType =  order[typeNumber]+1;
                                 float rowValue = rowValueHelper[order[typeNumber]];
 
                                 //Save it
