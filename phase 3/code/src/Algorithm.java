@@ -1,11 +1,7 @@
 import java.util.List;
 
 public class Algorithm {
-    //create a container (as ints) for which the problem can be solved, not for the UI (this is done separately)
-    //times 2 so we can use the .5 values as well, this will be scaled later on
-    int[][][] container = new int[Wrapper.CONTAINER_WIDTH*2][Wrapper.CONTAINER_HEIGHT*2][Wrapper.CONTAINER_DEPTH*2];
-
-    public static void startAlgorithm(){
+    public static void startAlgorithm() {
         System.out.println("Starting algorithm");
 
         //Check type of problem
@@ -35,30 +31,41 @@ public class Algorithm {
             dancingLinksProblem.answerToUI();
 
         } else if (Wrapper.problemType.equals("B")){
-            //Use dancing links with parcels and scores 3, 4, 5
-            CreateDancingInput createDancingInput = new CreateDancingInput("Parcels");
-            createDancingInput.selectInput();
-            createDancingInput.createPlacements();
-            createDancingInput.threeDToOneD();
+            if (Wrapper.algorithmType.equals("Algorithm X+ (Partial cover)")) {
+                //Use dancing links with parcels and scores 3, 4, 5
+                CreateDancingInput createDancingInput = new CreateDancingInput("Parcels");
+                createDancingInput.selectInput();
+                createDancingInput.createPlacements();
+                createDancingInput.threeDToOneD();
 
-            boolean[][] inputMatrix = createDancingInput.inputMatrix;
+                boolean[][] inputMatrix = createDancingInput.inputMatrix;
 
-            String[] headerNames = new String[inputMatrix.length];
-            for(int i=0; i<inputMatrix.length; i++){
-                headerNames[i] = Integer.toString(i);
+                String[] headerNames = new String[inputMatrix.length];
+                for (int i = 0; i < inputMatrix.length; i++) {
+                    headerNames[i] = Integer.toString(i);
+                }
+
+                List<Float> rowValues = createDancingInput.rowValues;
+
+                List<Integer> rowTypes = createDancingInput.rowTypes;
+
+                DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, rowTypes, false, Wrapper.maxTime, Wrapper.precise);
+
+                dancingLinksProblem.createDataStructure();
+                dancingLinksProblem.solveDriver();
+
+                dancingLinksProblem.answerToUI();
             }
+            else if (Wrapper.algorithmType.equals("Genetic Algorithm")) {
+                Gbot.Play();
+            }
+            else if (Wrapper.algorithmType.equals("Greedy Algorithm (Value)") || Wrapper.algorithmType.equals("Greedy Algorithm (Value/Volume)")) {
+                FX3D.inputDetail1.amount = 1000;
+                FX3D.inputDetail2.amount = 1000;
+                FX3D.inputDetail3.amount = 1000;
 
-            List<Float> rowValues = createDancingInput.rowValues;
-
-            List<Integer> rowTypes = createDancingInput.rowTypes;
-
-            DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, rowTypes,false, Wrapper.maxTime, Wrapper.precise);
-
-            dancingLinksProblem.createDataStructure();
-            dancingLinksProblem.solveDriver();
-
-            dancingLinksProblem.answerToUI();
-
+                GreedyAlgorithm.runAlgorithm();
+            }
         } else if (Wrapper.problemType.equals("C")){
             //Use dancing links exact cover with pentominoes
             CreateDancingInput createDancingInput = new CreateDancingInput("Pentominoes");
@@ -84,34 +91,48 @@ public class Algorithm {
 
             dancingLinksProblem.answerToUI();
 
-        } else if (Wrapper.problemType.equals("D")){
-            //Use dancing links with pentominoes and scores 3, 4, 5
-            CreateDancingInput createDancingInput = new CreateDancingInput("Pentominoes");
-            createDancingInput.selectInput();
-            createDancingInput.createPlacements();
-            createDancingInput.threeDToOneD();
+        } else if (Wrapper.problemType.equals("D")) {
+            if (Wrapper.algorithmType.equals("Algorithm X+ (Partial cover)")) {
+                //Use dancing links with pentominoes and scores 3, 4, 5
+                CreateDancingInput createDancingInput = new CreateDancingInput("Pentominoes");
+                createDancingInput.selectInput();
+                createDancingInput.createPlacements();
+                createDancingInput.threeDToOneD();
 
-            boolean[][] inputMatrix = createDancingInput.inputMatrix;
+                boolean[][] inputMatrix = createDancingInput.inputMatrix;
 
-            String[] headerNames = new String[inputMatrix.length];
-            for(int i=0; i<inputMatrix.length; i++){
-                headerNames[i] = Integer.toString(i);
+                String[] headerNames = new String[inputMatrix.length];
+                for (int i = 0; i < inputMatrix.length; i++) {
+                    headerNames[i] = Integer.toString(i);
+                }
+
+                List<Float> rowValues = createDancingInput.rowValues;
+
+                List<Integer> rowTypes = createDancingInput.rowTypes;
+
+                DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, rowTypes, false, Wrapper.maxTime, Wrapper.precise);
+
+                dancingLinksProblem.createDataStructure();
+                dancingLinksProblem.solveDriver();
+
+                dancingLinksProblem.answerToUI();
             }
-
-            List<Float> rowValues = createDancingInput.rowValues;
-
-            List<Integer> rowTypes = createDancingInput.rowTypes;
-
-            DancingLinksProblem dancingLinksProblem = new DancingLinksProblem(inputMatrix, headerNames, rowValues, rowTypes,false, Wrapper.maxTime, Wrapper.precise);
-
-            dancingLinksProblem.createDataStructure();
-            dancingLinksProblem.solveDriver();
-
-            dancingLinksProblem.answerToUI();
-
+            else if (Wrapper.algorithmType.equals("Genetic Algorithm")) {
+                Gbot.Play();
+            }
         } else if (Wrapper.problemType.equals("General")){
-            //Use greedy
-
+            if (Wrapper.inputType.equals("Parcels")) {
+                if (Wrapper.algorithmType.equals("Genetic Algorithm")) {
+                    Gbot.Play();
+                }
+                else if (Wrapper.algorithmType.equals("Greedy Algorithm (Value)") || Wrapper.algorithmType.equals("Greedy Algorithm (Value/Volume)")) {
+                    GreedyAlgorithm.runAlgorithm();
+                }
+            }
+            else if (Wrapper.inputType.equals("Pentominoes")) {
+                Gbot.Play();
+            }
         }
     }
+
 }
