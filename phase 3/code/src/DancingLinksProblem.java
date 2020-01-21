@@ -270,6 +270,7 @@ public class DancingLinksProblem {
                 System.out.println("FULLY COVERED");
                 foundSolution = true;
                 bestSolution = tmp_branch_solution.toArray();
+                bestScore = getSolutionScore(tmp_branch_solution);
             } else {
                 //Chose the next column (deterministically) (Step 2 of AlgX)
                 ColumnObject nextColumnObject = getSmallestColumnObject();
