@@ -25,10 +25,10 @@ public class DancingLinksProblem {
     long timeElapsed = 0;
     Instant start;
     boolean precise;
-    int bestScore = 0;
+    float bestScore = 0;
     Object[] bestSolution;
     long run = 0;
-    List<Integer> maxValuePerLayer = new ArrayList<>();
+    List<Float> maxValuePerLayer = new ArrayList<>();
     int pruneWait = 3;
     float pruneCutoff = .85F;
     int layerCutoff = 15;
@@ -175,7 +175,7 @@ public class DancingLinksProblem {
         ColumnObject nextColumnObject = getSmallestColumnObject();
 
         //How valuable is this solution?
-        int solutionScore = getSolutionScore(tmp_branch_solution);
+        float solutionScore = getSolutionScore(tmp_branch_solution);
 //        System.out.println("TMP: " + Arrays.toString(tmp_branch_solution_array));
 //        System.out.println("solutionScore: " + solutionScore);
 
@@ -331,14 +331,22 @@ public class DancingLinksProblem {
         return smallestColumnObject;
     }
 
-    public int getSolutionScore(ArrayList<Integer> solution) {
-        int score = 0;
+    public float getSolutionScore(ArrayList<Integer> solution) {
+        float score = 0;
+
+        ArrayList<Integer> types = new ArrayList<>();
+        types.clear();
 
         //For every chosen object in the solution
         for (int rowNumber : solution) {
-            float objectScore = rowValues.get(rowNumber);
-            score += objectScore;
+            types.add(rowTypes.get(rowNumber));
         }
+
+        int ones = Collections.frequency(types, 1);
+        int twos = Collections.frequency(types, 2);
+        int threes = Collections.frequency(types, 3);
+
+        score = (ones*Wrapper.inputDetails[0].value+twos*Wrapper.inputDetails[1].value+threes*Wrapper.inputDetails[2].value);
 
         return score;
     }
