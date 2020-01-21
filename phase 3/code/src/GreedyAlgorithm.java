@@ -103,6 +103,7 @@ public class GreedyAlgorithm {
         for(int p = 0; p < parcelTypes.size(); p++) {
             // For every rotation of this parcel type
             for(int r = 0; r < parcelTypes.get(p).getRotations(); r++) {
+                int[][][] solid = fetchArray(p, r);
                 // For every x-position
                 for(int x = 0; x < Wrapper.UIInput.length; x++) {
                     // For every y-position
@@ -123,7 +124,7 @@ public class GreedyAlgorithm {
                                 int[] indexes = {p, r};
 
                                 // Check whether or not the current piece can be placed and take the appropriate action
-                                addSolid(fetchArray(p, r), coord, parcelTypes.get(p).getColor(), indexes);
+                                addSolid(solid, coord, parcelTypes.get(p).getColor(), indexes);
                             }
                         }
                     }
