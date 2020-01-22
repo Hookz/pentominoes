@@ -6,51 +6,10 @@
     <node x="110.0" y="79.0">javafx.application.Application</node>
     <node x="255.0" y="79.0">Wrapper</node>
     <node x="70.125" y="168.0">FX3D</node>
-    <node x="0.0" y="79.0">Parcel</node>
-    <node x="52.625" y="247.0">Pentomino</node>
-    <node x="241.0" y="0.0">inputDetail</node>
     <node x="272.25" y="168.0">Algorithm</node>
   </nodes>
   <notes />
   <edges>
-    <edge source="Pentomino" target="FX3D">
-      <point x="-37.0" y="-14.5" />
-      <point x="71.125" y="222.0" />
-      <point x="82.79166666666669" y="222.0" />
-      <point x="-25.333333333333314" y="14.5" />
-    </edge>
-    <edge source="Wrapper" target="inputDetail">
-      <point x="24.25" y="-14.5" />
-      <point x="327.75" y="54.0" />
-      <point x="334.75" y="54.0" />
-      <point x="31.25" y="14.5" />
-    </edge>
-    <edge source="Parcel" target="FX3D">
-      <point x="30.0" y="14.5" />
-      <point x="75.0" y="128.0" />
-      <point x="101.79166666666669" y="128.0" />
-      <point x="-6.333333333333314" y="-14.5" />
-    </edge>
-    <edge source="FX3D" target="Pentomino">
-      <point x="0.0" y="14.5" />
-      <point x="0.0" y="-14.5" />
-    </edge>
-    <edge source="FX3D" target="Wrapper">
-      <point x="31.666666666666686" y="-14.5" />
-      <point x="139.79166666666669" y="148.0" />
-      <point x="279.25" y="148.0" />
-      <point x="-24.25" y="14.5" />
-    </edge>
-    <edge source="FX3D" target="Parcel">
-      <point x="-19.0" y="-14.5" />
-      <point x="89.125" y="138.0" />
-      <point x="45.0" y="138.0" />
-      <point x="0.0" y="14.5" />
-    </edge>
-    <edge source="Algorithm" target="Wrapper">
-      <point x="0.0" y="-14.5" />
-      <point x="24.25" y="14.5" />
-    </edge>
     <edge source="FX3D" target="javafx.application.Application">
       <point x="6.333333333333314" y="-14.5" />
       <point x="114.45833333333331" y="128.0" />
@@ -58,7 +17,7 @@
       <point x="-31.25" y="14.5" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="1.0" x="62.5" y="54.0" />
+  <settings layout="Hierarchic Group" zoom="0.5748502994011976" x="227.0" y="138.0" />
   <SelectedNodes />
   <Categories />
   <SCOPE>All</SCOPE>
