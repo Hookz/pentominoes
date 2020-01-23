@@ -87,6 +87,5 @@ bin/sample/sample.fxml
 
 # I think some Mac stuff #
 .DS_Store
-/javadoc/
 /.metadata/
 src/resources/music/Tetris_theme.ogg
