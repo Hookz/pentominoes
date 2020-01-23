@@ -23,6 +23,9 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.Timer;
 
+/**
+ * Main class used for running the Tetris (Pentris) environment.
+ */
 public class Tetris{
     public static boolean enableBot = true;
     public static String botType = "G";

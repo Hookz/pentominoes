@@ -4,6 +4,9 @@ import General.PentominoDatabase;
 
 import java.util.Arrays;
 
+/**
+ * Class used to run the dancing links algorithm (partially abandoned in development).
+ */
 public class DLX {
     public static int horizontalGridSize = 5;
     public static int verticalGridSize = 12;

@@ -4,6 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * Class allowing the user to select game mode for Pentris
+ * <p>
+ * The three modes available are: Human Player, Genetic bot, Q-Bot (score-based bot).
+ */
 public class GameModeSelector extends MouseAdapter{
     public static JFrame selectionWindow = new JFrame("Pentris: Game Options");
     public static void createWindow(){

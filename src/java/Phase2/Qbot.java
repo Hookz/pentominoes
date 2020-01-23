@@ -3,6 +3,9 @@ import General.PentominoDatabase;
 
 import java.io.IOException;
 
+/***
+ * Class containing implementation of the score-based bot.
+ */
 public class Qbot {
 
     private static int[][] fieldScores;

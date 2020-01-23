@@ -3,6 +3,12 @@ package Phase2;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Class encapsulating (wrapping) all of the User Interface.
+ * <p>
+ * It includes all of the interactive elements of the UI, and contains the static UI that is being used for displaying
+ * the movement of falling Pentris pieces.
+ */
 public class GameWrapper extends JPanel{
     public JLabel score = new JLabel(number(Tetris.score), JLabel.CENTER);
     public JLabel[] gamePieces = new Phase1.ChoosePieces().pieces;

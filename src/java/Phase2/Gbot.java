@@ -8,6 +8,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/***
+ * Class containing implementation of the Genetic Algorithm-based bot.
+ */
 public class Gbot {
     private static int populationSize=100;
     private static int tournamentSize=5;
