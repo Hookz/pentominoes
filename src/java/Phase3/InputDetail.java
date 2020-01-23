@@ -1,5 +1,8 @@
-//This is just a wrapper class to allow the use of a single array to hold all the input details
 package Phase3;
+
+/**
+ * This is just a wrapper class to allow the use of a single array to hold all the input details
+ */
 public class InputDetail {
     String type;
     int amount;

@@ -41,6 +41,9 @@ Keyboard rotation (start) - https://www.youtube.com/watch?v=dNtZVVJ-lBg&list=PLh
 Object outline - https://stackoverflow.com/questions/42984225/javafx-shape3d-with-border - 18/12
  */
 
+/**
+ * Main class running the 3D environment for the third phase
+ */
 public class FX3D extends Application {
     final static Color BACKGROUND_COLOR = Color.rgb(220, 220, 220);
     final static Color CONTAINER_COLOR = Color.rgb(0, 0, 0, 0.2);

@@ -12,6 +12,9 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 
+/**
+ * Class for solving the dancing links problem
+ */
 public class DancingLinksProblem {
     boolean[][] inputMatrix;
     String[] headerNames;

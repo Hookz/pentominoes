@@ -3,6 +3,9 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+/**
+ * The class holding all of the methods of the greedy algorithm
+ */
 public class GreedyAlgorithm {
 
     static ParcelType typeA; // Object that represents parcel type A

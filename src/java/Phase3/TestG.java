@@ -1,4 +1,8 @@
 package Phase3;
+
+/**
+ * Class for testing initialisation
+ */
 public class TestG {
 
     public static void main(String[] args) {

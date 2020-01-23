@@ -16,6 +16,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Genetic algorithm bot (Gbot) similar to the one from Phase2 but adapted to solving 3D problems
+ */
 public class Gbot {
     private static int populationSize = 50;
     private static int tournamentSize = 5;

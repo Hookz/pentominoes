@@ -3,6 +3,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 
+/**
+ * Class where a Parcel object being displayed by UI is defined
+ */
 public class UIParcel extends Box{
     final double xCenter;
     final double yCenter;

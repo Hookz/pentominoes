@@ -1,4 +1,8 @@
 package Phase3;
+
+/**
+ * Class containing a dancing links data object
+ */
 class DataObject {
     DataObject left, right, up, down;
     ColumnObject header;

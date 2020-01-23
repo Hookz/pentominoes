@@ -1,5 +1,9 @@
 package Phase3;
 import java.util.List;
+
+/**
+ * Class starting the chosen algorithm (selected in the Wrapper)
+ */
 public class Algorithm {
     /***
      * Main method of the class that starts execution of the algorithm that is chosen in the Wrapper class.

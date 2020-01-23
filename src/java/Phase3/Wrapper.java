@@ -1,4 +1,8 @@
 package Phase3;
+
+/**
+ * Wrapper class holding many crucial variables' values that are used by other classes within this package
+ */
 public class Wrapper {
     //sizes are in cm
     final static int CONTAINER_WIDTH = 1650;

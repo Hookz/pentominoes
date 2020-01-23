@@ -1,4 +1,8 @@
 package Phase3;
+
+/**
+ * Class where the type of a parcel is defined, with its value, color, rotation, etc.
+ */
 public class ParcelType {
 
     private String name;

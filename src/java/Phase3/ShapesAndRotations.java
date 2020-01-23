@@ -1,4 +1,8 @@
 package Phase3;
+
+/***
+ * Class holding all of the shapes (Boxes and pentominoes) and all of their rotations (as list of 3D matrices)
+ */
 public class ShapesAndRotations {
 
     public static boolean[][][][] getL(){
