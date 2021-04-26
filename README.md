@@ -11,7 +11,7 @@ The project consisted of three phases:
 Files from all of the phases are accessible from the project's repository (link at the top of this page) in their respective packages, but since Phase 3 was considered the most crucial one, this project has also a final report concentrated around it. The paper can be found [on ResearchGate](https://www.researchgate.net/publication/338749799_3D_Knapsack_Problem).
 
 ### Documentation
-Most of the code is well-documented, with the Javadoc documentation being accessible [here](javadoc). Since it is believed that the code won't be developed further, apart from possible minor bug fixes, the version of documentation linked should be considered final. Some earlier versions of the documentation, connected to major and minor release versions still exist but the current one is mostly backwards-compatible and contains all functionality of the previous ones.
+Most of the code is well-documented, with the Javadoc documentation being accessible [here](hookz.github.io/pentominoes/javadoc). Since it is believed that the code won't be developed further, apart from possible minor bug fixes, the version of documentation linked should be considered final. Some earlier versions of the documentation, connected to major and minor release versions still exist but the current one is mostly backwards-compatible and contains all functionality of the previous ones.
 
 ### Further development
 
